@@ -56,7 +56,27 @@ foreach($classdetails as $classkey=>$class)
   //Classes for paracanoe
   if ($special == "Paracanoe")
     {
-    
+    //Format class name
+    $boattypeinband = true;
+    if (($class['Abil'] == "LTA") OR ($class['Abil'] == "TA") OR ($class['Abil'] == "A"))
+      {
+      $band = $class['Abil'];
+      //LTA class doesn't have the boat name
+      $boattypeinband = false;
+      }
+    elseif (($class['Abil'] == "123") OR ($class['Abil'] == "123"))
+      $band = "1-3"
+    elseif ($class['Abil'] == "23")
+      $band = "2+3"
+    elseif ($class['Abil'] == "12")
+      $band = "1+2"
+    elseif (($class['Abil'] == "1") OR ($class['Abil'] == "2") OR ($class['Abil'] == "3"))
+      $band = $class['Abil'];
+
+    if ($boattypeinband == true)
+      {
+      $band = $class['CK'] . "L" . $band;
+      }
     }
   }
 ?>
