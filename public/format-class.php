@@ -5,7 +5,7 @@
 //mysqli_stmt_bind_param();
 
 $classdetails = array();
-$classdetails[0] = array("JSV"=>"J","MW"=>"M","CK"=>"K","Spec"=>"","Abil"=>"D","Ages"=>"","FreeText"=>"");
+$classdetails[0] = array("JSV"=>"J","MW"=>"M","CK"=>"C","Spec"=>"","Abil"=>"D","Ages"=>"","FreeText"=>"");
 
 //Container to store boat types
 $boattypesstore = "";
@@ -13,70 +13,109 @@ $boattypesstore = "";
 //Loop to create each individual class type
 foreach($classdetails as $classkey=>$class)
   {
+  $namewords = array();
+
   //Define athlete type
   if (($class['JSV'] == "J") AND ($class['MW'] == "M"))
-    $jsvmw = "Boys";
+    $namewords['JSVMW'] = "Boys";
   elseif (($class['JSV'] == "J") AND ($class['MW'] == "W"))
-    $jsvmw = "Girls";
+    $namewords['JSVMW'] = "Girls";
   elseif ((($class['JSV'] == "S") AND ($class['MW'] == "M")) OR (($class['JSV'] == "") AND ($class['MW'] == "M")))
-    $jsvmw = "Mens";
+    $namewords['JSVMW'] = "Mens";
   elseif ((($class['JSV'] == "S") AND ($class['MW'] == "W")) OR (($class['JSV'] == "") AND ($class['MW'] == "W")))
-    $jsvmw = "Womens";
+    $namewords['JSVMW'] = "Womens";
   elseif (($class['JSV'] == "V") AND ($class['MW'] == "M"))
-    $jsvmw = "Mens Masters";
+    $namewords['JSVMW'] = "Mens Masters";
   elseif (($class['JSV'] == "V") AND ($class['MW'] == "W"))
-    $jsvmw = "Womens Masters";
+    $namewords['JSVMW'] = "Womens Masters";
   elseif (($class['JSV'] == "J") AND ($class['MW'] == ""))
-    $jsvmw = "Junior";
+    $namewords['JSVMW'] = "Junior";
   elseif (($class['JSV'] == "S") AND ($class['MW'] == ""))
-    $jsvmw = "Senior";
+    $namewords['JSVMW'] = "Senior";
   elseif (($class['JSV'] == "V") AND ($class['MW'] == ""))
-    $jsvmw = "Masters";
+    $namewords['JSVMW'] = "Masters";
   elseif (($class['JSV'] == "J") AND ($class['MW'] == "MW"))
-    $jsvmw = "Boys/Girls";
+    $namewords['JSVMW'] = "Boys/Girls";
   elseif (($class['JSV'] == "S") AND ($class['MW'] == "MW"))
-    $jsvmw = "Mens/Womens";
+    $namewords['JSVMW'] = "Mens/Womens";
   elseif (($class['JSV'] == "V") AND ($class['MW'] == "MW"))
-    $jsvmw = "Mens/Womens Masters";
+    $namewords['JSVMW'] = "Mens/Womens Masters";
   else
-    $jsvmw = "";
+    $namewords['JSVMW'] = $jsvmw = "";
 
   //Name special type of race
   if ($class['Spec'] == "PC")
-    $special = "Paracanoe";
+    $namewords['Special'] = "Paracanoe";
   elseif ($class['Spec'] == "PD")
-    $special = "Paddleability";
+    $namewords['Special'] = "Paddleability";
   elseif ($class['Spec'] == "IS")
-    $special = "Inter-Services";
+    $namewords['Special'] = "Inter-Services";
   elseif ($class['Spec'] == "LT")
-    $special = "Mini-Kayak";
+    $namewords['Special'] = "Mini-Kayak";
+  elseif ($class['CK'] == "C")
+    $namewords['Special'] = "Canoe";
   else
-    $special = "";
+    $namewords['Special'] = "";
 
   //Classes for paracanoe
-  if ($special == "Paracanoe")
+  if ($namewords['Special'] == "Paracanoe")
     {
     //Format class name
     $boattypeinband = true;
     if (($class['Abil'] == "LTA") OR ($class['Abil'] == "TA") OR ($class['Abil'] == "A"))
       {
-      $band = $class['Abil'];
+      $namewords['Band'] = $class['Abil'];
       //LTA class doesn't have the boat name
       $boattypeinband = false;
       }
+    //Numerical paracanoe classes
     elseif (($class['Abil'] == "123") OR ($class['Abil'] == "123"))
-      $band = "1-3"
+      $namewords['Band'] = "1-3";
     elseif ($class['Abil'] == "23")
-      $band = "2+3"
+      $namewords['Band'] = "2+3";
     elseif ($class['Abil'] == "12")
-      $band = "1+2"
+      $namewords['Band'] = "1+2";
     elseif (($class['Abil'] == "1") OR ($class['Abil'] == "2") OR ($class['Abil'] == "3"))
-      $band = $class['Abil'];
+      $namewords['Band'] = $class['Abil'];
 
+    //VL or KL depending on if kayak or va'a
     if ($boattypeinband == true)
       {
-      $band = $class['CK'] . "L" . $band;
+      $namewords['Band'] = $class['CK'] . "L" . $namewords['Band'];
       }
     }
+  //Non paracanoe ability bands
+  else
+    {
+    if ($class['Abil'] == "O")
+      $namewords['Band'] = "Open";
+    else
+      {
+      $namewords['Band'] = $class['Abil'];
+      $namewords['Band'] = str_split($namewords['Band']);
+      $namewords['Band'] = implode("/",$namewords['Band']);
+      }
+    }
+
+  //Put a tag in place of the boat
+  if ($class['CK'] == "K")
+    {
+    $namewords['Boat'] = "<Kayak>";
+    $boattypesstore = $boattypesstore . "K";
+    }
+  elseif ($class['CK'] == "C")
+    {
+    $namewords['Boat'] = "<Canoe>";
+    $boattypesstore = $boattypesstore . "C";
+    }
+  elseif ($class['CK'] == "V")
+    {
+    $namewords['Boat'] = "<Vaa>";
+    $boattypesstore = $boattypesstore . "V";
+    }
+  else
+    $namewords['Boat'] = "";
+
+  print_r($namewords);
   }
 ?>
