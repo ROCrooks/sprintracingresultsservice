@@ -54,6 +54,10 @@ foreach($classdetails as $classkey=>$class)
     $namewords['Special'] = "Mini-Kayak";
   elseif ($class['CK'] == "C")
     $namewords['Special'] = "Canoe";
+  elseif ($class['CK'] == "T")
+    $namewords['Special'] = "Touring Canoe";
+  elseif ($class['CK'] == "P")
+    $namewords['Special'] = "SUP";
   else
     $namewords['Special'] = "";
 
