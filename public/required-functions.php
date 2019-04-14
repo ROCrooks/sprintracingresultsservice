@@ -1,5 +1,5 @@
 <?php
-$files = array("srrs","userinput");
+$files = array("srrs","userinput","db");
 
 //Include each required functions file
 foreach ($files as $file)
@@ -8,6 +8,7 @@ foreach ($files as $file)
   include_once $url;
   }
 
-//Database connection file
+//Create database connection
 include_once '../../dbconnect-function.php';
+$srrsdblink = createdbconnection("SRRS");
 ?>
