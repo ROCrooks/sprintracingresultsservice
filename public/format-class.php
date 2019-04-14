@@ -1,14 +1,10 @@
 <?php
-//Get class details from regatta database
-//$getclassdetailssql = "SELECT `JSV`, `MW`, `CK`, `Spec`, `Abil`, `Ages`, `FreeText` FROM `classes` WHERE `Race` = ? ";
-//mysqli_prepare();
-//mysqli_stmt_bind_param();
-
-$classdetails = array();
-$classdetails[0] = array("JSV"=>"J","MW"=>"M","CK"=>"C","Spec"=>"","Abil"=>"D","Ages"=>"","FreeText"=>"");
+if (isset($boatsize) == false)
+  $boatsize = "*";
 
 //Container to store boat types
-$boattypesstore = "";
+$boattypesstore = array();
+$classnames = array();
 
 //Loop to create each individual class type
 foreach($classdetails as $classkey=>$class)
@@ -101,25 +97,92 @@ foreach($classdetails as $classkey=>$class)
       }
     }
 
-  //Put a tag in place of the boat
+  //Process the ages of paddlers
+  $namewords['Ages'] = str_split($class['Ages'],3);
+  foreach($namewords['Ages'] as $ageskey=>$age)
+    {
+    //Format codes into long names
+    if (substr($age,0,1) == "U")
+      str_replace("U","Under ",$age);
+    elseif (substr($age,0,1) == "O")
+      str_replace("O","Over ",$age);
+    else
+      {
+      $short = array("JUN","SEN","VET");
+      $long = array("Junior","Senior","Veteran");
+      str_replace($short,$long,$age);
+      }
+
+    $namewords['Ages'][$ageskey] = $age;
+    }
+  $namewords['Ages'] = implode("/",$namewords['Ages']);
+
+  $namewords['FreeText'] = $class['Ages'];
+
+  //Specify boat type
   if ($class['CK'] == "K")
     {
-    $namewords['Boat'] = "<Kayak>";
-    $boattypesstore = $boattypesstore . "K";
+    $namewords['Boat'] = "K" . $boatsize;
     }
   elseif ($class['CK'] == "C")
     {
-    $namewords['Boat'] = "<Canoe>";
-    $boattypesstore = $boattypesstore . "C";
+    $namewords['Boat'] = "C" . $boatsize;
     }
   elseif ($class['CK'] == "V")
     {
-    $namewords['Boat'] = "<Vaa>";
-    $boattypesstore = $boattypesstore . "V";
+    $namewords['Boat'] = "V" . $boatsize;
     }
-  else
+  elseif ($class['CK'] == "T")
+    {
+    $namewords['Boat'] = "TC" . $boatsize;
+    }
+  elseif ($class['CK'] == "P")
+    {
+    $namewords['Boat'] = "SUP";
+    }
+  elseif ($class['CK'] == "")
     $namewords['Boat'] = "";
+  array_push($boattypesstore,$namewords['Boat']);
 
-  print_r($namewords);
+  //Create class name by putting words together
+  $classname = "";
+  foreach($namewords as $wordkey=>$word)
+    {
+    if ($word != "")
+      {
+      //Remove if it has already been included
+      if (strpos($classname,$word) !== false)
+        unset($namewords[$wordkey]);
+      else
+        $classname = $classname . $word;
+      }
+    else
+      unset($namewords[$wordkey]);
+    }
+
+  //Commit sub classname to array
+  $classname = implode(" ",$namewords);
+  array_push($classnames,$classname);
+  }
+
+$raceclass = implode(" &amp; ",$classnames);
+
+//Rationalise boat type if needed
+$boattypesstore = array_unique($boattypesstore);
+
+if (count($boattypesstore) == 1)
+  {
+  $boattype = $boattypesstore[0];
+  $raceclass = str_replace($boattype,"",$raceclass);
+  $raceclass = $raceclass . " " . $boattype;
+  }
+
+//Remove any doubles
+$doubles = array("  ");
+$singles = array(" ");
+$replacements = 1;
+while ($replacements > 0)
+  {
+  $raceclass = str_replace($doubles,$singles,$raceclass,$replacements);
   }
 ?>
