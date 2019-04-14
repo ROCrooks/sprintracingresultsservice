@@ -1,5 +1,5 @@
 <?php
-include 'required-functions.php';
+include_once 'required-functions.php';
 
 //Find a regatta ID
 $regatta = 4;
