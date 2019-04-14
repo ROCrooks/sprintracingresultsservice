@@ -1,20 +1,19 @@
 <?php
+include 'required-functions.php';
+
+//Find a regatta ID
+$regatta = 4;
+
 //Get regatta details from regatta database
-//$getregattadetailssql = "SELECT `Date`, `Days`, `Name` FROM `regattas` WHERE `Key` = ? ";
-//mysqli_prepare();
-//mysqli_stmt_bind_param();
+$getregattadetailssql = "SELECT `Date`, `Days`, `Name` FROM `regattas` WHERE `Key` = ? ";
+$sqlresults = dbprepareandexecute($srrsdblink,$getregattadetailssql,$regatta);
+$sqlresults = $sqlresults[0];
 
 //Get start and end dates for regatta
-$date = "2019-12-31";
-$regattalength = 2;
-$regattalength = $regattalength-1;
-$regattalength = ' + ' . $regattalength . ' days';
-//$startdate = date('Y-m-d', strtotime($date));
-//echo $startdate . "<br>";
-//$enddate = date('Y-m-d', strtotime($date. $regattalength));
-$startdate = strtotime($date);
-$enddate = strtotime($date. $regattalength);
-
+$regattaadddays = $sqlresults['Days']-1;
+$regattaadddays = ' + ' . $regattaadddays . ' days';
+$startdate = strtotime($sqlresults['Date']);
+$enddate = strtotime($sqlresults['Date']. $regattaadddays);
 
 $startmonth = date('m',$startdate);
 $endmonth = date('m',$enddate);
@@ -53,7 +52,9 @@ else
 
 //Put regatta details into an array
 $regattadetails = array();
+$regattadetails['Key'] = $regatta;
 $regattadetails['FullDate'] = $regattadates;
 $regattadetails['MonthDate'] = date('F Y',$startdate);
+$regattadetails['Name'] = $sqlresults['Name'];
 print_r($regattadetails);
 ?>
