@@ -13,7 +13,7 @@ function sanitisesrrsinputs($jsv,$mw,$ck,$abil,$spec,$club,$paddler,$padmw,$padc
 	$legalcharacters = str_split("ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890");
 	//$legalpaddler = str_split("ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890");
 	$legalnumbers = str_split("1234567890");
-	
+
 	//Filter out non-legal characters from variables
 	$jsv = legalcharactersonly($jsv,$legaljsv);
 	$mw = legalcharactersonly($mw,$legalmw);
@@ -25,7 +25,7 @@ function sanitisesrrsinputs($jsv,$mw,$ck,$abil,$spec,$club,$paddler,$padmw,$padc
 	$padmw = legalcharactersonly($padmw,$legalmw);
 	$padck = legalcharactersonly($padck,$legalck);
 	$regatta = legalcharactersonly($regatta,$legalnumbers);
-	
+
 	//Output sanitized inputs
 	$output = array("jsv"=>$jsv,"mw"=>$mw,"ck"=>$ck,"abil"=>$abil,"spec"=>$spec,"club"=>$club,"paddler"=>$paddler,"padmw"=>$padmw,"padck"=>$padck,"regatta"=>$regatta);
 	Return $output;
@@ -52,26 +52,26 @@ function getkeysasquery($findfield,$returnfield,$table,$searchsql,$dblink)
 		$prekey = $key-1;
 		$postkey = $key+1;
 		//Keys for previous and next element
-		
+
 		$currentvalue = $keys[$key];
 		//Get current array value
-		
+
 		if ($prekey == -1)
 			$lookupprevalue = "Start";
 		else
 			$lookupprevalue = $keys[$prekey];
 		//Get lookup prevalue
-		
+
 		if ($postkey >= $count)
 			$lookuppostvalue = "End";
 		else
 			$lookuppostvalue = $keys[$postkey];
 		//Get lookup postvalue
-		
+
 		$expectedprevalue = $currentvalue-1;
 		$expectedpostvalue = $currentvalue+1;
 		//Expected pre- and post- values
-		
+
 		if ((($lookupprevalue != $expectedprevalue) OR ($lookupprevalue == "Start")) AND (($lookuppostvalue != $expectedpostvalue) OR ($lookuppostvalue == "End")))
 			{
 			$subconstraint = "`" . $returnfield . "` = " . $currentvalue;
@@ -89,7 +89,7 @@ function getkeysasquery($findfield,$returnfield,$table,$searchsql,$dblink)
 			//Find end of sequence
 		$key++;
 		}
-	$constraint = implode($constraint," OR ");	
+	$constraint = implode($constraint," OR ");
 	$constraint = "(" . $constraint . ")";
 	Return $constraint;
 	}
@@ -157,14 +157,14 @@ function simpleclass($jsv,$mw,$ck,$size)
 	if ($mw == "M")
 		$mw = "Men's ";
 	elseif ($mw == "W")
-		$mw = "Women's ";	
+		$mw = "Women's ";
 	if ($ck == "C")
 		$ck = "C";
 	elseif ($ck == "K")
 		$ck = "K";
 	elseif ($ck == "V")
 		$ck = "V";
-	$outpur = $jsv . $mw . $ck . $size;
+	$output = $jsv . $mw . $ck . $size;
 	Return $output;
 	}
 //---FunctionBreak---
@@ -176,14 +176,14 @@ function displaytimetosecs($time)
 	if ($divs > 0)
 		{
 		$time = explode(":",$time);
-		
+
 		$secs = array_pop($time);
 		$mins = array_pop($time);
 		if (count($time) == 1)
 			$hours = array_pop($time);
 		else
 			$hours = 0;
-		
+
 		$hours = $hours*60*60;
 		$mins = $mins*60;
 		$time =	$hours+$mins+$secs;
@@ -202,7 +202,7 @@ function classname($detailsarray,$mixedboat,$mixedspecial)
 	$abil = $detailsarray['Abil'];
 	$spec = $detailsarray['Spec'];
 	//Get class name fields
-	
+
 	if (($jsv == "J") AND ($mw == "M"))
 		$agesex = "Boys";
 	elseif (($jsv == "J") AND ($mw == "W"))
@@ -235,10 +235,10 @@ function classname($detailsarray,$mixedboat,$mixedspecial)
 		$agesex = "Canoe";
 	else
 		$agesex = "";
-		
+
 	$classname = $agesex;
 	//Make Paddler Type
-	
+
 	if (($abil == "A") OR ($abil == "B") OR ($abil == "C") OR ($abil == "D") OR ($abil == "AB") OR ($abil == "BC") OR ($abil == "CD") OR ($abil == "ABC") OR ($abil == "BCD") OR ($abil == "ABCD"))
 		{
 		$abil = str_split($abil);
@@ -252,7 +252,7 @@ function classname($detailsarray,$mixedboat,$mixedspecial)
 			$classname = "Senior " . $classname;
 		}
 	//Convert open tag to "open" phrase
-	
+
 	if ($mixedspecial == 1)
 		{
 		if ($spec == "PC")
@@ -264,20 +264,20 @@ function classname($detailsarray,$mixedboat,$mixedspecial)
 		if ($spec == "LT")
 			$classname = "Mini-Kayak " . $classname;
 		}
-	
+
 	if ($abil != "")
 		$classname = $classname . " " . $abil;
 	//Add ability
-	
+
 	$ages = array("U","O");
 	$newages = array("Under ","Over ");
-	
+
 	$spec = str_replace($ages,$newages,$spec,$agerace);
-	
+
 	if ($agerace > 0)
 		$classname = $classname . " " . $spec;
 	//Make an age group race
-	
+
 	if ($mixedboat != "0")
 		{
 		if ($mixedboat == "N")
@@ -300,14 +300,16 @@ function classname($detailsarray,$mixedboat,$mixedspecial)
 		$classname = $classname . $boat;
 		}
 	//Add type of boat if not universal
-	
+
+	//Remove repeats in class names
 	$duplicates = array("Kayak Kayak","Canoe Canoe","Va'a Va'a","  ");
 	$singles = array("Kayak","Canoe","Va'a"," ");
-	$classname = str_replace($duplicates,$singles,$classname);
-	$classname = str_replace($duplicates,$singles,$classname);
-	$classname = str_replace($duplicates,$singles,$classname);
-	//Remove repeats in class names
-		
+	$classname = str_replace($duplicates,$singles,$classname,$times);
+	while ($times > 0)
+		{
+		$classname = str_replace($duplicates,$singles,$classname,$times);
+		}
+
 	Return $classname;
 	}
 //---FunctionBreak---
@@ -316,13 +318,13 @@ function classname($detailsarray,$mixedboat,$mixedspecial)
 function racename($raceid,$dblink)
 	{
 	//echo $raceid . "<br>";
-	
+
 	//$sql = "SELECT `racename` FROM `specialraces` WHERE `Race` = $raceid ";
 	//$query = mysqli_query($dblink,$sql);
 	//$result = mysqli_fetch_array($query);
 	//$racename = $result['racename'];
 	$racename = "";
-		
+
 	if ($racename == '')
 		{
 		if (is_numeric($raceid) == true)
@@ -331,12 +333,12 @@ function racename($raceid,$dblink)
 			$racedetailsgetquery = "SELECT `Boat`, `Dist`, `R`, `D` FROM `races` WHERE `Key` = ?";
 			$racedetailsgetstmt = mysqli_prepare($dblink,$racedetailsgetquery)
 				or die("MySQLi Error in preparing query to retrieve racedetailsget data: " . $dblink->error);
-						
+
 			//Execute racedetailsget query
 			mysqli_stmt_bind_param($racedetailsgetstmt,"i",$raceid);
 			mysqli_stmt_execute($racedetailsgetstmt)
 				or die("MySQLi Error in executing query to retrieve racedetailsget data: " . $racedetailsgetstmt->error);
-			
+
 			//Get results of racedetailsget query
 			$racedetailsgetresult = mysqli_stmt_get_result($racedetailsgetstmt);
 			$racedetailsgetrow = mysqli_fetch_array($racedetailsgetresult);
@@ -344,7 +346,7 @@ function racename($raceid,$dblink)
 			$dist = $racedetailsgetrow['Dist'];
 			$round = $racedetailsgetrow['R'];
 			$draw = $racedetailsgetrow['D'];
-							
+
 			//Format race distance
 			if ($dist > 1000)
 				{
@@ -353,7 +355,7 @@ function racename($raceid,$dblink)
 				}
 			else
 				$dist = $dist . "m";
-						
+
 			//Format Round Name
 			if (($round == "F") OR ($round == 4))
 				$round = "Final";
@@ -363,21 +365,21 @@ function racename($raceid,$dblink)
 				$round = "Semi-Final";
 			elseif (($round == "QF") OR ($round == 2))
 				$round = "Quarter-Final";
-						
+
 			$racename = $dist . " " . $round;
 			if ($draw <> 0)
 				$racename = $racename . " " . $draw;
-			
+
 			$getclassdetailsquery = "SELECT `JSV`, `MW`, `CK`, `Abil`, `Spec` FROM `classes` WHERE `Race` = ?";
 			//Prepare getclassdetails query
 			$getclassdetailsstmt = mysqli_prepare($dblink,$getclassdetailsquery)
 				or die("MySQLi Error in preparing query to retrieve getclassdetails data: " . $dblink->error);
-			
+
 			//Execute getclassdetails query
 			mysqli_stmt_bind_param($getclassdetailsstmt,"i",$raceid);
 			mysqli_stmt_execute($getclassdetailsstmt)
 				or die("MySQLi Error in executing query to retrieve getclassdetails data: " . $getclassdetailsstmt->error);
-			
+
 			$mixedboat = $boat;
 			//Specify name as mixed boat
 			}
@@ -387,22 +389,22 @@ function racename($raceid,$dblink)
 			$dist = "";
 			$round = "";
 			$draw = "";
-			
+
 			$getclassdetailsquery = "SELECT `JSV`, `MW`, `CK`, `Abil`, `Spec` FROM `autoclasses` WHERE `RaceName` = ?";
 			//Prepare getclassdetails query
 			$getclassdetailsstmt = mysqli_prepare($dblink,$getclassdetailsquery)
 				or die("MySQLi Error in preparing query to retrieve getclassdetails data: " . $dblink->error);
-			
+
 			//Execute getclassdetails query
 			mysqli_stmt_bind_param($getclassdetailsstmt,"s",$raceid);
 			mysqli_stmt_execute($getclassdetailsstmt)
 				or die("MySQLi Error in executing query to retrieve getclassdetails data: " . $getclassdetailsstmt->error);
-			
+
 			$mixedboat = "N";
 			//Specify name as mixed boat
 			}
 		//Discriminate between class and autoclass table
-				
+
 		//An array of classes found
 		$foundclasses = array();
 
@@ -413,17 +415,17 @@ function racename($raceid,$dblink)
 			array_push($foundclasses,$getclassdetailsrow);
 			}
 		//Retrieve classes from DB
-			
+
 		$count = count($foundclasses);
 		//End of array
-				
+
 		$key = 0;
 		//Array start
-		
+
 		$getboat = array();
 		$getspec = array();
 		//Make array for boat and specific
-		
+
 		while ($key < $count)
 			{
 			$class = $foundclasses[$key];
@@ -432,16 +434,16 @@ function racename($raceid,$dblink)
 			$key++;
 			}
 		//Get special classes and boat type
-		
+
 		$getboat = implode("-",$getboat);
 		$getspec = implode("-",$getspec);
 		//Make array for boat and special
-		
+
 		str_replace("C","C",$getboat,$canoefound);
 		str_replace("K","K",$getboat,$kayakfound);
 		str_replace("V","V",$getboat,$vaafound);
 		//Find canoes, kayaks and vaas
-		
+
 		if (($canoefound > 0) AND ($kayakfound == 0) AND ($vaafound == 0))
 			{
 			if ($mixedboat != "N")
@@ -472,18 +474,18 @@ function racename($raceid,$dblink)
 		else
 			$globalboat = "";
 		//Blank global boat if mixed is true
-		
+
 		$key = 0;
 		//Reset array counter to 0
-		
+
 		//echo $mixedboat . "<br>";
-		
+
 		str_replace("LT","LT",$getspec,$ltfound);
 		str_replace("PD","PD",$getspec,$pdfound);
 		str_replace("PC","PC",$getspec,$pcfound);
 		str_replace("IS","IS",$getspec,$isfound);
 		//Find special classes
-		
+
 		if (($ltfound == 0) AND ($pdfound == 0) AND ($pcfound == 0) AND ($isfound == 0))
 			{
 			$specialclass = "";
@@ -515,13 +517,13 @@ function racename($raceid,$dblink)
 			$mixedspecial = 1;
 			}
 		//Put flag for special race class
-		
+
 		//echo $specialclass . "<br>";
 		//echo $globalboat . "<br>";
-		
+
 		$classeslist = array();
 		//Make classes list array
-		
+
 		while ($key < $count)
 			{
 			$class = $foundclasses[$key];
@@ -531,7 +533,7 @@ function racename($raceid,$dblink)
 			$key++;
 			}
 		//Make race classes
-		
+
 		$classeslist = implode(" + ",$classeslist);
 		$racename = $specialclass . $classeslist . $globalboat;
 		if ($dist != "")
@@ -566,7 +568,7 @@ function regattadate($we,$month,$year)
 	11=>"November",
 	12=>"December");
 	//Month Names
-	
+
 	$numbers = array("0 ",
 	"1 ",
 	"2 ",
@@ -577,7 +579,7 @@ function regattadate($we,$month,$year)
 	"7 ",
 	"8 ",
 	"9 ");
-	
+
 	$words = array("0th&nbsp;",
 	"1<sup>st</sup> ",
 	"2<sup>nd</sup> ",
@@ -588,7 +590,7 @@ function regattadate($we,$month,$year)
 	"7<sup>th</sup> ",
 	"8<sup>th</sup> ",
 	"9<sup>th</sup> ");
-	
+
 	$less10find = array("01",
 	"02",
 	"03",
@@ -598,7 +600,7 @@ function regattadate($we,$month,$year)
 	"07",
 	"08",
 	"09");
-	
+
 	$less10replace = array("1",
 	"2",
 	"3",
@@ -608,21 +610,21 @@ function regattadate($we,$month,$year)
 	"7",
 	"8",
 	"9");
-	
+
 	$errorwords = array("11<sup>st</sup>",
 	"12<sup>nd</sup>",
 	"13<sup>rd</sup>");
-	
+
 	$correctwords = array("11<sup>th</sup>",
 	"12<sup>th</sup>",
 	"13<sup>th</sup>");
-	
+
 	$we = str_replace($less10find,$less10replace,$we);
 	$we = str_replace("-"," and ",$we);
-	
+
 	$month = $monthsnumbers[$month];
 	//Make month as word
-	
+
 	$longdate = $we . " " . $month;
 	$longdate = str_replace($numbers,$words,$longdate);
 	$longdate = str_replace($errorwords,$correctwords,$longdate);
@@ -630,11 +632,11 @@ function regattadate($we,$month,$year)
 	//Construct Date
 
 	$longdate = str_replace(" ","&nbsp;",$longdate);
-		
+
 	$shortdate = $month . " " . $year;
-	
+
 	$date = array("LongDate"=>$longdate,"ShortDate"=>$shortdate);
-	
+
 	Return $date;
 	}
 //---FunctionBreak---
@@ -674,20 +676,20 @@ function countpaddlersyearrace($dblink,$query)
 	//Prepare analyticsfindraces query
 	$analyticsfindracesstmt = mysqli_prepare($dblink,$query)
 		or die("MySQLi Error in preparing query to retrieve analyticsfindraces data: " . $dblink->error);
-	
+
 	//Execute analyticsfindraces query
 	mysqli_stmt_execute($analyticsfindracesstmt)
 		or die("MySQLi Error in executing query to retrieve analyticsfindraces data: " . $analyticsfindracesstmt->error);
-	
+
 	$racekeys = array();
-	
+
 	//Get results of analyticsfindraces query
 	$analyticsfindracesresult = mysqli_stmt_get_result($analyticsfindracesstmt);
 	while($analyticsfindracesrow = mysqli_fetch_array($analyticsfindracesresult))
 		{
 		array_push($racekeys,$analyticsfindracesrow['Key']);
 		}
-	
+
 	$raceconstraint = turnintegerarraytoconstraint($racekeys,"Race");
 	Return $raceconstraint;
 	}
@@ -698,9 +700,9 @@ function countpaddlersyearpaddlers($dblink,$query,$club)
 	{
 	//Make club a wildcard
 	$club = "%" . $club . "%";
-	
+
 	str_replace("()","()",$query,$blankconstraint);
-	
+
 	if ($blankconstraint == 1)
 		{
 		$numberpaddlers = 0;
@@ -710,42 +712,42 @@ function countpaddlersyearpaddlers($dblink,$query,$club)
 		//Prepare analyticsfindpaddlers query
 		$analyticsfindpaddlersstmt = mysqli_prepare($dblink,$query)
 			or die("MySQLi Error in preparing query to retrieve analyticsfindpaddlers data: " . $dblink->error);
-		
+
 		//Execute analyticsfindpaddlers query
 		mysqli_stmt_bind_param($analyticsfindpaddlersstmt,"s",$club);
 		mysqli_stmt_execute($analyticsfindpaddlersstmt)
 			or die("MySQLi Error in executing query to retrieve analyticsfindpaddlers data: " . $analyticsfindpaddlersstmt->error);
-		
+
 		//Get results of classlookup query
 		mysqli_stmt_store_result($analyticsfindpaddlersstmt);
 		$numberpaddlers = mysqli_stmt_num_rows($analyticsfindpaddlersstmt);
 		}
-	
+
 	Return $numberpaddlers;
 	}
 //---FunctionBreak---
 /**/
 //---DocumentationBreak---
 function countpaddlersyear($dblink,$year,$distances,$boats,$jsvs,$mws,$cks,$club)
-	{	
+	{
 	//Prepare yearsql query
 	$yearsqlquery = "SELECT `Key` FROM `regattas` WHERE `Year` = ?";
 	$constraints = array();
 	$constraints[0] = array("Data"=>$year,"Type"=>"i");
 	$regattakeys = dbprepareandexecute($dblink,$yearsqlquery,$constraints,"Flat");
-	
+
 	/*
 	$yearsqlstmt = mysqli_prepare($dblink,$yearsqlquery)
 		or die("MySQLi Error in preparing query to retrieve yearsql data: " . $dblink->error);
-	
+
 	//Execute yearsql query
 	mysqli_stmt_bind_param($yearsqlstmt,"i",$year);
 	mysqli_stmt_execute($yearsqlstmt)
 		or die("MySQLi Error in executing query to retrieve yearsql data: " . $yearsqlstmt->error);
-	
+
 	//Make array of regatta keys
 	$regattakeys = array();
-	
+
 	//Get results of yearsql query
 	$yearsqlresult = mysqli_stmt_get_result($yearsqlstmt);
 	while($yearsqlrow = mysqli_fetch_array($yearsqlresult))
@@ -753,13 +755,13 @@ function countpaddlersyear($dblink,$year,$distances,$boats,$jsvs,$mws,$cks,$club
 		array_push($regattakeys,$yearsqlrow['Key']);
 		}
 	*/
-	
+
 	//Regatta constraints
 	$regattaconstraints = turnintegerarraytoconstraint($regattakeys,"Regatta");
-	
+
 	//Constraints for distances
 	$distancesconstraints = array();
-	
+
 	//Only add distance if specified in distances array
 	if (in_array("200",$distances) == true)
 		{
@@ -792,70 +794,70 @@ function countpaddlersyear($dblink,$year,$distances,$boats,$jsvs,$mws,$cks,$club
 		$constraint = "`Dist` = '10000'";
 		array_push($distancesconstraints,$constraint);
 		}
-	
+
 	//Make distance constraint string
 	$distancesconstraints = implode(" OR ",$distancesconstraints);
 	$distancesconstraints = "(" . $distancesconstraints . ")";
-	
+
 	//Make base race key query for constraining paddler queries later
 	$baseracekeysquery = "SELECT * FROM `races` WHERE " . $regattaconstraints . " AND " . $distancesconstraints;
-	
+
 	//Constraints for junior, senior or veteran
 	$jsvconstraints = array();
-	
+
 	//Only add JSV if specified in JSV array
 	if (in_array("J",$jsvs) == true)
 		{
 		$constraint = "`JSV` = 'J'";
 		array_push($jsvconstraints,$constraint);
 		}
-	
+
 	if (in_array("S",$jsvs) == true)
 		{
 		$constraint = "`JSV` = 'S'";
 		array_push($jsvconstraints,$constraint);
 		}
-	
+
 	if (in_array("V",$jsvs) == true)
 		{
 		$constraint = "`JSV` = 'V'";
 		array_push($jsvconstraints,$constraint);
 		}
-	
+
 	//Make JSV constraint string
 	$jsvconstraints = implode(" OR ",$jsvconstraints);
 	$jsvconstraints = "(" . $jsvconstraints . ")";
-	
+
 	//Constraints for canoe or kayak
 	$mwconstraints = array();
-	
+
 	//Only add MW if specified in MW array
 	if (in_array("M",$mws) == true)
 		{
 		$constraint = "`MW` = 'M'";
 		array_push($mwconstraints,$constraint);
 		}
-	
+
 	if (in_array("W",$mws) == true)
 		{
 		$constraint = "`MW` = 'W'";
 		array_push($mwconstraints,$constraint);
 		}
-	
+
 	//Make CK constraint string
 	$mwconstraints = implode(" OR ",$mwconstraints);
 	$mwconstraints = "(" . $mwconstraints . ")";
-	
+
 	//Constraints for canoe or kayak
 	$ckconstraints = array();
-	
+
 	//Only add CK if specified in distances array
 	if (in_array("K",$cks) == true)
 		{
 		$constraint = "`CK` = 'K'";
 		array_push($ckconstraints,$constraint);
 		}
-	
+
 	if (in_array("C",$cks) == true)
 		{
 		$constraint = "`CK` = 'C'";
@@ -863,64 +865,64 @@ function countpaddlersyear($dblink,$year,$distances,$boats,$jsvs,$mws,$cks,$club
 		$constraint = "`CK` = 'V'";
 		array_push($ckconstraints,$constraint);
 		}
-	
+
 	//Make CK constraint string
 	$ckconstraints = implode(" OR ",$ckconstraints);
 	$ckconstraints = "(" . $ckconstraints . ")";
-	
+
 	//Variable to store total number of paddlers
 	$totalpaddlers = 0;
-		
+
 	if (in_array("1",$boats) == true)
 		{
 		//Make race query for 1 person boats
 		$racekeysquery = $baseracekeysquery . " AND `Boat` = 1";
-		
+
 		//Get race constraints for only paddlers in the specified year/distance/boat type
 		$raceconstraint = countpaddlersyearrace($dblink,$racekeysquery);
-		
+
 		//Build Query
 		$paddlerquery = "SELECT * FROM `paddlers` WHERE " . $raceconstraint . " AND " . $jsvconstraints . " AND " . $mwconstraints . " AND " . $ckconstraints . " AND `Club` LIKE ?";
-		
+
 		//Get number of singles paddlers
 		$numberofpaddlers = countpaddlersyearpaddlers($dblink,$paddlerquery,$club);
 		$totalpaddlers = $totalpaddlers+$numberofpaddlers;
 		}
-		
+
 	if (in_array("2",$boats) == true)
 		{
 		//Make race query for 2 person boats
 		$racekeysquery = $baseracekeysquery . " AND `Boat` = 2";
-		
+
 		//Get race constraints for only paddlers in the specified year/distance/boat type
 		$raceconstraint = countpaddlersyearrace($dblink,$racekeysquery);
-		
+
 		//Build Query
 		$paddlerquery = "SELECT * FROM `paddlers` WHERE " . $raceconstraint . " AND " . $jsvconstraints . " AND " . $mwconstraints . " AND " . $ckconstraints . " AND `Club` LIKE ?";
-		
+
 		//Get number of doubles paddlers
 		$numberofpaddlers = countpaddlersyearpaddlers($dblink,$paddlerquery,$club);
 		$numberofpaddlers = $numberofpaddlers*2;
 		$totalpaddlers = $totalpaddlers+$numberofpaddlers;
 		}
-		
+
 	if (in_array("4",$boats) == true)
 		{
 		//Make race query for 4 person boats
 		$racekeysquery = $baseracekeysquery . " AND `Boat` = 4";
-		
+
 		//Get race constraints for only paddlers in the specified year/distance/boat type
 		$raceconstraint = countpaddlersyearrace($dblink,$racekeysquery);
-		
+
 		//Build Query
 		$paddlerquery = "SELECT * FROM `paddlers` WHERE " . $raceconstraint . " AND " . $jsvconstraints . " AND " . $mwconstraints . " AND " . $ckconstraints . " AND `Club` LIKE ?";
-		
+
 		//Get number of doubles paddlers
 		$numberofpaddlers = countpaddlersyearpaddlers($dblink,$paddlerquery,$club);
 		$numberofpaddlers = $numberofpaddlers*4;
 		$totalpaddlers = $totalpaddlers+$numberofpaddlers;
 		}
-		
+
 	Return $totalpaddlers;
 	}
 //---FunctionBreak---
@@ -933,12 +935,12 @@ function displaytime($time)
 		//Get the number of minutes, floor in order to make whole minutes
 		$mins = $time/60;
 		$mins = floor($mins);
-		
+
 		//Remove whole minutes
 		$removedtime = $mins*60;
 		$secmilsecs = $time-$removedtime;
 		$secmilsecs = number_format($secmilsecs,2);
-	
+
 		//Find number of minutes
 		if ($mins > 60)
 			{
@@ -947,11 +949,11 @@ function displaytime($time)
 			$removedmins = $hours*60;
 			$mins = $mins-$removedmins;
 			if ($mins < 10)
-				$mins = "0" . $mins; 
+				$mins = "0" . $mins;
 			//Convert to :0n format
 			$secmilsecs = round($secmilsecs);
 			if ($secmilsecs < 10)
-				$secmilsecs = "0" . $secmilsecs;  
+				$secmilsecs = "0" . $secmilsecs;
 			//Convert to :0n format
 			$output = $hours . ":" . $mins . ":" . $secmilsecs;
 			}
@@ -959,7 +961,7 @@ function displaytime($time)
 		elseif (($mins > 0) AND ($mins < 60))
 			{
 			if ($secmilsecs < 10)
-				$secmilsecs = "0" . $secmilsecs; 
+				$secmilsecs = "0" . $secmilsecs;
 			$output = $mins . ":" . $secmilsecs;
 			}
 		//Output minutes if minutes less than 60 and greater than 0
@@ -968,7 +970,7 @@ function displaytime($time)
 		}
 	else
 		$output = $time;
-	
+
 	Return $output;
 	}
 //---FunctionBreak---
@@ -990,34 +992,34 @@ function regattadetails($dblink,$id)
 	$monthsarray['10'] = "October";
 	$monthsarray['11'] = "November";
 	$monthsarray['12'] = "December";
-	
+
 	//Prepare SQL and constraints for regatta details query
 	$sql = "SELECT `Name`, `Date`, `Days`, `WE`, `Month`, `Year` FROM `regattas` WHERE `Key` = ?";
 	$constraints = array();
 	$constraints[0] = array("Type"=>"i","Data"=>$id);
-	
+
 	//Run query to get regatta details
 	$regattadetails = dbprepareandexecute($dblink,$sql,$constraints,"Single");
 
 	//Output array of regatta details
 	$output = array();
-	
+
 	//Format date
 	$regattadate = $regattadetails['Date'];
 	$regattadate = explode("-",$regattadate);
-	
+
 	$year = $regattadetails['Year'];
 	$month = $regattadetails['Month'];
 	$day = $regattadetails['WE'];
-	
+
 	//Format month as a name
 	$monthname = $monthsarray[$month];
-	
+
 	//Create outputs
 	$output['LongDate'] = $day . "/" . $month . "/" . $year;
 	$output['ShortDate'] = $monthname . " " . $year;
 	$output['Name'] = $regattadetails['Name'];
-	
+
 	//Return regatta details
 	Return $output;
 	}
@@ -1029,12 +1031,12 @@ function assignage($ages)
 	//Split age into 3 letter codes
 	$ages = str_split($ages,3);
 	$ages = implode("/",$ages);
-		
+
 	//Find and replace Us and Os with Unders and Overs
 	$finds = array("U","O","SEN","JUN","VET");
 	$replaces = array("Under ","Over ","Senior","Junior","Masters");
 	$ages = str_replace($finds,$replaces,$ages);
-	
+
 	Return $ages;
 	}
 //---FunctionBreak---
@@ -1068,7 +1070,7 @@ function assignability($ability)
 		$ability = "Open";
 	else
 		$ability = "";
-	
+
 	Return $ability;
 	}
 //---FunctionBreak---
@@ -1099,7 +1101,7 @@ function assignspecial($boat,$special)
 		$output = "National Championship Canoe";
 	else
 		$output = "";
-	
+
 	Return $output;
 	}
 //---FunctionBreak---
@@ -1151,7 +1153,7 @@ function assignagename($jsv,$mw)
 		$type = "Male/Female";
 	else
 		$type = "";
-	
+
 	Return $type;
 	}
 //---FunctionBreak---
@@ -1164,18 +1166,18 @@ function singleclass($classparams)
 	$ability = assignability($classparams['Abil']);
 	$age = assignage($classparams['Ages']);
 	$special = assignspecial($classparams['CK'],$classparams['Spec']);
-	
+
 	$classname = $special . " " . $type . " " . $ability . " " . $age;
-	
+
 	$classname = str_replace("Mini-Kayak Junior","Mini-Kayak",$classname);
-	
+
 	//Remove double spaces
 	$doublesremoved = 1;
 	while ($doublesremoved > 0)
 		{
 		$classname = str_replace("  "," ",$classname,$doublesremoved);
 		}
-	
+
 	Return $classname;
 	}
 //---FunctionBreak---
@@ -1185,28 +1187,28 @@ function racedetails($id,$dblink)
 	{
 	//Array of race details
 	$racedetails = array();
-		
+
 	//Prepare SQL and constraints for class query
 	$sql = "SELECT `JSV`, `MW`, `CK`, `Abil`, `Spec`, `Ages` FROM `classes` WHERE `Race` = ?";
 	$constraints = array();
 	$constraints[0] = array("Type"=>"i","Data"=>$id);
-	
+
 	//Run query to get all classes
 	$classparamslist = dbprepareandexecute($dblink,$sql,$constraints);
-	
+
 	//Prepare SQL and constraints for race query
 	$sql = "SELECT `Dist`, `R`, `D`, `Boat`, `Regatta` FROM `races` WHERE `Key` = ?";
-	
+
 	//Run query to get all classes
 	$raceparamslist = dbprepareandexecute($dblink,$sql,$constraints);
 	$raceparamslist = $raceparamslist[0];
-	
+
 	//Define distance and draw in output array
 	$racedetails['Distance'] = $raceparamslist['Dist'];
 	$racedetails['Draw'] = $raceparamslist['D'];
 	$racedetails['Boat'] = $raceparamslist['Boat'];
 	$racedetails['Regatta'] = $raceparamslist['Regatta'];
-	
+
 	//Define round as integer in output array
 	if ($raceparamslist['R'] == "H")
 		$racedetails['Round'] = 1;
@@ -1214,7 +1216,7 @@ function racedetails($id,$dblink)
 		$racedetails['Round'] = 2;
 	elseif ($raceparamslist['R'] == "F")
 		$racedetails['Round'] = 3;
-	
+
 	//Format class name
 	$raceclasses = array();
 	$raceboats = array();
@@ -1223,18 +1225,18 @@ function racedetails($id,$dblink)
 		//Get a single class and add to array
 		$singleclass = singleclass($classparams);
 		array_push($raceclasses,$singleclass);
-		
+
 		//Default to kayak if not specified
 		if (($classparams['CK'] != "C") AND ($classparams['CK'] != "V"))
 			$classparams['CK'] = "K";
-			
+
 		//Add boat types to boat type array
 		array_push($raceboats,$classparams['CK']);
 		}
-	
+
 	//Check for single boat
 	$singleboatcheck = array_unique($raceboats);
-	
+
 	if (count($singleboatcheck) > 1)
 		{
 		//Assign boat type to each race class if there are specific boats for each subclass
@@ -1242,9 +1244,9 @@ function racedetails($id,$dblink)
 			{
 			$raceclasses[$classkey] = $raceclass . " " . $raceboats[$classkey] . "*";
 			}
-		
-		//Implode all race classes together	
-		$racedetails['Class'] = implode(" &#38; ",$raceclasses);	
+
+		//Implode all race classes together
+		$racedetails['Class'] = implode(" &#38; ",$raceclasses);
 		}
 	else
 		{
@@ -1252,11 +1254,11 @@ function racedetails($id,$dblink)
 		$racedetails['Class'] = implode(" &#38; ",$raceclasses);
 		$racedetails['Class'] = $racedetails['Class'] . " " . $singleboatcheck[0] . "*";
 		}
-	
+
 	//Race name, which is not as good for sorting
 	$racedetails['RaceName'] = str_replace("*",$racedetails['Boat'],$racedetails['Class']);
 	$racedetails['RaceName'] = $racedetails['RaceName'] . " " . $racedetails['Distance'] . "m";
-	
+
 	//Attach round to race name
 	if ($racedetails['Round'] == 1)
 		$racedetails['RaceName'] = $racedetails['RaceName'] . " Heat";
@@ -1264,11 +1266,11 @@ function racedetails($id,$dblink)
 		$racedetails['RaceName'] = $racedetails['RaceName'] . " Semi-Final";
 	elseif ($racedetails['Round'] == 3)
 		$racedetails['RaceName'] = $racedetails['RaceName'] . " Final";
-	
+
 	//Attach draw to race name if specified
 	if (($racedetails['Draw'] != '') AND ($racedetails['Draw'] != 0))
 		$racedetails['RaceName'] = $racedetails['RaceName'] . " " . $racedetails['Draw'];
-	
+
 	Return $racedetails;
 	}
 //---FunctionBreak---
@@ -1278,27 +1280,27 @@ function getracetable($raceid,$dblink,$type="Short")
 	{
 	//Race table to populate
 	$racetable = array();
-	
+
 	//Find race finishers
 	if ($type == "Short")
 		$racesql = "SELECT `Position`, `Club`, `Crew`, `Time`, `NR` FROM `paddlers` WHERE `Race` = ? AND `Position` > 0 ORDER BY `Position` ASC ";
 	elseif ($type == "Long")
 		$racesql = "SELECT `Lane`, `Position`, `Club`, `Crew`, `Time`, `NR`, `JSV`, `MW`, `CK` FROM `paddlers` WHERE `Race` = ? AND `Position` > 0 ORDER BY `Position` ASC ";
-	
+
 	$raceconstraint = array();
 	$raceconstraint[0] = array("Data"=>$raceid,"Type"=>"i");
 	$racefinishers = dbprepareandexecute($dblink,$racesql,$raceconstraint);
-	
+
 	foreach ($racefinishers as &$racefinisher)
 		{
 		//Put race information into line
 		$raceline = array();
-		
+
 		//All results tables have these data
 		$raceline['Club'] = $racefinisher['Club'];
 		$raceline['Position'] = $racefinisher['Position'];
 		$raceline['Crew'] = $racefinisher['Crew'];
-		
+
 		//Race result displayed as time, NR flag, or ???
 		if ($racefinisher['Time'] > 0)
 			$raceline['Result'] = displaytime($racefinisher['Time']);
@@ -1306,42 +1308,42 @@ function getracetable($raceid,$dblink,$type="Short")
 			$raceline['Result'] = $racefinisher['NR'];
 		else
 			$raceline['Result'] = "???";
-		
+
 		//Only long results tables have these data
 		if ($type == "Long")
 			{
 			$raceline['Lane'] = $racefinisher['Lane'];
-			
+
 			//Tag defining paddler type
 			$raceline['PaddlerClass'] = $racefinisher['JSV'] . $racefinisher['MW'] . $racefinisher['CK'];
 			}
-		
+
 		array_push($racetable,$raceline);
 		}
-		
+
 	//Find race nonfinishers
 	if ($type == "Short")
 		$racesql = "SELECT `Position`, `Club`, `Crew`, `Time`, `NR` FROM `paddlers` WHERE `Race` = ? AND `Position` = 0 ORDER BY `Position` ASC ";
 	elseif ($type == "Long")
 		$racesql = "SELECT `Lane`, `Position`, `Club`, `Crew`, `Time`, `NR`, `JSV`, `MW`, `CK` FROM `paddlers` WHERE `Race` = ? AND `Position` = 0 ORDER BY `Position` ASC ";
 	$racenonfinishers = dbprepareandexecute($dblink,$racesql,$raceconstraint);
-	
+
 	foreach ($racenonfinishers as &$racenonfinisher)
 		{
 		//Put race information into line
 		$raceline = array();
-		
+
 		//All results tables have these data
 		$raceline['Position'] = $racenonfinisher['Position'];
 		$raceline['Club'] = $racenonfinisher['Club'];
 		$raceline['Crew'] = $racenonfinisher['Crew'];
-		
+
 		//Race result displayed as NR flag, or ???
 		if ($racenonfinisher['NR'] != '')
 			$raceline['Result'] = $racenonfinisher['NR'];
 		else
 			$raceline['Result'] = "???";
-		
+
 		//Only long results tables have these data
 		if ($type == "Long")
 			{
@@ -1349,14 +1351,14 @@ function getracetable($raceid,$dblink,$type="Short")
 				$raceline['Lane'] = $racefinisher['Lane'];
 			else
 				$raceline['Lane'] = 0;
-			
+
 			//Tag defining paddler type
 			$raceline['Paddler'] = $racenonfinisher['JSV'] . $racenonfinisher['MW'] . $racenonfinisher['CK'];
 			}
-		
+
 		array_push($racetable,$raceline);
 		}
-	
+
 	//Return race table
 	Return $racetable;
 	}
@@ -1368,25 +1370,25 @@ function highlightingrules($club,$paddler)
 	if (($club != '') AND ($paddler == ''))
 		{
 		$highlighting = "Club";
-	
+
 		$surname = "";
 		}
 	elseif ($paddler != '')
 		{
 		$highlighting = "Paddler";
-	
+
 		$surname = explode(" ",$paddler);
 		$surname = $surname[1];
 		}
 	else
 		{
 		$highlighting = "None";
-		
+
 		$surname = "";
 		}
-	
+
 	$output = array("Highlighting"=>$highlighting,"Paddler"=>$paddler,"Surname"=>$surname,"Club"=>$club);
-	Return $output; 
+	Return $output;
 	}
 //---FunctionBreak---
 /**/
@@ -1405,39 +1407,39 @@ function highlightracetable($racetable,$highlighting,$club,$paddler,$surname)
 	elseif ($highlighting == "Paddler")
 		{
 		$arraykey = 0;
-		
+
 		//Add club if specified
 		if ($club != "")
 			{
 			$searchtable = array();
 			$searchtable[$arraykey] = array();
 			$searchtable[$arraykey]['Cell'] = "Club";
-			
+
 			//Turn club into club array if needed
 			$clubarray = explode("/",$club);
-			
+
 			//Attach club array to search table
 			$searchtable[$arraykey]['Options'] = $clubarray;
-			
+
 			$arraykey = 1;
 			}
-		
+
 		//Paddler name to search for
 		$searchtable[$arraykey] = array();
 		$searchtable[$arraykey]['Cell'] = "Crew";
-		
+
 		//Different variation of paddler name added to search constraints
 		$searchtable[$arraykey]['Options'][0] = $paddler;
 		$searchtable[$arraykey]['Options'][1] = "/" . $surname;
 		$searchtable[$arraykey]['Options'][2] = "/" . $surname . "/";
 		$searchtable[$arraykey]['Options'][3] = $surname . "/";
 		}
-	
+
 	if ($highlighting != "None")
 		{
-		$racetable = highlightrowssearch($racetable,$searchtable,"#FFFF00");	
+		$racetable = highlightrowssearch($racetable,$searchtable,"#FFFF00");
 		}
-	
+
 	Return $racetable;
 	}
 //---FunctionBreak---
@@ -1455,7 +1457,7 @@ function addracehighlighting($racetable,$clubsearch,$paddlersearch)
 		{
 		$clubfound = false;
 		$paddlerfound = false;
-		
+
 		//Search for club
 		if (is_array($clubsearch) == true)
 			{
@@ -1467,7 +1469,7 @@ function addracehighlighting($racetable,$clubsearch,$paddlersearch)
 			}
 		else
 			$clubfound = true;
-		
+
 		//Search for paddler
 		if (is_array($paddlersearch) == true)
 			{
@@ -1479,14 +1481,14 @@ function addracehighlighting($racetable,$clubsearch,$paddlersearch)
 			}
 		else
 			$paddlerfound = true;
-		
+
 		if (($clubfound == true) AND ($paddlerfound == true))
 			$paddler['RowProperties']['Highlight'] = "rgb(255,255,0)";
-			
+
 		//Update line of race table
 		$racetable[$paddlerkey] = $paddler;
 		}
-	
+
 	Return $racetable;
 	}
 //---FunctionBreak---
