@@ -61,4 +61,59 @@ function standardisenewlines($text)
 	Return $text;
 	}
 //---FunctionBreak---
+/*Takes a piece of text and standardises the new line format to ensure compatibility between Windows and Android origin input
+
+$text is the text to standardise lines of
+
+Output is an array with standard new lines.*/
+//---DocumentationBreak---
+function getandprocessinput($inputname,$inputdetails=array())
+	{
+	//Get input from either POST or GET
+	if (isset($_POST[$inputname]) == true) AND (isset($_GET[$inputname]) == false)
+		$input = $_POST[$inputname];
+	if (isset($_POST[$inputname]) == false) AND (isset($_GET[$inputname]) == true)
+		$input = $_GET[$inputname];
+
+	if (isset($input) == true)
+		{
+		//Check that the value is an allowed value
+		if (isset($inputdetails['AllowedValues']) == true)
+			{
+			if (in_array($input,$inputdetails['AllowedValues']) == false)
+				$input = "";
+			}
+
+		//Check that the character is in a whitelist
+		if (isset($inputdetails['Whitelist']) == true)
+			{
+			if (is_array($inputdetails['Whitelist']) == false)
+				$inputdetails['Whitelist'] = str_split($inputdetails['Whitelist']);
+
+			$input = str_split($input);
+			foreach($input as $inputkey=>$character)
+				{
+				if (in_array($character,$inputdetails['Whitelist']) == false)
+					unset($input[$inputkey]);
+				}
+			$input = $implode($input);
+			}
+
+		//Check that the input is a specified type
+		if (isset($inputdetails['Type']) == true)
+			{
+			if ($inputdetails['Type'] != gettype($input))
+				$input = "";
+			}
+		}
+	else
+		$input = "";
+
+	//Set a default value (if available) if the input value is blank
+	if ((isset($inputdetails['Default']) == true) AND ($input == ""))
+		$input = isset($inputdetails['Default'];
+
+	Return $input;
+	}
+//---FunctionBreak---
 ?>
