@@ -1,4 +1,6 @@
 <?php
+include_once 'required-functions.php';
+
 if (isset($boatsize) == false)
   $boatsize = "*";
 
