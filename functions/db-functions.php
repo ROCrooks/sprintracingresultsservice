@@ -94,7 +94,81 @@ Output is an array with all the values in the column*/
 //---DocumentationBreak---
 function resulttocolumn($dbresult,$column="Key")
   {
-  
+  $output = array();
+
+	//Get field from each row
+	foreach ($dbresult as $dbrow)
+		{
+		if (isset($dbrow[$column]) == true)
+			array_push($output,$dbrow[$column]);
+		}
+
+	Return $output;
+  }
+//---FunctionBreak---
+/*Make a BETWEEN SQL constraint from a list of integers
+
+$integers is the list of integers
+$fieldname is the field name that the query is going to relate to
+
+Output is an array of ['SQLText'] which can be concatenated into the SQL, and
+['SQLValues'] is an array of values that can be merged into the*/
+//---DocumentationBreak---
+function makesqlrange($integers,$fieldname)
+  {
+  //Sort and make unique
+  $integers = array_unique($integers);
+  sort($integers);
+
+  $inrange = false;
+  $constraintstext = array();
+  $constraintsvalues = array();
+  $integerskey = 0;
+  $end = count($integers);
+  while ($integerskey < $end)
+    {
+    if (is_int($integers[$integerskey]) == true)
+      {
+      //Define next number
+      if (isset($integers[$integerskey+1]) == true)
+        $nextno = $integers[$integerskey+1];
+      else
+        $nextno = "";
+
+      if ($inrange == false)
+        {
+        //Open a range
+        if ($nextno == $integers[$integerskey]+1)
+          {
+          $inrange = true;
+          $constraint = "(`" . $fieldname . "` BETWEEN ? AND ";
+          array_push($constraintsvalues,$integers[$integerskey]);
+          }
+        else
+          {
+          $constraint = "`" . $fieldname . "` = ?";
+          array_push($constraintsvalues,$integers[$integerskey]);
+          array_push($constraintstext,$constraint);
+          }
+        }
+      elseif ($inrange == true)
+        {
+        //Close a range
+        if ($nextno != $integers[$integerskey]+1)
+          {
+          $constraint = $constraint . "?)";
+          array_push($constraintsvalues,$integers[$integerskey]);
+          array_push($constraintstext,$constraint);
+          $inrange = false;
+          }
+        }
+      }
+    $integerskey++;
+    }
+
+  $constraintstext = "(" . implode(" OR ",$constraintstext) . ")";
+  $output = array("SQLText"=>$constraintstext,"SQLValues"=>$constraintsvalues);
+  Return $output;
   }
 //---FunctionBreak---
 ?>
