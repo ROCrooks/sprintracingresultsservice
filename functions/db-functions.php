@@ -85,4 +85,16 @@ function dbprepareandexecute($dblink,$sql,$constraints)
     Return $results;
   }
 //---FunctionBreak---
+/*Get the values from one column of an SQL result as an array
+
+$dbresult is the database query result
+$column is the column to extract from the database result
+
+Output is an array with all the values in the column*/
+//---DocumentationBreak---
+function resulttocolumn($dbresult,$column="Key")
+  {
+  
+  }
+//---FunctionBreak---
 ?>
