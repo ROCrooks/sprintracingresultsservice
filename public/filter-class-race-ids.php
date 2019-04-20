@@ -9,6 +9,7 @@ $abil = "B";
 //Standard that all texts have
 $classsql = "SELECT DISTINCT `Race` FROM `classes`";
 
+//Format user inputs into array for generating match query
 $classcodes = array();
 if (isset($jsv) == true)
   $classcodes['JSV'] = $jsv;
@@ -39,8 +40,8 @@ else
   $classcodes['Ages'] = $classcodes['Ages'] = "*";
 
 //Construct values and constraints
-$constrainttext = array();
-$constraintvalues = array();
+$classesconstrainttext = array();
+$classesconstraintvalues = array();
 foreach ($classcodes as $field=>$class)
   {
   if ($class == "")
@@ -56,16 +57,26 @@ foreach ($classcodes as $field=>$class)
       $class = "";
 
     $class = "%" . $class . "%";
-    $field = "`" . $field . "` = ?";
+    $field = "`" . $field . "` LIKE ?";
     }
 
   //Put to constraint arrays
-  array_push($constrainttext,$class);
-  array_push($constraintvalues,$field);
+  array_push($classesconstrainttext,$field);
+  array_push($classesconstraintvalues,$class);
   }
 
-if (count($constrainttext) > 0)
+//Turn the constraint fields into an SQL
+if (count($classesconstrainttext) > 0)
   {
-  
+  $classesconstraintsqltext = implode(" AND ",$classesconstrainttext);
   }
+
+if (isset($classesconstraintsqltext) == true)
+  {
+  $classsql = $classsql . "WHERE " . $classesconstraintsqltext;
+  }
+
+//Get race IDs for races with these classes
+$getids = dbprepareandexecute($srrsdblink,$classsql,$classesconstraintvalues);
+$classraceids = resulttocolumn($getids,"Race");
 ?>
