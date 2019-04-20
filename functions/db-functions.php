@@ -41,8 +41,9 @@ function dbexecute($stmt,$constraints)
       $types = $types . "s";
     }
 
-	//Bind parameters to query
-	mysqli_stmt_bind_param($stmt,$types,...$constraints);
+	//Bind parameters to query only if there are any constraints
+	if (count($constraints) > 0)
+		mysqli_stmt_bind_param($stmt,$types,...$constraints);
 
 	mysqli_stmt_execute($stmt)
 		or die("MySQLi Error in preparing query " . $sql . ": : " . $stmt->error);
