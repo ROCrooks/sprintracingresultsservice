@@ -4,22 +4,30 @@ include_once 'required-functions.php';
 //Format name of round and draw
 if (($racesqlresultline['R'] == "H") OR ($racesqlresultline['R'] == 1))
   {
-  $rounddraw = "Heat " . $racesqlresultline['D'];
+  $rounddraw = "Heat";
+  if ($racesqlresultline['D'] > 0)
+    $rounddraw = $rounddraw . " " . $racesqlresultline['D'];
   $roundno = 1;
   }
 if (($racesqlresultline['R'] == "QF") OR ($racesqlresultline['R'] == "Q") OR ($racesqlresultline['R'] == 2))
   {
-  $rounddraw = "Quarter-Final " . $racesqlresultline['D'];
+  $rounddraw = "Quarter-Final";
+  if ($racesqlresultline['D'] > 0)
+    $rounddraw = $rounddraw . " " . $racesqlresultline['D'];
   $roundno = 2;
   }
 if (($racesqlresultline['R'] == "SF") OR ($racesqlresultline['R'] == "S") OR ($racesqlresultline['R'] == 3))
   {
-  $rounddraw = "Semi-Final " . $racesqlresultline['D'];
+  $rounddraw = "Semi-Final";
+  if ($racesqlresultline['D'] > 0)
+    $rounddraw = $rounddraw . " " . $racesqlresultline['D'];
   $roundno = 3;
   }
 if (($racesqlresultline['R'] == "F") OR ($racesqlresultline['R'] == 4))
   {
-  $rounddraw = "Final " . $racesqlresultline['D'];
+  $rounddraw = "Final";
+  if ($racesqlresultline['D'] > 0)
+    $rounddraw = $rounddraw . " " . $racesqlresultline['D'];
   $roundno = 4;
   }
 
@@ -47,6 +55,4 @@ $racedetails['Class'] = $raceclass;
 $racedetails['Distance'] = $racesqlresultline['Dist'];
 $racedetails['Round'] = $roundno;
 $racedetails['Draw'] = $racesqlresultline['D'];
-
-print_r($racedetails);
 ?>
