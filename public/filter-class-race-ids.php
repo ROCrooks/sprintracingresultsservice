@@ -1,43 +1,38 @@
 <?php
 include_once 'required-functions.php';
 
-$jsv = "J";
-$mw = "M";
-$ck = "K";
-$abil = "";
-
 //Standard that all texts have
 $classsql = "SELECT DISTINCT `Race` FROM `classes`";
 
 //Format user inputs into array for generating match query
 $classcodes = array();
-if (isset($jsv) == true)
+if ($jsv != "")
   $classcodes['JSV'] = $jsv;
 else
   $classcodes['JSV'] = "*";
-if (isset($mw) == true)
+if ($mw != "")
   $classcodes['MW'] = $mw;
 else
   $classcodes['MW'] = "*";
-if (isset($ck) == true)
+if ($ck != "")
   $classcodes['CK'] = $ck;
 else
   $classcodes['CK'] = "*";
 
-if (isset($spec) == true)
+if ($spec != "")
   $classcodes['Spec'] = $spec;
 else
   $classcodes['Spec'] = "";
 
-if (isset($abil) == true)
+if ($abil != "")
   $classcodes['Abil'] = $abil;
 else
   $classcodes['Abil'] = "*";
 
-if (isset($ages) == true)
+if ($ages != "")
   $classcodes['Ages'] = $ages;
 else
-  $classcodes['Ages'] = $classcodes['Ages'] = "*";
+  $classcodes['Ages'] = "*";
 
 //Construct values and constraints
 $classesconstrainttext = array();
