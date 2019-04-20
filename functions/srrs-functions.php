@@ -38,13 +38,13 @@ function sortraceslist($a,$b)
 					{
 				  return 0;
 				  }
-				return ($a < $b) ? -1 : 1;
+				return ($a['Draw'] < $b['Draw']) ? -1 : 1;
 			  }
-			return ($a < $b) ? -1 : 1;
+			return ($a['Round'] < $b['Round']) ? -1 : 1;
 		  }
-		return ($a < $b) ? -1 : 1;
+		return ($a['Distance'] < $b['Distance']) ? -1 : 1;
     }
-  return ($a < $b) ? -1 : 1;
+  return ($a['Class'] < $b['Class']) ? -1 : 1;
 	}
 //---FunctionBreak---
 /*Convert a time in seconds to a time in HH:MM:SS
