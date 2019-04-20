@@ -4,7 +4,7 @@ include_once 'required-functions.php';
 $jsv = "J";
 $mw = "M";
 $ck = "K";
-$abil = "B";
+$abil = "";
 
 //Standard that all texts have
 $classsql = "SELECT DISTINCT `Race` FROM `classes`";
