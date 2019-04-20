@@ -70,9 +70,9 @@ Output is an array with standard new lines.*/
 function getandprocessinput($inputname,$inputdetails=array())
 	{
 	//Get input from either POST or GET
-	if (isset($_POST[$inputname]) == true) AND (isset($_GET[$inputname]) == false)
+	if ((isset($_POST[$inputname]) == true) AND (isset($_GET[$inputname]) == false))
 		$input = $_POST[$inputname];
-	if (isset($_POST[$inputname]) == false) AND (isset($_GET[$inputname]) == true)
+	if ((isset($_POST[$inputname]) == false) AND (isset($_GET[$inputname]) == true))
 		$input = $_GET[$inputname];
 
 	if (isset($input) == true)
@@ -111,7 +111,7 @@ function getandprocessinput($inputname,$inputdetails=array())
 
 	//Set a default value (if available) if the input value is blank
 	if ((isset($inputdetails['Default']) == true) AND ($input == ""))
-		$input = isset($inputdetails['Default'];
+		$input = $inputdetails['Default'];
 
 	Return $input;
 	}
