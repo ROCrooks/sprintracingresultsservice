@@ -25,23 +25,23 @@ if ($paddler != "")
   array_push($paddlerconstraintsvalues,$surname . "/%");
   array_push($paddlerconstraintsvalues,"%/" . $surname . "/%");
   array_push($paddlerconstraintsvalues,"%/" . $surname);
+  }
 
-  //Add JSV, MW, CK status to query
-  if ($padjsv != "")
-    {
-    array_push($paddlerconstraintstext,"`JSV` = ?");
-    array_push($paddlerconstraintsvalues,$padjsv);
-    }
-  if ($padmw != "")
-    {
-    array_push($paddlerconstraintstext,"`MW` = ?");
-    array_push($paddlerconstraintsvalues,$padmw);
-    }
-  if ($padck != "")
-    {
-    array_push($paddlerconstraintstext,"`CK` = ?");
-    array_push($paddlerconstraintsvalues,$padck);
-    }
+//Add JSV, MW, CK status to query
+if ($padjsv != "")
+  {
+  array_push($paddlerconstraintstext,"`JSV` = ?");
+  array_push($paddlerconstraintsvalues,$padjsv);
+  }
+if ($padmw != "")
+  {
+  array_push($paddlerconstraintstext,"`MW` = ?");
+  array_push($paddlerconstraintsvalues,$padmw);
+  }
+if ($padck != "")
+  {
+  array_push($paddlerconstraintstext,"`CK` = ?");
+  array_push($paddlerconstraintsvalues,$padck);
   }
 
 //Add club details to search constraint
