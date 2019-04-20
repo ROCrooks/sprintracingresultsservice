@@ -105,21 +105,21 @@ foreach($classdetails as $classkey=>$class)
     {
     //Format codes into long names
     if (substr($age,0,1) == "U")
-      str_replace("U","Under ",$age);
+      $age = str_replace("U","Under ",$age);
     elseif (substr($age,0,1) == "O")
-      str_replace("O","Over ",$age);
+      $age = str_replace("O","Over ",$age);
     else
       {
       $short = array("JUN","SEN","VET");
       $long = array("Junior","Senior","Veteran");
-      str_replace($short,$long,$age);
+      $age = str_replace($short,$long,$age);
       }
 
     $namewords['Ages'][$ageskey] = $age;
     }
   $namewords['Ages'] = implode("/",$namewords['Ages']);
 
-  $namewords['FreeText'] = $class['Ages'];
+  $namewords['FreeText'] = $class['FreeText'];
 
   //Specify boat type
   if ($class['CK'] == "K")
