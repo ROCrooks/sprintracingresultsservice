@@ -1,10 +1,6 @@
 <?php
 include_once 'required-functions.php';
 
-include 'user-input-processing.php';
-
-$regattaid = 6;
-
 //Base query
 $raceconstraints = array($regattaid);
 $regattaracessql = "SELECT `Key`, `Regatta`, `Boat`, `Dist`, `R`, `D` FROM `races` WHERE `Regatta` = ?";
@@ -57,6 +53,4 @@ foreach($racesdetailsarray as $racesdetailskey=>$racesqlresultline)
   }
 
 usort($racesdetailsarray,'sortraceslist');
-
-print_r($racesdetailsarray);
 ?>
