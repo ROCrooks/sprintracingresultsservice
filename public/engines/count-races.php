@@ -1,8 +1,6 @@
 <?php
 include_once 'required-functions.php';
 
-$regattaid = 6;
-
 //Base query
 $raceconstraints = array($regattaid);
 $regattaracessql = "SELECT COUNT(*) FROM `races` WHERE `Regatta` = ?";
@@ -26,9 +24,15 @@ if (($jsv != "") OR ($mw != "") OR ($ck != "") OR ($spec != "") OR ($abil != "")
   $regattaracessql = $regattaracessql . " AND " . $classconstraints['SQLText'];
   $raceconstraints = array_merge($raceconstraints,$classconstraints['SQLValues']);
   }
+echo $regattaracessql . "<br>";
 
-//Format each line using the engine
-$racescount = dbprepareandexecute($srrsdblink,$regattaracessql,$raceconstraints);
-$racescount = $racescount[0]['COUNT(*)'];
-print_r($racescount);
+//Count the number of races of this type
+//If none were found using the class query then result is 0
+if (count($classconstraints['SQLValues']) > 0)
+  {
+  $racescount = dbprepareandexecute($srrsdblink,$regattaracessql,$raceconstraints);
+  $racescount = $racescount[0]['COUNT(*)'];
+  }
+else
+  $racescount = 0;
 ?>
