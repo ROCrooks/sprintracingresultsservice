@@ -1,6 +1,10 @@
 <?php
 include_once 'required-functions.php';
 
+include 'user-input-processing.php';
+
+$regattaid = 6;
+
 //Base query
 $raceconstraints = array($regattaid);
 $regattaracessql = "SELECT `Key`, `Regatta`, `Boat`, `Dist`, `R`, `D` FROM `races` WHERE `Regatta` = ?";
@@ -25,6 +29,10 @@ if (($paddler == "") AND (($jsv != "") OR ($mw != "") OR ($ck != "") OR ($spec !
   $raceconstraints = array_merge($raceconstraints,$classconstraints['SQLValues']);
   }
 
+//Prepare a statement to get races
+$paddlersql = "SELECT `Position`, `Club`, `Crew`, `Time`, `NR` FROM `paddlers` WHERE `Race` = ?";
+$paddlerstmt = dbprepare($srrsdblink,$paddlersql);
+
 $racesdetailsarray = dbprepareandexecute($srrsdblink,$regattaracessql,$raceconstraints);
 foreach($racesdetailsarray as $racesdetailskey=>$racesqlresultline)
   {
@@ -33,9 +41,9 @@ foreach($racesdetailsarray as $racesdetailskey=>$racesqlresultline)
   include 'process-race-details.php';
 
   //Get race finishers
-  $paddlersql = "SELECT `Position`, `Club`, `Crew`, `Time`, `NR` FROM `paddlers` WHERE `Race` = ?";
   $paddlerconstraints = array($raceid);
-  $dbpaddlers = dbprepareandexecute($srrsdblink,$paddlersql,$paddlerconstraints);
+  $dbpaddlers = dbexecute($paddlerstmt,$paddlerconstraints);
+  //$dbpaddlers = dbprepareandexecute($srrsdblink,$paddlersql,$paddlerconstraints);
 
   //Process the paddler details
   foreach($dbpaddlers as $paddlerkey=>$paddler)
@@ -49,4 +57,6 @@ foreach($racesdetailsarray as $racesdetailskey=>$racesqlresultline)
   }
 
 usort($racesdetailsarray,'sortraceslist');
+
+print_r($racesdetailsarray);
 ?>

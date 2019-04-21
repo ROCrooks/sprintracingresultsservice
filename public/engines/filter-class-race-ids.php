@@ -72,18 +72,18 @@ if (isset($classesconstraintsqltext) == true)
   }
 
 //Prepare an SQL statement to run multiple times, as this engine can be called in a loop
-if (isset($retainedsql) == false)
+if (isset($retainedclassfiltersql) == false)
   {
-  $retainedsql = $classsql;
-  $classstmt = dbprepare($srrsdblink,$retainedsql);
+  $retainedclassfiltersql = $classsql;
+  $classfilterstmt = dbprepare($srrsdblink,$retainedclassfiltersql);
   }
-elseif ($retainedsql != $classsql)
+elseif ($retainedclassfiltersql != $classsql)
   {
-  $retainedsql = $classsql;
-  $classstmt = dbprepare($srrsdblink,$retainedsql);
+  $retainedclassfiltersql = $classsql;
+  $classfilterstmt = dbprepare($srrsdblink,$retainedclassfiltersql);
   }
 
 //Get race IDs for races with these classes
-$getids = dbexecute($classstmt,$classesconstraintvalues);
+$getids = dbexecute($classfilterstmt,$classesconstraintvalues);
 $classraceids = resulttocolumn($getids,"Race");
 ?>
