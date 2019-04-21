@@ -29,7 +29,6 @@ if (($paddler == "") AND (($jsv != "") OR ($mw != "") OR ($ck != "") OR ($spec !
   $raceconstraints = array_merge($raceconstraints,$classconstraints['SQLValues']);
   }
 
-$timesteps = array();
 //Format each line using the engine
 $racesdetailsarray = dbprepareandexecute($srrsdblink,$regattaracessql,$raceconstraints);
 foreach($racesdetailsarray as $racesdetailskey=>$racesqlresultline)
@@ -38,6 +37,20 @@ foreach($racesdetailsarray as $racesdetailskey=>$racesqlresultline)
 
   include 'process-race-details.php';
 
+  //Get race finishers
+  $paddlersql = "SELECT `Position`, `Club`, `Crew`, `Time`, `NR` FROM `paddlers` WHERE `Race` = ?";
+  $paddlerconstraints = array($raceid);
+  $dbpaddlers = dbprepareandexecute($srrsdblink,$paddlersql,$paddlerconstraints);
+
+  //Process the paddler details
+  foreach($dbpaddlers as $paddlerkey=>$paddler)
+    {
+    include 'process-paddler-details.php';
+    $dbpaddlers[$paddlerkey] = $paddler;
+    }
+  usort($dbpaddlers,'sortfinishers');
+
+  $racedetails['Paddlers'] = $dbpaddlers;
   $racesdetailsarray[$racesdetailskey] = $racedetails;
   }
 
