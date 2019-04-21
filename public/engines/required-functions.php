@@ -9,6 +9,6 @@ foreach ($files as $file)
   }
 
 //Create database connection
-include_once '../../dbconnect-function.php';
+include_once '../../../dbconnect-function.php';
 $srrsdblink = createdbconnection("SRRS");
 ?>
