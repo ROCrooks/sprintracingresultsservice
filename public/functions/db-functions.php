@@ -171,7 +171,7 @@ function makesqlrange($integers,$fieldname)
 	if (count($constraintstext) > 0)
   	$constraintstext = "(" . implode(" OR ",$constraintstext) . ")";
 	else
-		$constraintstext = "";
+		$constraintstext = "(1 = 0)";
 
   $output = array("SQLText"=>$constraintstext,"SQLValues"=>$constraintsvalues);
   Return $output;
