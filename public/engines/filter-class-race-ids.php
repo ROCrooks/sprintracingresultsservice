@@ -71,7 +71,19 @@ if (isset($classesconstraintsqltext) == true)
   $classsql = $classsql . "WHERE " . $classesconstraintsqltext;
   }
 
+//Prepare an SQL statement to run multiple times, as this engine can be called in a loop
+if (isset($retainedsql) == false)
+  {
+  $retainedsql = $classsql;
+  $classstmt = dbprepare($srrsdblink,$retainedsql);
+  }
+elseif ($retainedsql != $classsql)
+  {
+  $retainedsql = $classsql;
+  $classstmt = dbprepare($srrsdblink,$retainedsql);
+  }
+
 //Get race IDs for races with these classes
-$getids = dbprepareandexecute($srrsdblink,$classsql,$classesconstraintvalues);
+$getids = dbexecute($classstmt,$classesconstraintvalues);
 $classraceids = resulttocolumn($getids,"Race");
 ?>
