@@ -58,7 +58,7 @@ function secstohms($time)
 	//Format time in seconds for display
 	$hours = floor($time/3600);
 	$mins = (floor($time/60))-($hours*60);
-	$seconds = $time%60;
+	$seconds = $time-($mins*60)-($hours*3600);
 	$hms = $seconds;
 	if (($mins > 0) OR ($hours > 0))
 		{
