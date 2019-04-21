@@ -19,7 +19,6 @@ if (($paddler != "") OR ($club != ""))
   $raceconstraints = array_merge($raceconstraints,$paddlerconstraints['SQLValues']);
   }
 
-
 //Check for class constraints
 if (($paddler == "") AND (($jsv != "") OR ($mw != "") OR ($ck != "") OR ($spec != "") OR ($abil != "") OR ($ages != "")))
   {
@@ -30,7 +29,7 @@ if (($paddler == "") AND (($jsv != "") OR ($mw != "") OR ($ck != "") OR ($spec !
   $raceconstraints = array_merge($raceconstraints,$classconstraints['SQLValues']);
   }
 
-
+$timesteps = array();
 //Format each line using the engine
 $racesdetailsarray = dbprepareandexecute($srrsdblink,$regattaracessql,$raceconstraints);
 foreach($racesdetailsarray as $racesdetailskey=>$racesqlresultline)
