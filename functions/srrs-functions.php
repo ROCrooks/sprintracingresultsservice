@@ -12,9 +12,9 @@ function sortfinishers($a,$b)
 			{
 		  return 0;
 		  }
-		return ($a < $b) ? -1 : 1;
+		return ($a['Time'] < $b['Time']) ? -1 : 1;
     }
-  return ($a > $b) ? -1 : 1;
+  return ($a['Result'] > $b['Result']) ? -1 : 1;
 	}
 //---FunctionBreak---
 /*Sort races in the following order
