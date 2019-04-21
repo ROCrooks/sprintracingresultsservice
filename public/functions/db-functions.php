@@ -167,7 +167,12 @@ function makesqlrange($integers,$fieldname)
     $integerskey++;
     }
 
-  $constraintstext = "(" . implode(" OR ",$constraintstext) . ")";
+	//Only make output if there are any constraint texts
+	if (count($constraintstext) > 0)
+  	$constraintstext = "(" . implode(" OR ",$constraintstext) . ")";
+	else
+		$constraintstext = "";
+
   $output = array("SQLText"=>$constraintstext,"SQLValues"=>$constraintsvalues);
   Return $output;
   }
