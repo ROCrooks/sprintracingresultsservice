@@ -59,6 +59,10 @@ function secstohms($time)
 	$hours = floor($time/3600);
 	$mins = (floor($time/60))-($hours*60);
 	$seconds = $time-($mins*60)-($hours*3600);
+
+	if (substr($seconds,-2,1) == ".")
+		$seconds = $seconds . "0";
+
 	$hms = $seconds;
 	if (($mins > 0) OR ($hours > 0))
 		{
