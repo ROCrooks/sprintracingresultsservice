@@ -29,6 +29,7 @@ else
 //Get regatta details from regatta database
 $regattasdetailsresults = dbprepareandexecute($srrsdblink,$regattasdetailssql,$regattalistsqlconstraints);
 
+//Process regatta details into output
 foreach($regattasdetailsresults as $regattadetailskeys=>$regattadetailsline)
   {
   include 'process-regatta-details.php';
