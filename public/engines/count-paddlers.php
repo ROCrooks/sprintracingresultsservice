@@ -1,11 +1,6 @@
 <?php
 include_once 'required-functions.php';
 
-$jsv = "S";
-$mw = "W";
-$ck = "K";
-$raceids = array();
-
 //Default count
 $paddlerseatssql = "SELECT COUNT(*) FROM `paddlers` ";
 
@@ -29,13 +24,17 @@ if ($ck != "")
   array_push($paddlersqltext,"`CK` = ?");
   array_push($paddlerconstraints,$ck);
   }
+if ($club != "")
+  {
+  array_push($paddlersqltext,"`Club` = ?");
+  array_push($paddlerconstraints,$club);
+  }
 if (count($raceids) > 0)
   {
   $raceidssql = makesqlrange($raceids,"Race");
   array_push($paddlersqltext,$raceidssql['SQLText']);
   array_push($paddlerconstraints,$raceidssql['SQLValues']);
   }
-
 if (count($paddlersqltext) > 0)
   {
   $paddlersqltext = implode(" AND ",$paddlersqltext);
@@ -45,6 +44,4 @@ if (count($paddlersqltext) > 0)
 //Count the number of races of this type
 $paddlerscount = dbprepareandexecute($srrsdblink,$paddlerseatssql,$paddlerconstraints);
 $paddlerscount = $paddlerscount[0]['COUNT(*)'];
-
-echo $paddlerscount . "<br>";
 ?>
