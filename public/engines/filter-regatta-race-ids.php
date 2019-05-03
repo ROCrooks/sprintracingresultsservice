@@ -5,7 +5,7 @@ include_once 'required-functions.php';
 $racesql = "SELECT DISTINCT `Key` FROM `races`";
 
 //Standardise a single regatta into a regatta list
-if (isset($regattaid) == true)
+if ((isset($regattaid) == true) AND (isset($regattalist) == false))
   {
   $regattalist = array($regattaid);
   }
