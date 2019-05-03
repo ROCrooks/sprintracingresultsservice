@@ -33,7 +33,7 @@ if (count($raceids) > 0)
   {
   $raceidssql = makesqlrange($raceids,"Race");
   array_push($paddlersqltext,$raceidssql['SQLText']);
-  array_push($paddlerconstraints,$raceidssql['SQLValues']);
+  $paddlerconstraints = array_merge($paddlerconstraints,$raceidssql['SQLValues']);
   }
 if (count($paddlersqltext) > 0)
   {
