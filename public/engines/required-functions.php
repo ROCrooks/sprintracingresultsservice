@@ -1,5 +1,5 @@
 <?php
-$files = array("srrs","userinput","db");
+$files = array("srrs","userinput","db","array");
 
 //Include each required functions file
 foreach ($files as $file)
