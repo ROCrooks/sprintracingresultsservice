@@ -5,15 +5,15 @@ include_once 'required-functions.php';
 $regattasql = "SELECT DISTINCT `Key` FROM `regattas`";
 
 //Standardise a single year into a year list
-if (isset($year) == true)
+if ((isset($year) == true) AND (isset($yearlist) == false))
   {
-  $yearlist = array($yearid);
+  $yearlist = array($year);
   }
 
 //Make SQL query for regatta IDs
 if (isset($yearlist) == true)
   {
-  $yearsql = makesqlrange($regattalist,"Year");
+  $yearsql = makesqlrange($yearlist,"Year");
   $yearlist = $yearsql['SQLValues'];
   $regattasql = $regattasql . " WHERE " . $yearsql['SQLText'];
   }
