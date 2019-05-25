@@ -9,6 +9,10 @@ $roundnamesfind = array("heat","semi-final","semi final","final");
 $roundnamesreplace = array("H","SF","SF","F");
 str_ireplace($roundnamesfind,$roundnamesreplace,$text);
 
+//Replace all gaps between slashes with single slashes
+$text = str_replace("\\","/",$text);
+$text = str_replace(" / ","/",$text);
+
 $text = preg_replace($regex['pagedetails'],"",$text);
 
 //Standardise new lines
@@ -53,7 +57,7 @@ foreach ($text as $textkey=>$line)
   //Remove lines with classes in them
   if (substr($line,0,6) == "Class:")
     $line = "";
-  
+
   if ($line != "")
     {
     $text[$textkey] = $line;
