@@ -144,8 +144,16 @@ foreach($text as $textkey=>$line)
     $line = str_replace($faultsfind,$faultsreplace,$line);
     $notfinishing = array("dsq","???","dnf","dns");
     str_ireplace($notfinishing,$notfinishing,$line,$notfinishingcount);
-    if ($notfinishingcount > 0)
+    if (($notfinishingcount > 0) AND (preg_match($regex['positionorlane'],$line) == true))
       $line = "0 " . $line;
+    elseif (($notfinishingcount == 0) AND (preg_match($regex['positionorlane'],$line) == true))
+      {
+      $line = explode(" ",$line);
+      $line[-1] = $line[0];
+      $line[0] = "0";
+      ksort($line);
+      $line = implode(" ",$line);
+      }
 
     echo $line . "<br>";
     }
