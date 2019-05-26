@@ -1,7 +1,6 @@
 <?php
 include 'race-reading-regexs.php';
 
-
 $text = file_get_contents("clean-results.txt");
 $text = explode("Race:",$text);
 $text = $text[6];
