@@ -5,9 +5,9 @@ $text = "race-file.txt";
 $text = file_get_contents($text);
 
 //Find full names for rounds in the text and replace them
-$roundnamesfind = array("heat","semi-final","semi final","final");
-$roundnamesreplace = array("H","SF","SF","F");
-str_ireplace($roundnamesfind,$roundnamesreplace,$text);
+$roundnamesfind = array("heat ","semi-final ","semi final ","final ","final");
+$roundnamesreplace = array("H","SF","SF","F","F");
+$text = str_ireplace($roundnamesfind,$roundnamesreplace,$text);
 
 //Replace all gaps between slashes with single slashes
 $text = str_replace("\\","/",$text);
