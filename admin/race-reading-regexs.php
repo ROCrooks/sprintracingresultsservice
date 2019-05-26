@@ -1,7 +1,7 @@
 <?php
 $regex['boats'] = '(^[kcv][124])i';
 $regex['distance'] = '([0-9][km])i';
-$regex['round'] = '([s*f*h*][0-9])';
+$regex['round'] = '([s*f*h*][0-9])i';
 $regex['raceno'] = '(^[0-9]$)';
 $regex['paddler'] = '([a-z])i';
 $regex['positionandlane'] = '(^[0-9] [0-9] )';
