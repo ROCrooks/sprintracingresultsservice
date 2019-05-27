@@ -11,22 +11,6 @@ function raceformbox($label,$name,$content,$size)
   return $html;
   }
 
-$racedetails = array("Distance"=>"1000","defCK"=>"K","Boat"=>"4","Draw"=>"0","Round"=>"F","RaceName"=>"GIRLS A","defMW"=>"W","defJSV"=>"J");
-$allpaddlerdetails = array();
-$allpaddlerdetails[0] = array("Time"=>"4:22.95","NR"=>"","Position"=>"1","Lane"=>"5","Club"=>"WCS","Crew"=>"ROWLANDS/HOLMES/FERGUSON/COLLINS","JSV"=>"J","MW"=>"W","CK"=>"K");
-$allpaddlerdetails[1] = array("Time"=>"4:29.68","NR"=>"","Position"=>"2","Lane"=>"3","Club"=>"WCS","Crew"=>"R. BEER/R. AYRES/R. MIDDLEHURST/R. CHURNSIDE","JSV"=>"J","MW"=>"W","CK"=>"K");
-$allpaddlerdetails[2] = array("Time"=>"4:37.17","NR"=>"","Position"=>"3","Lane"=>"2","Club"=>"ELM","Crew"=>"R. WILLIAMS/R. ILLINESI/R. DE-FERRER/R. O-CALLAGHAN","JSV"=>"J","MW"=>"W","CK"=>"K");
-$allpaddlerdetails[3] = array("Time"=>"4:38.64","NR"=>"","Position"=>"4","Lane"=>"7","Club"=>"LBZ/LBZ/LBZ/TRU","Crew"=>"R. OXTOBY/R. OXTOBY/R. DOUGALL/R. HARRIS","JSV"=>"J","MW"=>"W","CK"=>"K");
-$allpaddlerdetails[4] = array("Time"=>"4:52.41","NR"=>"","Position"=>"5","Lane"=>"6","Club"=>"BAS/BAS/BAS/BOA","Crew"=>"R. SMITH/R. SMITH/R. SIMMONS/R. ILLIDGE","JSV"=>"J","MW"=>"W","CK"=>"K");
-$allpaddlerdetails[5] = array("Time"=>"4:55.78","NR"=>"","Position"=>"6","Lane"=>"1","Club"=>"WEY","Crew"=>"R. CHILDERSTONE/R. CROUCHER R HAWS/R. THOMAS","JSV"=>"J","MW"=>"W","CK"=>"K");
-$allpaddlerdetails[6] = array("Time"=>"5:00.47","NR"=>"","Position"=>"7","Lane"=>"4","Club"=>"LBZ/LBZ/LBZ/BAN","Crew"=>"R. HUSSEY/R. ROONEY/R. CREAMER/R. WOOD","JSV"=>"J","MW"=>"W","CK"=>"K");
-
-//Get the first race from the file
-$racefile = "clean-results.txt";
-$racetext = file_get_contents($racefile);
-$racetext = explode("Race:",$racetext);
-$racetext = $racetext[1];
-
 //Containter for the form HTML
 $formhtml = "";
 
@@ -107,6 +91,4 @@ $paddlerdetailshtml = $paddlerdetailshtml . '</div>';
 $manualformhtml = '<form><p>Race Details</p>' . $racedetailshtml . "<p>Paddler Details</p>" . $paddlerdetailshtml . '</form>';
 $textformhtml = '<form><textarea rows="10" cols="45">' . $racetext . '</textarea></form>';
 $addpaddlerformhtml = "<p>Manually Add</p>" . $manualformhtml . "<p>Amend the Text</p>" . $textformhtml;
-
-echo $addpaddlerformhtml;
 ?>

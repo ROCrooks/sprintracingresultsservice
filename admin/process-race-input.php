@@ -1,24 +1,20 @@
 <?php
 include 'race-reading-regexs.php';
 
-$text = file_get_contents("clean-results.txt");
-$text = explode("Race:",$text);
-$text = $text[6];
-
 //Turn the segment of text into an array of lines
-$text = explode("\n",$text);
+$racetext = explode("\n",$racetext);
 
 //Get the first lines of each paddler
 $firstlines = array();
-$poslanes = preg_grep($regex['positionandlane'],$text);
-foreach ($poslanes as $linekey=>$line)
+$poslanes = preg_grep($regex['positionandlane'],$racetext);
+foreach ($poslanes as $racelinekey=>$raceline)
   {
-  array_push($firstlines,$linekey);
+  array_push($firstlines,$racelinekey);
   }
-$onenumber = preg_grep($regex['positionorlane'],$text);
-foreach ($onenumber as $linekey=>$line)
+$onenumber = preg_grep($regex['positionorlane'],$racetext);
+foreach ($onenumber as $racelinekey=>$raceline)
   {
-  array_push($firstlines,$linekey);
+  array_push($firstlines,$racelinekey);
   }
 
 //Merge line into a standard of 1 line for race info with subsequent lines for paddlers
@@ -26,10 +22,10 @@ $firstlinekey = 0;
 $racerkey = $firstlines[$firstlinekey];
 $firstlinekey++;
 $mergekey = 0;
-foreach($text as $textkey=>$line)
+foreach($racetext as $racetextkey=>$raceline)
   {
   //Specify keys for merging lines
-  if ($textkey == $racerkey)
+  if ($racetextkey == $racerkey)
     {
     $mergekey = $racerkey;
     if (isset($firstlines[$firstlinekey]) == true)
@@ -41,10 +37,10 @@ foreach($text as $textkey=>$line)
     }
 
   //Merge lines where needed
-  if ($textkey != $mergekey)
+  if ($racetextkey != $mergekey)
     {
-    $text[$mergekey] = $text[$mergekey] . " " . $line;
-    unset($text[$textkey]);
+    $racetext[$mergekey] = $racetext[$mergekey] . " " . $raceline;
+    unset($racetext[$racetextkey]);
     }
   }
 
@@ -56,15 +52,15 @@ $allpaddlerdetails = array();
 $faultsfind = array(" / ","//");
 $faultsreplace = array("/","/");
 
-foreach($text as $textkey=>$line)
+foreach($racetext as $racetextkey=>$raceline)
   {
-  $line = strtoupper($line);
-  if ($textkey == 0)
+  $raceline = strtoupper($raceline);
+  if ($racetextkey == 0)
     {
-    $line = explode(" ", $line);
+    $raceline = explode(" ",$raceline);
 
     //Get distance from details line
-    $distances = preg_grep($regex['distance'],$line);
+    $distances = preg_grep($regex['distance'],$raceline);
     if (count($distances) == 1)
       {
       $distance = reset($distances);
@@ -79,7 +75,7 @@ foreach($text as $textkey=>$line)
         $distance = str_ireplace($chars,"",$distance);
 
       $distancekey = key($distances);
-      unset($line[$distancekey]);
+      unset($raceline[$distancekey]);
 
       $racedetails['Distance'] = $distance;
       }
@@ -87,7 +83,7 @@ foreach($text as $textkey=>$line)
       $racedetails['Distance'] = "";
 
     //Get boats from details line
-    $boats = preg_grep($regex['boats'],$line);
+    $boats = preg_grep($regex['boats'],$raceline);
     $boatclasses = array();
     $boatsizes = array();
     foreach ($boats as $boatskey=>$boatname)
@@ -96,7 +92,7 @@ foreach($text as $textkey=>$line)
       array_push($boatclasses,$boatname[0]);
       array_push($boatsizes,$boatname[1]);
 
-      unset($line[$boatskey]);
+      unset($raceline[$boatskey]);
       }
     //If unique
     $boatclasses = array_unique($boatclasses);
@@ -107,7 +103,7 @@ foreach($text as $textkey=>$line)
       $racedetails['Boat'] = $boatsizes[0];
 
     //Format round and draw
-    $rounds = preg_grep($regex['round'],$line);
+    $rounds = preg_grep($regex['round'],$raceline);
     if (count($rounds) == 1)
       {
       $round = reset($rounds);
@@ -116,12 +112,12 @@ foreach($text as $textkey=>$line)
       $racedetails['Round'] = substr($round,0,1);
 
       $roundkey = key($rounds);
-      unset($line[$roundkey]);
+      unset($raceline[$roundkey]);
       }
-    elseif (in_array("F",$line) !== false)
+    elseif (in_array("F",$raceline) !== false)
       {
-      $roundkey = array_search("F",$line);
-      unset($line[$roundkey]);
+      $roundkey = array_search("F",$raceline);
+      unset($raceline[$roundkey]);
       $racedetails['Draw'] = 0;
       $racedetails['Round'] = "F";
       }
@@ -132,11 +128,18 @@ foreach($text as $textkey=>$line)
       }
 
     //Unset empty lines
-    unset($line[0]);
-    if (is_numeric($line[1]) == true)
-      unset($line[1]);
+    unset($raceline[0]);
+    if (is_numeric($raceline[1]) == true)
+      unset($raceline[1]);
 
-    $racedetails['RaceName'] = implode(" ",$line);
+    $racedetails['RaceName'] = implode(" ",$raceline);
+
+    if ($racedetails['defCK'] == "K")
+      $racedetails['RaceName'] = $racedetails['RaceName'] . " K";
+    elseif ($racedetails['defCK'] == "C")
+      $racedetails['RaceName'] = $racedetails['RaceName'] . " C";
+    else
+      $racedetails['RaceName'] = $racedetails['RaceName'] . " C/K";
 
     //Read the race classes to work out what sort of race it is
     include 'race-classes.php';
@@ -145,39 +148,39 @@ foreach($text as $textkey=>$line)
     {
     $paddlerdetails = array("Time"=>0,"NR"=>"");
 
-    $line = str_replace($faultsfind,$faultsreplace,$line);
+    $raceline = str_replace($faultsfind,$faultsreplace,$raceline);
     $notfinishing = array("dsq","???","dnf","dns"," err");
-    str_ireplace($notfinishing,$notfinishing,$line,$notfinishingcount);
-    if (($notfinishingcount > 0) AND (preg_match($regex['positionorlane'],$line) == true))
-      $line = "0 " . $line;
-    elseif (($notfinishingcount == 0) AND (preg_match($regex['positionorlane'],$line) == true))
+    str_ireplace($notfinishing,$notfinishing,$raceline,$notfinishingcount);
+    if (($notfinishingcount > 0) AND (preg_match($regex['positionorlane'],$raceline) == true))
+      $raceline = "0 " . $raceline;
+    elseif (($notfinishingcount == 0) AND (preg_match($regex['positionorlane'],$raceline) == true))
       {
-      $line = explode(" ",$line);
-      $line[-1] = $line[0];
-      $line[0] = "0";
-      ksort($line);
-      $line = implode(" ",$line);
+      $raceline = explode(" ",$raceline);
+      $raceline[-1] = $raceline[0];
+      $raceline[0] = "0";
+      ksort($raceline);
+      $raceline = implode(" ",$raceline);
       }
 
-    $line = explode(" ",$line);
+    $raceline = explode(" ",$raceline);
 
     //Extract time from line
-    $regulartime = preg_grep($regex['regulartime'],$line);
-    $shorttime = preg_grep($regex['shorttime'],$line);
-    $longtime = preg_grep($regex['longtime'],$line);
+    $regulartime = preg_grep($regex['regulartime'],$raceline);
+    $shorttime = preg_grep($regex['shorttime'],$raceline);
+    $longtime = preg_grep($regex['longtime'],$raceline);
 
     //Find time or no result
     if (count($regulartime) > 0)
       {
       $paddlerdetails['Time'] = reset($regulartime);
       $timekey = key($regulartime);
-      unset($line[$timekey]);
+      unset($raceline[$timekey]);
       }
     elseif (count($shorttime) > 0)
       {
       $paddlerdetails['Time'] = reset($shorttime);
       $timekey = key($shorttime);
-      unset($line[$timekey]);
+      unset($raceline[$timekey]);
       }
     elseif (count($longtime) > 0)
       {
@@ -186,46 +189,46 @@ foreach($text as $textkey=>$line)
       //Reformat the long time format used for long distance races
       $time = $time[0] . ":" . $time[1] . "." . $time[2];
       $timekey = key($longtime);
-      unset($line[$timekey]);
+      unset($raceline[$timekey]);
       }
     elseif ($notfinishingcount > 0)
       {
       //Format different forms of no result
-      if (in_array("DNF",$line) !== false)
+      if (in_array("DNF",$raceline) !== false)
         {
-        $nrkey = array_search("DNF",$line);
+        $nrkey = array_search("DNF",$raceline);
         $paddlerdetails['NR'] = "DNF";
-        unset($line[$nrkey]);
+        unset($raceline[$nrkey]);
         }
-      elseif (in_array("DNS",$line) !== false)
+      elseif (in_array("DNS",$raceline) !== false)
         {
-        $nrkey = array_search("DNS",$line);
+        $nrkey = array_search("DNS",$raceline);
         $paddlerdetails['NR'] = "DNS";
-        unset($line[$nrkey]);
+        unset($raceline[$nrkey]);
         }
-      elseif (in_array("DSQ",$line) !== false)
+      elseif (in_array("DSQ",$raceline) !== false)
         {
-        $nrkey = array_search("DSQ",$line);
+        $nrkey = array_search("DSQ",$raceline);
         $paddlerdetails['NR'] = "DSQ";
-        unset($line[$nrkey]);
+        unset($raceline[$nrkey]);
         }
-      elseif (in_array("DISQ",$line) !== false)
+      elseif (in_array("DISQ",$raceline) !== false)
         {
-        $nrkey = array_search("DISQ",$line);
+        $nrkey = array_search("DISQ",$raceline);
         $paddlerdetails['NR'] = "DSQ";
-        unset($line[$nrkey]);
+        unset($raceline[$nrkey]);
         }
-      elseif (in_array("???",$line) !== false)
+      elseif (in_array("???",$raceline) !== false)
         {
-        $nrkey = array_search("???",$line);
+        $nrkey = array_search("???",$raceline);
         $paddlerdetails['NR'] = "???";
-        unset($line[$nrkey]);
+        unset($raceline[$nrkey]);
         }
-      elseif (in_array("ERR",$line) !== false)
+      elseif (in_array("ERR",$raceline) !== false)
         {
-        $nrkey = array_search("ERR",$line);
+        $nrkey = array_search("ERR",$raceline);
         $paddlerdetails['NR'] = "ERR";
-        unset($line[$nrkey]);
+        unset($raceline[$nrkey]);
         }
       }
 
@@ -234,20 +237,20 @@ foreach($text as $textkey=>$line)
       $paddlerdetails['NR'] = "???";
 
     //Get position, lane and club
-    $paddlerdetails['Position'] = $line[0];
-    $paddlerdetails['Lane'] = $line[1];
-    $masterclub = $line[2];
-    unset($line[0]);
-    unset($line[1]);
-    unset($line[2]);
+    $paddlerdetails['Position'] = $raceline[0];
+    $paddlerdetails['Lane'] = $raceline[1];
+    $masterclub = $raceline[2];
+    unset($raceline[0]);
+    unset($raceline[1]);
+    unset($raceline[2]);
 
     //Explode line by paddler
-    $line = implode(" ",$line);
-    $line = explode("/",$line);
+    $raceline = implode(" ",$raceline);
+    $raceline = explode("/",$raceline);
 
     $allclubs = array();
     $allpaddlers = array();
-    foreach($line as $paddler)
+    foreach($raceline as $paddler)
       {
       //Remove leading and trailing spaces from paddler name
       while (substr($paddler,0,1) == " ")
@@ -295,8 +298,4 @@ foreach($text as $textkey=>$line)
     array_push($allpaddlerdetails,$paddlerdetails);
     }
   }
-
-print_r($racedetails);
-echo "<br>";
-print_r($allpaddlerdetails);
 ?>
