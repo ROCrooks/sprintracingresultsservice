@@ -238,7 +238,11 @@ foreach($racetext as $racetextkey=>$raceline)
 
     //Get position, lane and club
     $paddlerdetails['Position'] = $raceline[0];
-    $paddlerdetails['Lane'] = $raceline[1];
+    if ($racedetails['Distance'] > 1000)
+      $paddlerdetails['Lane'] = 0;
+    else
+      $paddlerdetails['Lane'] = $raceline[1];
+
     $masterclub = $raceline[2];
     unset($raceline[0]);
     unset($raceline[1]);
