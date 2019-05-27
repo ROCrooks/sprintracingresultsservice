@@ -78,7 +78,10 @@ foreach ($allpaddlerdetails as $paddlerdetails)
     array_push($errorlist,"Invalid no result code specified");
     }
 
-  if ((strlen($paddlerdetails['Club']) == 3) OR ((strlen($paddlerdetails['Club']) != 7) AND ($racedetails['Boat'] == 2)) OR ((strlen($paddlerdetails['Club']) != 15) AND ($racedetails['Boat'] == 4)))
+  if ((strlen($paddlerdetails['Club']) == 3) OR ((strlen($paddlerdetails['Club']) == 7) AND ($racedetails['Boat'] == 2)) OR ((strlen($paddlerdetails['Club']) == 15) AND ($racedetails['Boat'] == 4)))
+    {
+    }
+  else
     {
     $raceerror = true;
     array_push($errorlist,"Invalid club code specified");
