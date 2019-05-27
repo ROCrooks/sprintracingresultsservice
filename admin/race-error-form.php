@@ -14,6 +14,7 @@ function raceformbox($label,$name,$content,$size)
 //Containter for the form HTML
 $formhtml = "";
 
+//Make the race details part of the form
 $racedetailshtml = array();
 $racedetailshtml['Distance'] = raceformbox("Distance","Distance",$racedetails['Distance'],2);
 $racedetailshtml['Boat'] = raceformbox("Boat","Boat",$racedetails['Boat'],1);
