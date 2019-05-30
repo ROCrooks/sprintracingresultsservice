@@ -89,7 +89,12 @@ foreach($allpaddlerdetails as $paddlerdetails)
   }
 $paddlerdetailshtml = $paddlerdetailshtml . '</div>';
 
+//Format error list
+$errorlist = implode("<br>",$errorlist);
+$errorlist = "<p>Errors found! Please clarify.</p><p>- " . $errorlist . "</p>";
+
+//Format form HTML
 $manualformhtml = '<form><p>Race Details</p>' . $racedetailshtml . "<p>Paddler Details</p>" . $paddlerdetailshtml . '</form>';
 $textformhtml = '<form><textarea rows="10" cols="45">' . $racetext . '</textarea></form>';
-$addpaddlerformhtml = "<p>Manually Add</p>" . $manualformhtml . "<p>Amend the Text</p>" . $textformhtml;
+$addpaddlerformhtml = $errorlist . "<p>Manually Add</p>" . $manualformhtml . "<p>Amend the Text</p>" . $textformhtml;
 ?>
