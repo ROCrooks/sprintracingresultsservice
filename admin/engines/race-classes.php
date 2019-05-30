@@ -31,9 +31,14 @@ foreach ($menwords as $word)
   if (strpos($racedetails['RaceName'],$word) !== false)
     {
     //Extra check as Master will also find WMaster
-    if ($word == "Master")
+    if ($word == "MASTER")
       {
-      if (strpos($racedetails['RaceName'],"WMaster") !== false)
+      if (strpos($racedetails['RaceName'],"WMASTER") === false)
+        $mwflags['M']++;
+      }
+    elseif ($word == "MEN")
+      {
+      if (strpos($racedetails['RaceName'],"WOMEN") === false)
         $mwflags['M']++;
       }
     else

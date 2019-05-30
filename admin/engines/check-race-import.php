@@ -1,4 +1,5 @@
 <?php
+/*
 $racedetails = array("Distance"=>"200","defCK"=>"K","Boat"=>"1","Draw"=>"1","Round"=>"F","RaceName"=>"MEN OPEN (INC U23) K","defMW"=>"M","defJSV"=>"S");
 $allpaddlerdetails = array();
 $allpaddlerdetails[0] = array("Time"=>"35.41","NR"=>"","Position"=>"1","Lane"=>"5","Club"=>"WEY","Crew"=>"L. HEATH","JSV"=>"S","MW"=>"M","CK"=>"K");
@@ -10,6 +11,7 @@ $allpaddlerdetails[5] = array("Time"=>"37.14","NR"=>"","Position"=>"6","Lane"=>"
 $allpaddlerdetails[6] = array("Time"=>"37.56","NR"=>"","Position"=>"7","Lane"=>"8","Club"=>"CDF","Crew"=>"M. ROBINSON","JSV"=>"S","MW"=>"M","CK"=>"K");
 $allpaddlerdetails[7] = array("Time"=>"37.67","NR"=>"","Position"=>"8","Lane"=>"9","Club"=>"RDG","Crew"=>"D. ATKINS","JSV"=>"S","MW"=>"M","CK"=>"K");
 $allpaddlerdetails[8] = array("Time"=>"38.67","NR"=>"","Position"=>"9","Lane"=>"1","Club"=>"LEA","Crew"=>"N. DEMBELE","JSV"=>"S","MW"=>"M","CK"=>"K");
+*/
 
 //A list of errors
 $errorlist = array();
@@ -31,7 +33,7 @@ if (in_array($racedetails['Round'],$legalrounds) === false)
   }
 
 //Check that the draw is legal
-if (($racedetails['Round'] != "F") AND ($racedetails['Round'] == 0))
+if (($racedetails['Round'] != "F") AND ($racedetails['Draw'] == 0))
   {
   $raceerror = true;
   array_push($errorlist,"Draw missing from a round that needs one");
@@ -72,7 +74,7 @@ foreach ($allpaddlerdetails as $paddlerdetails)
     }
 
   //Check NR is legal
-  if ((in_array($paddlerdetails['NR'],$legalck) === false) AND ($paddlerdetails['Time'] == 0))
+  if ((in_array($paddlerdetails['NR'],$legalnrs) === false) AND ($paddlerdetails['Time'] == 0))
     {
     $raceerror = true;
     array_push($errorlist,"Invalid no result code specified");
@@ -87,4 +89,6 @@ foreach ($allpaddlerdetails as $paddlerdetails)
     array_push($errorlist,"Invalid club code specified");
     }
   }
+
+$errorlist = array_unique($errorlist);
 ?>

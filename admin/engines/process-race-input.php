@@ -138,6 +138,8 @@ foreach($racetext as $racetextkey=>$raceline)
       $racedetails['RaceName'] = $racedetails['RaceName'] . " K";
     elseif ($racedetails['defCK'] == "C")
       $racedetails['RaceName'] = $racedetails['RaceName'] . " C";
+    elseif ($racedetails['defCK'] == "V")
+      $racedetails['RaceName'] = $racedetails['RaceName'] . " V";
     else
       $racedetails['RaceName'] = $racedetails['RaceName'] . " C/K";
 

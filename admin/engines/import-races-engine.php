@@ -12,7 +12,9 @@ $regattatext = explode("Race:",$regattatext);
 $raceerror = false;
 
 $noraces = count($regattatext);
-unset($regattatext[0]);
+//unset($regattatext[0]);
+
+
 $regattalookupkey = 1;
 while (($regattalookupkey < $noraces) AND ($raceerror == false))
   {
