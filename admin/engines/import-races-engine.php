@@ -20,8 +20,7 @@ while (($regattalookupkey < $noraces) AND ($raceerror == false))
   $racetext = $regattatext[$regattalookupkey];
   include 'process-race-input.php';
   //Check race arrays for errors
-  if ($regattalookupkey == 3)
-    $raceerror = true;
+  include 'check-race-import.php';
   //If there are no errors import race into the database
   if ($raceerror == false)
     {

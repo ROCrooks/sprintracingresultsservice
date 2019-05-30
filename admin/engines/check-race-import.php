@@ -87,10 +87,4 @@ foreach ($allpaddlerdetails as $paddlerdetails)
     array_push($errorlist,"Invalid club code specified");
     }
   }
-
-print_r($racedetails);
-echo "<br>";
-print_r($allpaddlerdetails);
-echo "<br>";
-print_r($errorlist);
 ?>
