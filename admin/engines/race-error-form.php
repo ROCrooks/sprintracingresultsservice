@@ -34,6 +34,7 @@ $widths['JSV'] = 50;
 $widths['MW'] = 50;
 $widths['CK'] = 50;
 
+//Field sizes for form
 $sizes = array();
 $sizes['Position'] = 1;
 $sizes['Lane'] = 1;
@@ -94,7 +95,7 @@ $errorlist = implode("<br>",$errorlist);
 $errorlist = "<p>Errors found! Please clarify.</p><p>- " . $errorlist . "</p>";
 
 //Format form HTML
-$manualformhtml = '<form><p>Race Details</p>' . $racedetailshtml . "<p>Paddler Details</p>" . $paddlerdetailshtml . '</form>';
-$textformhtml = '<form><textarea rows="10" cols="45">' . $racetext . '</textarea></form>';
+$manualformhtml = '<form action="?page=ApproveRace"><p>Race Details</p>' . $racedetailshtml . "<p>Paddler Details</p>" . $paddlerdetailshtml . '<p><input type="submit" name="submitfields" value="Add Race Fields"></p></form>';
+$textformhtml = '<form action="?page=ApproveRace><p><textarea rows="10" cols="45">' . $racetext . '</textarea></p><p><input type="submit" name="submittext" value="Add Race Text"></p></form>';
 $addpaddlerformhtml = $errorlist . "<p>Manually Add</p>" . $manualformhtml . "<p>Amend the Text</p>" . $textformhtml;
 ?>
