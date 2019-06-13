@@ -1,6 +1,6 @@
 <?php
 include_once 'required-functions.php';
-
+//
 $racedetails = array("Distance"=>"200","defCK"=>"K","Boat"=>"1","Draw"=>"1","Round"=>"F","RaceName"=>"MEN OPEN (INC U23) K","defMW"=>"M","defJSV"=>"S");
 $allpaddlerdetails = array();
 $allpaddlerdetails[0] = array("Time"=>"35.41","NR"=>"","Position"=>"1","Lane"=>"5","Club"=>"WEY","Crew"=>"L. HEATH","JSV"=>"S","MW"=>"M","CK"=>"K");
@@ -62,20 +62,39 @@ foreach ($allpaddlerdetails as $paddlerdetails)
     }
   }
 
-/*
-//Create SQL statements if not already set
-
-
-
 if (isset($findclassstmt) == false)
   {
-  $findclasssql = "SELECT * FROM `autoclasses` WHERE `Class` = ?";
+  $findclasssql = "SELECT * FROM `autoclasses` WHERE `RaceName` = ?";
 	$findclassstmt = dbprepare($srrsdblink,$findclasssql);
   }
-if (isset($insertclassstmt) == false)
+
+$autoclasses = dbexecute($findclassstmt,$racedetails['RaceName']);
+$raceset = false;
+
+//Add each race class
+foreach ($autoclasses as $classadd)
   {
-  $insertclasssql = "INSERT INTO `classes` (`Race`, `JSV`, `MW`, `CK`, `Spec`, `Abil`, `Ages`, `FreeText`) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-	$insertclassstmt = dbprepare($srrsdblink,$insertclasssql);
+  if (isset($insertclassstmt) == false)
+    {
+    //Create insert class statement if not already created
+    $insertclasssql = "INSERT INTO `classes` (`Race`, `JSV`, `MW`, `CK`, `Spec`, `Abil`, `Ages`, `FreeText`) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+  	$insertclassstmt = dbprepare($srrsdblink,$insertclasssql);
+    }
+
+  $insertclassdetails = array($raceid,$classadd['JSV'],$classadd['MW'],$classadd['CK'],$classadd['Spec'],$classadd['Abil'],$classadd['Ages'],$classadd['FreeText']);
+  dbexecute($insertclassstmt,$insertclassdetails);
+
+  //Set race to class is set if not already done so
+  if ($raceset == false)
+    {
+    if (isset($setracestmt) == false)
+      {
+      $setracesql = "UPDATE `races` SET `Set` = 1 WHERE `Key` = ?";
+      $setracestmt = dbprepare($srrsdblink,$setracesql);
+      }
+
+    dbexecute($setracestmt,$raceid);
+    $raceset = true;
+    }
   }
-*/
 ?>
