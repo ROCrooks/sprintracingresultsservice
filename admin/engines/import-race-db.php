@@ -1,6 +1,7 @@
 <?php
 include_once 'required-functions.php';
-//
+/*
+//Testing code
 $racedetails = array("Distance"=>"200","defCK"=>"K","Boat"=>"1","Draw"=>"1","Round"=>"F","RaceName"=>"MEN OPEN (INC U23) K","defMW"=>"M","defJSV"=>"S");
 $allpaddlerdetails = array();
 $allpaddlerdetails[0] = array("Time"=>"35.41","NR"=>"","Position"=>"1","Lane"=>"5","Club"=>"WEY","Crew"=>"L. HEATH","JSV"=>"S","MW"=>"M","CK"=>"K");
@@ -14,6 +15,7 @@ $allpaddlerdetails[7] = array("Time"=>"37.67","NR"=>"","Position"=>"8","Lane"=>"
 $allpaddlerdetails[8] = array("Time"=>"38.67","NR"=>"","Position"=>"9","Lane"=>"1","Club"=>"LEA","Crew"=>"N. DEMBELE","JSV"=>"S","MW"=>"M","CK"=>"K");
 
 $regattaid = 1000;
+*/
 
 if (isset($racestmt) == false)
   {
