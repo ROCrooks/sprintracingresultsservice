@@ -96,6 +96,6 @@ $errorlist = "<p>Errors found! Please clarify.</p><p>- " . $errorlist . "</p>";
 
 //Format form HTML
 $manualformhtml = '<form action="?page=ApproveRace" method="post"><p>Race Details</p>' . $racedetailshtml . "<p>Paddler Details</p>" . $paddlerdetailshtml . '<p><input type="submit" name="submitfields" value="Add Race Fields"></p></form>';
-$textformhtml = '<form action="?page=ApproveRace" method="post"><p><textarea rows="10" cols="45">' . $racetext . '</textarea></p><p><input type="submit" name="submittext" value="Add Race Text"></p></form>';
+$textformhtml = '<form action="?page=ApproveRace" method="post"><p><textarea rows="10" cols="45" name="RaceText">' . $racetext . '</textarea></p><p><input type="submit" name="submittext" value="Add Race Text"></p></form>';
 $addpaddlerformhtml = $errorlist . "<p>Manually Add</p>" . $manualformhtml . "<p>Amend the Text</p>" . $textformhtml;
 ?>
