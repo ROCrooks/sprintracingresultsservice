@@ -47,6 +47,9 @@ foreach ($allpaddlerdetails as $paddlerdetails)
       $paddlertimesql = "INSERT INTO `paddlers` (`Race`, `Position`, `Lane`, `Crew`, `Club`, `Time`, `JSV`, `MW`, `CK`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
     	$paddlertimestmt = dbprepare($srrsdblink,$paddlertimesql);
       }
+    //Convert time to seconds
+    $paddlerdetails['Time'] = hmstosecs($paddlerdetails['Time']);
+
     $insertpaddlerdetails = array($raceid,$paddlerdetails['Position'],$paddlerdetails['Lane'],$paddlerdetails['Crew'],$paddlerdetails['Club'],$paddlerdetails['Time'],$paddlerdetails['JSV'],$paddlerdetails['MW'],$paddlerdetails['CK']);
     dbexecute($paddlertimestmt,$insertpaddlerdetails);
     }

@@ -7,6 +7,11 @@ $racedetails['Round'] = $_POST['Round'];
 $racedetails['Draw'] = $_POST['Draw'];
 $racedetails['RaceName'] = $_POST['RaceName'];
 
+//Get defaults for JSV, MW, CK
+$racedetails['defJSV'] = $_POST['defJSV'];
+$racedetails['defMW'] = $_POST['defMW'];
+$racedetails['defCK'] = $_POST['defCK'];
+
 //Get each paddler and commit to paddler array
 $allpaddlerdetails = array();
 $paddlerrow  = 1;
@@ -16,7 +21,6 @@ while (isset($_POST[$crewfield]) == true)
   $positionfield = $paddlerrow . "Position";
   $lanefield = $paddlerrow . "Lane";
   $clubfield = $paddlerrow . "Club";
-  $crewfield = $paddlerrow . "Crew";
   $timefield = $paddlerrow . "Time";
   $jsvfield = $paddlerrow . "JSV";
   $mwfield = $paddlerrow . "MW";
@@ -29,11 +33,34 @@ while (isset($_POST[$crewfield]) == true)
   $paddlerdetails['Club'] = $_POST[$clubfield];
   $paddlerdetails['Crew'] = $_POST[$crewfield];
   $paddlerdetails['Time'] = $_POST[$timefield];
-  $paddlerdetails['JSV'] = $_POST[$jsvfield];
-  $paddlerdetails['MW'] = $_POST[$mwfield];
-  $paddlerdetails['CK'] = $_POST[$ckfield];
+
+  //Define time and no result
+  if (($paddlerdetails['Time'] == "???") OR ($paddlerdetails['Time'] == "DNS") OR ($paddlerdetails['Time'] == "DNF") OR ($paddlerdetails['Time'] == "DSQ") OR ($paddlerdetails['Time'] == "ERR"))
+    {
+    $paddlerdetails['NR'] = $paddlerdetails['Time'];
+    $paddlerdetails['Time'] = 0;
+    }
+  else
+    $paddlerdetails['NR'] = "";
+
+  //Use defaults for JSV, MW, CK if not specified
+  if ($_POST[$jsvfield] != "")
+    $paddlerdetails['JSV'] = $_POST[$jsvfield];
+  else
+    $paddlerdetails['JSV'] = $racedetails['defJSV'];
+  if ($_POST[$mwfield] != "")
+    $paddlerdetails['MW'] = $_POST[$mwfield];
+  else
+    $paddlerdetails['MW'] = $racedetails['defMW'];
+  if ($_POST[$ckfield] != "")
+    $paddlerdetails['CK'] = $_POST[$ckfield];
+  else
+    $paddlerdetails['CK'] = $racedetails['defCK'];
+
   array_push($allpaddlerdetails,$paddlerdetails);
 
+  //Crew is defined here, due to loop
   $paddlerrow++;
+  $crewfield = $paddlerrow . "Crew";
   }
 ?>

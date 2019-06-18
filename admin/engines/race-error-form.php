@@ -11,6 +11,14 @@ function raceformbox($label,$name,$content,$size)
   return $html;
   }
 
+if (isset($racetext) == false)
+  {
+  $regattafile = "regatta" . $regattaid . ".txt";
+  $racetext = file_get_contents($regattafile);
+  $racetext = explode("Race:",$racetext);
+  $racetext = $racetext[1];
+  }
+
 //Containter for the form HTML
 $formhtml = "";
 
@@ -87,15 +95,17 @@ foreach($allpaddlerdetails as $paddlerdetails)
   $paddlerdetailshtml = $paddlerdetailshtml . '<div style="width: ' . $widths['MW'] . 'px; display: table-cell;"><input type="text" name="' . $paddlerline . 'MW" value="' . $paddlerdetails['MW'] . '" size="' . $sizes['MW'] . '"></div>';
   $paddlerdetailshtml = $paddlerdetailshtml . '<div style="width: ' . $widths['CK'] . 'px; display: table-cell;"><input type="text" name="' . $paddlerline . 'CK" value="' . $paddlerdetails['CK'] . '" size="' . $sizes['CK'] . '"></div>';
   $paddlerdetailshtml = $paddlerdetailshtml . '</div>';
+  //The line of the form for the paddler
+  $paddlerline++;
   }
 $paddlerdetailshtml = $paddlerdetailshtml . '</div>';
 
 //Format error list
 $errorlist = implode("<br>",$errorlist);
-$errorlist = "<p>Errors found! Please clarify.</p><p>- " . $errorlist . "</p>";
+$errorlist = "<p>- " . $errorlist . "</p>";
 
 //Format form HTML
-$manualformhtml = '<form action="?page=ApproveRace" method="post"><p>Race Details</p>' . $racedetailshtml . "<p>Paddler Details</p>" . $paddlerdetailshtml . '<p><input type="submit" name="submitfields" value="Add Race Fields"></p></form>';
-$textformhtml = '<form action="?page=ApproveRace" method="post"><p><textarea rows="10" cols="45" name="RaceText">' . $racetext . '</textarea></p><p><input type="submit" name="submittext" value="Add Race Text"></p></form>';
+$manualformhtml = '<form action="add-regatta.php?Regatta=' . $regattaid . '" method="post"><p>Race Details</p>' . $racedetailshtml . "<p>Paddler Details</p>" . $paddlerdetailshtml . '<p><input type="submit" name="submitfields" value="Add Race Fields"></p></form>';
+$textformhtml = '<form action="add-regatta.php?Regatta=' . $regattaid . '" method="post"><p><textarea rows="10" cols="45" name="RaceText">' . $racetext . '</textarea></p><p><input type="submit" name="submittext" value="Add Race Text"></p></form>';
 $addpaddlerformhtml = $errorlist . "<p>Manually Add</p>" . $manualformhtml . "<p>Amend the Text</p>" . $textformhtml;
 ?>

@@ -1,8 +1,8 @@
 <?php
 include 'race-reading-regexs.php';
 
-$text = "race-file.txt";
-$text = file_get_contents($text);
+//Define file to clean
+$text = file_get_contents($filename);
 
 //Find full names for rounds in the text and replace them
 $roundnamesfind = array("heat ","semi-final ","semi final ","final ","final");
@@ -68,7 +68,5 @@ foreach ($text as $textkey=>$line)
 
 //Echo text
 $text = implode("\n",$text);
-file_put_contents("clean-results.txt",$text);
-$text = str_replace("\n","<br>",$text);
-echo "<p>" . $text . "</p>";
+file_put_contents($filename,$text);
 ?>
