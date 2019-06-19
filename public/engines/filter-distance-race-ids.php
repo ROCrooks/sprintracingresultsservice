@@ -1,7 +1,7 @@
 <?php
 include_once 'required-functions.php';
 
-$findvalues = array(200,500,1000,"LD");
+$finddistances = array(200,500,1000,"LD");
 $selectas = "Group";
 
 $distanceraceids = array();
@@ -9,29 +9,29 @@ $distanceraceids = array();
 //Get race IDs for individual distances or boat sizes
 if ($selectas == "Individual")
   {
-  foreach($findvalues as $racedistance)
+  foreach($finddistances as $racedistance)
     {
     if ($racedistance != "LD")
       {
       //Create SQL statement if needed
-      if (isset($findracesstmt) == false)
+      if (isset($finddistanceracesstmt) == false)
         {
-        $findracessql = "SELECT `Key` FROM `races` WHERE `Dist` = ?";
-        $findracesstmt = dbprepare($srrsdblink,$findracessql);
+        $finddistanceracessql = "SELECT `Key` FROM `races` WHERE `Dist` = ?";
+        $finddistanceracesstmt = dbprepare($srrsdblink,$finddistanceracessql);
         }
 
-      $result = dbexecute($findracesstmt,$racedistance);
+      $result = dbexecute($finddistanceracesstmt,$racedistance);
       }
     //Prepare a different statement for long distance races
     elseif ($racedistance == "LD")
       {
-      $findracessql = "SELECT `Key` FROM `races` WHERE `Dist` > ?";
-      $findracesstmt = dbprepare($srrsdblink,$findracessql);
+      $finddistanceracessql = "SELECT `Key` FROM `races` WHERE `Dist` > ?";
+      $finddistanceracesstmt = dbprepare($srrsdblink,$finddistanceracessql);
 
-      $result = dbexecute($findracesstmt,1000);
+      $result = dbexecute($finddistanceracesstmt,1000);
 
       //Unset the statement as it is only used for long distances, and should only occur once
-      unset($findracesstmt);
+      unset($finddistanceracesstmt);
       }
 
     //Get result as a single array
@@ -44,7 +44,7 @@ if ($selectas == "Group")
   //Make distance constraints
   $distanceconstraintssql = array();
   $distanceconstraintsvalues = array();
-  foreach($findvalues as $racedistance)
+  foreach($finddistances as $racedistance)
     {
     if ($racedistance != "LD")
       {
@@ -61,8 +61,8 @@ if ($selectas == "Group")
   //Run if there are any constraints, if not return an empty array
   if (count($distanceconstraintssql) > 0)
     {
-    $findracessql = "SELECT `Key` FROM `races` WHERE " . implode(" OR ",$distanceconstraintssql);
-    $result = dbprepareandexecute($srrsdblink,$findracessql,$distanceconstraintsvalues);
+    $finddistanceracessql = "SELECT `Key` FROM `races` WHERE " . implode(" OR ",$distanceconstraintssql);
+    $result = dbprepareandexecute($srrsdblink,$finddistanceracessql,$distanceconstraintsvalues);
     $result = resulttocolumn($result,"Key");
     }
   else

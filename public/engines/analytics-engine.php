@@ -10,7 +10,13 @@ $endyear = 2018;
 
 include 'filter-distance-race-ids.php';
 
+echo "<p>Distances:</p>";
 print_r($distanceraceids);
+
+include 'filter-size-race-ids.php';
+
+echo "<p>Boat Sizes:</p>";
+print_r($sizeraceids);
 
 /*
 if ($analyticsby == "Distance")
