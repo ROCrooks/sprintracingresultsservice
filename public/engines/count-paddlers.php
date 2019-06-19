@@ -1,6 +1,15 @@
 <?php
 include_once 'required-functions.php';
 
+if (isset($countjsv) == false)
+  $countjsv = array();
+if (isset($countmw) == false)
+  $countmw = array();
+if (isset($countck) == false)
+  $countck = array();
+if (isset($club) == false)
+  $club = "";
+
 //Default count
 $paddlerseatssql = "SELECT COUNT(*) FROM `paddlers` ";
 
@@ -9,20 +18,23 @@ $paddlerconstraints = array();
 
 //Add constraints to paddler query if specified
 //Raceids are used to select races (and from that paddlers) that meet boat size, distance or race class
-if ($jsv != "")
+if (count($countjsv) > 0)
   {
-  array_push($paddlersqltext,"`JSV` = ?");
-  array_push($paddlerconstraints,$jsv);
+  $sqlconstraint = elementlisttoconstraint($countjsv,"JSV");
+  $paddlerconstraints = array_merge($paddlerconstraints,$sqlconstraint['SQLValues']);
+  array_push($paddlersqltext,$sqlconstraint['SQLText']);
   }
-if ($mw != "")
+if (count($countmw) > 0)
   {
-  array_push($paddlersqltext,"`MW` = ?");
-  array_push($paddlerconstraints,$mw);
+  $sqlconstraint = elementlisttoconstraint($countmw,"MW");
+  $paddlerconstraints = array_merge($paddlerconstraints,$sqlconstraint['SQLValues']);
+  array_push($paddlersqltext,$sqlconstraint['SQLText']);
   }
-if ($ck != "")
+if (count($countck) > 0)
   {
-  array_push($paddlersqltext,"`CK` = ?");
-  array_push($paddlerconstraints,$ck);
+  $sqlconstraint = elementlisttoconstraint($countck,"CK");
+  $paddlerconstraints = array_merge($paddlerconstraints,$sqlconstraint['SQLValues']);
+  array_push($paddlersqltext,$sqlconstraint['SQLText']);
   }
 if ($club != "")
   {
@@ -35,6 +47,8 @@ if (count($raceids) > 0)
   array_push($paddlersqltext,$raceidssql['SQLText']);
   $paddlerconstraints = array_merge($paddlerconstraints,$raceidssql['SQLValues']);
   }
+
+//Combine the constraints into the SQL query
 if (count($paddlersqltext) > 0)
   {
   $paddlersqltext = implode(" AND ",$paddlersqltext);

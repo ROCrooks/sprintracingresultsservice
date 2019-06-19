@@ -210,7 +210,7 @@ function elementlisttoconstraint($list,$field)
     $valueslist = array();
     }
 
-  $output = array("SQLText"=>$constraintlist,"SQLValues"=>$valuelist);
+  $output = array("SQLText"=>$constraintlist,"SQLValues"=>$valueslist);
   Return $output;
   }
 //---FunctionBreak---

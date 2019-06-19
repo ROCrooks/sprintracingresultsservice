@@ -8,15 +8,18 @@ $analyticsck = array("C","K");
 $startyear = 2018;
 $endyear = 2018;
 
+//Get the distance and boat size constraints
 include 'filter-distance-race-ids.php';
 
 echo "<p>Distances:</p>";
-print_r($distanceraceids);
+//print_r($distanceraceids);
 
 include 'filter-size-race-ids.php';
 
 echo "<p>Boat Sizes:</p>";
-print_r($sizeraceids);
+//print_r($sizeraceids);
+
+include 'seats-year.php';
 
 /*
 if ($analyticsby == "Distance")

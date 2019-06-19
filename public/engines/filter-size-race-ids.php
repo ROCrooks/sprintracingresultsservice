@@ -1,7 +1,7 @@
 <?php
 include_once 'required-functions.php';
 
-$findsizes = array(1,2,4);
+$findsizes = array(1,2);
 $selectas = "Individual";
 
 $sizeraceids = array();
