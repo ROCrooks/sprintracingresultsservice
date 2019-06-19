@@ -1,9 +1,6 @@
 <?php
 include_once 'required-functions.php';
 
-$findsizes = array(1,2);
-$selectas = "Individual";
-
 $sizeraceids = array();
 
 //Get race IDs for individual boat sizes

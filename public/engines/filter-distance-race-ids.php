@@ -1,9 +1,6 @@
 <?php
 include_once 'required-functions.php';
 
-$finddistances = array(200,500,1000,"LD");
-$selectas = "Group";
-
 $distanceraceids = array();
 
 //Get race IDs for individual distances or boat sizes

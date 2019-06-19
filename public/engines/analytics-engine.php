@@ -1,24 +1,25 @@
 <?php
-$analyticsby = "All";
+$analyticsby = "Distance";
 $analyticsboatsizes = array(1,2,4);
 $analyticsdistances = array(200,500,1000,"LD");
 $analyticsjsv = array("J","S","V");
 $analyticsmw = array("M","W");
-$analyticsck = array("C","K");
+$analyticsck = array("C","K","V","P");
 $startyear = 2018;
 $endyear = 2018;
 
 //Get the distance and boat size constraints
+//Choose whether to get all distances together or separately
+$finddistances = $analyticsdistances;
+if ($analyticsby == "Distance")
+  $selectas = "Individual";
+else
+  $selectas = "All";
 include 'filter-distance-race-ids.php';
-
-echo "<p>Distances:</p>";
-//print_r($distanceraceids);
-
+$findsizes = $analyticsboatsizes;
 include 'filter-size-race-ids.php';
 
-echo "<p>Boat Sizes:</p>";
-//print_r($sizeraceids);
-
+$year = 2018;
 include 'seats-year.php';
 
 /*
