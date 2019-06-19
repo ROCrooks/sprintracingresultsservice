@@ -177,4 +177,41 @@ function makesqlrange($integers,$fieldname)
   Return $output;
   }
 //---FunctionBreak---
+/*Turn a list of values into a set of OR constraints
+
+$list is the list of values
+$field is the name of the field
+
+Output is an array of ['SQLText'] which can be concatenated into the SQL, and
+['SQLValues'] is an array of values that can be merged into the*/
+//---DocumentationBreak---
+function elementlisttoconstraint($list,$field)
+  {
+  if (count($list) > 0)
+    {
+    $constraintlist = array();
+    $valueslist = array();
+
+    //Add all values to the constraint list
+    foreach($list as $item)
+      {
+      $query = "`" . $field . "` = ?";
+
+      array_push($constraintlist,$query);
+      array_push($valueslist,$item);
+      }
+
+    $constraintlist = implode(" OR ",$constraintlist);
+    $constraintlist = "(" . $constraintlist . ")";
+    }
+  else
+    {
+    $constraintlist = "";
+    $valueslist = array();
+    }
+
+  $output = array("SQLText"=>$constraintlist,"SQLValues"=>$valuelist);
+  Return $output;
+  }
+//---FunctionBreak---
 ?>
