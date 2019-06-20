@@ -118,6 +118,13 @@ if ($analyticsby == "Distance")
     $searchfours = $searchfourskeep;
     }
   }
+if ($analyticsby == "BoatSize")
+  {
+  include 'count-seats.php';
+  $yeardata["Singles"] = $singlespaddlers;
+  $yeardata["Doubles"] = $doublespaddlers;
+  $yeardata["Fours"] = $fourspaddlers;
+  }
 
 print_r($yeardata);
 ?>

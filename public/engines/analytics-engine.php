@@ -1,5 +1,5 @@
 <?php
-$analyticsby = "Distance";
+$analyticsby = "BoatSize";
 $analyticsboatsizes = array(1,2,4);
 $analyticsdistances = array(200,500,1000,"LD");
 $analyticsjsv = array("J","S","V");
@@ -19,9 +19,12 @@ include 'filter-distance-race-ids.php';
 $findsizes = $analyticsboatsizes;
 include 'filter-size-race-ids.php';
 
-$year = 2018;
-include 'seats-year.php';
 
+$year = $startyear
+while ($year <= $endyear)
+  {
+  include 'seats-year.php';
+  }
 /*
 if ($analyticsby == "Distance")
   {
