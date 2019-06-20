@@ -1,7 +1,7 @@
 <?php
 include_once 'required-functions.php';
 
-$yeardata = array();
+$yeardata = array("Year"=>$year);
 
 //Get all the race IDs from the year specified
 include 'filter-year-regatta-ids.php';
@@ -125,6 +125,4 @@ if ($analyticsby == "BoatSize")
   $yeardata["Doubles"] = $doublespaddlers;
   $yeardata["Fours"] = $fourspaddlers;
   }
-
-print_r($yeardata);
 ?>

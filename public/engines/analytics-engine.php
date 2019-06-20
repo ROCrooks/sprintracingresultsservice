@@ -5,7 +5,7 @@ $analyticsdistances = array(200,500,1000,"LD");
 $analyticsjsv = array("J","S","V");
 $analyticsmw = array("M","W");
 $analyticsck = array("C","K","V","P");
-$startyear = 2018;
+$startyear = 2007;
 $endyear = 2018;
 
 //Get the distance and boat size constraints
@@ -19,12 +19,17 @@ include 'filter-distance-race-ids.php';
 $findsizes = $analyticsboatsizes;
 include 'filter-size-race-ids.php';
 
-
-$year = $startyear
+//Conduct analytics by year
+$analyticsdata = array();
+$year = $startyear;
 while ($year <= $endyear)
   {
   include 'seats-year.php';
+  array_push($analyticsdata,$yeardata);
+  $year++;
   }
+
+print_r($analyticsdata);
 /*
 if ($analyticsby == "Distance")
   {
