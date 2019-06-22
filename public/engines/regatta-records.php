@@ -180,6 +180,4 @@ foreach ($distanceraceids as $distance=>$specificdistanceraceids)
       }
     }
   }
-
-print_r($allrecords);
 ?>
