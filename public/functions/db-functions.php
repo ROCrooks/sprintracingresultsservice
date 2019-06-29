@@ -185,22 +185,20 @@ $field is the name of the field
 Output is an array of ['SQLText'] which can be concatenated into the SQL, and
 ['SQLValues'] is an array of values that can be merged into the*/
 //---DocumentationBreak---
-function elementlisttoconstraint($list,$field)
+function elementlisttoconstraint($list,$field,$table=false)
   {
-  if (count($list) > 0)
+	$numberofconstraints = count($list);
+
+  if ($numberofconstraints > 0)
     {
-    $constraintlist = array();
-    $valueslist = array();
+    //If a table is specified add the table to the SQL
+    if ($table != false)
+			$query = "`" . $field . "` = ?";
+		else
+			$query = $table . ".`" . $field . "` = ?";
 
-    //Add all values to the constraint list
-    foreach($list as $item)
-      {
-      $query = "`" . $field . "` = ?";
-
-      array_push($constraintlist,$query);
-      array_push($valueslist,$item);
-      }
-
+		$constraintlist = array_fill(0,$numberofconstraints,$query);
+		
     $constraintlist = implode(" OR ",$constraintlist);
     $constraintlist = "(" . $constraintlist . ")";
     }
@@ -210,7 +208,7 @@ function elementlisttoconstraint($list,$field)
     $valueslist = array();
     }
 
-  $output = array("SQLText"=>$constraintlist,"SQLValues"=>$valueslist);
+  $output = array("SQLText"=>$constraintlist,"SQLValues"=>$list);
   Return $output;
   }
 //---FunctionBreak---
