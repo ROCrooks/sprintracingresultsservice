@@ -24,7 +24,7 @@ if (($analyticsby != "Distance") AND ((in_array(200,$analyticsdistances) == fals
     {
     //Convert LD tag to > 1000 constraint
     unset($analyticsdistances[$ldkey]);
-    $distancessql = elementlisttoconstraint($analyticsdistances,"Dist","r");
+    $distancessql = elementlisttoconstraint($analyticsdistances,"Dist");
     $distancessql['SQLText'] = str_replace(")"," OR `Dist` > 1000)",$distancessql['SQLText']);
     }
   else
@@ -85,6 +85,7 @@ if ($analyticsby == "Distance")
   //Create the SQL for searching for
   if (in_array("LD",$analyticsdistances) == true)
     $longdistancepaddlerfindsql = str_replace("r.`Dist` = ?","r.`Dist` > 1000",$paddlerfindsql);
+  echo $longdistancepaddlerfindsql . "<br>";
   }
 //Add the constraint to search by JSV in each year
 elseif ($analyticsby == "JSV")
@@ -104,10 +105,4 @@ elseif ($analyticsby == "CK")
 
 //Attach boat size to query
 $paddlerfindsql = $paddlerfindsql . " AND r.`Boat` = ?";
-$analyticsstmt = dbprepare($srrsdblink,$paddlerfindsql);
-if (isset($paddlerfindsql) == true)
-  {
-  $longdistancepaddlerfindsql = $longdistancepaddlerfindsql . " AND r.`Boat` = ?";
-  $analyticslongstmt = dbprepare($srrsdblink,$longdistancepaddlerfindsql);
-  }
 ?>
