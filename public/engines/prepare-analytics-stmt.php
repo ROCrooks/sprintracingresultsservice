@@ -1,19 +1,6 @@
 <?php
 include_once 'required-functions.php';
 
-//These variables will be parsed to the working script
-$analyticsby = "All";
-
-$classsearch = false;
-
-$analyticsboatsizes = array(1,2,4);
-$analyticsdistances = array(200,500,1000,"LD");
-$analyticsjsv = array("J","S","V");
-$analyticsmw = array("M","W");
-$analyticsck = array("C","K","V","P","T");
-$startyear = 2007;
-$endyear = 2018;
-
 //Containter to store the values
 $baseconstraintvalues = array();
 
@@ -47,7 +34,7 @@ if (($analyticsby != "Distance") AND ((in_array(200,$analyticsdistances) == fals
   $distancessql['SQLText'] = str_replace("`Dist`","p.`Dist`",$distancessql['SQLText']);
 
   //Add the distance to the query and base values
-  $paddlerfindsql = $paddlerfindsql . " " . $distancessql['SQLText'] . " AND ";
+  $paddlerfindsql = $paddlerfindsql . " " . $distancessql['SQLText'] . " AND";
   $baseconstraintvalues = array_merge($baseconstraintvalues,$distancessql['SQLValues']);
   }
 
@@ -55,7 +42,7 @@ if (($analyticsby != "Distance") AND ((in_array(200,$analyticsdistances) == fals
 if (($analyticsby != "JSV") AND ((in_array("J",$analyticsjsv) == false) OR (in_array("S",$analyticsjsv) == false) OR (in_array("V",$analyticsjsv) == false)))
   {
   $paddlerjsvsql = elementlisttoconstraint($analyticsjsv,"JSV","p");
-  $paddlerfindsql = $paddlerfindsql . " " . $paddlerjsvsql['SQLText'] . " AND ";
+  $paddlerfindsql = $paddlerfindsql . " " . $paddlerjsvsql['SQLText'] . " AND";
   $baseconstraintvalues = array_merge($baseconstraintvalues,$paddlerjsvsql['SQLValues']);
   }
 
@@ -63,7 +50,7 @@ if (($analyticsby != "JSV") AND ((in_array("J",$analyticsjsv) == false) OR (in_a
 if (($analyticsby != "MW") AND ((in_array("M",$analyticsmw) == false) OR (in_array("W",$analyticsmw) == false)))
   {
   $paddlermwsql = elementlisttoconstraint($analyticsmw,"MW","p");
-  $paddlerfindsql = $paddlerfindsql . " " . $paddlermwsql['SQLText'] . " AND ";
+  $paddlerfindsql = $paddlerfindsql . " " . $paddlermwsql['SQLText'] . " AND";
   $baseconstraintvalues = array_merge($baseconstraintvalues,$paddlermwsql['SQLValues']);
   }
 
@@ -71,8 +58,20 @@ if (($analyticsby != "MW") AND ((in_array("M",$analyticsmw) == false) OR (in_arr
 if (($analyticsby != "CK") AND ((in_array("C",$analyticsck) == false) OR (in_array("K",$analyticsck) == false) OR (in_array("P",$analyticsck) == false) OR (in_array("T",$analyticsck) == false) OR (in_array("V",$analyticsck) == false)))
   {
   $paddlermwsql = elementlisttoconstraint($analyticsck,"CK","p");
-  $paddlerfindsql = $paddlerfindsql . " " . $paddlermwsql['SQLText'] . " AND ";
+  $paddlerfindsql = $paddlerfindsql . " " . $paddlermwsql['SQLText'] . " AND";
   $baseconstraintvalues = array_merge($baseconstraintvalues,$paddlermwsql['SQLValues']);
+  }
+
+if ($classsearch != false)
+  {
+  foreach ($classsearch as $classfield=>$classvalue)
+    {
+    //Add SQL query text
+    $paddlerfindsql = $paddlerfindsql . " c.`" . $classfield . "` LIKE ? AND";
+    //Add values to base constraints
+    $classvalue = "%" . $classvalue . "%";
+    array_push($baseconstraintvalues,$classvalue);
+    }
   }
 
 // These always go at the end as they are year and boat size
@@ -105,9 +104,5 @@ elseif ($analyticsby == "CK")
   }
 
 //Attach boat size to query
-$paddlerfindsql = $paddlerfindsql . " AND (r.`Boat` = ?)";
-
-echo $paddlerfindsql . "<br>";
-
-print_r($baseconstraintvalues);
+$paddlerfindsql = $paddlerfindsql . " AND r.`Boat` = ?";
 ?>
