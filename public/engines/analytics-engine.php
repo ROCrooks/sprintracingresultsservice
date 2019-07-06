@@ -1,8 +1,9 @@
 <?php
 include_once 'required-functions.php';
 
-$classsearch = array("JSV"=>"S","MW"=>"M","CK"=>"K","Abil"=>"A");
-$analyticsby = "BoatSize";
+//$classsearch = array("JSV"=>"S","MW"=>"M","CK"=>"K","Abil"=>"A");
+$classsearch = false;
+$analyticsby = "Distance";
 $analyticsboatsizes = array(1,2,4);
 $analyticsdistances = array(200,500,1000,"LD");
 $analyticsjsv = array("J","S","V");
@@ -14,7 +15,8 @@ $endyear = 2018;
 //Prepare the SQL statement for the analytics
 include 'prepare-analytics-stmt.php';
 
-echo $paddlerfindsql . "<br>";
+//Run the analytics
+include 'run-analytics-stmt.php';
 
-print_r($baseconstraintvalues);
+print_r($analyticsresults);
 ?>
