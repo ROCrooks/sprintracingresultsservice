@@ -192,13 +192,13 @@ function elementlisttoconstraint($list,$field,$table=false)
   if ($numberofconstraints > 0)
     {
     //If a table is specified add the table to the SQL
-    if ($table != false)
+    if ($table == false)
 			$query = "`" . $field . "` = ?";
 		else
 			$query = $table . ".`" . $field . "` = ?";
 
 		$constraintlist = array_fill(0,$numberofconstraints,$query);
-		
+
     $constraintlist = implode(" OR ",$constraintlist);
     $constraintlist = "(" . $constraintlist . ")";
     }
