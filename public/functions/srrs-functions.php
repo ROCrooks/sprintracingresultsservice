@@ -107,4 +107,31 @@ function hmstosecs($time)
 	Return $seconds;
 	}
 //---FunctionBreak---
+/*Decide whether to highlight a row on a results record
+
+$userinputs are the details from the user inputs
+$paddlerdetails are the details for the paddler
+
+Output is true if row should be highlighted, else false.*/
+//---DocumentationBreak---
+function highlightcheck($userinputs,$paddlerdetails)
+	{
+	$result = true;
+
+	if (($userinputs['Club'] != "") AND (strpos($paddlerdetails['Club'],$userinputs['Club']) === false))
+		$result = false;
+
+	if ($userinputs['Paddler'] != "")
+		{
+		if (strpos($paddlerdetails['Crew'],$userinputs['Paddler']) === false)
+			{
+			$surname = substr($userinputs['Paddler'],3);
+
+			if (strpos($paddlerdetails['Crew'],$surname) === false)
+				$result = false;
+			}
+		}
+
+	Return $result;
+	}
 ?>
