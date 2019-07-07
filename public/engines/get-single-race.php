@@ -1,8 +1,6 @@
 <?php
 include_once 'required-functions.php';
 
-$raceid = 143;
-
 //Process race details
 $racesql = "SELECT `Regatta`, `R`, `D`, `Boat`, `Dist` FROM `races` WHERE `Key` = ?";
 $racesqlresultline = dbprepareandexecute($srrsdblink,$racesql,$raceid);
@@ -20,6 +18,4 @@ foreach ($paddlerresults as $paddlerkey=>$paddler)
   }
 
 $racedetails['Paddlers'] = $paddlerresults;
-
-print_r($racedetails);
 ?>
