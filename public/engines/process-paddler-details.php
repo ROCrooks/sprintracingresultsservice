@@ -2,35 +2,35 @@
 include_once 'required-functions.php';
 
 //Flag for if the result is a finish or not
-if ($paddler['NR'] == '')
+if ($paddlerdetails['NR'] == '')
   {
-  $paddler['Result'] = true;
-  $paddler['Time'] = secstohms($paddler['Time']);
+  $paddlerdetails['Result'] = true;
+  $paddlerdetails['Time'] = secstohms($paddlerdetails['Time']);
   }
 else
   {
   //A no result line
-  $paddler['Result'] = false;
-  $paddler['Time'] = $paddler['NR'];
-  $paddler['Position'] = 0;
+  $paddlerdetails['Result'] = false;
+  $paddlerdetails['Time'] = $paddlerdetails['NR'];
+  $paddlerdetails['Position'] = 0;
   }
 
 //Default lane and position to blank if not set or 0
-if (isset($paddler['Position']) == true)
+if (isset($paddlerdetails['Position']) == true)
   {
-  if ($paddler['Position'] == 0)
-    $paddler['Position'] = "";
+  if ($paddlerdetails['Position'] == 0)
+    $paddlerdetails['Position'] = "";
   }
 else
-  $paddler['Position'] = "";
+  $paddlerdetails['Position'] = "";
 
-if (isset($paddler['Lane']) == true)
+if (isset($paddlerdetails['Lane']) == true)
   {
-  if ($paddler['Lane'] == 0)
-    $paddler['Lane'] = "";
+  if ($paddlerdetails['Lane'] == 0)
+    $paddlerdetails['Lane'] = "";
   }
 else
-  $paddler['Lane'] = "";
+  $paddlerdetails['Lane'] = "";
 
-unset($paddler['NR']);
+unset($paddlerdetails['NR']);
 ?>
