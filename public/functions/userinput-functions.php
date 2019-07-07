@@ -70,48 +70,44 @@ Output is an array with standard new lines.*/
 function getandprocessinput($inputname,$inputdetails=array())
 	{
 	//Get input from either POST or GET
-	if ((isset($_POST[$inputname]) == true) AND (isset($_GET[$inputname]) == false))
+	if ((isset($_POST[$inputname]) == true) AND (isset($_GET[$inputname]) == false) AND (isset($_SESSION[$inputname]) == false))
 		$input = $_POST[$inputname];
-	if ((isset($_POST[$inputname]) == false) AND (isset($_GET[$inputname]) == true))
+	if ((isset($_POST[$inputname]) == false) AND (isset($_GET[$inputname]) == true) AND (isset($_SESSION[$inputname]) == false))
 		$input = $_GET[$inputname];
+	if ((isset($_POST[$inputname]) == false) AND (isset($_GET[$inputname]) == false) AND (isset($_SESSION[$inputname]) == true))
+		$input = $_SESSION[$inputname];
 
+	//Only process input if it is
 	if (isset($input) == true)
 		{
-		//Check that the value is an allowed value
+		//Check that the value of the input is allowed
 		if (isset($inputdetails['AllowedValues']) == true)
 			{
-			if (in_array($input,$inputdetails['AllowedValues']) == false)
+			if(in_array($input,$inputdetails['AllowedValues']) == false)
 				$input = "";
 			}
 
-		//Check that the character is in a whitelist
-		if (isset($inputdetails['Whitelist']) == true)
+		//Check that the input contains only values in the Whitelist
+		if (isset($inputdetails['WhiteList']) == true)
 			{
-			if (is_array($inputdetails['Whitelist']) == false)
-				$inputdetails['Whitelist'] = str_split($inputdetails['Whitelist']);
+			//Convert input and whitelist to arrays
+			if (is_array($inputdetails['WhiteList']) == false)
+				$inputdetails['WhiteList'] = strsplit($inputdetails['WhiteList']);
+			if (is_array($input) == false)
+				$input = strsplit($input);
 
-			$input = str_split($input);
-			foreach($input as $inputkey=>$character)
+			//Check each value against whitelist and put into input variable
+			$inputvalues = $input;
+			$input = "";
+			foreach ($inputvalues as $value)
 				{
-				if (in_array($character,$inputdetails['Whitelist']) == false)
-					unset($input[$inputkey]);
+				if (in_array($value,$inputdetails['WhiteList']) == true)
+					$input = $input . $value;
 				}
-			$input = $implode($input);
-			}
-
-		//Check that the input is a specified type
-		if (isset($inputdetails['Type']) == true)
-			{
-			if ($inputdetails['Type'] != gettype($input))
-				$input = "";
 			}
 		}
 	else
-		$input = "";
-
-	//Set a default value (if available) if the input value is blank
-	if ((isset($inputdetails['Default']) == true) AND ($input == ""))
-		$input = $inputdetails['Default'];
+		$input = false;
 
 	Return $input;
 	}
