@@ -60,6 +60,10 @@ function secstohms($time)
 	$mins = (floor($time/60))-($hours*60);
 	$seconds = $time-($mins*60)-($hours*3600);
 
+	//Round seconds to 2dp
+	$seconds = round($seconds,2);
+
+	//Add the trailing 0 if the seconds are exactly 1/10th
 	if (substr($seconds,-2,1) == ".")
 		$seconds = $seconds . "0";
 
