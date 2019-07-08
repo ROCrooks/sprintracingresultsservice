@@ -10,6 +10,7 @@ $inputrules['abil'] = array("Whitelist"=>"ABCDOLT123");
 $inputrules['spec'] = array("AllowedValues"=>array("LT","PC","PD","SP","IS"));
 $inputrules['ages'] = array("AllowedValues"=>array("U10","U12","U14","U16","U17","U18","JUN","U23","SEN","VET","O34","O35","O44","O45","O54","O55","O64","O65"));
 $inputrules['raceregatta'] = array("Whitelist"=>"1234567890");
+$inputrules['year'] = array("Whitelist"=>"1234567890");
 
 $raceid = strtoupper(getandprocessinput("race",$inputrules['raceregatta']));
 $jsv = strtoupper(getandprocessinput("jsv",$inputrules['jsv']));
@@ -24,6 +25,7 @@ $padjsv = strtoupper(getandprocessinput("padjsv",$inputrules['jsv']));
 $padmw = strtoupper(getandprocessinput("padmw",$inputrules['mw']));
 $padck = strtoupper(getandprocessinput("padck",$inputrules['ck']));
 $regattaid = strtoupper(getandprocessinput("regatta",$inputrules['raceregatta']));
+$year = strtoupper(getandprocessinput("year",$inputrules['year']));
 
 $variabletransmissioninputs['race'] = $raceid;
 $variabletransmissioninputs['jsv'] = $jsv;
@@ -38,4 +40,5 @@ $variabletransmissioninputs['padck'] = $padjsv;
 $variabletransmissioninputs['padmw'] = $padmw;
 $variabletransmissioninputs['padck'] = $padck;
 $variabletransmissioninputs['regatta'] = $regattaid;
+$variabletransmissioninputs['year'] = $year;
 ?>
