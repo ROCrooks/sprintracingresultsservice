@@ -118,12 +118,15 @@ function highlightcheck($userinputs,$paddlerdetails)
 	{
 	$result = true;
 
-	if (($userinputs['Club'] == "") OR ($userinputs['Paddler'] == ""))
+	//If neither club or paddler are being searched for, no highlighting
+	if (($userinputs['Club'] == "") AND ($userinputs['Paddler'] == ""))
 		$result = false;
 
+	//If club doesn't match, no highlighting
 	if (($userinputs['Club'] != "") AND (strpos($paddlerdetails['Club'],$userinputs['Club']) === false))
 		$result = false;
 
+	//If paddler doesn't match, no highlighting
 	if ($userinputs['Paddler'] != "")
 		{
 		if (strpos($paddlerdetails['Crew'],$userinputs['Paddler']) === false)
