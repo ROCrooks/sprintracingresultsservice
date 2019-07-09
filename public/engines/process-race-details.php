@@ -30,7 +30,6 @@ if (is_array($racesqlresultline) == true)
     $roundno = 0;
     }
 
-  echo $racesqlresultline['D'] . "<br>";
   if ($racesqlresultline['D'] > 0)
     $rounddraw = $rounddraw . " " . $racesqlresultline['D'];
 
