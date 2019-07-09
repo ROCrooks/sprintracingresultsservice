@@ -3,8 +3,6 @@ include_once 'required-functions.php';
 
 include 'user-input-processing.php';
 
-$regattaid = 6;
-
 //All types of class to display
 $classsearches = array();
 $classsearches[0] = array("JSV"=>"","MW"=>"","CK"=>"","Spec"=>"","Abil"=>"","Ages"=>"","Text"=>"All Races");
@@ -66,12 +64,12 @@ $classsearches[53] = array("JSV"=>"","MW"=>"","CK"=>"","Spec"=>"SP","Abil"=>"","
 $classesfound = array();
 foreach ($classsearches as $lookupclass)
   {
-  $jsv = $lookupclass['JSV'];
-  $mw = $lookupclass['MW'];
-  $ck = $lookupclass['CK'];
-  $spec = $lookupclass['Spec'];
-  $abil = $lookupclass['Abil'];
-  $ages = $lookupclass['Ages'];
+  $classjsv = $lookupclass['JSV'];
+  $classmw = $lookupclass['MW'];
+  $classck = $lookupclass['CK'];
+  $classspec = $lookupclass['Spec'];
+  $classabil = $lookupclass['Abil'];
+  $classages = $lookupclass['Ages'];
 
   include 'count-races.php';
 
@@ -81,6 +79,4 @@ foreach ($classsearches as $lookupclass)
     array_push($classesfound,$lookupclass);
     }
   }
-
-print_r($classesfound);
 ?>

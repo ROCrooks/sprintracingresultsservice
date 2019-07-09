@@ -7,30 +7,30 @@ $classsql = "SELECT DISTINCT `Race` FROM `classes`";
 //Format user inputs into array for generating match query
 $classcodes = array();
 if ($jsv != "")
-  $classcodes['JSV'] = $jsv;
+  $classcodes['JSV'] = $classjsv;
 else
   $classcodes['JSV'] = "*";
 if ($mw != "")
-  $classcodes['MW'] = $mw;
+  $classcodes['MW'] = $classmw;
 else
   $classcodes['MW'] = "*";
 if ($ck != "")
-  $classcodes['CK'] = $ck;
+  $classcodes['CK'] = $classck;
 else
   $classcodes['CK'] = "*";
 
 if ($spec != "")
-  $classcodes['Spec'] = $spec;
+  $classcodes['Spec'] = $classspec;
 else
   $classcodes['Spec'] = "";
 
 if ($abil != "")
-  $classcodes['Abil'] = $abil;
+  $classcodes['Abil'] = $classabil;
 else
   $classcodes['Abil'] = "*";
 
 if ($ages != "")
-  $classcodes['Ages'] = $ages;
+  $classcodes['Ages'] = $classages;
 else
   $classcodes['Ages'] = "*";
 

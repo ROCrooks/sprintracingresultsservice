@@ -16,7 +16,7 @@ if ($club != "")
   }
 
 //Check for class constraints
-if (($jsv != "") OR ($mw != "") OR ($ck != "") OR ($spec != "") OR ($abil != "") OR ($ages != ""))
+if (($classjsv != "") OR ($classmw != "") OR ($classck != "") OR ($classspec != "") OR ($classabil != "") OR ($classages != ""))
   {
   include 'filter-class-race-ids.php';
 
