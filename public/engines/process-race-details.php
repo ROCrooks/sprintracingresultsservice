@@ -69,6 +69,7 @@ if (is_array($racesqlresultline) == true)
   $racedetails['Name'] = $racename;
   $racedetails['Class'] = $raceclass;
   $racedetails['Distance'] = $racesqlresultline['Dist'];
+  $racedetails['BoatSize'] = $racesqlresultline['Boat'];
   $racedetails['Round'] = $roundno;
   $racedetails['Draw'] = $racesqlresultline['D'];
   }
@@ -81,6 +82,7 @@ else
   $racedetails['Name'] = "";
   $racedetails['Class'] = "";
   $racedetails['Distance'] = 0;
+  $racedetails['BoatSize'] = 0;
   $racedetails['Round'] = 0;
   $racedetails['Draw'] = 0;
   }
