@@ -10,8 +10,8 @@ include 'engines/get-races.php';
 echo '<p style="font-size: 200%; text-align: center;">' . $regattaresults['Details']['Name'] . '</p>';
 
 //Containers for HTML text in columns and heights of the columns
-$leftcolumn = '<div style="float: left">';
-$rightcolumn = '<div style="float: left">';
+$leftcolumn = '<div style="float: left; padding-left: 20px; padding-right: 20px;">';
+$rightcolumn = '<div style="float: left; padding-left: 20px; padding-right: 20px;">';
 $leftfill = 0;
 $rightfill = 0;
 
@@ -34,7 +34,7 @@ foreach($regattaresults['Races'] as $raceelement)
     $highlight = highlightcheck($userinputs,$paddlerelement);
 
     //Widths of the cells in the races
-    $widths = array("Position"=>20,"Club"=>80,"Crew"=>300,"Time"=>100);
+    $widths = array("Position"=>20,"Club"=>80,"Crew"=>250,"Time"=>60);
     $totalwidth = array_sum($widths);
 
     //Process crew and club onto 2 lines if a 4s race
