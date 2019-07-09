@@ -118,6 +118,9 @@ function highlightcheck($userinputs,$paddlerdetails)
 	{
 	$result = true;
 
+	if (($userinputs['Club'] == "") OR ($userinputs['Paddler'] == ""))
+		$result = false;
+
 	if (($userinputs['Club'] != "") AND (strpos($paddlerdetails['Club'],$userinputs['Club']) === false))
 		$result = false;
 
