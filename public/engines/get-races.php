@@ -1,6 +1,15 @@
 <?php
 include_once 'required-functions.php';
 
+//Get the details about the regatta
+$regattadetailssql = "SELECT `Date`, `Days`, `Name` FROM `regattas` WHERE `Key` = ?";
+$regattadetailsline = dbprepareandexecute($srrsdblink,$regattadetailssql,$regattaid);
+if (count($regattadetailsline) > 0)
+  {
+  $regattadetailsline = $regattadetailsline[0];
+  include 'engines/process-regatta-details.php';
+  }
+
 //Base query
 $raceconstraints = array($regattaid);
 $regattaracessql = "SELECT `Key`, `Regatta`, `Boat`, `Dist`, `R`, `D` FROM `races` WHERE `Regatta` = ?";
@@ -42,10 +51,10 @@ foreach($racesdetailsarray as $racesdetailskey=>$racesqlresultline)
   //$dbpaddlers = dbprepareandexecute($srrsdblink,$paddlersql,$paddlerconstraints);
 
   //Process the paddler details
-  foreach($dbpaddlers as $paddlerkey=>$paddler)
+  foreach($dbpaddlers as $paddlerkey=>$paddlerdetails)
     {
     include 'process-paddler-details.php';
-    $dbpaddlers[$paddlerkey] = $paddler;
+    $dbpaddlers[$paddlerkey] = $paddlerdetails;
     }
   usort($dbpaddlers,'sortfinishers');
   $racedetails['Paddlers'] = $dbpaddlers;
@@ -53,4 +62,6 @@ foreach($racesdetailsarray as $racesdetailskey=>$racesqlresultline)
   }
 
 usort($racesdetailsarray,'sortraceslist');
+
+$regattaresults = array("Details"=>$regattadetailsline,"Races"=>$racesdetailsarray);
 ?>
