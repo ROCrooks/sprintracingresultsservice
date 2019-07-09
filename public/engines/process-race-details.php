@@ -9,17 +9,17 @@ if (is_array($racesqlresultline) == true)
     $rounddraw = "Heat";
     $roundno = 1;
     }
-  if (($racesqlresultline['R'] == "QF") OR ($racesqlresultline['R'] == "Q") OR ($racesqlresultline['R'] == 2))
+  elseif (($racesqlresultline['R'] == "QF") OR ($racesqlresultline['R'] == "Q") OR ($racesqlresultline['R'] == 2))
     {
     $rounddraw = "Quarter-Final";
     $roundno = 2;
     }
-  if (($racesqlresultline['R'] == "SF") OR ($racesqlresultline['R'] == "S") OR ($racesqlresultline['R'] == 3))
+  elseif (($racesqlresultline['R'] == "SF") OR ($racesqlresultline['R'] == "S") OR ($racesqlresultline['R'] == 3))
     {
     $rounddraw = "Semi-Final";
     $roundno = 3;
     }
-  if (($racesqlresultline['R'] == "F") OR ($racesqlresultline['R'] == 4))
+  elseif (($racesqlresultline['R'] == "F") OR ($racesqlresultline['R'] == 4))
     {
     $rounddraw = "Final";
     $roundno = 4;
@@ -30,6 +30,7 @@ if (is_array($racesqlresultline) == true)
     $roundno = 0;
     }
 
+  echo $racesqlresultline['D'] . "<br>";
   if ($racesqlresultline['D'] > 0)
     $rounddraw = $rounddraw . " " . $racesqlresultline['D'];
 
