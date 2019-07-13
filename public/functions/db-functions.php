@@ -185,7 +185,7 @@ $field is the name of the field
 Output is an array of ['SQLText'] which can be concatenated into the SQL, and
 ['SQLValues'] is an array of values that can be merged into the*/
 //---DocumentationBreak---
-function elementlisttoconstraint($list,$field,$table=false)
+function elementlisttoconstraint($list,$field,$table=false,$comparison="=")
   {
 	$numberofconstraints = count($list);
 
@@ -195,7 +195,7 @@ function elementlisttoconstraint($list,$field,$table=false)
     if ($table == false)
 			$query = "`" . $field . "` = ?";
 		else
-			$query = $table . ".`" . $field . "` = ?";
+			$query = $table . ".`" . $field . "` " . $comparison . " ?";
 
 		$constraintlist = array_fill(0,$numberofconstraints,$query);
 
