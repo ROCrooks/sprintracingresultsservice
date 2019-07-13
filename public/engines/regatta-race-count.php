@@ -1,6 +1,15 @@
 <?php
 include_once 'required-functions.php';
 
+//Get the details about the regatta
+$regattadetailssql = "SELECT `Date`, `Days`, `Name` FROM `regattas` WHERE `Key` = ?";
+$regattadetailsline = dbprepareandexecute($srrsdblink,$regattadetailssql,$regattaid);
+if (count($regattadetailsline) > 0)
+  {
+  $regattadetailsline = $regattadetailsline[0];
+  include 'process-regatta-details.php';
+  }
+
 //All types of class to display
 $classsearches = array();
 $classsearches[0] = array("JSV"=>"","MW"=>"","CK"=>"","Spec"=>"","Abil"=>"","Ages"=>"","Text"=>"All Races");
@@ -79,4 +88,6 @@ foreach ($classsearches as $lookupclass)
     array_push($classesfound,$lookupclass);
     }
   }
+
+$regattaresults = array("Details"=>$regattadetailsline,"ClassesFound"=>$classesfound);
 ?>
