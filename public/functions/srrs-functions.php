@@ -116,29 +116,8 @@ Output is true if row should be highlighted, else false.*/
 //---DocumentationBreak---
 function highlightcheck($userinputs,$paddlerdetails)
 	{
-	$result = true;
-
-	//If neither club or paddler are being searched for, no highlighting
-	if (($userinputs['Club'] == "") AND ($userinputs['Paddler'] == ""))
-		$result = false;
-
-	//If club doesn't match, no highlighting
-	if (($userinputs['Club'] != "") AND (strpos($paddlerdetails['Club'],$userinputs['Club']) === false))
-		$result = false;
-
-	//If paddler doesn't match, no highlighting
-	if ($userinputs['Paddler'] != "")
-		{
-		if (strpos($paddlerdetails['Crew'],$userinputs['Paddler']) === false)
-			{
-			$surname = substr($userinputs['Paddler'],3);
-
-			if (strpos($paddlerdetails['Crew'],$surname) === false)
-				$result = false;
-			}
-		}
-
-	Return $result;
+	//This function is inactive until logic is ready
+	Return false;
 	}
 //---FunctionBreak---
 /*Makes an list of possibilities of how a name could be stored in the SRRS database
