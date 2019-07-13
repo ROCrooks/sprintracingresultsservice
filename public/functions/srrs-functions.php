@@ -165,4 +165,29 @@ function paddlertopossibilities($paddler)
   Return $possibilities;
   }
 //---FunctionBreak---
+/*Turns the race class types into an array to merge onto an SQL constraints array
+
+$jsv is the JSV status
+$mw is the MW status
+$ck is the CK status
+$abil is the Ability band
+$spec is any special codes
+$ages is the ages of the paddlers
+
+Output is an array with values of the appropriate constraints*/
+//---DocumentationBreak---
+function raceclasstoconstraints($jsv,$mw,$ck,$abil,$spec,$ages)
+	{
+	//Attach wildcards to every class
+	$jsv = "%" . $jsv . "%";
+	$mw = "%" . $mw . "%";
+	$ck = "%" . $ck . "%";
+	$abil = "%" . $abil . "%";
+	$spec = "%" . $spec . "%";
+	$ages = "%" . $ages . "%";
+
+	$output = array($jsv,$mw,$ck,$abil,$spec,$ages);
+	Return $output;
+	}
+//---FunctionBreak---
 ?>
