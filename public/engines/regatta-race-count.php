@@ -1,8 +1,6 @@
 <?php
 include_once 'required-functions.php';
 
-include 'user-input-processing.php';
-
 //All types of class to display
 $classsearches = array();
 $classsearches[0] = array("JSV"=>"","MW"=>"","CK"=>"","Spec"=>"","Abil"=>"","Ages"=>"","Text"=>"All Races");
@@ -61,18 +59,20 @@ $classsearches[51] = array("JSV"=>"","MW"=>"","CK"=>"","Spec"=>"LT","Abil"=>"","
 $classsearches[52] = array("JSV"=>"","MW"=>"","CK"=>"","Spec"=>"IS","Abil"=>"","Ages"=>"","Text"=>"Inter-Services");
 $classsearches[53] = array("JSV"=>"","MW"=>"","CK"=>"","Spec"=>"SP","Abil"=>"","Ages"=>"","Text"=>"Special Races");
 
+$searchtype = "count";
+include 'make-race-find-stmt.php';
+
 $classesfound = array();
 foreach ($classsearches as $lookupclass)
   {
-  $classjsv = $lookupclass['JSV'];
-  $classmw = $lookupclass['MW'];
-  $classck = $lookupclass['CK'];
-  $classspec = $lookupclass['Spec'];
-  $classabil = $lookupclass['Abil'];
-  $classages = $lookupclass['Ages'];
+  //Make the class constaints to attach to the query
+  $classconstraints = array("%" . $lookupclass['JSV'] . "%","%" . $lookupclass['MW'] . "%","%" . $lookupclass['CK'] . "%","%" . $lookupclass['Abil'] . "%","%" . $lookupclass['Spec'] . "%","%" . $lookupclass['Ages'] . "%");
+  $raceconstraints = array_merge($racefindbaseconstraints,$classconstraints);
 
-  include 'count-races.php';
+  $racescount = dbexecute($racesfindstmt,$raceconstraints);
+  $racescount = $racescount[0]['COUNT(*)'];
 
+  //Add to list of found races if found
   if ($racescount > 0)
     {
     $lookupclass['RacesCount'] = $racescount;
