@@ -25,14 +25,14 @@ $racefindsql = $racefindsql . " WHERE r.`Regatta` = ?";
 if ($club != '')
   {
   $club = str_replace(" ","",$club);
-  $club = explode(",",$club);
+  $clubarray = explode(",",$club);
   //Make each club into a wildcard
-  foreach ($club as $clubkey=>$clubvalue)
+  foreach ($clubarray as $clubkey=>$clubvalue)
     {
-    $clubkey = "%" . $clubvalue . "%";
+    $clubarray[$clubkey] = "%" . $clubvalue . "%";
     }
   
-  $clubsql = elementlisttoconstraint($club,"Club","p","LIKE");
+  $clubsql = elementlisttoconstraint($clubarray,"Club","p","LIKE");
   $racefindsql = $racefindsql . " AND " . $clubsql['SQLText'];
   $racefindbaseconstraints = array_merge($racefindbaseconstraints,$clubsql['SQLValues']);
   }
