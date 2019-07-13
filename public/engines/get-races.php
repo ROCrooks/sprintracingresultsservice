@@ -7,38 +7,26 @@ $regattadetailsline = dbprepareandexecute($srrsdblink,$regattadetailssql,$regatt
 if (count($regattadetailsline) > 0)
   {
   $regattadetailsline = $regattadetailsline[0];
-  include 'engines/process-regatta-details.php';
+  include 'process-regatta-details.php';
   }
 
 //Base query
 $raceconstraints = array($regattaid);
 $regattaracessql = "SELECT `Key`, `Regatta`, `Boat`, `Dist`, `R`, `D` FROM `races` WHERE `Regatta` = ?";
 
-//Check for paddler/club constraints
-if (($paddler != "") OR ($club != ""))
-  {
-  include 'filter-paddler-race-ids.php';
+//Make the race search statement using engine
+$searchtype = "rows";
+include 'make-race-find-stmt.php';
 
-  $paddlerconstraints = makesqlrange($paddlerraceids,"Key");
-  $regattaracessql = $regattaracessql . " AND " . $paddlerconstraints['SQLText'];
-  $raceconstraints = array_merge($raceconstraints,$paddlerconstraints['SQLValues']);
-  }
-
-//Check for class constraints
-if (($paddler == "") AND (($jsv != "") OR ($mw != "") OR ($ck != "") OR ($spec != "") OR ($abil != "") OR ($ages != "")))
-  {
-  include 'filter-class-race-ids.php';
-
-  $classconstraints = makesqlrange($classraceids,"Key");
-  $regattaracessql = $regattaracessql . " AND " . $classconstraints['SQLText'];
-  $raceconstraints = array_merge($raceconstraints,$classconstraints['SQLValues']);
-  }
+//Make the constr
+$classconstraints = raceclasstoconstraints($jsv,$mw,$ck,$abil,$spec,$ages);
+$raceconstraints = array_merge($racefindbaseconstraints,$classconstraints);
 
 //Prepare a statement to get races
 $paddlersql = "SELECT `Position`, `Club`, `Crew`, `Time`, `NR` FROM `paddlers` WHERE `Race` = ?";
 $paddlerstmt = dbprepare($srrsdblink,$paddlersql);
 
-$racesdetailsarray = dbprepareandexecute($srrsdblink,$regattaracessql,$raceconstraints);
+$racesdetailsarray = dbexecute($racesfindstmt,$raceconstraints);
 foreach($racesdetailsarray as $racesdetailskey=>$racesqlresultline)
   {
   $raceid = $racesqlresultline['Key'];
