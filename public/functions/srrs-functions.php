@@ -140,4 +140,29 @@ function highlightcheck($userinputs,$paddlerdetails)
 
 	Return $result;
 	}
+//---FunctionBreak---
+/*Makes an list of possibilities of how a name could be stored in the SRRS database
+
+$paddler is the text of the paddler name in the format A. Surname
+
+Output is an array with all possible names which can be passed to elementlisttoconstraint()*/
+//---DocumentationBreak---
+function paddlertopossibilities($paddler)
+  {
+  //Create array of possibilities
+  $possibilities = array();
+  array_push($possibilities,"%" . $paddler . "%");
+
+  //Add ambiguous surnames for unknown first name, and paddlers not known
+  $surname = substr($paddler,3);
+  array_push($possibilities,"%?. " . $surname . "%");
+  array_push($possibilities,"%/" . $surname . "/%");
+  array_push($possibilities,"%/" . $surname);
+  array_push($possibilities,$surname . "/%");
+  array_push($possibilities,$surname);
+
+  //Output all the possibilities
+  Return $possibilities;
+  }
+//---FunctionBreak---
 ?>
