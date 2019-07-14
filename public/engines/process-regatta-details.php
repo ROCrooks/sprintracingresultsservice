@@ -44,9 +44,7 @@ else
 
 //Put regatta details into an array
 unset($regattadetailsline['Days']);
-unset($regattadetailsline['Date']);
 $regattadetailsline['Year'] = date('Y',$startdate);
-$regattadetailsline['Month'] = date('m',$startdate);
 $regattadetailsline['FullDate'] = $regattadates;
 $regattadetailsline['MonthDate'] = date('F Y',$startdate);
 ?>
