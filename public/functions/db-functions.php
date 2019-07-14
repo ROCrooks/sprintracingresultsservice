@@ -23,27 +23,30 @@ $constraints are the constraints of the query
 
 Output is a 2 dimensional array with the query results*/
 //---DocumentationBreak---
-function dbexecute($stmt,$constraints)
+function dbexecute($stmt,$constraints=false)
 	{
-  //Make the constraints into an array if they are a single item of data
-	if (is_array($constraints) == false)
-    $constraints = array($constraints);
+	if ($constraints != false)
+		{
+	  //Make the constraints into an array if they are a single item of data
+		if (is_array($constraints) == false)
+	    $constraints = array($constraints);
 
-  //Identify data type for each piece of data and add to types variable
-  $types = "";
-  foreach($constraints as $value)
-    {
-    if (is_int($value) == true)
-      $types = $types . "i";
-    elseif (is_numeric($value) == true)
-      $types = $types . "d";
-    elseif (is_string($value) == true)
-      $types = $types . "s";
-    }
+	  //Identify data type for each piece of data and add to types variable
+	  $types = "";
+	  foreach($constraints as $value)
+	    {
+	    if (is_int($value) == true)
+	      $types = $types . "i";
+	    elseif (is_numeric($value) == true)
+	      $types = $types . "d";
+	    elseif (is_string($value) == true)
+	      $types = $types . "s";
+	    }
 
-	//Bind parameters to query only if there are any constraints
-	if (count($constraints) > 0)
-		mysqli_stmt_bind_param($stmt,$types,...$constraints);
+		//Bind parameters to query only if there are any constraints
+		if (count($constraints) > 0)
+			mysqli_stmt_bind_param($stmt,$types,...$constraints);
+		}
 
 	mysqli_stmt_execute($stmt)
 		or die("MySQLi Error in preparing query " . $sql . ": : " . $stmt->error);
@@ -78,7 +81,7 @@ $constraints are the constraints of the query
 
 Output is a 2 dimensional array with the query results*/
 //---DocumentationBreak---
-function dbprepareandexecute($dblink,$sql,$constraints)
+function dbprepareandexecute($dblink,$sql,$constraints=false)
   {
   $stmt = dbprepare($dblink,$sql);
   $results = dbexecute($stmt,$constraints);
