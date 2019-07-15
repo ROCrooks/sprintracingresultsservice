@@ -4,7 +4,7 @@ include_once 'required-functions.php';
 //Move to user interface
 $club = '';
 $paddler = '';
-$getallregattas = true;
+$getallregattas = false;
 
 //Get the regattas
 $regattafieldswanted = "g.`Key`, g.`Name`, g.`Date`, g.`Days`";
