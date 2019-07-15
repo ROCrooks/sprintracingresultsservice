@@ -1,5 +1,18 @@
 <?php
 //---FunctionBreak---
+/*Sort regattas function
+
+Call this function with usort to sort a batch of regattas by date*/
+//---DocumentationBreak---
+function sortregattas($a,$b)
+	{
+  if ($a['Date'] == $b['Date'])
+		{
+	  return 0;
+    }
+  return ($a['Date'] > $b['Date']) ? -1 : 1;
+	}
+//---FunctionBreak---
 /*Sort race finishers function
 
 Call this function with usort*/
