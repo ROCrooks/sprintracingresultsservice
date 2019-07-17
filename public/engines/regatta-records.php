@@ -86,6 +86,12 @@ if ($paddler != "")
     $endconstraints = array_merge($endconstraints,$padcksql['SQLValues']);
     }
   }
+//Search for junior or masters records
+if (($jsv == "J") OR ($jsv == "V"))
+  {
+  $geteventrecordsql = $geteventrecordsql . " AND `JSV` = ?";
+  array_push($endconstraints,$jsv);
+  }
 
 $geteventrecordsql = $geteventrecordsql . " ORDER BY
     p.`Time` ASC

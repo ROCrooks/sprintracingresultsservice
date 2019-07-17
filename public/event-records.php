@@ -116,4 +116,59 @@ if ($recordshtml != "")
 
   echo $recordshtml;
   }
+
+include 'engines/list-years.php';
+
+//Define the width of the cells where the links are held
+$cellwidth = 150;
+if($paddler == '')
+  $totalwidth = $cellwidth*3;
+
+//Make the base hyperlink for the records page
+$basehyperlink = "event-records.php";
+$baseconstraints = array();
+if ($club != '')
+  array_push($baseconstraints,"club=" . $club);
+if ($paddler != '')
+  array_push($baseconstraints,"paddler=" . $club);
+$baseconstraintshyperlink = "?" . implode("&",$baseconstraints);
+$basehyperlink = $basehyperlink . $baseconstraintshyperlink;
+
+//The all time records
+echo '<div style="display: table; margin: auto; width: ' . $totalwidth . 'px;">';
+$hyperlink = $basehyperlink;
+echo '<div style="display: table-cell; width: ' . $cellwidth . 'px;"><p><a href="' . $hyperlink . '">All Time Records</a></p></div>';
+
+//The all time records if paddler isn't set
+if ($paddler == '')
+  {
+  $hyperlink = $basehyperlink . "&jsv=J";
+  echo '<div style="display: table-cell; width: ' . $cellwidth . 'px;"><p><a href="' . $hyperlink . '">All Time Junior Records</a></p></div>';
+  $hyperlink = $basehyperlink . "&jsv=V";
+  echo '<div style="display: table-cell; width: ' . $cellwidth . 'px;"><p><a href="' . $hyperlink . '">All Time Masters Records</a></p></div>';
+  }
+
+echo '</div>';
+
+rsort($uniqueyears);
+
+foreach($uniqueyears as $uniqueyear)
+  {
+  $yearhyperlink = $basehyperlink . "&year=" . $uniqueyear;
+  //The all time records
+  echo '<div style="display: table; margin: auto; width: ' . $totalwidth . 'px;">';
+  $hyperlink = $yearhyperlink;
+  echo '<div style="display: table-cell; width: ' . $cellwidth . 'px;"><p><a href="' . $hyperlink . '">' . $uniqueyear . ' Records</a></p></div>';
+
+  //The all time records if paddler isn't set
+  if ($paddler == '')
+    {
+    $hyperlink = $yearhyperlink . "&jsv=J";
+    echo '<div style="display: table-cell; width: ' . $cellwidth . 'px;"><p><a href="' . $hyperlink . '">' . $uniqueyear . ' Junior Records</a></p></div>';
+    $hyperlink = $yearhyperlink . "&jsv=V";
+    echo '<div style="display: table-cell; width: ' . $cellwidth . 'px;"><p><a href="' . $hyperlink . '">' . $uniqueyear . ' Masters Records</a></p></div>';
+    }
+
+  echo '</div>';
+  }
 ?>
