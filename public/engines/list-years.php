@@ -1,11 +1,6 @@
 <?php
 include_once 'required-functions.php';
 
-//Move to user interface
-$club = '';
-$paddler = '';
-$getallregattas = false;
-
 //Get the regattas
 $regattafieldswanted = "g.`Date`";
 include 'get-regattas.php';

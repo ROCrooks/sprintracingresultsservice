@@ -17,7 +17,7 @@ function boattyperecords($allrecords,$mwckcode)
         {
         $record = $allrecords[$recordkey];
 
-        $widths = array("Description"=>150,"Crew"=>250,"Club"=>80,"Time"=>100,"Regatta"=>120);
+        $widths = array("Description"=>150,"Crew"=>250,"Club"=>80,"Time"=>100,"Regatta"=>120,"ViewRace"=>120);
         $totalwidth = array_sum($widths);
 
         //Split 4s races into 2 lines
@@ -35,11 +35,12 @@ function boattyperecords($allrecords,$mwckcode)
 
         //Create records table
         $htmloutput = $htmloutput . '<div style="display: table; margin: auto; width: ' . $totalwidth . 'px;">';
-        $htmloutput = $htmloutput .  '<div style="display: table-cell; width: ' . $widths['Description'] . 'px;"><p><a href="?page=RaceView&race=' . $record['Race'] . '">' . $record['EventDescription'] . '</a></p></div>';
+        $htmloutput = $htmloutput .  '<div style="display: table-cell; width: ' . $widths['Description'] . 'px;"><p>' . $record['EventDescription'] . '</p></div>';
         $htmloutput = $htmloutput .  '<div style="display: table-cell; width: ' . $widths['Crew'] . 'px;"><p>' . $record['Crew'] . '</p></div>';
         $htmloutput = $htmloutput .  '<div style="display: table-cell; width: ' . $widths['Club'] . 'px;"><p>' . $record['Club'] . '</p></div>';
         $htmloutput = $htmloutput .  '<div style="display: table-cell; width: ' . $widths['Time'] . 'px;"><p>' . $record['Time'] . '</p></div>';
         $htmloutput = $htmloutput .  '<div style="display: table-cell; width: ' . $widths['Regatta'] . 'px;"><p><a href="?page=Regatta&regatta=' . $record['Regatta'] . '">' . $record['MonthDate'] . '</a></p></div>';
+        $htmloutput = $htmloutput .  '<div style="display: table-cell; width: ' . $widths['ViewRace'] . 'px;"><p><a href="?page=ViewRace&race=' . $record['Race'] . '">View Race</a></p></div>';
         $htmloutput = $htmloutput .  '</div>';
         }
       }
@@ -117,6 +118,7 @@ if ($recordshtml != "")
   echo $recordshtml;
   }
 
+$getallregattas = false;
 include 'engines/list-years.php';
 
 //Define the width of the cells where the links are held
@@ -127,10 +129,13 @@ if($paddler == '')
 //Make the base hyperlink for the records page
 $basehyperlink = "event-records.php";
 $baseconstraints = array();
+
 if ($club != '')
   array_push($baseconstraints,"club=" . $club);
 if ($paddler != '')
   array_push($baseconstraints,"paddler=" . $club);
+
+
 $baseconstraintshyperlink = "?" . implode("&",$baseconstraints);
 $basehyperlink = $basehyperlink . $baseconstraintshyperlink;
 

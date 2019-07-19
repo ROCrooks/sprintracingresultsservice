@@ -27,39 +27,32 @@ if ($year != "")
   }
 if ($club != "")
   {
-  if (strpos($club,",") === false)
+  //Make club constraint
+  $clubarray = str_replace(" ","",$club);
+  $clubarray = explode(",",$clubarray);
+  $clubconstraint = elementlisttoconstraint($clubarray,"Club","p");
+
+  //Turn constraint into a LIKE constraint if it is a paddler being searched for
+  if ($paddler != '')
     {
-    //If there is only 1 club, as in club records
-    $geteventrecordsql = $geteventrecordsql . " AND p.`Club` = ?";
-    array_push($endconstraints,$club);
-    }
-  else
-    {
-    //Turn a list of clubs into a constraint
-    $clublist = explode(",",$club);
-    $clubconstraintsql = array();
-    foreach ($clublist as $clublistitem)
+    foreach($clubconstraint['SQLValues'] as $valueskey=>$sqlvalue)
       {
-      $clublistitem = "%" . str_replace(" ","",$clublistitem) . "%";
-      array_push($endconstraints,$clublistitem);
-      array_push($clubconstraintsql,"p.`Club` LIKE ?");
+      $clubconstraint['SQLValues'][$valueskey] = "%" . $sqlvalue . "%";
       }
 
-    $geteventrecordsql = $geteventrecordsql . " AND (" . implode(" OR ",$clubconstraintsql) . ")";
+    $clubconstraint['SQLText'] = str_replace(" = "," LIKE ",$clubconstraint['SQLText']);
     }
+
+  $endconstraints = array_merge($endconstraints,$clubconstraint['SQLValues']);
+  $geteventrecordsql = $geteventrecordsql . " AND " . $clubconstraint['SQLText'];
   }
 if ($paddler != "")
   {
-  //Make all the variants of a paddler name
-  array_push($endconstraints,"%" . $paddler . "%");
-  $paddlersurname = substr($paddler,3);
-  array_push($endconstraints,"%?. " . $paddlersurname . "%");
-  array_push($endconstraints,$paddlersurname . "/%");
-  array_push($endconstraints,"%/" . $paddlersurname . "/%");
-  array_push($endconstraints,"%/" . $paddlersurname);
-
   //Add the paddler details to the search
-  $geteventrecordsql = $geteventrecordsql . " AND (`Crew` LIKE ? OR `Crew` LIKE ? OR `Crew` LIKE ? OR `Crew` LIKE ? OR `Crew` LIKE ?)";
+  $paddlerpossibilities = paddlertopossibilities($paddler);
+  $paddlerconstraint = elementlisttoconstraint($paddlerpossibilities,"Crew","p");
+  $endconstraints = array_merge($endconstraints,$paddlerconstraint['SQLValues']);
+  $geteventrecordsql = $geteventrecordsql . " AND " . $paddlerconstraint['SQLText'];
 
   //Search for paddler only by JSV status
   if (($padjsv != "") AND ($padjsv != "JSV"))
