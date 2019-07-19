@@ -80,6 +80,10 @@ function secstohms($time)
 	if (substr($seconds,-2,1) == ".")
 		$seconds = $seconds . "0";
 
+	//Add the .00 if the seconds are exactly 1s
+	if (strpos($seconds,".") === false)
+		$seconds = $seconds . ".00";
+
 	$hms = $seconds;
 	if (($mins > 0) OR ($hours > 0))
 		{
