@@ -65,10 +65,10 @@ function yaxis($title,$labels,$ticks)
 		$labelstartposition = $labelstartposition-$labelspaces;
 		}
 
-	//Work out increment of label positions
-	$tickspaces = 530/(count($ticks)-2);
+	//Work out increment of tick positions
+	$tickspaces = 530/(count($ticks)-1);
 
-	//Write labels
+	//Write ticks
 	$tickstartposition = 550;
 	foreach ($ticks as $tick)
 		{
@@ -87,6 +87,113 @@ function yaxis($title,$labels,$ticks)
 		}
 
 	Return $js;
+	}
+//---FunctionBreak---
+/**/
+//---DocumentationBreak---
+function xaxis($title,$labels,$ticks)
+	{
+	//Echo axis title
+	$js = begincanvaspath();
+	$js = $js . 'ctx.save();';
+	$js = $js . 'ctx.fillStyle = "#000000";';
+	$js = $js . 'ctx.font = "15px Arial";';
+	$js = $js . 'ctx.textAlign="center";';
+	$js = $js . 'ctx.fillText("' . $title . '",475,590);';
+	$js = $js . 'ctx.restore();';
+
+	//Draw axis line
+	$js = $js . begincanvaspath();
+	$js = $js . 'ctx.moveTo(910,550);';
+	$js = $js . 'ctx.lineTo(40,550);';
+	$js = $js . 'ctx.stroke();';
+
+	//Work out increment of label positions
+	$labelspaces = 870/(count($labels)-1);
+
+	//Write labels
+	$labelstartposition = 40;
+	foreach ($labels as $label)
+		{
+		//Get y axis location
+		$coordinate = round($labelstartposition);
+
+		//Write label
+		$js = $js . begincanvaspath();
+		$js = $js . 'ctx.fillStyle = "#000000";';
+		$js = $js . 'ctx.font = "10px Arial";';
+		$js = $js . 'ctx.textAlign="center";';
+		$js = $js . 'ctx.fillText("' . $label . '",' . $coordinate . ',565);';
+
+		//Increment label lab
+		$labelstartposition = $labelstartposition+$labelspaces;
+		}
+
+	//Work out increment of tick positions
+	$tickspaces = 870/(count($ticks)-1);
+
+	//Write ticks
+	$tickstartposition = 40;
+	foreach ($ticks as $tick)
+		{
+		//Get y axis location
+		$coordinate = round($tickstartposition);
+
+		//Draw tick
+		$js = $js . begincanvaspath();
+		$js = $js . 'ctx.fillStyle = "#000000";';
+		$js = $js . 'ctx.moveTo(' . $coordinate . ',550);';
+		$js = $js . 'ctx.lineTo(' . $coordinate . ',555);';
+		$js = $js . 'ctx.stroke();';
+
+		//Increment label lab
+		$tickstartposition = $tickstartposition+$tickspaces;
+		}
+
+	Return $js;
+	}
+//---FunctionBreak---
+/*Convert and X and Y array to coordinates
+
+$x is the array of X values
+$y is the array of Y values
+$minx is the minimum X value on the scale
+$maxx is the maximum X value on the scale
+$miny is the minimum Y value on the scale
+$maxy is the maximum Y value on the scale
+
+This function is to be updated*/
+//---DocumentationBreak---
+function makecoordinates($x,$y,$minx,$maxx,$miny,$maxy)
+	{
+	$outputarray = array();
+
+	//Make X coordinates
+	foreach ($x as $xkey=>$value)
+		{
+		$numerator = $value-$minx;
+		$denominator = $maxx-$minx;
+		$location = $numerator/$denominator;
+		$location = round($location*870);
+		$location = $location+40;
+		$outputarray[$xkey]['X'] = $location;
+		}
+
+	//Make Y coordinates
+	foreach ($y as $ykey=>$value)
+		{
+		$numerator = $value-$miny;
+		$denominator = $maxy-$miny;
+		$location = $numerator/$denominator;
+		
+		echo $location . "<br>";
+		$location = round($location*530);
+		$location = 530-$location;
+		$location = $location+20;
+		$outputarray[$ykey]['Y'] = $location;
+		}
+
+	Return $outputarray;
 	}
 //---FunctionBreak---
 /*Draw a graph on an HTML canvas
@@ -219,97 +326,6 @@ function coordinate($axis,$min,$max,$value,$skip)
 	$pixellocation = round($pixellocation);
 
 	Return $pixellocation;
-	}
-*/
-//---FunctionBreak---
-/**/
-//---DocumentationBreak---
-/*
-function xaxis($title,$min,$max,$labels,$ticks,$skip)
-	{
-	//Check inputs for validity
-	$min = defaultcheck($min,0,"numeric");
-	$max = defaultcheck($max,10000,"numeric");
-	$range = $max-$min;
-	$labels = defaultcheck($labels,$range,"numeric");
-
-	//Checking range is divisible by range
-	$labelsmodulus = $range%$labels;
-	$labelsdivide = $range/$labels;
-	if (($labelsmodulus != 0) OR ($labelsdivide > 10))
-		$labels = $range;
-
-	$ticks = defaultcheck($labels,$range,"numeric");
-
-	//Checking range is divisible by range
-	$ticksmodulus = $range%$ticks;
-	$ticksdivide = $range/$ticks;
-	if (($ticksmodulus != 0) OR ($ticksdivide > 10))
-		$tickss = $labels;
-
-	begincanvaspath();
-	//Echo axis title
-	echo 'ctx.save();';
-	echo 'ctx.fillStyle = "#000000";';
-	echo 'ctx.font = "15px Arial";';
-	echo 'ctx.textAlign="center";';
-	echo 'ctx.fillText("' . $title . '",475,590);';
-	echo 'ctx.restore();';
-
-	begincanvaspath();
-	//Draw axis line
-	echo 'ctx.moveTo(910,550);';
-	echo 'ctx.lineTo(60,550);';
-	if (($min == 0) OR ($skip == false))
-		{
-		echo 'ctx.lineTo(40,550);';
-		$pixelminfloor = 550;
-		}
-	elseif (($min > 0) AND ($skip == true))
-		{
-		//Draw axis line if graph does not start at 0
-		echo 'ctx.lineTo(55,545);';
-		echo 'ctx.lineTo(45,555);';
-		echo 'ctx.lineTo(40,550);';
-		$pixelminfloor = 530;
-		}
-	echo 'ctx.stroke();';
-
-	//Label value for start of loop
-	$labelvalue = $min;
-	while ($labelvalue <= $max)
-		{
-		//Get y axis location
-		$coordinate = coordinate("x",$min,$max,$labelvalue,$skip);
-
-		//Write label
-		begincanvaspath();
-		echo 'ctx.fillStyle = "#000000";';
-		echo 'ctx.font = "10px Arial";';
-		echo 'ctx.textAlign="center";';
-		echo 'ctx.fillText("' . $labelvalue . '",' . $coordinate . ',565);';
-
-		//Increment label lab
-		$labelvalue = $labelvalue+$labels;
-		}
-
-	//Label value for start of loop
-	$tickvalue = $min;
-	while ($tickvalue <= $max)
-		{
-		//Get y axis location
-		$coordinate = coordinate("x",$min,$max,$tickvalue,$skip);
-
-		//Draw tick
-		begincanvaspath();
-		echo 'ctx.fillStyle = "#000000";';
-		echo 'ctx.moveTo(' . $coordinate . ',550);';
-		echo 'ctx.lineTo(' . $coordinate . ',555);';
-		echo 'ctx.stroke();';
-
-		//Increment label lab
-		$tickvalue = $tickvalue+$ticks;
-		}
 	}
 */
 //---FunctionBreak---
