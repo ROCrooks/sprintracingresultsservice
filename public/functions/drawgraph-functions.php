@@ -162,7 +162,7 @@ $maxx is the maximum X value on the scale
 $miny is the minimum Y value on the scale
 $maxy is the maximum Y value on the scale
 
-This function is to be updated*/
+Function returns an array with the X and Y coordinates to draw the chart line*/
 //---DocumentationBreak---
 function makecoordinates($x,$y,$minx,$maxx,$miny,$maxy)
 	{
@@ -185,7 +185,7 @@ function makecoordinates($x,$y,$minx,$maxx,$miny,$maxy)
 		$numerator = $value-$miny;
 		$denominator = $maxy-$miny;
 		$location = $numerator/$denominator;
-		
+
 		echo $location . "<br>";
 		$location = round($location*530);
 		$location = 530-$location;
@@ -195,6 +195,74 @@ function makecoordinates($x,$y,$minx,$maxx,$miny,$maxy)
 
 	Return $outputarray;
 	}
+//---FunctionBreak---
+/*Convert an X,Y array of coordinates into a line
+
+$coordinates is the array of X and Y coordinates
+$linecolour is the colour of the line
+$position is the position of the line
+$name is the name of the line (optional - default is the "line $position")
+
+Function returns javascript for drawing the line*/
+//---DocumentationBreak---
+function drawpaddlertrendline($coordinates,$linecolour,$position,$name='')
+	{
+	//Define the name of
+	if (($name == '') OR (is_string($name) == false))
+		$name = "Line " . $position;
+
+	//Begin canvas path
+	$js = begincanvaspath();
+
+	//Define line colour
+	$js = $js . 'ctx.strokeStyle = "' . $linecolour . '";';
+	$js = $js . 'ctx.lineWidth=3;';
+
+	//Add each of the coordinates
+	$started = false;
+	foreach ($coordinates as $coordinate)
+		{
+		if ($started == false)
+			{
+			$js = $js . 'ctx.moveTo(' . $coordinate['X'] . ',' . $coordinate['Y'] . ');';
+			$started = true;
+			}
+		else
+			$js = $js . 'ctx.lineTo(' . $coordinate['X'] . ',' . $coordinate['Y'] . ');';
+		}
+
+	//Finish the line
+	$js = $js . 'ctx.stroke();';
+	$js = $js . 'ctx.restore();';
+
+	//Define locations of key elements
+	$locations = array();
+	$locations[1] = array("LineStart"=>40,"LineStop"=>70,"TextStart"=>75);
+	$locations[2] = array("LineStart"=>262,"LineStop"=>292,"TextStart"=>297);
+	$locations[3] = array("LineStart"=>485,"LineStop"=>515,"TextStart"=>520);
+	$locations[4] = array("LineStart"=>727,"LineStop"=>757,"TextStart"=>762);
+
+	//Get location for this element of the legend
+	$locations = $locations[$position];
+
+	//Draw line
+	$js = $js . begincanvaspath();
+	$js = $js . 'ctx.strokeStyle = "' . $linecolour . '";';
+	$js = $js . 'ctx.lineWidth=3;';
+	$js = $js . 'ctx.moveTo(' . $locations['LineStart'] . ',610);';
+	$js = $js . 'ctx.lineTo(' . $locations['LineStop'] . ',610);';
+	$js = $js . 'ctx.stroke();';
+	$js = $js . 'ctx.restore();';
+
+	begincanvaspath();
+	$js = $js . 'ctx.fillStyle = "#000000";';
+	$js = $js . 'ctx.font = "15px Arial";';
+	$js = $js . 'ctx.textAlign="left";';
+	$js = $js . 'ctx.fillText("' . $name . '",' . $locations['TextStart'] . ',615);';
+
+	Return $js;
+	}
+
 //---FunctionBreak---
 /*Draw a graph on an HTML canvas
 

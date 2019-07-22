@@ -5,7 +5,7 @@ $data = array();
 $data[0] = array("Year"=>2010,"Y1"=>70);
 $data[1] = array("Year"=>2011,"Y1"=>80);
 $data[2] = array("Year"=>2012,"Y1"=>80);
-$data[3] = array("Year"=>2013,"Y1"=>88);
+$data[3] = array("Year"=>2013,"Y1"=>105);
 $data[4] = array("Year"=>2014,"Y1"=>60);
 
 $dataoppositeorientation = array();
@@ -70,7 +70,7 @@ while ($labelnumber <= $singlenumber)
 	}
 
 $linecoordinates = makecoordinates($dataoppositeorientation['Year'],$dataoppositeorientation['Y1'],$xmin,$xmax,$ymin,$ymax);
-print_r($linecoordinates);
+$linejs = drawpaddlertrendline($linecoordinates,"#000000",1,"Test");
 
 //Create javascript
 $js = 'var canvas = document.getElementById("SRRSChart");';
@@ -81,6 +81,8 @@ $js = $js . fillgraphbackground("#FFFFFF");
 $js = $js . yaxis("Paddlers",$ylabels,$yticks);
 
 $js = $js . xaxis("Year",$xlabels,$xticks);
+
+$js = $js . $linejs;
 
 //Encapsulate JS into script tag
 $js = '<script>' . $js . '</script>';
