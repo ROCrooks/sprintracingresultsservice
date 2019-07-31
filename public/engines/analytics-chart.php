@@ -2,11 +2,25 @@
 include 'required-functions.php';
 
 $data = array();
-$data[0] = array("Year"=>2010,"Y1"=>70);
-$data[1] = array("Year"=>2011,"Y1"=>80);
-$data[2] = array("Year"=>2012,"Y1"=>80);
-$data[3] = array("Year"=>2013,"Y1"=>105);
-$data[4] = array("Year"=>2014,"Y1"=>60);
+$data[0] = array("Year"=>2010,"Y1"=>70,"Y2"=>84);
+$data[1] = array("Year"=>2011,"Y1"=>80,"Y2"=>36);
+$data[2] = array("Year"=>2012,"Y1"=>80,"Y2"=>94);
+$data[3] = array("Year"=>2013,"Y1"=>105,"Y2"=>64);
+$data[4] = array("Year"=>2014,"Y1"=>60,"Y2"=>34);
+
+//Get an array with all the individual line names
+$linekeys = array_keys($data[0]);
+
+//Array of line colours
+$linecolours = array();
+$linecolours[1] = "#000000";
+$linecolours[2] = "#FF0000";
+$linecolours[3] = "#00FF00";
+$linecolours[4] = "#0000FF";
+
+//Array with line titles
+$linetitles = array();
+$linetitles['Y1'] = "Year 1";
 
 $dataoppositeorientation = array();
 //Get the range of X and Y values
@@ -69,8 +83,25 @@ while ($labelnumber <= $singlenumber)
 	$ymax = $labelnumber*(10**$magnitude);
 	}
 
-$linecoordinates = makecoordinates($dataoppositeorientation['Year'],$dataoppositeorientation['Y1'],$xmin,$xmax,$ymin,$ymax);
-$linejs = drawpaddlertrendline($linecoordinates,"#000000",1,"Test");
+//Create lines
+$linesjs = array();
+foreach($linekeys as $linekey=>$linefield)
+	{
+	if ($linefield != "Year")
+		{
+		//Get the line title
+		if (isset($linetitles[$linefield]) == true)
+			$linetitle = $linetitles[$linefield];
+		else
+			$linetitle = $linefield;
+
+		//Format single line
+		$linecoordinates = makecoordinates($dataoppositeorientation['Year'],$dataoppositeorientation[$linefield],$xmin,$xmax,$ymin,$ymax);
+		$linejs = drawpaddlertrendline($linecoordinates,$linecolours[$linekey],$linekey,$linetitle);
+		array_push($linesjs,$linejs);
+		}
+	}
+$linesjs = implode("",$linesjs);
 
 //Create javascript
 $js = 'var canvas = document.getElementById("SRRSChart");';
@@ -82,7 +113,7 @@ $js = $js . yaxis("Paddlers",$ylabels,$yticks);
 
 $js = $js . xaxis("Year",$xlabels,$xticks);
 
-$js = $js . $linejs;
+$js = $js . $linesjs;
 
 //Encapsulate JS into script tag
 $js = '<script>' . $js . '</script>';
