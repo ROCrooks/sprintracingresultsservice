@@ -18,7 +18,7 @@ $linecolours[2] = "#FF0000";
 $linecolours[3] = "#00FF00";
 $linecolours[4] = "#0000FF";
 
-//Array with line titles
+//Array of line titles
 $linetitles = array();
 $linetitles['Y1'] = "Year 1";
 
@@ -121,52 +121,5 @@ $js = '<script>' . $js . '</script>';
 //Create canvas
 $canvas = '<canvas id="SRRSChart" width="950" height="650"></canvas>';
 
-echo "<p>Hello World</p>";
-
-echo $canvas;
-
-echo $js;
-
-/*
-//Generate Y axis
-function maxyaxis($maxvalue)
-	{
-	//Get log to base 10 of axis, round up
-	$logmaxvalue = log10($maxvalue);
-	$ceilinglogmaxvalue = ceil($logmaxvalue);
-
-	//Minus 1, to reduce the order of magnitude and calculate to nearest significant figure
-	$logminus1 = $ceilinglogmaxvalue-1;
-	$magnitude = 10**$logminus1;
-
-	//Divide max value by magnitude to get number between 1 and 10 round up to nearest integer
-	$maxoriginalrange = $maxvalue/$magnitude;
-	$ceilingoforiginal = ceil($maxoriginalrange);
-
-	//Multiply ceiling by magnitude, return
-	$axistop = $ceilingoforiginal*$magnitude;
-	Return $axistop;
-	}
-
-//Make dividers for y axis
-function yaxisnumbers($range)
-	{
-	//Get Log10 of range
-	$logrange = log10($range);
-
-	//Roundup then minus 1 - different to round down in the case of 10, 100, 1000 etc
-	$roundlog = ceil($logrange);
-	$magnitude = $roundlog-1;
-
-	//Get initial numbers and ticks
-	$numbers = 10**$magnitude;
-	$dividers = $numbers/2;
-
-	//Output
-	$output = array("Numbers"=>$numbers,"Ticks"=>$dividers);
-
-	//Output result
-	Return $output;
-	}
-*/
+//Returns $canvas and $js containing the HTML canvas and the Javascript respectively
 ?>
