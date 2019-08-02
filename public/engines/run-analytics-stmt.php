@@ -29,6 +29,8 @@ elseif ($analyticsby == "CK")
   $breakdown = $analyticsck;
 elseif ($analyticsby == "Distance")
   $breakdown = $analyticsdistances;
+elseif ($analyticsby == "All")
+  $breakdown = array("All");
 
 $year = $startyear;
 $analyticsresults = array();
@@ -84,9 +86,11 @@ while ($year <= $endyear)
       {
       $sqlsubsetconstraints = $yearvalues;
       $totalpaddlercount = 0;
+
       //Races in lanes where a distance is specified
       if ($subset != "LD")
         {
+        //Add the subset to the constraints array
         array_push($sqlsubsetconstraints,$subset);
 
         //Loop through each boat size
@@ -106,7 +110,6 @@ while ($year <= $endyear)
       //Long distance races
       elseif ($subset == "LD")
         {
-        $totalpaddlercount = 0;
         //Loop through each boat size
         foreach ($analyticsboatsizes as $boatsize)
           {

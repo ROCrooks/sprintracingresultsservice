@@ -9,7 +9,7 @@ $data[3] = array("Year"=>2013,"Y1"=>105,"Y2"=>64);
 $data[4] = array("Year"=>2014,"Y1"=>60,"Y2"=>34);
 
 //Get an array with all the individual line names
-$linekeys = array_keys($data[0]);
+$linekeys = array_keys($analyticsresults[0]);
 
 //Array of line colours
 $linecolours = array();
@@ -27,7 +27,7 @@ $dataoppositeorientation = array();
 $xmin = INF;
 $xmax = -INF;
 $ymax = -INF;
-foreach ($data as $linekey=>$dataline)
+foreach ($analyticsresults as $linekey=>$dataline)
 	{
 	//Make array in the opposite orientation for display
 	foreach ($dataline as $rowname=>$datavalue)

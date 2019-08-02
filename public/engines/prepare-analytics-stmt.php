@@ -105,7 +105,7 @@ elseif ($analyticsby == "CK")
 //Attach boat size to query
 $paddlerfindsql = $paddlerfindsql . " AND r.`Boat` = ?";
 $analyticsstmt = dbprepare($srrsdblink,$paddlerfindsql);
-if (isset($paddlerfindsql) == true)
+if (isset($longdistancepaddlerfindsql) == true)
   {
   $longdistancepaddlerfindsql = $longdistancepaddlerfindsql . " AND r.`Boat` = ?";
   $analyticslongstmt = dbprepare($srrsdblink,$longdistancepaddlerfindsql);
