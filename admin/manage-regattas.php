@@ -33,6 +33,7 @@ foreach ($allregattaslist as $regattadetails)
   echo '<div style="display: table-cell; width: ' . $widths['Date'] . 'px; height: ' . $boxheight . 'px;"><p>' . $regattadetails['Date'] . '</p></div>';
   echo '<div style="display: table-cell; width: ' . $widths['Apend'] . 'px; height: ' . $boxheight . 'px;"><p><a href="' . $apendraceshyperlink . $regattadetails['Key'] . '">Apend Races</a></p></div>';
   echo '<div style="display: table-cell; width: ' . $widths['Delete'] . 'px; height: ' . $boxheight . 'px;"><p><a href="' . $deleteregattahyperlink . $regattadetails['Key'] . '">Delete Regatta</a></p></div>';
+  //Toggle hide and release for set and unset regatta
   if ($regattadetails['Set'] == 1)
     $hiderelease = "Hide Regatta";
   elseif ($regattadetails['Set'] == 0)
