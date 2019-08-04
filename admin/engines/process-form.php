@@ -6,17 +6,25 @@ $processing = true;
 
 if ((isset($_POST['submitregatta']) == true) AND (isset($_GET['Regatta']) == false))
   {
-  //Get regatta information from form
-  $regattaname = $_POST['RegattaName'];
-  $regattadate = $_POST['RegattaDate'];
-  $regattadays = $_POST['RegattaDays'];
-  $regattatext = $_POST['RegattaText'];
+  if (isset($_GET['regatta']) == true)
+    //Just use the regatta ID directly if specified
+    $regattaid = $_GET['regatta'];
+  else
+    {
+    //Generate regatta ID with DB query
+    //Get regatta information from form
+    $regattaname = $_POST['RegattaName'];
+    $regattadate = $_POST['RegattaDate'];
+    $regattadays = $_POST['RegattaDays'];
 
-  //Run database query and get regatta insert ID
-  $insertregattasql = "INSERT INTO `regattas` (`Name`, `Date`, `Days`, `Hide`) VALUES (?, ?, ?, 1)";
-  $insertregattaconstraints = array($regattaname,$regattadate,$regattadays);
-  dbprepareandexecute($srrsdblink,$insertregattasql,$insertregattaconstraints);
-  $regattaid = mysqli_insert_id($srrsdblink);
+    //Run database query and get regatta insert ID
+    $insertregattasql = "INSERT INTO `regattas` (`Name`, `Date`, `Days`, `Hide`) VALUES (?, ?, ?, 1)";
+    $insertregattaconstraints = array($regattaname,$regattadate,$regattadays);
+    dbprepareandexecute($srrsdblink,$insertregattasql,$insertregattaconstraints);
+    $regattaid = mysqli_insert_id($srrsdblink);
+    }
+
+  $regattatext = $_POST['RegattaText'];
 
   //Put results text into file
   $filename = "regatta" . $regattaid . ".txt";
@@ -76,16 +84,36 @@ elseif ((isset($_POST['submittext']) == false) AND (isset($_POST['submitfields']
   {
   $regattaid = $_GET['Regatta'];
   $filename = "regatta" . $regattaid . ".txt";
+
+  //If the filename doesn't exist, make a form to add races to an already generated regatta
+  if (file_exists($filename) == false)
+    {
+    $processing = false;
+
+    //Widths for the columns in the form
+    $width1 = 150;
+    $width2 = 300;
+
+    //The form to insert a new regatta
+    $addregattaformhtml = '<form action="add-regatta.php?regatta=' . $regattaid . '" method="post">';
+    $addregattaformhtml = $addregattaformhtml . '<div style="display: table-row;">';
+    $addregattaformhtml = $addregattaformhtml . '<div style="width: ' . $width1 . 'px; display: table-cell;">Regatta Text:</div>';
+    $addregattaformhtml = $addregattaformhtml . '<div style="width: ' . $width2 . 'px; display: table-cell;"><textarea cols="30" rows="10" name="RegattaText"></textarea></div>';
+    $addregattaformhtml = $addregattaformhtml . '</div>';
+    $addregattaformhtml = $addregattaformhtml . '<p><input type="submit" name="submitregatta" value="Submit"> <input type="reset" name="reset" value="Reset">';
+    $addregattaformhtml = $addregattaformhtml . '</form>';
+    }
   }
 //What to do if there is no form input
 else
   {
+  $processing = false;
+
   //Widths for the columns in the form
   $width1 = 150;
   $width2 = 300;
 
   //The form to insert a new regatta
-  $processing = false;
   $addregattaformhtml = '<form action="add-regatta.php" method="post">';
   $addregattaformhtml = $addregattaformhtml . '<div style="display: table-row;">';
   $addregattaformhtml = $addregattaformhtml . '<div style="width: ' . $width1 . 'px; display: table-cell;">Regatta Name:</div>';
