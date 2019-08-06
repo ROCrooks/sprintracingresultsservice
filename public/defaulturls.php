@@ -1,4 +1,6 @@
 <?php
+$urlvariables = "?" . implode("&",$urlvariables);
+
 //Config file with default URLs for SRRS
 $defaulturls = array();
 $defaulturls['Analytics'] = "analytics.php";

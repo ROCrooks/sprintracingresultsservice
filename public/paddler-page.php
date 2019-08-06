@@ -1,6 +1,5 @@
 <?php
 include 'engines/user-input-processing.php';
-include 'defaulturls.php';
 
 //Make variables for the URLs
 $urlvariables = array();
@@ -14,7 +13,8 @@ if ($padmw != '')
   array_push($urlvariables,"padmw=" . $padmw);
 if ($padck != '')
   array_push($urlvariables,"padck=" . $padck);
-$urlvariables = "?" . implode("&",$urlvariables);
+
+include 'defaulturls.php';
 
 //List of links
 $subsectionurls = array();

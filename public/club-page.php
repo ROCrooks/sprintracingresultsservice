@@ -1,12 +1,12 @@
 <?php
 include 'engines/user-input-processing.php';
-include 'defaulturls.php';
 
 //Make variables for the URLs
 $urlvariables = array();
 if ($club != '')
   array_push($urlvariables,"club=" . $club);
-$urlvariables = "?" . implode("&",$urlvariables);
+
+include 'defaulturls.php';
 
 //List of links
 $subsectionurls = array();
