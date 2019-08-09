@@ -1,5 +1,7 @@
 <?php
-$urlvariables = "?" . implode("&",$urlvariables);
+//Format URL variables
+if (isset($urlvariables) == true)
+  $urlvariables = "?" . implode("&",$urlvariables);
 
 //Config file with default URLs for SRRS
 $defaulturls = array();
