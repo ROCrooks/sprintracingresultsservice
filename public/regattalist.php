@@ -22,7 +22,7 @@ $totalwidth = $namesection+$datesection;
 $js = "";
 
 //Make the appropriate hyperlinks
-$hyperlink1 = $defaulturls['RegattaLookup'] $ahrefjoin . "regatta=";
+$hyperlink1 = $defaulturls['RegattaLookup'] . $ahrefjoin . "regatta=";
 $hyperlink2 = "";
 if ($club != '')
   $hyperlink2 = $hyperlink2 . "&club=" . $club;

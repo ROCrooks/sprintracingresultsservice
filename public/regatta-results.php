@@ -28,7 +28,12 @@ foreach($regattaresults['Races'] as $raceelement)
   {
   //Create race description line
   $racehtml = "<div>";
-  $racehtml = $racehtml . '<p style="font-size: 120%;"><a href="' . $defaulturls['RaceResults'] . $ahrefjoin . "race=" . $raceelement['Key'] . '">' . $raceelement['Name'] . '</a></p>';
+  $racehtml = $racehtml . '<p style="font-size: 120%;"><a href="' . $defaulturls['RaceResults'] . $ahrefjoin . "race=" . $raceelement['Key'];
+  if (isset($club) == true)
+    $racehtml = $racehtml . '&club=' . $club;
+  if (isset($paddler) == true)
+    $racehtml = $racehtml . '&paddler=' . $club;
+  $racehtml = $racehtml . '">' . $raceelement['Name'] . '</a></p>';
   $racehtml = $racehtml . "</div>";
   foreach($raceelement['Paddlers'] as $paddlerelement)
     {
