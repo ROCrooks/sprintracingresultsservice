@@ -1,4 +1,12 @@
 <?php
+include 'defaulturls.php';
+
+//Define join to attach club variable
+if (strpos($defaulturls['RegattaLookup'],"?") === false)
+  $ahrefjoin = "?";
+else
+  $ahrefjoin = "&";
+
 include 'engines/user-input-processing.php';
 
 include 'engines/regatta-race-count.php';
@@ -8,7 +16,7 @@ echo '<p style="font-size: 200%; text-align: center;">' . $regattaresults['Detai
 //Output each class
 foreach($regattaresults['ClassesFound'] as $classfound)
   {
-  $hyperlink = "regatta-results.php?regatta=" . $regattaid;
+  $hyperlink = $defaulturls['RegattaResults'] . $ahrefjoin . "regatta=" . $regattaid;
   if ($classfound['JSV'] != '')
     $hyperlink = $hyperlink . "&jsv=" . $classfound['JSV'];
   if ($classfound['MW'] != '')
