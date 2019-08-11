@@ -1,6 +1,14 @@
 <?php
+include 'defaulturls.php';
+
+//Define join to attach club variable
+if (strpos($defaulturls['RegattaLookup'],"?") === false)
+  $ahrefjoin = "?";
+else
+  $ahrefjoin = "&";
+
 //Create the records table for a MW/CK combination
-function boattyperecords($allrecords,$mwckcode)
+function boattyperecords($allrecords,$mwckcode,$defaulturls,$ahrefjoin)
   {
   $htmloutput = "";
 
@@ -24,6 +32,15 @@ function boattyperecords($allrecords,$mwckcode)
         if ($recordboatsize == 4)
           {
           $record['Crew'] = explode("/",$record['Crew']);
+          //Set unknown paddlers to ??????
+          if (isset($record['Crew'][0]) == false)
+            $record['Crew'][0] = "??????";
+          if (isset($record['Crew'][1]) == false)
+            $record['Crew'][1] = "??????";
+          if (isset($record['Crew'][2]) == false)
+            $record['Crew'][2] = "??????";
+          if (isset($record['Crew'][3]) == false)
+            $record['Crew'][3] = "??????";
           $record['Crew'] = $record['Crew'][0] . "/" . $record['Crew'][1] . "<br>" . $record['Crew'][2] . "/" . $record['Crew'][3];
 
           $record['Club'] = explode("/",$record['Club']);
@@ -39,8 +56,8 @@ function boattyperecords($allrecords,$mwckcode)
         $htmloutput = $htmloutput .  '<div style="display: table-cell; width: ' . $widths['Crew'] . 'px;"><p>' . $record['Crew'] . '</p></div>';
         $htmloutput = $htmloutput .  '<div style="display: table-cell; width: ' . $widths['Club'] . 'px;"><p>' . $record['Club'] . '</p></div>';
         $htmloutput = $htmloutput .  '<div style="display: table-cell; width: ' . $widths['Time'] . 'px;"><p>' . $record['Time'] . '</p></div>';
-        $htmloutput = $htmloutput .  '<div style="display: table-cell; width: ' . $widths['Regatta'] . 'px;"><p><a href="?page=Regatta&regatta=' . $record['Regatta'] . '">' . $record['MonthDate'] . '</a></p></div>';
-        $htmloutput = $htmloutput .  '<div style="display: table-cell; width: ' . $widths['ViewRace'] . 'px;"><p><a href="?page=ViewRace&race=' . $record['Race'] . '">View Race</a></p></div>';
+        $htmloutput = $htmloutput .  '<div style="display: table-cell; width: ' . $widths['Regatta'] . 'px;"><p><a href="' . $defaulturls['RegattaLookup'] . $ahrefjoin . 'regatta=' . $record['Regatta'] . '">' . $record['MonthDate'] . '</a></p></div>';
+        $htmloutput = $htmloutput .  '<div style="display: table-cell; width: ' . $widths['ViewRace'] . 'px;"><p><a href="' . $defaulturls['RaceResults'] . $ahrefjoin . 'race=' . $record['Race'] . '">View Race</a></p></div>';
         $htmloutput = $htmloutput .  '</div>';
         }
       }
@@ -63,7 +80,7 @@ unset($regattaid);
 include 'engines/regatta-records.php';
 
 //Mens Kayak
-$recordshtml = boattyperecords($allrecords,"M-K");
+$recordshtml = boattyperecords($allrecords,"M-K",$defaulturls,$ahrefjoin);
 if ($recordshtml != "")
   {
   echo '<p style="font-size: 150%; text-align: center;">';
@@ -77,7 +94,7 @@ if ($recordshtml != "")
   }
 
 //Womens Kayak
-$recordshtml = boattyperecords($allrecords,"W-K");
+$recordshtml = boattyperecords($allrecords,"W-K",$defaulturls,$ahrefjoin);
 if ($recordshtml != "")
   {
   echo '<p style="font-size: 150%; text-align: center;">';
@@ -91,7 +108,7 @@ if ($recordshtml != "")
   }
 
 //Mens Canoe
-$recordshtml = boattyperecords($allrecords,"M-C");
+$recordshtml = boattyperecords($allrecords,"M-C",$defaulturls,$ahrefjoin);
 if ($recordshtml != "")
   {
   echo '<p style="font-size: 150%; text-align: center;">';
@@ -105,7 +122,7 @@ if ($recordshtml != "")
   }
 
 //Womens Canoe
-$recordshtml = boattyperecords($allrecords,"W-C");
+$recordshtml = boattyperecords($allrecords,"W-C",$defaulturls,$ahrefjoin);
 if ($recordshtml != "")
   {
   echo '<p style="font-size: 150%; text-align: center;">';
@@ -127,7 +144,7 @@ if($paddler == '')
   $totalwidth = $cellwidth*3;
 
 //Make the base hyperlink for the records page
-$basehyperlink = "event-records.php";
+$basehyperlink = $defaulturls['EventRecords'];
 $baseconstraints = array();
 
 if ($club != '')
@@ -136,7 +153,7 @@ if ($paddler != '')
   array_push($baseconstraints,"paddler=" . $club);
 
 
-$baseconstraintshyperlink = "?" . implode("&",$baseconstraints);
+$baseconstraintshyperlink = $ahrefjoin . implode("&",$baseconstraints);
 $basehyperlink = $basehyperlink . $baseconstraintshyperlink;
 
 //The all time records
