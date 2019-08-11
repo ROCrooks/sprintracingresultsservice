@@ -85,6 +85,8 @@ unset($regattaid);
 
 include 'engines/regatta-records.php';
 
+echo '<div class="item">';
+
 //Mens Kayak
 $recordshtml = boattyperecords($allrecords,"M-K",$defaulturls,$ahrefjoin,$club);
 if ($recordshtml != "")
@@ -201,4 +203,6 @@ foreach($uniqueyears as $uniqueyear)
 
   echo '</div>';
   }
+
+echo '</div>';
 ?>

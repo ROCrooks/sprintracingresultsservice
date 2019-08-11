@@ -30,6 +30,7 @@ if ($paddler != '')
   $hyperlink2 = $hyperlink2 . "&paddler=" . $paddler;
 
 echo '<div class="item">';
+echo '<p>Browse the regattas stored in SRRS. Click on a year to expand the list of regattas in that year.</p>';
 
 //Display all regatta details
 $startyear = "NULL";

@@ -14,6 +14,8 @@ include 'engines/regatta-race-count.php';
 echo '<div class="item">';
 echo '<p style="font-size: 200%; text-align: center;">' . $regattaresults['Details']['Name'] . '</p>';
 
+echo '<p>Browse results of a regatta by class, or show all results.</p>';
+
 //Output each class
 foreach($regattaresults['ClassesFound'] as $classfound)
   {

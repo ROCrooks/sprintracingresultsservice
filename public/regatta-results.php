@@ -18,6 +18,8 @@ include 'engines/get-races.php';
 echo '<div class="item">';
 echo '<p style="font-size: 200%; text-align: center;">' . $regattaresults['Details']['Name'] . '</p>';
 
+echo '<p>Showing a summary of the results of the regatta. Click on the name of any race to give a detailed view of the race.</p>';
+
 //Containers for HTML text in columns and heights of the columns
 $leftcolumn = '<div style="float: left; padding-left: 20px; padding-right: 20px;">';
 $rightcolumn = '<div style="float: left; padding-left: 20px; padding-right: 20px;">';

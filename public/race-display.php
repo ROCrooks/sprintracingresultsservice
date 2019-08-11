@@ -72,4 +72,6 @@ foreach($racedetails['Paddlers'] as $paddlerrace)
   }
 
 echo '</div>';
+
+$regattaid = $racedetails['Regatta'];
 ?>
