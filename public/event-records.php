@@ -93,7 +93,7 @@ if ($recordshtml != "")
   if ($jsv == "J")
     echo "Junior ";
   if ($jsv == "V")
-    echo "Veteran ";
+    echo "Masters ";
   echo 'Mens Kayak</p>';
 
   echo $recordshtml;
@@ -107,7 +107,7 @@ if ($recordshtml != "")
   if ($jsv == "J")
     echo "Junior ";
   if ($jsv == "V")
-    echo "Veteran ";
+    echo "Masters ";
   echo 'Womens Kayak</p>';
 
   echo $recordshtml;
@@ -121,7 +121,7 @@ if ($recordshtml != "")
   if ($jsv == "J")
     echo "Junior ";
   if ($jsv == "V")
-    echo "Veteran ";
+    echo "Masters ";
   echo 'Mens Canoe</p>';
 
   echo $recordshtml;
@@ -135,7 +135,7 @@ if ($recordshtml != "")
   if ($jsv == "J")
     echo "Junior ";
   if ($jsv == "V")
-    echo "Veteran ";
+    echo "Masters ";
   echo 'Womens Canoe</p>';
 
   echo $recordshtml;
@@ -148,6 +148,8 @@ include 'engines/list-years.php';
 $cellwidth = 150;
 if($paddler == '')
   $totalwidth = $cellwidth*3;
+else
+  $totalwidth = $cellwidth;
 
 //Make the base hyperlink for the records page
 $basehyperlink = $defaulturls['EventRecords'];
@@ -156,7 +158,7 @@ $baseconstraints = array();
 if ($club != '')
   array_push($baseconstraints,"club=" . $club);
 if ($paddler != '')
-  array_push($baseconstraints,"paddler=" . $club);
+  array_push($baseconstraints,"paddler=" . $paddler);
 
 
 $baseconstraintshyperlink = $ahrefjoin . implode("&",$baseconstraints);

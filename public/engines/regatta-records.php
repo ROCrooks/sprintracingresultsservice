@@ -46,16 +46,16 @@ if ($club != "")
   $endconstraints = array_merge($endconstraints,$clubconstraint['SQLValues']);
   $geteventrecordsql = $geteventrecordsql . " AND " . $clubconstraint['SQLText'];
   }
-if ($paddler != "")
+if ($paddler != '')
   {
   //Add the paddler details to the search
   $paddlerpossibilities = paddlertopossibilities($paddler);
-  $paddlerconstraint = elementlisttoconstraint($paddlerpossibilities,"Crew","p");
+  $paddlerconstraint = elementlisttoconstraint($paddlerpossibilities,"Crew","p","LIKE");
   $endconstraints = array_merge($endconstraints,$paddlerconstraint['SQLValues']);
   $geteventrecordsql = $geteventrecordsql . " AND " . $paddlerconstraint['SQLText'];
 
   //Search for paddler only by JSV status
-  if (($padjsv != "") AND ($padjsv != "JSV"))
+  if (($padjsv != '') AND ($padjsv != "JSV"))
     {
     $padjsvlist = str_split($padjsv);
     $padjsvsql = elementlisttoconstraint($padjsvlist,"JSV","p");
@@ -63,7 +63,7 @@ if ($paddler != "")
     $endconstraints = array_merge($endconstraints,$padjsvsql['SQLValues']);
     }
   //Search for paddler only by MW status
-  if (($padmw != "") AND ($padmw != "MW"))
+  if (($padmw != '') AND ($padmw != "MW"))
     {
     $padmwlist = str_split($padmw);
     $padmwsql = elementlisttoconstraint($padmwlist,"MW","p");
@@ -71,7 +71,7 @@ if ($paddler != "")
     $endconstraints = array_merge($endconstraints,$padmwsql['SQLValues']);
     }
   //Search for paddler only by CK status
-  if (($padck != "") AND ($padck != "CK"))
+  if (($padck != '') AND ($padck != "CK"))
     {
     $padcklist = str_split($padck);
     $padcksql = elementlisttoconstraint($padcklist,"CK","p");
