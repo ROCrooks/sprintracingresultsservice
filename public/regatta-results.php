@@ -1,4 +1,12 @@
 <?php
+include 'defaulturls.php';
+
+//Define join to attach club variable
+if (strpos($defaulturls['RegattaLookup'],"?") === false)
+  $ahrefjoin = "?";
+else
+  $ahrefjoin = "&";
+
 //Get user inputs
 include 'engines/user-input-processing.php';
 
@@ -20,7 +28,7 @@ foreach($regattaresults['Races'] as $raceelement)
   {
   //Create race description line
   $racehtml = "<div>";
-  $racehtml = $racehtml . '<p style="font-size: 120%;">' . $raceelement['Name'] . '</p>';
+  $racehtml = $racehtml . '<p style="font-size: 120%;"><a href="' . $defaulturls['RaceResults'] . $ahrefjoin . "race=" . $raceelement['Key'] . '">' . $raceelement['Name'] . '</a></p>';
   $racehtml = $racehtml . "</div>";
   foreach($raceelement['Paddlers'] as $paddlerelement)
     {
