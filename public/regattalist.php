@@ -1,4 +1,12 @@
 <?php
+include 'defaulturls.php';
+
+//Define join to attach club variable
+if (strpos($defaulturls['RegattaLookup'],"?") === false)
+  $ahrefjoin = "?";
+else
+  $ahrefjoin = "&";
+
 include 'engines/user-input-processing.php';
 
 $getallregattas = false;
@@ -14,7 +22,7 @@ $totalwidth = $namesection+$datesection;
 $js = "";
 
 //Make the appropriate hyperlinks
-$hyperlink1 = "regatta-results-lookup.php?regatta=";
+$hyperlink1 = $defaulturls['RegattaLookup'] $ahrefjoin . "regatta=";
 $hyperlink2 = "";
 if ($club != '')
   $hyperlink2 = $hyperlink2 . "&club=" . $club;
