@@ -5,6 +5,8 @@ $paddler = '';
 $getallregattas = true;
 include '../public/engines/list-regattas.php';
 
+include 'defaulturls.php';
+
 usort($allregattaslist,'sortregattas');
 
 //Widths of cells in the table
@@ -19,9 +21,9 @@ $totalwidth = array_sum($widths);
 
 //Hyperlinks for management pages
 $manageregattahyperlink = "edit-regatta.php?regatta=";
-$apendraceshyperlink = "add-regatta.php?regatta=";
-$deleteregattahyperlink = "manage-regattas.php?regatta=";
-$hidereleasehyperlink = "manage-regattas.php?regatta=";
+$apendraceshyperlink = $defaulturls['AddRegatta'] . $ahrefjoin . "regatta=";
+$deleteregattahyperlink = $defaulturls['ManageRegattas'] . $ahrefjoin . "action=delete&regatta=";
+$hidereleasehyperlink = $defaulturls['ManageRegattas'] . $ahrefjoin . "action=hide&regatta=";
 
 foreach ($allregattaslist as $regattadetails)
   {
@@ -32,7 +34,7 @@ foreach ($allregattaslist as $regattadetails)
   echo '<div style="display: table-cell; width: ' . $widths['Name'] . 'px; height: ' . $boxheight . 'px;"><p><a href="' . $manageregattahyperlink . $regattadetails['Key'] . '">' . $regattadetails['Name'] . '</a></p></div>';
   echo '<div style="display: table-cell; width: ' . $widths['Date'] . 'px; height: ' . $boxheight . 'px;"><p>' . $regattadetails['Date'] . '</p></div>';
   echo '<div style="display: table-cell; width: ' . $widths['Apend'] . 'px; height: ' . $boxheight . 'px;"><p><a href="' . $apendraceshyperlink . $regattadetails['Key'] . '">Apend Races</a></p></div>';
-  echo '<div style="display: table-cell; width: ' . $widths['Delete'] . 'px; height: ' . $boxheight . 'px;"><p><a href="' . $deleteregattahyperlink . $regattadetails['Key'] . '">Delete Regatta</a></p></div>';
+  echo '<div style="display: table-cell; width: ' . $widths['Delete'] . 'px; height: ' . $boxheight . 'px;"><p><a href="' . $deleteregattahyperlink . $regattadetails['Key'] . '" onclick="return confirm(\'This will delete the regatta. Are you sure you want to continue?\')">Delete Regatta</a></p></div>';
   //Toggle hide and release for set and unset regatta
   if ($regattadetails['Set'] == 1)
     $hiderelease = "Hide Regatta";
