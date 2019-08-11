@@ -6,7 +6,7 @@ $racefindsql = "SELECT";
 $racefindbaseconstraints = array($regattaid);
 
 if ($searchtype == "rows")
-  $racefindsql = $racefindsql . " r.`Key`, r.`Regatta`, r.`Boat`, r.`Dist`, r.`R`, r.`D`";
+  $racefindsql = $racefindsql . " r.`Key`, r.`Regatta`, r.`Boat`, r.`Dist`, r.`R`, r.`D`, r.`FreeText`";
 elseif ($searchtype == "count")
   $racefindsql = $racefindsql . " COUNT(*)";
 
@@ -31,7 +31,7 @@ if ($club != '')
     {
     $clubarray[$clubkey] = "%" . $clubvalue . "%";
     }
-  
+
   $clubsql = elementlisttoconstraint($clubarray,"Club","p","LIKE");
   $racefindsql = $racefindsql . " AND " . $clubsql['SQLText'];
   $racefindbaseconstraints = array_merge($racefindbaseconstraints,$clubsql['SQLValues']);

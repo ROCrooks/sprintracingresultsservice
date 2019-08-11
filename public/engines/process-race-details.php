@@ -60,7 +60,13 @@ if (is_array($racesqlresultline) == true)
   include 'format-class.php';
 
   //Format name of race
-  $racename = $raceclass . " " . $distance . " " . $rounddraw;
+  $racename = "";
+  if ($racesqlresultline['FreeText'] != '')
+    $racename = $racename . " " . $racesqlresultline['FreeText'];
+  if ($raceclass != '')
+    $racename = $racename . " " . $raceclass;
+    $racename = $racename . " " . $distance . " " . $rounddraw;
+  $racename = substr($racename,1);
 
   //Race details into an array
   $racedetails = array();

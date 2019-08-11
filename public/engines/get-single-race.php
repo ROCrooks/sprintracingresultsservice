@@ -2,7 +2,7 @@
 include_once 'required-functions.php';
 
 //Process race details
-$racesql = "SELECT `Regatta`, `R`, `D`, `Boat`, `Dist` FROM `races` WHERE `Key` = ?";
+$racesql = "SELECT `Regatta`, `R`, `D`, `Boat`, `Dist`, `FreeText` FROM `races` WHERE `Key` = ?";
 $racesqlresultline = dbprepareandexecute($srrsdblink,$racesql,$raceid);
 if (count($racesqlresultline) > 0)
   {

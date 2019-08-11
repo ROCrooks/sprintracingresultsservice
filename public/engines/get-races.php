@@ -12,7 +12,7 @@ if (count($regattadetailsline) > 0)
 
 //Base query
 $raceconstraints = array($regattaid);
-$regattaracessql = "SELECT `Key`, `Regatta`, `Boat`, `Dist`, `R`, `D` FROM `races` WHERE `Regatta` = ?";
+$regattaracessql = "SELECT `Key`, `Regatta`, `Boat`, `Dist`, `R`, `D`, `FreeText` FROM `races` WHERE `Regatta` = ?";
 
 //Make the race search statement using engine
 $searchtype = "rows";
