@@ -29,6 +29,8 @@ if ($club != '')
 if ($paddler != '')
   $hyperlink2 = $hyperlink2 . "&paddler=" . $paddler;
 
+echo '<div class="item">';
+
 //Display all regatta details
 $startyear = "NULL";
 foreach ($allregattaslist as $regattadetails)
@@ -63,6 +65,7 @@ foreach ($allregattaslist as $regattadetails)
   echo '<div style="display: table-cell; width: ' . $datesection . 'px; height: ' . $boxheight . 'px;"><p>' . $regattadetails['Date'] . '</p></div>';
   echo '</div>';
   }
+echo '</div>';
 echo '</div>';
 ?>
 

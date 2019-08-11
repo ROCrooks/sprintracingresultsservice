@@ -15,6 +15,7 @@ include 'engines/get-races.php';
 
 //print_r($regattaresults);
 
+echo '<div class="item">';
 echo '<p style="font-size: 200%; text-align: center;">' . $regattaresults['Details']['Name'] . '</p>';
 
 //Containers for HTML text in columns and heights of the columns
@@ -104,5 +105,6 @@ $rightcolumn = $rightcolumn . '</div>';
 echo '<div style="display: flex;">';
 echo $leftcolumn;
 echo $rightcolumn;
+echo '</div>';
 echo '</div>';
 ?>

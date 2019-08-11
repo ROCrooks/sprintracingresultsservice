@@ -16,13 +16,23 @@ if ($padck != '')
 
 include 'defaulturls.php';
 
+//Define join to attach club variable
+if (strpos($defaulturls['RegattaLookup'],"?") === false)
+  $ahrefjoin = "?";
+else
+  $ahrefjoin = "&";
+
 //List of links
 $subsectionurls = array();
 $subsectionurls[0] = array("URL"=>$defaulturls['RegattasList'],"Text"=>"Browse Regattas");
 $subsectionurls[1] = array("URL"=>$defaulturls['EventRecords'],"Text"=>"Record Times");
 
+echo '<div class="item">';
+
 foreach($subsectionurls as $listurl)
   {
-  echo '<p><a href="' . $listurl['URL'] . $urlvariables . '">' . $listurl['Text'] . '</a></p>';
+  echo '<p><a href="' . $listurl['URL'] . $ahrefjoin . $urlvariables . '">' . $listurl['Text'] . '</a></p>';
   }
+
+echo '</div>';
 ?>

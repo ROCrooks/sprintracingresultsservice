@@ -11,6 +11,7 @@ include 'engines/user-input-processing.php';
 
 include 'engines/regatta-race-count.php';
 
+echo '<div class="item">';
 echo '<p style="font-size: 200%; text-align: center;">' . $regattaresults['Details']['Name'] . '</p>';
 
 //Output each class
@@ -36,4 +37,5 @@ foreach($regattaresults['ClassesFound'] as $classfound)
 
   echo '<p><a href="' . $hyperlink . '">' . $classfound['Text'] . "</a> - " . $classfound['RacesCount'] . "</p>";
   }
+echo '</div>';
 ?>
