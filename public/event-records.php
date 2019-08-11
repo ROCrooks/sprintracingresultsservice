@@ -8,7 +8,7 @@ else
   $ahrefjoin = "&";
 
 //Create the records table for a MW/CK combination
-function boattyperecords($allrecords,$mwckcode,$defaulturls,$ahrefjoin)
+function boattyperecords($allrecords,$mwckcode,$defaulturls,$ahrefjoin,$club)
   {
   $htmloutput = "";
 
@@ -52,13 +52,19 @@ function boattyperecords($allrecords,$mwckcode,$defaulturls,$ahrefjoin)
 
         //Create records table
         $htmloutput = $htmloutput . '<div style="display: table; margin: auto; width: ' . $totalwidth . 'px;">';
-        $htmloutput = $htmloutput .  '<div style="display: table-cell; width: ' . $widths['Description'] . 'px;"><p>' . $record['EventDescription'] . '</p></div>';
-        $htmloutput = $htmloutput .  '<div style="display: table-cell; width: ' . $widths['Crew'] . 'px;"><p>' . $record['Crew'] . '</p></div>';
-        $htmloutput = $htmloutput .  '<div style="display: table-cell; width: ' . $widths['Club'] . 'px;"><p>' . $record['Club'] . '</p></div>';
-        $htmloutput = $htmloutput .  '<div style="display: table-cell; width: ' . $widths['Time'] . 'px;"><p>' . $record['Time'] . '</p></div>';
-        $htmloutput = $htmloutput .  '<div style="display: table-cell; width: ' . $widths['Regatta'] . 'px;"><p><a href="' . $defaulturls['RegattaLookup'] . $ahrefjoin . 'regatta=' . $record['Regatta'] . '">' . $record['MonthDate'] . '</a></p></div>';
-        $htmloutput = $htmloutput .  '<div style="display: table-cell; width: ' . $widths['ViewRace'] . 'px;"><p><a href="' . $defaulturls['RaceResults'] . $ahrefjoin . 'race=' . $record['Race'] . '">View Race</a></p></div>';
-        $htmloutput = $htmloutput .  '</div>';
+        $htmloutput = $htmloutput . '<div style="display: table-cell; width: ' . $widths['Description'] . 'px;"><p>' . $record['EventDescription'] . '</p></div>';
+        $htmloutput = $htmloutput . '<div style="display: table-cell; width: ' . $widths['Crew'] . 'px;"><p>' . $record['Crew'] . '</p></div>';
+        $htmloutput = $htmloutput . '<div style="display: table-cell; width: ' . $widths['Club'] . 'px;"><p>' . $record['Club'] . '</p></div>';
+        $htmloutput = $htmloutput . '<div style="display: table-cell; width: ' . $widths['Time'] . 'px;"><p>' . $record['Time'] . '</p></div>';
+        $htmloutput = $htmloutput . '<div style="display: table-cell; width: ' . $widths['Regatta'] . 'px;"><p><a href="' . $defaulturls['RegattaLookup'] . $ahrefjoin . 'regatta=' . $record['Regatta'];
+        if ($club != '')
+          $htmloutput = $htmloutput . '&club=' . $club;
+        $htmloutput = $htmloutput . '">' . $record['MonthDate'] . '</a></p></div>';
+        $htmloutput = $htmloutput . '<div style="display: table-cell; width: ' . $widths['ViewRace'] . 'px;"><p><a href="' . $defaulturls['RaceResults'] . $ahrefjoin . 'race=' . $record['Race'];
+        if ($club != '')
+          $htmloutput = $htmloutput . '&club=' . $club;
+        $htmloutput = $htmloutput . '">View Race</a></p></div>';
+        $htmloutput = $htmloutput . '</div>';
         }
       }
     }
@@ -80,7 +86,7 @@ unset($regattaid);
 include 'engines/regatta-records.php';
 
 //Mens Kayak
-$recordshtml = boattyperecords($allrecords,"M-K",$defaulturls,$ahrefjoin);
+$recordshtml = boattyperecords($allrecords,"M-K",$defaulturls,$ahrefjoin,$club);
 if ($recordshtml != "")
   {
   echo '<p style="font-size: 150%; text-align: center;">';
@@ -94,7 +100,7 @@ if ($recordshtml != "")
   }
 
 //Womens Kayak
-$recordshtml = boattyperecords($allrecords,"W-K",$defaulturls,$ahrefjoin);
+$recordshtml = boattyperecords($allrecords,"W-K",$defaulturls,$ahrefjoin,$club);
 if ($recordshtml != "")
   {
   echo '<p style="font-size: 150%; text-align: center;">';
@@ -108,7 +114,7 @@ if ($recordshtml != "")
   }
 
 //Mens Canoe
-$recordshtml = boattyperecords($allrecords,"M-C",$defaulturls,$ahrefjoin);
+$recordshtml = boattyperecords($allrecords,"M-C",$defaulturls,$ahrefjoin,$club);
 if ($recordshtml != "")
   {
   echo '<p style="font-size: 150%; text-align: center;">';
@@ -122,7 +128,7 @@ if ($recordshtml != "")
   }
 
 //Womens Canoe
-$recordshtml = boattyperecords($allrecords,"W-C",$defaulturls,$ahrefjoin);
+$recordshtml = boattyperecords($allrecords,"W-C",$defaulturls,$ahrefjoin,$club);
 if ($recordshtml != "")
   {
   echo '<p style="font-size: 150%; text-align: center;">';
