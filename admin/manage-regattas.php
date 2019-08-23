@@ -1,8 +1,26 @@
 <?php
+//Hide or delete a regatta
+if (isset($_GET['action']) == true)
+  {
+  $action = $_GET['action'];
+  $doregatta = $_GET['regatta'];
+
+  //Delete a specified regatta
+  if ($action == "delete")
+    {
+    $deleteregatta = $doregatta;
+    include 'engines/delete-regatta.php';
+    $actionmessage = "<p>Regatta Deleted!</p>";
+    }
+  }
+else
+  $actionmessage = "";
+
 //Club and paddler are null when retrieving regattas
 $club = '';
 $paddler = '';
 $getallregattas = true;
+
 include '../public/engines/list-regattas.php';
 
 include 'defaulturls.php';
@@ -25,6 +43,9 @@ $apendraceshyperlink = $defaulturls['AddRegatta'] . $ahrefjoin . "regatta=";
 $deleteregattahyperlink = $defaulturls['ManageRegattas'] . $ahrefjoin . "action=delete&regatta=";
 $hidereleasehyperlink = $defaulturls['ManageRegattas'] . $ahrefjoin . "action=hide&regatta=";
 
+echo $actionmessage;
+
+//Make list of regattas
 foreach ($allregattaslist as $regattadetails)
   {
   $regattadetails['Set'] = 0;
