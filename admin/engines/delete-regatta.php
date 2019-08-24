@@ -19,8 +19,8 @@ WHERE g.`Key` = ?";
 $deleteregattasql = "DELETE FROM `regattas` WHERE `Key` = ?";
 
 //Delete the regattas
-dbprepareandexecute($srrsdblink,$deletepaddlersql,$deleteregatta);
-dbprepareandexecute($srrsdblink,$deleteclasssql,$deleteregatta);
-dbprepareandexecute($srrsdblink,$deleteracessql,$deleteregatta);
-dbprepareandexecute($srrsdblink,$deleteregattasql,$deleteregatta);
+dbprepareandexecute($srrsdblink,$deletepaddlersql,$doregatta);
+dbprepareandexecute($srrsdblink,$deleteclasssql,$doregatta);
+dbprepareandexecute($srrsdblink,$deleteracessql,$doregatta);
+dbprepareandexecute($srrsdblink,$deleteregattasql,$doregatta);
 ?>
