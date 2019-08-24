@@ -14,7 +14,7 @@ if (($club != '') OR ($paddler != ''))
 $listregattassql = $listregattassql . " WHERE g.`Key` != ''";
 
 //Only find all regattas if requested
-if ($getallregattas == true)
+if ($getallregattas != true)
   $listregattassql = $listregattassql . " AND g.`Hide` = 0";
 
 //Make regatta constraints for club

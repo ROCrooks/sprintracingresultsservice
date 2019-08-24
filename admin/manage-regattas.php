@@ -8,9 +8,18 @@ if (isset($_GET['action']) == true)
   //Delete a specified regatta
   if ($action == "delete")
     {
-    $deleteregatta = $doregatta;
     include 'engines/delete-regatta.php';
     $actionmessage = "<p>Regatta Deleted!</p>";
+    }
+  //Delete a specified regatta
+  if (($action == "hide") OR ($action == "release"))
+    {
+    include 'engines/releasehide-regatta.php';
+
+    if ($action == "hide")
+      $actionmessage = "<p>Regatta Hidden!</p>";
+    elseif ($action == "release")
+      $actionmessage = "<p>Regatta Released!</p>";
     }
   }
 else
