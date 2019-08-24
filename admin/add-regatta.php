@@ -14,7 +14,7 @@ if ($processing == false)
   if (isset($regattaid) == false)
     echo '<p>Add a new regatta to the SRRS database using this form and where possible it will automatically be processed into races.</p>';
   elseif (isset($regattaid) == true)
-    echo '<p>Add a new races to a regatta.</p>';
+    echo '<p>Add new races to a regatta.</p>';
   echo $addregattaformhtml;
   }
 elseif (($finished == false) AND ($raceerror == true))

@@ -80,9 +80,9 @@ elseif ((isset($_POST['submitfields']) == true) AND (isset($_GET['Regatta']) == 
     }
   }
 //What to do if going directly to a numbered regatta
-elseif ((isset($_POST['submittext']) == false) AND (isset($_POST['submitfields']) == false) AND (isset($_GET['Regatta']) == true))
+elseif ((isset($_POST['submittext']) == false) AND (isset($_POST['submitfields']) == false) AND (isset($_GET['regatta']) == true))
   {
-  $regattaid = $_GET['Regatta'];
+  $regattaid = $_GET['regatta'];
   $filename = "regatta" . $regattaid . ".txt";
 
   //If the filename doesn't exist, make a form to add races to an already generated regatta
