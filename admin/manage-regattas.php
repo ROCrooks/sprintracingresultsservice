@@ -41,15 +41,14 @@ $totalwidth = array_sum($widths);
 $manageregattahyperlink = "edit-regatta.php?regatta=";
 $apendraceshyperlink = $defaulturls['AddRegatta'] . $ahrefjoin . "regatta=";
 $deleteregattahyperlink = $defaulturls['ManageRegattas'] . $ahrefjoin . "action=delete&regatta=";
-$hidereleasehyperlink = $defaulturls['ManageRegattas'] . $ahrefjoin . "action=hide&regatta=";
+$hidehyperlink = $defaulturls['ManageRegattas'] . $ahrefjoin . "action=hide&regatta=";
+$releasehyperlink = $defaulturls['ManageRegattas'] . $ahrefjoin . "action=release&regatta=";
 
 echo $actionmessage;
 
 //Make list of regattas
 foreach ($allregattaslist as $regattadetails)
   {
-  $regattadetails['Set'] = 0;
-
   //Make the row with the regatta details
   echo '<div style="display: table; width: ' . $totalwidth . 'px; height: ' . $boxheight . 'px;">';
   echo '<div style="display: table-cell; width: ' . $widths['Name'] . 'px; height: ' . $boxheight . 'px;"><p><a href="' . $manageregattahyperlink . $regattadetails['Key'] . '">' . $regattadetails['Name'] . '</a></p></div>';
@@ -57,10 +56,16 @@ foreach ($allregattaslist as $regattadetails)
   echo '<div style="display: table-cell; width: ' . $widths['Apend'] . 'px; height: ' . $boxheight . 'px;"><p><a href="' . $apendraceshyperlink . $regattadetails['Key'] . '">Apend Races</a></p></div>';
   echo '<div style="display: table-cell; width: ' . $widths['Delete'] . 'px; height: ' . $boxheight . 'px;"><p><a href="' . $deleteregattahyperlink . $regattadetails['Key'] . '" onclick="return confirm(\'This will delete the regatta. Are you sure you want to continue?\')">Delete Regatta</a></p></div>';
   //Toggle hide and release for set and unset regatta
-  if ($regattadetails['Set'] == 1)
+  if ($regattadetails['Hide'] == 0)
+    {
     $hiderelease = "Hide Regatta";
-  elseif ($regattadetails['Set'] == 0)
+    $hidereleasehyperlink = $hidehyperlink;
+    }
+  elseif ($regattadetails['Hide'] == 1)
+    {
     $hiderelease = "Release Regatta";
+    $hidereleasehyperlink = $releasehyperlink;
+    }
   echo '<div style="display: table-cell; width: ' . $widths['HideRelease'] . 'px; height: ' . $boxheight . 'px;"><p><a href="' . $hidereleasehyperlink . $regattadetails['Key'] . '">' . $hiderelease . '</a></p></div>';
   echo '</div>';
   }

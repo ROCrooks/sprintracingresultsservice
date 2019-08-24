@@ -2,7 +2,7 @@
 include_once 'required-functions.php';
 
 //Get the regattas
-$regattafieldswanted = "g.`Key`, g.`Name`, g.`Date`, g.`Days`";
+$regattafieldswanted = "g.`Key`, g.`Name`, g.`Date`, g.`Days`, g.`Hide`";
 include 'get-regattas.php';
 
 foreach($allregattaslist as $allregattaslistkey=>$regattadetailsline)
