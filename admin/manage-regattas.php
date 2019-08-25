@@ -1,4 +1,6 @@
 <?php
+include 'relative-path.php';
+
 //Hide or delete a regatta
 if (isset($_GET['action']) == true)
   {
@@ -30,7 +32,7 @@ $club = '';
 $paddler = '';
 $getallregattas = true;
 
-include '../public/engines/list-regattas.php';
+include $relativepath . 'list-regattas.php';
 
 include 'defaulturls.php';
 
