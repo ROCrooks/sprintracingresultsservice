@@ -1,5 +1,6 @@
 <?php
 include 'relative-path.php';
+include 'defaulturls.php';
 
 //Get regatta ID
 if (isset($_GET['regatta']) == true)
@@ -18,12 +19,20 @@ $spec = '';
 $ages = '';
 include $relativepath . 'get-races.php';
 
-echo '<p>Regatta:</p>';
+if (isset($regattaresults['Details']) == true)
+  {
+  echo '<p>Regatta:</p>';
+  echo '<p>Regatta Name: <input type="text" size="80" value="' . $regattaresults['Details']['Name'] . '"></p>';
+  echo '<p>Regatta Date: <input type="text" size="15" value="' . $regattaresults['Details']['FullDate'] . '"></p>';
+  }
 
-print_r($regattaresults['Details']);
-
-echo '<p>Races:</p>';
-
-print_r($regattaresults['Races']);
+if (isset($regattaresults['Details']) == true)
+  {
+  echo '<p>Races:</p>';
+  foreach ($regattaresults['Races'] as $race)
+    {
+    print '<p>' . $race['Name'] . '</p>';
+    }
+  }
 
 ?>
