@@ -32,7 +32,7 @@ $club = '';
 $paddler = '';
 $getallregattas = true;
 
-include $relativepath . 'list-regattas.php';
+include $publicenginesrelativepath . 'list-regattas.php';
 
 include 'defaulturls.php';
 

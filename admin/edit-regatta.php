@@ -17,7 +17,7 @@ $ck = '';
 $abil = '';
 $spec = '';
 $ages = '';
-include $relativepath . 'get-races.php';
+include $publicenginesrelativepath . 'get-races.php';
 
 if (isset($regattaresults['Details']) == true)
   {

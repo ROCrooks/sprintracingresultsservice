@@ -1,10 +1,10 @@
 <div class="item">
 <?php
 $raceerror = false;
-include 'engines/process-form.php';
+include $adminenginesrelativepath . 'process-form.php';
 
 if (($processing == true) AND ($raceerror == false))
-  include 'engines/import-races-engine.php';
+  include $adminenginesrelativepath . 'import-races-engine.php';
 
 if ($processing == false)
   {
