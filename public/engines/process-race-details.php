@@ -39,22 +39,9 @@ if (is_array($racesqlresultline) == true)
   if ($racesqlresultline['Dist'] > 1000)
     $distance = $racesqlresultline['Dist']/1000 . "km";
 
-  //Format the class of the race from the classes table
-  $getclassdetailssql = "SELECT `JSV`, `MW`, `CK`, `Abil`, `Spec`, `Ages`, `FreeText` FROM `classes` WHERE `Race` = ? ";
+  //Run the engine to get the classes of the race for the $raceid
+  include 'get-race-classes.php';
 
-  //Prepare an SQL statement to run multiple times, as this engine can be called in a loop
-  if (isset($retainedclassdetailssql) == false)
-    {
-    $retainedclassdetailssql = $getclassdetailssql;
-    $classdetailsstmt = dbprepare($srrsdblink,$retainedclassdetailssql);
-    }
-  elseif ($retainedclassdetailssql != $getclassdetailssql)
-    {
-    $retainedclassdetailssql = $getclassdetailssql;
-    $classdetailsstmt = dbprepare($srrsdblink,$retainedclassdetailssql);
-    }
-
-  $classdetails = dbexecute($classdetailsstmt,$raceid);
   //$classdetails = dbprepareandexecute($srrsdblink,$getclassdetailssql,$raceid);
   $boatsize = $racesqlresultline['Boat'];
   include 'format-class.php';

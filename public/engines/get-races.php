@@ -18,7 +18,7 @@ $regattaracessql = "SELECT `Key`, `Regatta`, `Boat`, `Dist`, `R`, `D`, `FreeText
 $searchtype = "rows";
 include 'make-race-find-stmt.php';
 
-//Make the constr
+//Make the constraints
 $classconstraints = raceclasstoconstraints($jsv,$mw,$ck,$abil,$spec,$ages);
 $raceconstraints = array_merge($racefindbaseconstraints,$classconstraints);
 
