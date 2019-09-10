@@ -65,6 +65,7 @@ if (is_array($racesqlresultline) == true)
   $racedetails['BoatSize'] = $racesqlresultline['Boat'];
   $racedetails['Round'] = $roundno;
   $racedetails['Draw'] = $racesqlresultline['D'];
+  $racedetails['FreeText'] = $racesqlresultline['FreeText'];
   }
 else
   {
@@ -78,5 +79,6 @@ else
   $racedetails['BoatSize'] = 0;
   $racedetails['Round'] = 0;
   $racedetails['Draw'] = 0;
+  $racedetails['FreeText'] = $racesqlresultline['FreeText'];
   }
 ?>
