@@ -14,7 +14,7 @@ else
 include 'process-race-details.php';
 
 //Process paddlers
-$paddlersql = "SELECT `Position`, `Lane`, `Club`, `Crew`, `Time`, `NR`, `JSV`, `MW`, `CK` FROM `paddlers` WHERE `Race` = ?";
+$paddlersql = "SELECT `Key`, `Position`, `Lane`, `Club`, `Crew`, `Time`, `NR`, `JSV`, `MW`, `CK` FROM `paddlers` WHERE `Race` = ?";
 $paddlerresults = dbprepareandexecute($srrsdblink,$paddlersql,$raceid);
 
 foreach ($paddlerresults as $paddlerkey=>$paddlerdetails)
