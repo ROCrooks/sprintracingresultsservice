@@ -189,7 +189,7 @@ echo '</div>';
 foreach ($racedetails['Paddlers'] as $paddler)
   {
   echo '<div style="display: table-row;">';
-  echo '<div style="display: table-cell; width: 0px;"><form action="' . $defaulturls['EditRace'] . $variablejoin . 'race=' . $raceid . '" method="post"><input type="hidden" name="" value="' . $paddler['Key'] . '"></div>';
+  echo '<div style="display: table-cell; width: 0px;"><form action="' . $defaulturls['EditRace'] . $variablejoin . 'race=' . $raceid . '" method="post"><input type="hidden" name="PaddlerKey" value="' . $paddler['Key'] . '"></div>';
   echo '<div style="width: ' . $widths['Position'] . 'px; display: table-cell;"><input type="text" name="Position" value="' . $paddler['Position'] . '" size="' . $fieldsizes['Position'] . '"></div>';
   echo '<div style="width: ' . $widths['Lane'] . 'px; display: table-cell;"><input type="text" name="Lane" value="' . $paddler['Lane'] . '" size="' . $fieldsizes['Lane'] . '"></div>';
   echo '<div style="width: ' . $widths['Crew'] . 'px; display: table-cell;"><input type="text" name="Crew" value="' . $paddler['Crew'] . '" size="' . $fieldsizes['Crew'] . '"></div>';
