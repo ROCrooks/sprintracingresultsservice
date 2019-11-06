@@ -140,7 +140,7 @@ foreach ($classdetails as $individualclass)
   echo '<div style="width: ' . $widths['Ages'] . 'px; display: table-cell;"><input type="text" size="' . $fieldsizes['Ages'] . '" value="' . $individualclass['Ages'] . '" name="Ages"></div>';
   echo '<div style="width: ' . $widths['FreeText'] . 'px; display: table-cell;"><input type="text" size="' . $fieldsizes['FreeText'] . '" value="' . $individualclass['FreeText'] . '" name="FreeText"></div>';
   echo '<div style="width: ' . $widths['Button'] . 'px; display: table-cell;"><input type="submit" value="Edit" name="ClassEdit"></div>';
-  echo '<div style="width: ' . $widths['Button'] . 'px; display: table-cell;"><input type="submit" value="Delete" name="ClassDelete"></div>';
+  echo '<div style="width: ' . $widths['Button'] . 'px; display: table-cell;"><input type="submit" value="Delete" name="ClassDelete" onclick="return confirm(\'This will delete the race class. Are you sure you want to continue?\')"></div>';
   echo '<div style="0px; display: table-cell;"></form></div>';
   echo '</div>';
   }
@@ -199,7 +199,7 @@ foreach ($racedetails['Paddlers'] as $paddler)
   echo '<div style="width: ' . $widths['MW'] . 'px; display: table-cell;"><input type="text" name="MW" value="' . $paddler['MW'] . '" size="' . $fieldsizes['MW'] . '"></div>';
   echo '<div style="width: ' . $widths['CK'] . 'px; display: table-cell;"><input type="text" name="CK" value="' . $paddler['CK'] . '" size="' . $fieldsizes['CK'] . '"></div>';
   echo '<div style="width: ' . $widths['Button'] . 'px; display: table-cell;"><input type="submit" value="Edit" name="PaddlerEdit"></div>';
-  echo '<div style="width: ' . $widths['Button'] . 'px; display: table-cell;"><input type="submit" value="Delete" name="PaddlerDelete"></div>';
+  echo '<div style="width: ' . $widths['Button'] . 'px; display: table-cell;"><input type="submit" value="Delete" name="PaddlerDelete" onclick="return confirm(\'This will delete the paddler. Are you sure you want to continue?\')"></div>';
   echo '<div style="display: table-cell;"></form></div>';
   echo '</div>';
   }
