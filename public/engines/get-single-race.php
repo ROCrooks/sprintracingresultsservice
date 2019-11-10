@@ -23,5 +23,7 @@ foreach ($paddlerresults as $paddlerkey=>$paddlerdetails)
   $paddlerresults[$paddlerkey] = $paddlerdetails;
   }
 
+usort($paddlerresults,"sortfinishers");
+
 $racedetails['Paddlers'] = $paddlerresults;
 ?>
