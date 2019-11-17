@@ -131,7 +131,7 @@ foreach ($classdetails as $individualclass)
   {
   //Pass the name of the
   echo '<div style="display: table-row;">';
-  echo '<div style="display: table-cell; width: 0px;"><form action="' . $defaulturls['EditRace'] . $variablejoin . 'race=' . $raceid . '" method="post"><input type="hidden" name="ClassID" value="' . $individualclass['Key'] . '"></div>';
+  echo '<div style="display: table-cell; width: 0px;"><form action="' . $defaulturls['EditRace'] . $variablejoin . 'race=' . $raceid . '" method="post"><input type="hidden" name="ItemKey" value="' . $individualclass['Key'] . '"></div>';
   echo '<div style="width: ' . $widths['JSV'] . 'px; display: table-cell;"><input type="text" size="' . $fieldsizes['JSV'] . '" value="' . $individualclass['JSV'] . '" name="JSV"></div>';
   echo '<div style="width: ' . $widths['MW'] . 'px; display: table-cell;"><input type="text" size="' . $fieldsizes['MW'] . '" value="' . $individualclass['MW'] . '" name="MW"></div>';
   echo '<div style="width: ' . $widths['CK'] . 'px; display: table-cell;"><input type="text" size="' . $fieldsizes['CK'] . '" value="' . $individualclass['CK'] . '" name="CK"></div>';
@@ -189,7 +189,7 @@ echo '</div>';
 foreach ($racedetails['Paddlers'] as $paddler)
   {
   echo '<div style="display: table-row;">';
-  echo '<div style="display: table-cell; width: 0px;"><form action="' . $defaulturls['EditRace'] . $variablejoin . 'race=' . $raceid . '" method="post"><input type="hidden" name="PaddlerKey" value="' . $paddler['Key'] . '"></div>';
+  echo '<div style="display: table-cell; width: 0px;"><form action="' . $defaulturls['EditRace'] . $variablejoin . 'race=' . $raceid . '" method="post"><input type="hidden" name="ItemKey" value="' . $paddler['Key'] . '"></div>';
   echo '<div style="width: ' . $widths['Position'] . 'px; display: table-cell;"><input type="text" name="Position" value="' . $paddler['Position'] . '" size="' . $fieldsizes['Position'] . '"></div>';
   echo '<div style="width: ' . $widths['Lane'] . 'px; display: table-cell;"><input type="text" name="Lane" value="' . $paddler['Lane'] . '" size="' . $fieldsizes['Lane'] . '"></div>';
   echo '<div style="width: ' . $widths['Crew'] . 'px; display: table-cell;"><input type="text" name="Crew" value="' . $paddler['Crew'] . '" size="' . $fieldsizes['Crew'] . '"></div>';
