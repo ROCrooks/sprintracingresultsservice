@@ -1,8 +1,6 @@
 <?php
 include_once 'required-functions.php';
 
-echo "<p>Form submitted</p>";
-
 //Get from the form
 function getfromform($input)
   {
@@ -80,41 +78,52 @@ if (isset($_POST['RaceEdit']) == true)
   {
   $runsql = "UPDATE `races` SET `Regatta` = ?, `Boat` = ?, `Dist` = ?, `R` = ?, `D` = ?, `FreeText` = ? WHERE `Key` = ?";
   $runconstraints = array($inputregatta,$inputboatsize,$inputdistance,$inputround,$inputdraw,$inputfreetext,$raceid);
+  $sqlmessage = "Edited race details!";
   }
-if (isset($_POST['ClassEdit']) == true)
+elseif (isset($_POST['ClassEdit']) == true)
   {
   $runsql = "UPDATE `classes` SET `JSV` = ?, `MW` = ?, `CK` = ?, `Spec` = ?, `Abil` = ?, `Ages` = ?, `FreeText` = ? WHERE `Key` = ?";
   $runconstraints = array($inputjsv,$inputmw,$inputck,$inputspec,$inputabil,$inputages,$inputfreetext,$inputkey);
+  $sqlmessage = "Edited class codes!";
   }
-if (isset($_POST['ClassDelete']) == true)
+elseif (isset($_POST['ClassDelete']) == true)
   {
   $runsql = "DELETE FROM `classes` WHERE `Key` = ?";
   $runconstraints = array($inputkey);
+  $sqlmessage = "Deleted class codes!";
   }
-if (isset($_POST['ClassAdd']) == true)
+elseif (isset($_POST['ClassAdd']) == true)
   {
-  $runsql = "INSERT INTO `classes` (`JSV`, `MW`, `CK`, `Spec`, `Abil`, `Ages`, `FreeText`) VALUES (?, ?, ?, ?, ?, ?, ?)";
-  $runconstraints = array($inputjsv,$inputmw,$inputck,$inputspec,$inputabil,$inputages,$inputfreetext);
+  $runsql = "INSERT INTO `classes` (`Race`, `JSV`, `MW`, `CK`, `Spec`, `Abil`, `Ages`, `FreeText`) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+  $runconstraints = array($raceid,$inputjsv,$inputmw,$inputck,$inputspec,$inputabil,$inputages,$inputfreetext);
+  $sqlmessage = "Added class codes!";
   }
-if (isset($_POST['PaddlerEdit']) == true)
+elseif (isset($_POST['PaddlerEdit']) == true)
   {
   $runsql = "UPDATE `paddlers` SET `Position` = ?, `Lane` = ?, `Crew` = ?, `Club` = ?, `NR` = ?, `Time` = ?, `JSV` = ?, `MW` = ?, `CK` = ? WHERE `Key` = ?";
   $runconstraints = array($inputposition,$inputlane,$inputcrew,$inputclub,$inputnr,$inputtime,$inputjsv,$inputmw,$inputck,$inputkey);
+  $sqlmessage = "Edited paddler details!";
   }
-if (isset($_POST['PaddlerDelete']) == true)
+elseif (isset($_POST['PaddlerDelete']) == true)
   {
   $runsql = "DELETE FROM `paddlers` WHERE `Key` = ?";
   $runconstraints = array($inputkey);
+  $sqlmessage = "Deleted paddler!";
   }
 if (isset($_POST['PaddlerAdd']) == true)
   {
-  $runsql = "INSERT INTO `paddlers` (`Position`, `Lane`, `Crew`, `Club`, `NR`, `Time`, `JSV`, `MW`, `CK`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-  $runconstraints = array($inputposition,$inputlane,$inputcrew,$inputclub,$inputnr,$inputtime,$inputjsv,$inputmw,$inputck);
+  $runsql = "INSERT INTO `paddlers` (`Race`, `Position`, `Lane`, `Crew`, `Club`, `NR`, `Time`, `JSV`, `MW`, `CK`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+  $runconstraints = array($raceid,$inputposition,$inputlane,$inputcrew,$inputclub,$inputnr,$inputtime,$inputjsv,$inputmw,$inputck);
+  $sqlmessage = "Added paddler!";
   }
+
 
 if ((isset($runsql) == true) AND (isset($runconstraints) == true))
   {
-  echo "<p>" . $runsql . "</p>";
-  echo "<p>" . implode(" - ",$runconstraints) . "</p>";
+  //Run SQL query
+  dbprepareandexecute($srrsdblink,$runsql,$runconstraints);
+
+  //Echo message
+  echo "<p>" . $sqlmessage . "</p>";
   }
 ?>
