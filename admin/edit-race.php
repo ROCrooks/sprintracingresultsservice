@@ -17,10 +17,6 @@ if ((isset($_POST['RaceEdit']) == true) OR (isset($_POST['ClassEdit']) == true) 
 $includeclassids = true;
 include $publicenginesrelativepath . 'get-single-race.php';
 
-echo '<p>Race Details:</p>';
-print_r($racedetails);
-echo '<br>';
-
 //Make the Round/Draw name of the race
 if ($racedetails['Round'] == 1)
   $round = "H";
@@ -69,6 +65,9 @@ echo '<form action="' . $defaulturls['EditRace'] . $variablejoin . 'race=' . $ra
 
 //The generic race details
 echo '<p class="blockheading">Race Details</p>';
+
+echo '<p>' . $racedetails['Name'] . '</p>';
+
 echo '<div style="display: table;">';
 
 echo '<div style="display: table-row;">';
