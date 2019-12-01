@@ -1,6 +1,6 @@
 <?php
-include 'relative-path.php';
-include 'defaulturls.php';
+include 'srrsadminrelativepath.php';
+include 'srrsadmindefaulturls.php';
 
 //Get regatta ID
 if (isset($_GET['regatta']) == true)

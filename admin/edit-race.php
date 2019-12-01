@@ -1,6 +1,6 @@
 <?php
-include 'relative-path.php';
-include 'defaulturls.php';
+include 'srrsadminrelativepath.php';
+include 'srrsadmindefaulturls.php';
 
 //To attach variables to the URL
 if (strpos($defaulturls['EditRace'],"?") === false)

@@ -1,5 +1,6 @@
 <?php
-include 'relative-path.php';
+include 'srrsadminrelativepath.php';
+include 'srrsadmindefaulturls.php';
 
 //Hide or delete a regatta
 if (isset($_GET['action']) == true)

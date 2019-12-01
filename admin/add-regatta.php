@@ -1,6 +1,7 @@
 <div class="item">
 <?php
-include 'relative-path.php';
+include 'srrsadminrelativepath.php';
+include 'srrsadmindefaulturls.php';
 
 $raceerror = false;
 include $adminenginesrelativepath . 'process-form.php';
