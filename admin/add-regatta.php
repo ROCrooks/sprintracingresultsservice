@@ -1,5 +1,7 @@
 <div class="item">
 <?php
+include 'relative-path.php';
+
 $raceerror = false;
 include $adminenginesrelativepath . 'process-form.php';
 
