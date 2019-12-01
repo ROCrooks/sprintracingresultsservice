@@ -57,6 +57,10 @@ $releasehyperlink = $defaulturls['ManageRegattas'] . $ahrefjoin . "action=releas
 
 echo $actionmessage;
 
+echo '<form action="' . $defaulturls['EditRace'] . '" method="post">';
+echo '<p>Go directly to race: <input type="text" name="race" value="" size="5"> <input type="submit" name="submit" value="Go"></p>';
+echo '</form>';
+
 //Make list of regattas
 foreach ($allregattaslist as $regattadetails)
   {

@@ -17,6 +17,8 @@ $ck = '';
 $abil = '';
 $spec = '';
 $ages = '';
+
+//Get races engine
 include $publicenginesrelativepath . 'get-races.php';
 
 if (isset($regattaresults['Details']) == true)
@@ -31,7 +33,7 @@ if (isset($regattaresults['Details']) == true)
   echo '<p>Races:</p>';
   foreach ($regattaresults['Races'] as $race)
     {
-    print '<p>' . $race['Name'] . '</p>';
+    print '<p><a href="' . $defaulturls['EditRace'] . $ahrefjoin . 'race=' . $race['Key'] . '">' . $race['Name'] . '</a></p>';
     }
   }
 

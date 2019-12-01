@@ -8,7 +8,11 @@ if (strpos($defaulturls['EditRace'],"?") === false)
 else
   $variablejoin = "&";
 
-$raceid = $_GET['race'];
+//Get race ID from either POST or GET
+if (isset($_GET['race']) == true)
+  $raceid = $_GET['race'];
+elseif (isset($_POST['race']) == true)
+  $raceid = $_POST['race'];
 
 //Process forms
 if ((isset($_POST['RaceEdit']) == true) OR (isset($_POST['ClassEdit']) == true) OR (isset($_POST['ClassDelete']) == true) OR (isset($_POST['ClassAdd']) == true) OR (isset($_POST['PaddlerEdit']) == true) OR (isset($_POST['PaddlerDelete']) == true) OR (isset($_POST['PaddlerAdd']) == true))
@@ -16,6 +20,9 @@ if ((isset($_POST['RaceEdit']) == true) OR (isset($_POST['ClassEdit']) == true) 
 
 $includeclassids = true;
 include $publicenginesrelativepath . 'get-single-race.php';
+
+//Regatta ID for back linking
+$regatta = $racedetails['Regatta'];
 
 //Make the Round/Draw name of the race
 if ($racedetails['Round'] == 1)
