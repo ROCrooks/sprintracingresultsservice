@@ -68,6 +68,8 @@ $fieldsizes['Spec'] = 2;
 $fieldsizes['Ages'] = 2;
 $fieldsizes['FreeText'] = 10;
 
+echo '<div class="item">';
+
 echo '<form action="' . $defaulturls['EditRace'] . $variablejoin . 'race=' . $raceid . '" method="post">';
 
 //The generic race details
@@ -226,5 +228,9 @@ echo '<div style="width: ' . $widths['Button'] . 'px; display: table-cell;"></fo
 echo '<div style="display: table-cell;"></div>';
 echo '</div>';
 
+//Close Paddlers Table
+echo '</div>';
+
+//Close page container
 echo '</div>';
 ?>

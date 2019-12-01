@@ -24,8 +24,6 @@ if (isset($_GET['action']) == true)
       $actionmessage = "<p>Regatta Released!</p>";
     }
   }
-else
-  $actionmessage = "";
 
 //Club and paddler are null when retrieving regattas
 $club = '';
@@ -55,11 +53,20 @@ $deleteregattahyperlink = $defaulturls['ManageRegattas'] . $ahrefjoin . "action=
 $hidehyperlink = $defaulturls['ManageRegattas'] . $ahrefjoin . "action=hide&regatta=";
 $releasehyperlink = $defaulturls['ManageRegattas'] . $ahrefjoin . "action=release&regatta=";
 
-echo $actionmessage;
+if (isset($actionmessage) == true)
+  {
+  echo '<div class="item">';
+  echo $actionmessage;
+  echo '</div>';
+  }
+
+echo '<div class="item">';
 
 echo '<form action="' . $defaulturls['EditRace'] . '" method="post">';
 echo '<p>Go directly to race: <input type="text" name="race" value="" size="5"> <input type="submit" name="submit" value="Go"></p>';
 echo '</form>';
+
+echo '</div>';
 
 //Make list of regattas
 foreach ($allregattaslist as $regattadetails)

@@ -21,6 +21,8 @@ $ages = '';
 //Get races engine
 include $publicenginesrelativepath . 'get-races.php';
 
+echo '<div class="item">';
+
 if (isset($regattaresults['Details']) == true)
   {
   echo '<p>Regatta:</p>';
@@ -37,4 +39,5 @@ if (isset($regattaresults['Details']) == true)
     }
   }
 
+echo '</div>';
 ?>
