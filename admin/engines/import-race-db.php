@@ -19,7 +19,7 @@ $regattaid = 1000;
 
 if (isset($racestmt) == false)
   {
-  $racesql = "INSERT INTO `races` (`Regatta`, `Class`, `Boat`, `Dist`, `R`, `D`) VALUES (?, ?, ?, ?, ?, ?)";
+  $racesql = "INSERT INTO `races` (`Regatta`, `RaceName`, `Boat`, `Dist`, `R`, `D`) VALUES (?, ?, ?, ?, ?, ?)";
 	$racestmt = dbprepare($srrsdblink,$racesql);
   }
 
@@ -69,7 +69,7 @@ foreach ($allpaddlerdetails as $paddlerdetails)
 
 if (isset($findclassstmt) == false)
   {
-  $findclasssql = "SELECT * FROM `autoclasses` WHERE `RaceName` = ?";
+  $findclasssql = "SELECT * FROM `autoclasses` WHERE `Class` = ?";
 	$findclassstmt = dbprepare($srrsdblink,$findclasssql);
   }
 
