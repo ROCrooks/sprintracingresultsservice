@@ -9,29 +9,31 @@ $eachraceclass = dbprepareandexecute($srrsdblink,$eachraceclasssql);
 $eachraceclass = resulttocolumn($eachraceclass,"Class");
 
 //Get all class names from autoclass table
-$eachautoclasssql = "SELECT DISTINCT `Class` FROM `autoclasses` ORDER BY `Class` ASC";
+$eachautoclasssql = "SELECT DISTINCT `RaceName` FROM `autoclasses` ORDER BY `RaceName` ASC";
 $eachautoclass = dbprepareandexecute($srrsdblink,$eachautoclasssql);
-$eachautoclass = resulttocolumn($eachautoclass,"Class");
+$eachautoclass = resulttocolumn($eachautoclass,"RaceName");
 
 //Get all class names from autofreetext table
-$eachautofreetextclasssql = "SELECT DISTINCT `Class` FROM `autofreetext` ORDER BY `Class` ASC";
+$eachautofreetextclasssql = "SELECT DISTINCT `RaceName` FROM `autofreetext` ORDER BY `RaceName` ASC";
 $eachautofreetextclass = dbprepareandexecute($srrsdblink,$eachautofreetextclasssql);
-$eachautofreetextclass = resulttocolumn($eachautofreetextclass,"Class");
+$eachautofreetextclass = resulttocolumn($eachautofreetextclass,"RaceName");
 
 $uniqueclassnames = array_merge($eachraceclass,$eachautoclass,$eachautofreetextclass);
 //$uniqueclassnames = array_unique($uniqueclassnames);
 
-print_r($uniqueclassnames);
-
+//Prepare race count query
 $countracessql = "SELECT COUNT(`Key`) FROM `races` WHERE `Class` = ?";
 $countracesstmt = dbprepare($srrsdblink,$countracessql);
 
 foreach($uniqueclassnames as $classkey=>$uniqueclassname)
   {
-  $uniqueclassname['InputClass'] = $uniqueclassnames['Class'];
-  unset($uniqueclassnames['Class']);
+  //Define the input class name
+  $uniqueclassnames[$classkey] = array();
+  $uniqueclassnames[$classkey]['InputClass'] = $uniqueclassname;
 
-  $uniqueclassnames[$classkey] = $uniqueclassname;
+  //Count number of races with this class text
+  $countraces = dbexecute($countracesstmt,$uniqueclassnames[$classkey]['InputClass']);
+  $uniqueclassnames[$classkey]['RaceCount'] = $countraces[0]['COUNT(`Key`)'];
   }
 
 print_r($uniqueclassnames);
