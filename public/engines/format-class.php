@@ -80,6 +80,9 @@ foreach($classdetails as $classkey=>$class)
     elseif (($class['Abil'] == "1") OR ($class['Abil'] == "2") OR ($class['Abil'] == "3"))
       $namewords['Band'] = $class['Abil'];
 
+    if (isset($namewords['Band']) == false)
+      $namewords['Band'] = '';
+
     //VL or KL depending on if kayak or va'a
     if ($boattypeinband == true)
       {
