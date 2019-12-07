@@ -1,5 +1,5 @@
 <?php
-include 'srrsadminrelativepath.php';
+include 'srrsadminrelativepaths.php';
 include 'srrsadmindefaulturls.php';
 
 //To attach variables to the URL

@@ -1,6 +1,6 @@
 <div class="item">
 <?php
-include 'srrsadminrelativepath.php';
+include 'srrsadminrelativepaths.php';
 include 'srrsadmindefaulturls.php';
 
 $raceerror = false;

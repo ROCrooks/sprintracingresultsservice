@@ -1,5 +1,5 @@
 <?php
-include 'srrsadminrelativepath.php';
+include 'srrsadminrelativepaths.php';
 include 'srrsadmindefaulturls.php';
 
 //Hide or delete a regatta
@@ -32,8 +32,6 @@ $paddler = '';
 $getallregattas = true;
 
 include $publicenginesrelativepath . 'list-regattas.php';
-
-include 'defaulturls.php';
 
 usort($allregattaslist,'sortregattas');
 
@@ -70,10 +68,11 @@ echo '</form>';
 echo '</div>';
 
 //Make list of regattas
+echo '<div style="display: table;  width: ' . $totalwidth . ';">';
 foreach ($allregattaslist as $regattadetails)
   {
   //Make the row with the regatta details
-  echo '<div style="display: table; width: ' . $totalwidth . 'px; height: ' . $boxheight . 'px;">';
+  echo '<div style="display: table-row; width: ' . $totalwidth . 'px; height: ' . $boxheight . 'px;">';
   echo '<div style="display: table-cell; width: ' . $widths['Name'] . 'px; height: ' . $boxheight . 'px;"><p><a href="' . $manageregattahyperlink . $regattadetails['Key'] . '">' . $regattadetails['Name'] . '</a></p></div>';
   echo '<div style="display: table-cell; width: ' . $widths['Date'] . 'px; height: ' . $boxheight . 'px;"><p>' . $regattadetails['Date'] . '</p></div>';
   echo '<div style="display: table-cell; width: ' . $widths['Apend'] . 'px; height: ' . $boxheight . 'px;"><p><a href="' . $apendraceshyperlink . $regattadetails['Key'] . '">Apend Races</a></p></div>';
@@ -92,4 +91,5 @@ foreach ($allregattaslist as $regattadetails)
   echo '<div style="display: table-cell; width: ' . $widths['HideRelease'] . 'px; height: ' . $boxheight . 'px;"><p><a href="' . $hidereleasehyperlink . $regattadetails['Key'] . '">' . $hiderelease . '</a></p></div>';
   echo '</div>';
   }
+echo '</div>';
 ?>
