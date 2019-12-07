@@ -17,7 +17,11 @@ foreach ($files as $file)
 $directory = str_replace("Git/public/functions","",$directory);
 
 //Create database connection
-include_once $directory . '/dbconnect-function.php';
-$srrsdblink = createdbconnection("SRRS");
+//Only create if not already created
+if (isset($srrsdblink) == false)
+  {
+  include_once $directory . '/dbconnect-function.php';
+  $srrsdblink = createdbconnection("SRRS");
+  }
 
 ?>
