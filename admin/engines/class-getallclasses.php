@@ -24,33 +24,16 @@ $eachautofreetextclass = resulttocolumn($eachautofreetextclass,"RaceName");
 $uniqueclassnames = array_merge($eachraceclass,$eachautoclass,$eachautofreetextclass);
 $uniqueclassnames = array_unique($uniqueclassnames);
 
-//Prepare race count query
-$countracessql = "SELECT COUNT(`Key`) FROM `races` WHERE `Class` = ?";
-$countracesstmt = dbprepare($srrsdblink,$countracessql);
 
-//Prepare query to get autoclasses
-$autoclassgetsql = "SELECT `JSV`, `MW`, `CK`, `Spec`, `Abil`, `Ages`, `FreeText` FROM `autoclasses` WHERE `RaceName` = ?";
-$autoclassgetstmt = dbprepare($srrsdblink,$autoclassgetsql);
 
-foreach($uniqueclassnames as $uniqueclasskey=>$uniqueclassname)
+foreach($uniqueclassnames as $uniqueclasskey=>$findclassname)
   {
+  include 'class-getoneclass.php';
+
   //Define the input class name
   $uniqueclassnames[$uniqueclasskey] = array();
-  $uniqueclassnames[$uniqueclasskey]['InputClass'] = $uniqueclassname;
-
-  //Count number of races with this class text
-  $countraces = dbexecute($countracesstmt,$uniqueclassname);
-  $uniqueclassnames[$uniqueclasskey]['RaceCount'] = $countraces[0]['COUNT(`Key`)'];
-
-  //Get race names from autoclasses
-  $classdetails = dbexecute($autoclassgetstmt,$uniqueclassname);
-  if (count($classdetails) > 0)
-    {
-    include $publicenginesrelativepath . 'format-class.php';
-    }
-  else
-    $raceclass = "No Autoclass Specified";
-
-  $uniqueclassnames[$uniqueclasskey]['AutoClass'] = $raceclass;
+  $uniqueclassnames[$uniqueclasskey]['InputClass'] = $findclassname;
+  $uniqueclassnames[$uniqueclasskey]['RaceCount'] = $numberclassraces;
+  $uniqueclassnames[$uniqueclasskey]['AutoClass'] = $autoclassname;
   }
 ?>
