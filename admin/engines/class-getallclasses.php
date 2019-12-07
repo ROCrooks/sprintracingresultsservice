@@ -1,6 +1,9 @@
 <?php
-include '../srrsadminrelativepaths.php';
-include '../srrsadmindefaulturls.php';
+//Include the required paths if they haven't been already set
+//I.e. called from another script
+if ((isset($publicenginesrelativepath) == false) AND (isset($adminenginesrelativepath) == false))
+  include '../srrsadminrelativepaths.php';
+
 include 'required-functions.php';
 
 //Get all hidden class names from race table
@@ -29,24 +32,25 @@ $countracesstmt = dbprepare($srrsdblink,$countracessql);
 $autoclassgetsql = "SELECT `JSV`, `MW`, `CK`, `Spec`, `Abil`, `Ages`, `FreeText` FROM `autoclasses` WHERE `RaceName` = ?";
 $autoclassgetstmt = dbprepare($srrsdblink,$autoclassgetsql);
 
-foreach($uniqueclassnames as $classkey=>$uniqueclassname)
+foreach($uniqueclassnames as $uniqueclasskey=>$uniqueclassname)
   {
   //Define the input class name
-  $uniqueclassnames[$classkey] = array();
-  $uniqueclassnames[$classkey]['InputClass'] = $uniqueclassname;
+  $uniqueclassnames[$uniqueclasskey] = array();
+  $uniqueclassnames[$uniqueclasskey]['InputClass'] = $uniqueclassname;
 
   //Count number of races with this class text
-  $countraces = dbexecute($countracesstmt,$uniqueclassnames[$classkey]['InputClass']);
-  $uniqueclassnames[$classkey]['RaceCount'] = $countraces[0]['COUNT(`Key`)'];
+  $countraces = dbexecute($countracesstmt,$uniqueclassname);
+  $uniqueclassnames[$uniqueclasskey]['RaceCount'] = $countraces[0]['COUNT(`Key`)'];
 
   //Get race names from autoclasses
-  $classdetails = dbexecute($autoclassgetstmt,$uniqueclassnames[$classkey]['InputClass']);
+  $classdetails = dbexecute($autoclassgetstmt,$uniqueclassname);
   if (count($classdetails) > 0)
     {
-    include '../' . $publicenginesrelativepath . 'format-class.php';
-    $uniqueclassnames[$classkey]['AutoClass'] = $raceclass;
+    include $publicenginesrelativepath . 'format-class.php';
     }
   else
-    $uniqueclassnames[$classkey]['AutoClass'] = "No Autoclass Specified";
+    $raceclass = "No Autoclass Specified";
+
+  $uniqueclassnames[$uniqueclasskey]['AutoClass'] = $raceclass;
   }
 ?>
