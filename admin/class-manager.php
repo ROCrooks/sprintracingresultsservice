@@ -1,7 +1,24 @@
 <?php
+//Get the relative paths for the engines
 include 'srrsadminrelativepaths.php';
 
+//Get classes list engine
 include 'engines/class-getallclasses.php';
+
+//Widths
+$racenamewidth = 300;
+$numberraceswidth = 20;
+$fullwidthtable = $racenamewidth+$numberraceswidth;
+
+echo '<div style="display: table; width: ' . $fullwidthtable . ';">';
+foreach($uniqueclassnames as $classitem)
+  {
+  echo '<div style="display: table-row; width: ' . $fullwidthtable . ';">';
+  echo '<div style="display: table-cell; width: ' . $racenamewidth . ';">Input Name<br>Autoclass Name' . '</div>';
+  echo '<div style="display: table-cell; width: ' . $numberraceswidth . '; vertical-align: middle;">Races' . '</div>';
+  echo '</div>';
+  }
+echo '</div>';
 
 print_r($uniqueclassnames);
 /*
