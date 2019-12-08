@@ -65,10 +65,15 @@ echo '<form action="' . $defaulturls['EditRace'] . '" method="post">';
 echo '<p>Go directly to race: <input type="text" name="race" value="" size="5"> <input type="submit" name="submit" value="Go"></p>';
 echo '</form>';
 
+echo '<p><a href="' . $defaulturls['AddRegatta'] . '">Add Regatta</a></p>';
+echo '<p><a href="' . $defaulturls['ManageClasses'] . '">Manage Classes</a></p>';
+
 echo '</div>';
 
+echo '<div class="item">';
+
 //Make list of regattas
-echo '<div style="display: table;  width: ' . $totalwidth . ';">';
+echo '<div style="display: table; width: ' . $totalwidth . ';">';
 foreach ($allregattaslist as $regattadetails)
   {
   //Make the row with the regatta details
@@ -91,5 +96,7 @@ foreach ($allregattaslist as $regattadetails)
   echo '<div style="display: table-cell; width: ' . $widths['HideRelease'] . 'px; height: ' . $boxheight . 'px;"><p><a href="' . $hidereleasehyperlink . $regattadetails['Key'] . '">' . $hiderelease . '</a></p></div>';
   echo '</div>';
   }
+echo '</div>';
+
 echo '</div>';
 ?>
