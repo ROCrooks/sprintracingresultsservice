@@ -14,8 +14,8 @@ echo '<div style="display: table; width: ' . $fullwidthtable . ';">';
 foreach($uniqueclassnames as $classitem)
   {
   echo '<div style="display: table-row; width: ' . $fullwidthtable . ';">';
-  echo '<div style="display: table-cell; width: ' . $racenamewidth . ';">Input Name<br>Autoclass Name' . '</div>';
-  echo '<div style="display: table-cell; width: ' . $numberraceswidth . '; vertical-align: middle;">Races' . '</div>';
+  echo '<div style="display: table-cell; width: ' . $racenamewidth . ';">' . $classitem['InputClass'] . '<br>' . $classitem['AutoClass'] . '</div>';
+  echo '<div style="display: table-cell; width: ' . $numberraceswidth . '; vertical-align: middle;">' . $classitem['RaceCount'] . '</div>';
   echo '</div>';
   }
 echo '</div>';
