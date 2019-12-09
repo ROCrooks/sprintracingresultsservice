@@ -16,7 +16,7 @@ elseif (isset($_POST['race']) == true)
 
 //Process forms
 if ((isset($_POST['RaceEdit']) == true) OR (isset($_POST['ClassEdit']) == true) OR (isset($_POST['ClassDelete']) == true) OR (isset($_POST['ClassAdd']) == true) OR (isset($_POST['PaddlerEdit']) == true) OR (isset($_POST['PaddlerDelete']) == true) OR (isset($_POST['PaddlerAdd']) == true))
-  include 'engines/edit-race-engine.php';
+  include $adminenginesrelativepath . 'edit-race-engine.php';
 
 $includeclassids = true;
 include $publicenginesrelativepath . 'get-single-race.php';
@@ -230,6 +230,8 @@ echo '</div>';
 
 //Close Paddlers Table
 echo '</div>';
+
+echo '<p><a href="' . $defaulturls['EditRegatta'] . $ahrefjoin . 'regatta=' . $racedetails['Regatta'] . '?deleterace=' . $raceid . '" onclick="return confirm(\'This will delete the race. Are you sure you want to continue?\')">Delete Race</a></p>';
 
 //Close page container
 echo '</div>';

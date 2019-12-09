@@ -8,6 +8,12 @@ if (isset($_GET['regatta']) == true)
 else
   $regattaid = 0;
 
+if (isset($_GET['deleterace']) == true)
+  {
+  $deleterace = $_GET['deleterace'];
+  include $adminenginesrelativepath . 'delete-race.php';
+  }
+
 //Get the regatta and race details
 $club = '';
 $paddler = '';
