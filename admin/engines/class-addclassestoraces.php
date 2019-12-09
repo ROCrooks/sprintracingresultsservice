@@ -23,7 +23,7 @@ if (isset($addclassstmt) == false)
 //Get the race keys for all races that match a RaceName
 
 //Get the keys for the races to add classes to
-$racekeysclass = dbexecute($racekeysracenamestmt,$racename);
+$racekeysclass = dbexecute($racekeysracenamestmt,$findclassname);
 $racekeysclass = resulttocolumn($racekeysclass,"Key");
 
 //Loop each race ID

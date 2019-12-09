@@ -1,7 +1,21 @@
 <?php
 include 'required-files.php';
 
-$purgeclassessql = "DELETE FROM `classes` c LEFT JOIN `races` r ON c.`Race` = r.`Key` WHERE r.`Class` = ?";
+//Prepare query to purge the classes
+if (isset($purgeclassesstmt) == false)
+  {
+  $purgeclassessql = "DELETE FROM `classes` c LEFT JOIN `races` r ON c.`Race` = r.`Key` WHERE r.`Class` = ?";
+  $purgeclassesstmt = dbprepare($srrsdblink,$purgeclassessql);
+  }
 
-$purgeautoclassessql = "DELETE FROM `autoclasses` WHERE `RaceName` = ?";
+//Prepare query to purge autoclasses
+if (isset($purgeautoclassesstmt) == false)
+  {
+  $purgeautoclassessql = "DELETE FROM `autoclasses` WHERE `RaceName` = ?";
+  $purgeautoclassesstmt = dbprepare($srrsdblink,$purgeautoclassessql);
+  }
+
+//Execute purge queries
+dbexecute($purgeclassesstmt,$findclassname);
+dbexecute($purgeautoclassesstmt,$findclassname);
 ?>
