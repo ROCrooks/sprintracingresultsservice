@@ -113,6 +113,11 @@ echo '</form>';
 //The class details
 echo '<p class="blockheading">Class Details</p>';
 
+//Echo the class form
+include $adminenginesrelativepath . 'class-form-html.php';
+echo $classformhtml;
+
+/*
 $paddlerstablewidth = $widths['JSV']+$widths['MW']+$widths['CK']+$widths['Abil']+$widths['Spec']+$widths['Ages']+$widths['FreeText']+$widths['Button'];
 
 //Header for class list
@@ -167,6 +172,7 @@ echo '<div style="width: ' . $widths['Button'] . 'px; display: table-cell;"><inp
 echo '<div style="width: ' . $widths['Button'] . 'px; display: table-cell;"></div>';
 echo '<div style="display: table-cell;"></form></div>';
 echo '</div>';
+*/
 
 echo '</div>';
 
