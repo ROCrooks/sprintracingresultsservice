@@ -41,7 +41,7 @@ foreach ($classdetails as $individualclass)
 
   //Pass the name of the
   $classformhtml = $classformhtml . '<div style="display: table-row;">';
-  $classformhtml = $classformhtml . '<div style="display: table-cell; width: 0px;"><form action="' . $defaulturls['EditRace'] . $variablejoin . 'race=' . $raceid . '" method="post"><input type="hidden" name="ItemKey" value="' . $individualclass['Key'] . '"></div>';
+  $classformhtml = $classformhtml . '<div style="display: table-cell; width: 0px;"><form action="' . $classformactionurl . '" method="post"><input type="hidden" name="ItemKey" value="' . $individualclass['Key'] . '"></div>';
   $classformhtml = $classformhtml . '<div style="width: ' . $classwidths['JSV'] . 'px; display: table-cell;"><input type="text" size="' . $fieldsizes['JSV'] . '" value="' . $individualclass['JSV'] . '" name="JSV"></div>';
   $classformhtml = $classformhtml . '<div style="width: ' . $classwidths['MW'] . 'px; display: table-cell;"><input type="text" size="' . $fieldsizes['MW'] . '" value="' . $individualclass['MW'] . '" name="MW"></div>';
   $classformhtml = $classformhtml . '<div style="width: ' . $classwidths['CK'] . 'px; display: table-cell;"><input type="text" size="' . $fieldsizes['CK'] . '" value="' . $individualclass['CK'] . '" name="CK"></div>';
@@ -57,7 +57,7 @@ foreach ($classdetails as $individualclass)
 
 //Form to add a new class
 $classformhtml = $classformhtml . '<div style="display: table-row;">';
-$classformhtml = $classformhtml . '<div style="display: table-cell; width: 0px;"><form action="' . $defaulturls['EditRace'] . $variablejoin . 'race=' . $raceid . '" method="post"></div>';
+$classformhtml = $classformhtml . '<div style="display: table-cell; width: 0px;"><form action="' . $classformactionurl . '" method="post"></div>';
 $classformhtml = $classformhtml . '<div style="width: ' . $classwidths['JSV'] . 'px; display: table-cell;"><input type="text" size="' . $fieldsizes['JSV'] . '" name="JSV"></div>';
 $classformhtml = $classformhtml . '<div style="width: ' . $classwidths['MW'] . 'px; display: table-cell;"><input type="text" size="' . $fieldsizes['MW'] . '" name="MW"></div>';
 $classformhtml = $classformhtml . '<div style="width: ' . $classwidths['CK'] . 'px; display: table-cell;"><input type="text" size="' . $fieldsizes['CK'] . '" name="CK"></div>';

@@ -114,6 +114,7 @@ echo '</form>';
 echo '<p class="blockheading">Class Details</p>';
 
 //Echo the class form
+$classformactionurl = $defaulturls['EditRace'] . $variablejoin . 'race=' . $raceid;
 include $adminenginesrelativepath . 'class-form-html.php';
 echo $classformhtml;
 
