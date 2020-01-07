@@ -28,4 +28,25 @@ function arrayinall($wholearray)
   Return $basearray;
   }
 //---FunctionBreak---
+/*Fills blank values in an array with an empty ''
+
+$array is the array to fill in blanks
+$keys is the list of keys which need blank values set
+$blanks is the optional default value, default is ''
+*/
+//---DocumentationBreak---
+function createblanksinarray($array,$keys,$blank='')
+  {
+  //Look up each key
+  foreach($keys as $key)
+    {
+    //Set defaults
+    if (isset($array[$key]) == false)
+      $array[$key] = $blank;
+    }
+
+  //Return array
+  return $array;
+  }
+//---FunctionBreak---
 ?>
