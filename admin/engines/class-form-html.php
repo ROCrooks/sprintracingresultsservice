@@ -83,7 +83,7 @@ foreach ($classdetails as $individualclass)
   }
 
 if ($rowcount != '')
-  $rowcount = "NEW";
+  $rowcount++;
 
 //Form to add a new class
 $classformhtml = $classformhtml . '<div style="display: table-row;">';
