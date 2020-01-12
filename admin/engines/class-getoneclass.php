@@ -1,4 +1,6 @@
 <?php
+include 'required-functions.php';
+
 //Include the required paths if they haven't been already set
 //I.e. called from another script
 if ((isset($publicenginesrelativepath) == false) AND (isset($adminenginesrelativepath) == false))
