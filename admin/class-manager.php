@@ -6,7 +6,7 @@ include 'srrsadminrelativepaths.php';
 include 'engines/class-getallclasses.php';
 
 //Widths
-$racenamewidth = 300;
+$racenamewidth = 400;
 $numberraceswidth = 20;
 $fullwidthtable = $racenamewidth+$numberraceswidth;
 
@@ -19,8 +19,6 @@ foreach($uniqueclassnames as $classitem)
   echo '</div>';
   }
 echo '</div>';
-
-print_r($uniqueclassnames);
 /*
 Assign classes and approve more
 
@@ -37,7 +35,6 @@ Engines Maybe Needed
 - Add class to races (class-addclassestoraces.php)
 - Add overall freetext to races (class-addfreetextstoraces.php)
 - Purge class (class-purgeclass.php)
-- Get each race name and corresponding autoclass (class-getallclasses.php)
 - Add autoclass (class-addautoclass.php)
 - Delete autoclass (class-deleteautoclass.php)
 - Add overall FreeText (class-addfreetext.php)
