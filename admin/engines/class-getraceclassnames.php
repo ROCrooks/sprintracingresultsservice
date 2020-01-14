@@ -11,7 +11,7 @@ $getracekeyssql = "SELECT `Key` FROM `races` WHERE `Class` = ?";
 $racekeys = dbprepareandexecute($srrsdblink,$getracekeyssql,$findclassname);
 $racekeys = resulttocolumn($racekeys);
 
-$allclasses = array();
+$allraceclasses = array();
 
 //Get all class details and autoclass names
 foreach ($racekeys as $raceid)
@@ -26,9 +26,13 @@ foreach ($racekeys as $raceid)
   $classtoadd['ClassName'] = $raceclass;
 
   //Only include class details and autoclass names that are new
-  if (in_array($classtoadd,$allclasses) === false)
-    array_push($allclasses,$classtoadd);
+  if (in_array($classtoadd,$allraceclasses) === false)
+    array_push($allraceclasses,$classtoadd);
   }
 
 //Check that there is only one race name and class generated, otherwise warn
+if (count($allraceclasses) > 1)
+  $warning = "Warning! This class has different class names specified
+   in different races! Recommend purging this class and re-assigning a single
+   class to all races instead.";
 ?>
