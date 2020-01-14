@@ -11,19 +11,24 @@ $getracekeyssql = "SELECT `Key` FROM `races` WHERE `Class` = ?";
 $racekeys = dbprepareandexecute($srrsdblink,$getracekeyssql,$findclassname);
 $racekeys = resulttocolumn($racekeys);
 
+$allclasses = array();
+
 //Get all class details and autoclass names
 foreach ($racekeys as $raceid)
   {
+  $classtoadd = array();
   //Get the race class
   include $publicenginesrelativepath . 'get-race-classes.php';
+  $classtoadd['Details'] = $classdetails;
 
   //Get the race class
   include $publicenginesrelativepath . 'format-class.php';
+  $classtoadd['ClassName'] = $raceclass;
 
-  echo $raceclass . "<br>";
+  //Only include class details and autoclass names that are new
+  if (in_array($classtoadd,$allclasses) === false)
+    array_push($allclasses,$classtoadd);
   }
-
-//Only include class details and autoclass names that are new
 
 //Check that there is only one race name and class generated, otherwise warn
 ?>
