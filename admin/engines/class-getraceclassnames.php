@@ -32,7 +32,7 @@ foreach ($racekeys as $raceid)
 
 //Check that there is only one race name and class generated, otherwise warn
 if (count($allraceclasses) > 1)
-  $warning = "Warning! This class has different class names specified
+  $multiracewarning = "Warning! This class has different class names specified
    in different races! Recommend purging this class and re-assigning a single
    class to all races instead.";
 ?>
