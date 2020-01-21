@@ -27,15 +27,29 @@ if (in_array($autoclassdetails,$allraceclasses) === false)
     }
   }
 
-$racesformhtml = array();
+//Array to store forms in
+$classesformhtml = array();
 
-foreach($allraceclasses as $raceclass)
+//Parameters needed for form generator
+$multirowform = true;
+$classformactionurl = $defaulturls['EditClass'] . $ahrefjoin . "class=" . $findclassname;
+//Make each form for race classes
+foreach($allraceclasses as $individualclass)
   {
+  //Make the form with the class list
+  $classdetails = $individualclass['Details'];
+  include $adminenginesrelativepath . "class-form-html.php";
 
+  array_push($classesformhtml,$classformhtml);
   }
+
+//Make the HTML forms
+$classesformhtml = "<hr>" . implode("<hr>",$classesformhtml) . "<hr>";
 ?>
 <div class="item">
 <p><?php echo $findclassname;?></p>
 
-<?php print_r($allraceclasses);?>
+<?php echo $classesformhtml; ?>
+
+<p>Test</p>
 </div>
