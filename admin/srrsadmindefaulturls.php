@@ -8,4 +8,5 @@ $defaulturls['EditRegatta'] = "edit-regatta.php";
 $defaulturls['EditRace'] = "edit-race.php";
 $defaulturls['ManageRegattas'] = "manage-regattas.php";
 $defaulturls['ManageClasses'] = "class-manager.php";
+$defaulturls['EditClass'] = "edit-class.php";
 ?>
