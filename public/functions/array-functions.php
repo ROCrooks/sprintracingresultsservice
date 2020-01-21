@@ -35,13 +35,13 @@ $keys is the list of keys which need blank values set
 $blanks is the optional default value, default is ''
 */
 //---DocumentationBreak---
-function createblanksinarray($array,$keys,$blank='')
+function createblanksinarray($array,$keys,$blank="")
   {
   //Look up each key
   foreach($keys as $key)
     {
     //Set defaults
-    if (isset($array[$key]) == false)
+    if (isset($array[$key]) === false)
       $array[$key] = $blank;
     }
 
