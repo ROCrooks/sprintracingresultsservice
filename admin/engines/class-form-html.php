@@ -10,6 +10,19 @@ $classwidths['Ages'] = $classwidths['Abil'];
 $classwidths['FreeText'] = 100;
 $classwidths['Button'] = 60;
 
+//Set field sizes
+if (isset($fieldsizes) == false)
+  {
+  $fieldsizes = array();
+  $fieldsizes['JSV'] = 1;
+  $fieldsizes['MW'] = $fieldsizes['JSV'];
+  $fieldsizes['CK'] = $fieldsizes['JSV'];
+  $fieldsizes['Abil'] = 2;
+  $fieldsizes['Spec'] = 2;
+  $fieldsizes['Ages'] = $fieldsizes['Spec'];
+  $fieldsizes['FreeText'] = 10;
+  }
+
 //Single row forms are wider than multi row forms
 //Also include the rowcount element
 if ($multirowform == true)
@@ -62,7 +75,11 @@ foreach ($classdetails as $individualclass)
 
   //Pass the name of the
   $classformhtml = $classformhtml . '<div style="display: table-row;">';
-  $classformhtml = $classformhtml . '<div style="display: table-cell; width: 0px;"><form action="' . $classformactionurl . '" method="post"><input type="hidden" name="ItemKey' . $rowcount . '" value="' . $individualclass['Key'] . '"></div>';
+  $classformhtml = $classformhtml . '<div style="display: table-cell; width: 0px;">';
+  //Start a form if not a multirow form
+  if ($multirowform == false)
+    $classformhtml = $classformhtml . '<form action="' . $classformactionurl . '" method="post">';
+  $classformhtml = $classformhtml . '<input type="hidden" name="ItemKey' . $rowcount . '" value="' . $individualclass['Key'] . '"></div>';
   $classformhtml = $classformhtml . '<div style="width: ' . $classwidths['JSV'] . 'px; display: table-cell;"><input type="text" size="' . $fieldsizes['JSV'] . '" value="' . $individualclass['JSV'] . '" name="JSV' . $rowcount . '"></div>';
   $classformhtml = $classformhtml . '<div style="width: ' . $classwidths['MW'] . 'px; display: table-cell;"><input type="text" size="' . $fieldsizes['MW'] . '" value="' . $individualclass['MW'] . '" name="MW' . $rowcount . '"></div>';
   $classformhtml = $classformhtml . '<div style="width: ' . $classwidths['CK'] . 'px; display: table-cell;"><input type="text" size="' . $fieldsizes['CK'] . '" value="' . $individualclass['CK'] . '" name="CK' . $rowcount . '"></div>';
@@ -75,10 +92,9 @@ foreach ($classdetails as $individualclass)
   if ($multirowform == false)
     {
     $classformhtml = $classformhtml . '<div style="width: ' . $classwidths['Button'] . 'px; display: table-cell;"><input type="submit" value="Edit" name="ClassEdit"></div>';
-    $classformhtml = $classformhtml . '<div style="width: ' . $classwidths['Button'] . 'px; display: table-cell;"><input type="submit" value="Delete" name="ClassDelete" onclick="return confirm(\'This will delete the race class. Are you sure you want to continue?\')"></div>';
+    $classformhtml = $classformhtml . '<div style="width: ' . $classwidths['Button'] . 'px; display: table-cell;"><input type="submit" value="Delete" name="ClassDelete" onclick="return confirm(\'This will delete the race class. Are you sure you want to continue?\')"></form></div>';
     }
 
-  $classformhtml = $classformhtml . '<div style="0px; display: table-cell;"></form></div>';
   $classformhtml = $classformhtml . '</div>';
   }
 
@@ -100,9 +116,12 @@ $classformhtml = $classformhtml . '<div style="width: ' . $classwidths['FreeText
 if ($multirowform == false)
   {
   $classformhtml = $classformhtml . '<div style="width: ' . $classwidths['Button'] . 'px; display: table-cell;"><input type="submit" value="Add" name="ClassAdd"></div>';
-  $classformhtml = $classformhtml . '<div style="width: ' . $classwidths['Button'] . 'px; display: table-cell;"></div>';
+  $classformhtml = $classformhtml . '<div style="width: ' . $classwidths['Button'] . 'px; display: table-cell;"></form></div>';
   }
 
-$classformhtml = $classformhtml . '<div style="display: table-cell;"></form></div>';
+//Close New Class Row
+$classformhtml = $classformhtml . '</div>';
+
+//Close Table
 $classformhtml = $classformhtml . '</div>';
 ?>
