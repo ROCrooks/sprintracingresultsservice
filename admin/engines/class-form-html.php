@@ -65,10 +65,6 @@ $classformhtml = $classformhtml . '</div>';
 //Each class to edit
 foreach ($classdetails as $individualclass)
   {
-  //Increase rowcount if it is a number rather than blank
-  if ($rowcount != '')
-    $rowcount = $rowcount++;
-
   //Set default values
   $classkeys = array("Key","JSV","MW","CK","Abil","Spec","Ages","FreeText");
   $individualclass = createblanksinarray($individualclass,$classkeys);
@@ -96,14 +92,18 @@ foreach ($classdetails as $individualclass)
     }
 
   $classformhtml = $classformhtml . '</div>';
-  }
 
-if ($rowcount != '')
-  $rowcount++;
+  //Increase rowcount if it is a number rather than blank
+  if ($rowcount != '')
+    $rowcount++;
+  }
 
 //Form to add a new class
 $classformhtml = $classformhtml . '<div style="display: table-row;">';
-$classformhtml = $classformhtml . '<div style="display: table-cell; width: 0px;"><form action="' . $classformactionurl . '" method="post"></div>';
+$classformhtml = $classformhtml . '<div style="display: table-cell; width: 0px;">';
+if ($multirowform == false)
+  $classformhtml = $classformhtml . '<form action="' . $classformactionurl . '" method="post">';
+$classformhtml = $classformhtml . '</div>';
 $classformhtml = $classformhtml . '<div style="width: ' . $classwidths['JSV'] . 'px; display: table-cell;"><input type="text" size="' . $fieldsizes['JSV'] . '" name="JSV' . $rowcount . '"></div>';
 $classformhtml = $classformhtml . '<div style="width: ' . $classwidths['MW'] . 'px; display: table-cell;"><input type="text" size="' . $fieldsizes['MW'] . '" name="MW' . $rowcount . '"></div>';
 $classformhtml = $classformhtml . '<div style="width: ' . $classwidths['CK'] . 'px; display: table-cell;"><input type="text" size="' . $fieldsizes['CK'] . '" name="CK' . $rowcount . '"></div>';
