@@ -20,7 +20,12 @@ while (isset($_POST[$checkfield]) == true)
   foreach($fieldnames as $field)
     {
     $formfield = $field . $classrowkey;
-    $classrow[$field] = $_POST[$formfield];
+
+    //Add to the output if it exists in the input form
+    if (isset($_POST[$formfield]) == true)
+      $classrow[$field] = $_POST[$formfield];
+    else
+      $classrow[$field] = '';
 
     if ($classrow[$field] != '')
       $emptyrow = false;
