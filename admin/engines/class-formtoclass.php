@@ -37,7 +37,7 @@ while (isset($_POST[$checkfield]) == true)
 
   //Increment row and checkfield
   $classrowkey++;
-  $checkfield = "FreeText" . $classrow;
+  $checkfield = "FreeText" . $classrowkey;
   }
 
 ?>
