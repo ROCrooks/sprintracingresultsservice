@@ -19,9 +19,9 @@ foreach ($racekeys as $racekey)
   //For each class from the class details
   foreach ($classdetails as $classline)
     {
+    //Add class
     $classaddconstraints = array($racekey,$classline['JSV'],$classline['MW'],$classline['CK'],$classline['Spec'],$classline['Abil'],$classline['Ages'],$classline['FreeText']);
-    print_r($classaddconstraints);
-    echo "<br>";
+    dbexecute($insertclassstmt,$classaddconstraints);
     }
   }
 ?>
