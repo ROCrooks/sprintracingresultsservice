@@ -21,7 +21,8 @@ if (isset($_POST['NewLine']) == true)
 
   //Note that the class is being updated
   $updatingnote = "Note, this class is being updated currently, upon pressing
-  the update button all classes and autoclasses will be updated";
+  the update button all classes and autoclasses will be updated. The classes
+  shown are not those that are contained in the database.";
   }
 else
   {
@@ -70,9 +71,26 @@ foreach($allraceclasses as $individualclass)
 
 //Make the HTML forms
 $classesformhtml = "<hr>" . implode("<hr>",$classesformhtml) . "<hr>";
+
+//Display the notes and warnings
+$displaywarnings = array();
+if (isset($autoclasswarning) == true)
+  array_push($displaywarnings,$autoclasswarning);
+if (isset($updatingnote) == true)
+  array_push($displaywarnings,$updatingnote);
+if (isset($multiracewarning) == true)
+  array_push($displaywarnings,$multiracewarning);
+
+//Format warnings into display warning
+if (count($displaywarnings) > 0)
+  $displaywarnings = '<p>' . implode("<br>",$displaywarnings) . '</p>';
+else
+  $displaywarnings = '';
 ?>
 <div class="item">
 <p><?php echo $findclassname;?></p>
+
+<?php echo $displaywarnings; ?>
 
 <?php echo $classesformhtml; ?>
 
