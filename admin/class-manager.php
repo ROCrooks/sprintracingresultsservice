@@ -3,7 +3,7 @@
 include 'srrsadminrelativepaths.php';
 
 //Get classes list engine
-include 'engines/class-getallclasses.php';
+include $adminenginesrelativepath . 'class-getallclasses.php';
 
 //Widths
 $racenamewidth = 400;
