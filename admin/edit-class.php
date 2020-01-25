@@ -5,6 +5,18 @@ include 'srrsadmindefaulturls.php';
 //Get class name from URL
 $findclassname = $_GET['class'];
 
+//Update the
+if (isset($_POST['UpdateClass']) == true)
+  {
+  //Read the input form to get the class to add
+  include $adminenginesrelativepath . "class-formtoclass.php";
+  $classdetails = $inputclassesarray;
+
+  //Include the class to add
+  include $adminenginesrelativepath . "class-assignclasses.php";
+  }
+
+//Temporary class details are retrieved from the form when new line is clicked
 if (isset($_POST['NewLine']) == true)
   {
   //Read the input form and make it the only input class
@@ -63,7 +75,7 @@ foreach($allraceclasses as $individualclass)
   include $adminenginesrelativepath . "class-form-html.php";
 
   //Wrap form in form
-  $classformhtml = $classformhtml . '<p><input type="submit" name="Update" value="Update"> <input type="submit" name="NewLine" value="New Line"></p>';
+  $classformhtml = $classformhtml . '<p><input type="submit" name="UpdateClass" value="Update"> <input type="submit" name="NewLine" value="New Line"></p>';
   $classformhtml = '<form action="' . $classformactionurl . '" method="post">' . $classformhtml . '</form>';
 
   array_push($classesformhtml,$classformhtml);
