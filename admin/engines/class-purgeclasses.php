@@ -1,10 +1,10 @@
 <?php
-include 'required-files.php';
+include 'required-functions.php';
 
 //Prepare query to purge the classes
 if (isset($purgeclassesstmt) == false)
   {
-  $purgeclassessql = "DELETE FROM `classes` c LEFT JOIN `races` r ON c.`Race` = r.`Key` WHERE r.`Class` = ?";
+  $purgeclassessql = "DELETE c FROM `classes` c LEFT JOIN `races` r ON c.`Race` = r.`Key` WHERE r.`Class` = ?";
   $purgeclassesstmt = dbprepare($srrsdblink,$purgeclassessql);
   }
 
