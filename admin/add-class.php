@@ -22,6 +22,11 @@ if (isset($_POST['AutoClass']) == true)
 else
   $autoclass = false;
 
+//Add the class to the database if button is pressed
+if (isset($_POST['AddClass']) == true)
+  {
+  echo "<p>Add Class</p>";
+  }
 
 //Get the next unset class in the races table
 if ((isset($_POST['NewLine']) == false) AND (isset($_POST['FinalCheck']) == false))
@@ -48,8 +53,8 @@ if ($racenametoset != false)
   $classformhtml = $classformhtml . '<input type="hidden" name="ClassName" value="' . $racenametoset . '">';
   $classformhtml = $classformhtml . '<p>';
   $classformhtml = $classformhtml . '<input type="submit" name="NewLine" value="New Line"> ';
-  $classformhtml = $classformhtml . '<input type="submit" name="AddClass" value="Final Check"> ';
-  $classformhtml = $classformhtml . '<input type="submit" name="FinalCheck" value="Add">';
+  $classformhtml = $classformhtml . '<input type="submit" name="FinalCheck" value="Final Check"> ';
+  $classformhtml = $classformhtml . '<input type="submit" name="AddClass" value="Add">';
   $classformhtml = $classformhtml . '</p>';
   $classformhtml = $classformhtml . '</form>';
 
