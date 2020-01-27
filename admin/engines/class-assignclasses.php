@@ -25,7 +25,7 @@ foreach ($racekeys as $racekey)
     }
   }
 
-//Set race classes
+//Mark races with that class as set
 if (isset($setracesclassesstmt) == false)
   {
   $setracesclassessql = "UPDATE `classes` SET `Set` = 1 WHERE `Class` = ?";
@@ -33,4 +33,26 @@ if (isset($setracesclassesstmt) == false)
   }
 
 dbexecute($setracesclassesstmt,$findclassname);
+
+//Add the autoclass if it requested
+if (isset($autoclass) == false)
+  $autoclass = false;
+
+if ($autoclass == true)
+  {
+  //Prepare statement to add the autoclass
+  if (isset($addautoclassstmt) == true)
+    {
+    $addautoclasssql = "INSERT INTO `autoclasses` (`RaceName`, `JSV`, `MW`, `CK`, `Spec`, `Abil`, `Ages`, `FreeText`) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+    $addautoclassstmt = dbprepare($srrsdblink,$addautoclasssql);
+    }
+
+  //Add each class as an autoclass
+  foreach ($classdetails as $classline)
+    {
+    //Add class to the autoclasses table
+    $classaddconstraints = array($findclassname,$classline['JSV'],$classline['MW'],$classline['CK'],$classline['Spec'],$classline['Abil'],$classline['Ages'],$classline['FreeText']);
+    dbexecute($addautoclassstmt,$classaddconstraints);
+    }
+  }
 ?>
