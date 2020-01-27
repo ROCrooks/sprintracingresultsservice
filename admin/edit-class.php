@@ -140,6 +140,7 @@ else
   $displaywarnings = '';
 ?>
 <div class="item">
+<p class="blockheading">Class Editor</p>
 <p>Editing the class: <?php echo $findclassname;?></p>
 
 <?php echo $displaywarnings; ?>

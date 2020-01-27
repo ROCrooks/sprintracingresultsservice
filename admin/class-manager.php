@@ -12,17 +12,25 @@ $numberraceswidth = 20;
 $editlinkwidth = 20;
 $fullwidthtable = $racenamewidth+$numberraceswidth+$editlinkwidth;
 
-echo '<div style="display: table; width: ' . $fullwidthtable . ';">';
+$allclasseslisthtml = '<div style="display: table; width: ' . $fullwidthtable . ';">';
 foreach($uniqueclassnames as $classitem)
   {
   //Encode the input class name as HTML entity
   $urlclass = urlencode($classitem['InputClass']);
 
-  echo '<div style="display: table-row; width: ' . $fullwidthtable . ';">';
-  echo '<div style="display: table-cell; width: ' . $racenamewidth . ';"><p>' . $classitem['InputClass'] . '<br>' . $classitem['AutoClass'] . '</p></div>';
-  echo '<div style="display: table-cell; width: ' . $numberraceswidth . '; vertical-align: middle;"><p>' . $classitem['RaceCount'] . '</p></div>';
-  echo '<div style="display: table-cell; width: ' . $editlinkwidth . '; vertical-align: middle;"><p><a href="' . $defaulturls['EditClass'] . $ahrefjoin . 'class=' . $urlclass . '">Edit</a></p></div>';
-  echo '</div>';
+  $allclasseslisthtml = $allclasseslisthtml . '<div style="display: table-row; width: ' . $fullwidthtable . ';">';
+  $allclasseslisthtml = $allclasseslisthtml . '<div style="display: table-cell; width: ' . $racenamewidth . ';"><p>' . $classitem['InputClass'] . '<br>' . $classitem['AutoClass'] . '</p></div>';
+  $allclasseslisthtml = $allclasseslisthtml . '<div style="display: table-cell; width: ' . $numberraceswidth . '; vertical-align: middle;"><p>' . $classitem['RaceCount'] . '</p></div>';
+  $allclasseslisthtml = $allclasseslisthtml . '<div style="display: table-cell; width: ' . $editlinkwidth . '; vertical-align: middle;"><p><a href="' . $defaulturls['EditClass'] . $ahrefjoin . 'class=' . $urlclass . '">Edit</a></p></div>';
+  $allclasseslisthtml = $allclasseslisthtml . '</div>';
   }
-echo '</div>';
+$allclasseslisthtml = $allclasseslisthtml . '</div>';
+
+$addclasslinkhtml = '<p><a href="' . $defaulturls['AddClass'] . '">Add Classes</a></p>';
+
 ?>
+<div class="item">
+<p class="blockheading">Class Manager</p>
+<?php echo $addclasslinkhtml; ?>
+<?php echo $allclasseslisthtml; ?>
+</div>

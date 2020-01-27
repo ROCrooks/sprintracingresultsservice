@@ -77,5 +77,6 @@ else
 ?>
 
 <div class="item">
+<p class="blockheading">Add Classes</p>
 <?php echo $addclassdisplayhtml; ?>
 </div>
