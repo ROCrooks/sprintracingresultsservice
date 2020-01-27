@@ -15,14 +15,19 @@ if ((isset($_POST['NewLine']) == false) AND (isset($_POST['FinalCheck']) == fals
 
 if ($racenametoset != false)
   {
+
+
   //Message defining which class to set for
   $addclassdisplayhtml = '<p>Specify a class code for:<br>' . $racenametoset . '</p>';
 
   //Generate the current class name able to account for form input etc
   include $publicenginesrelativepath . 'format-class.php';
 
-  print_r($classdetails);
-  echo $raceclass . "<br>";
+  //Make the add classes form
+  $multirowform = true;
+  include $adminenginesrelativepath . "class-form-html.php";
+
+  $addclassdisplayhtml = $classformhtml;
   }
 else
   {
