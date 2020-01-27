@@ -24,4 +24,13 @@ foreach ($racekeys as $racekey)
     dbexecute($insertclassstmt,$classaddconstraints);
     }
   }
+
+//Set race classes
+if (isset($setracesclassesstmt) == false)
+  {
+  $setracesclassessql = "UPDATE `classes` SET `Set` = 1 WHERE `Class` = ?";
+  $setracesclassesstmt = dbprepare($srrsdblink,$setracesclassessql);
+  }
+
+dbexecute($setracesclassesstmt,$findclassname);
 ?>
