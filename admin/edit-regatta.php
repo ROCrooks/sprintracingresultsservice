@@ -31,14 +31,14 @@ echo '<div class="item">';
 
 if (isset($regattaresults['Details']) == true)
   {
-  echo '<p>Regatta:</p>';
+  echo '<p class="blockheading">Edit Regatta</p>';
   echo '<p>Regatta Name: <input type="text" size="80" value="' . $regattaresults['Details']['Name'] . '"></p>';
   echo '<p>Regatta Date: <input type="text" size="15" value="' . $regattaresults['Details']['FullDate'] . '"></p>';
   }
 
 if (isset($regattaresults['Details']) == true)
   {
-  echo '<p>Races:</p>';
+  echo '<p class="blockheading">Races</p>';
   foreach ($regattaresults['Races'] as $race)
     {
     print '<p><a href="' . $defaulturls['EditRace'] . $ahrefjoin . 'race=' . $race['Key'] . '">' . $race['Name'] . '</a></p>';
