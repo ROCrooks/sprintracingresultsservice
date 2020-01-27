@@ -26,10 +26,14 @@ else
 if (isset($_POST['AddClass']) == true)
   {
   echo "<p>Add Class</p>";
+
+  //Unset the racename to set and class details after adding to database
+  unset($racenametoset);
+  $classdetails = array();
   }
 
-//Get the next unset class in the races table
-if ((isset($_POST['NewLine']) == false) AND (isset($_POST['FinalCheck']) == false))
+//Get the next unset class in the races table if a class details array is not set
+if (isset($racenametoset) == false)
   include $adminenginesrelativepath . "class-getunassignedclass.php";
 
 if ($racenametoset != false)
