@@ -2,15 +2,21 @@
 include 'srrsadminrelativepaths.php';
 include 'srrsadmindefaulturls.php';
 
-include $adminenginesrelativepath . "class-getunassignedclass.php";
+//Get input from the form
+if ((isset($_POST['NewLine']) == true) OR (isset($_POST['AddClass']) == true) OR (isset($_POST['FinalCheck']) == true))
+  {
+  include $adminenginesrelativepath . "class-formtoclass.php";
+  }
+else
+  $classdetails = array();
+
+if ((isset($_POST['NewLine']) == false) AND (isset($_POST['FinalCheck']) == false))
+  include $adminenginesrelativepath . "class-getunassignedclass.php";
 
 if ($racenametoset != false)
   {
   //Message defining which class to set for
   $addclassdisplayhtml = '<p>Specify a class code for:<br>' . $racenametoset . '</p>';
-
-  if (isset($classdetails) == false)
-    $classdetails = array();
 
   //Generate the current class name able to account for form input etc
   include $publicenginesrelativepath . 'format-class.php';
