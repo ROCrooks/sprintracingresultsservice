@@ -18,7 +18,7 @@ if (isset($purgeautoclassesstmt) == false)
 //Unset race classes
 if (isset($unsetracesclassesstmt) == false)
   {
-  $unsetracesclassessql = "UPDATE `classes` SET `Set` = 0 WHERE `Class` = ?";
+  $unsetracesclassessql = "UPDATE `races` SET `Set` = 0 WHERE `Class` = ?";
   $unsetracesclassesstmt = dbprepare($srrsdblink,$unsetracesclassessql);
   }
 
