@@ -25,7 +25,8 @@ else
 //Add the class to the database if button is pressed
 if (isset($_POST['AddClass']) == true)
   {
-  echo "<p>Add Class</p>";
+  $findclassname = $racenametoset;
+  include $adminenginesrelativepath . "class-assignclasses.php";
 
   //Unset the racename to set and class details after adding to database
   unset($racenametoset);

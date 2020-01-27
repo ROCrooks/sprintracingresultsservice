@@ -28,7 +28,7 @@ foreach ($racekeys as $racekey)
 //Mark races with that class as set
 if (isset($setracesclassesstmt) == false)
   {
-  $setracesclassessql = "UPDATE `classes` SET `Set` = 1 WHERE `Class` = ?";
+  $setracesclassessql = "UPDATE `races` SET `Set` = 1 WHERE `Class` = ?";
   $setracesclassesstmt = dbprepare($srrsdblink,$setracesclassessql);
   }
 
@@ -41,7 +41,7 @@ if (isset($autoclass) == false)
 if ($autoclass == true)
   {
   //Prepare statement to add the autoclass
-  if (isset($addautoclassstmt) == true)
+  if (isset($addautoclassstmt) == false)
     {
     $addautoclasssql = "INSERT INTO `autoclasses` (`RaceName`, `JSV`, `MW`, `CK`, `Spec`, `Abil`, `Ages`, `FreeText`) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
     $addautoclassstmt = dbprepare($srrsdblink,$addautoclasssql);
