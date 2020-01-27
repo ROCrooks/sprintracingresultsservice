@@ -5,6 +5,8 @@ include 'srrsadmindefaulturls.php';
 //Get class name from URL
 $findclassname = $_GET['class'];
 
+echo $findclassname . "<br>";
+
 if (isset($_POST['AutoClass']) == true)
   {
   $autoclass = $_POST['AutoClass'];
