@@ -95,7 +95,7 @@ elseif ((isset($_POST['submittext']) == false) AND (isset($_POST['submitfields']
     $width2 = 300;
 
     //The form to insert a new regatta
-    $addregattaformhtml = '<form action="add-regatta.php?regatta=' . $regattaid . '" method="post">';
+    $addregattaformhtml = '<form action="' . $defaulturls['AddRegatta'] . $ahrefjoin . 'regatta=' . $regattaid . '" method="post">';
     $addregattaformhtml = $addregattaformhtml . '<div style="display: table-row;">';
     $addregattaformhtml = $addregattaformhtml . '<div style="width: ' . $width1 . 'px; display: table-cell;">Regatta Text:</div>';
     $addregattaformhtml = $addregattaformhtml . '<div style="width: ' . $width2 . 'px; display: table-cell;"><textarea cols="30" rows="10" name="RegattaText"></textarea></div>';
