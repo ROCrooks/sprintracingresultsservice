@@ -21,11 +21,11 @@ function sortfinishers($a,$b)
 	{
   if ($a['Result'] == $b['Result'])
 		{
-		if ($a['Time'] == $b['Time'])
+		if ($a['Secs'] == $b['Secs'])
 			{
 		  return 0;
 		  }
-		return ($a['Time'] < $b['Time']) ? -1 : 1;
+		return ($a['Secs'] < $b['Secs']) ? -1 : 1;
     }
   return ($a['Result'] > $b['Result']) ? -1 : 1;
 	}
