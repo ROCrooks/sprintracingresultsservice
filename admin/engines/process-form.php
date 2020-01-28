@@ -114,7 +114,7 @@ else
   $width2 = 300;
 
   //The form to insert a new regatta
-  $addregattaformhtml = '<form action="add-regatta.php" method="post">';
+  $addregattaformhtml = '<form action="' . $defaulturls['AddRegatta'] . '" method="post">';
   $addregattaformhtml = $addregattaformhtml . '<div style="display: table-row;">';
   $addregattaformhtml = $addregattaformhtml . '<div style="width: ' . $width1 . 'px; display: table-cell;">Regatta Name:</div>';
   $addregattaformhtml = $addregattaformhtml . '<div style="width: ' . $width2 . 'px; display: table-cell;"><input type="text" name="RegattaName" size=""></div>';
