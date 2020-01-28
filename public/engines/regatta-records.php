@@ -15,7 +15,7 @@ FROM
     `paddlers` p
 LEFT JOIN `races` r ON r.`Key` = p.`Race`
 LEFT JOIN `regattas` g ON g.`Key` = r.`Regatta`
-WHERE p.`MW` = ? AND p.`CK` = ? AND r.`Boat` = ? AND r.`Dist` = ? AND p.`NR` = ''";
+WHERE p.`MW` = ? AND p.`CK` = ? AND r.`Boat` = ? AND r.`Dist` = ? AND p.`NR` = '' AND p.`Time` > 0 ";
 if ($year != "")
   {
   $yearstart = $year . "-01-01";
