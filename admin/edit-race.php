@@ -70,6 +70,9 @@ $fieldsizes['FreeText'] = 10;
 
 echo '<div class="item">';
 
+if (isset($outputmessage) == true)
+  echo $outputmessage;
+
 echo '<form action="' . $defaulturls['EditRace'] . $variablejoin . 'race=' . $raceid . '" method="post">';
 
 //The generic race details
@@ -118,65 +121,6 @@ $classformactionurl = $defaulturls['EditRace'] . $variablejoin . 'race=' . $race
 $multirowform = false;
 include $adminenginesrelativepath . 'class-form-html.php';
 echo $classformhtml;
-
-/*
-$paddlerstablewidth = $widths['JSV']+$widths['MW']+$widths['CK']+$widths['Abil']+$widths['Spec']+$widths['Ages']+$widths['FreeText']+$widths['Button'];
-
-//Header for class list
-
-echo '<div style="width: ' . $paddlerstablewidth . 'px; display: table;">';
-//echo '<div style="width: 50%; display: table;">';
-
-echo '<div style="display: table-row;">';
-echo '<div style="display: table-cell;"></div>';
-echo '<div style="width: ' . $widths['JSV'] . 'px; display: table-cell;">JSV</div>';
-echo '<div style="width: ' . $widths['MW'] . 'px; display: table-cell;">MW</div>';
-echo '<div style="width: ' . $widths['CK'] . 'px; display: table-cell;">CK</div>';
-echo '<div style="width: ' . $widths['Abil'] . 'px; display: table-cell;">Abil</div>';
-echo '<div style="width: ' . $widths['Spec'] . 'px; display: table-cell;">Spec</div>';
-echo '<div style="width: ' . $widths['Ages'] . 'px; display: table-cell;">Ages</div>';
-echo '<div style="width: ' . $widths['FreeText'] . 'px; display: table-cell;">FreeText</div>';
-echo '<div style="width: ' . $widths['Button'] . 'px; display: table-cell;"></div>';
-echo '<div style="display: table-cell;"></div>';
-echo '</div>';
-
-
-//Each class to edit
-foreach ($classdetails as $individualclass)
-  {
-  //Pass the name of the
-  echo '<div style="display: table-row;">';
-  echo '<div style="display: table-cell; width: 0px;"><form action="' . $defaulturls['EditRace'] . $variablejoin . 'race=' . $raceid . '" method="post"><input type="hidden" name="ItemKey" value="' . $individualclass['Key'] . '"></div>';
-  echo '<div style="width: ' . $widths['JSV'] . 'px; display: table-cell;"><input type="text" size="' . $fieldsizes['JSV'] . '" value="' . $individualclass['JSV'] . '" name="JSV"></div>';
-  echo '<div style="width: ' . $widths['MW'] . 'px; display: table-cell;"><input type="text" size="' . $fieldsizes['MW'] . '" value="' . $individualclass['MW'] . '" name="MW"></div>';
-  echo '<div style="width: ' . $widths['CK'] . 'px; display: table-cell;"><input type="text" size="' . $fieldsizes['CK'] . '" value="' . $individualclass['CK'] . '" name="CK"></div>';
-  echo '<div style="width: ' . $widths['Abil'] . 'px; display: table-cell;"><input type="text" size="' . $fieldsizes['Abil'] . '" value="' . $individualclass['Abil'] . '" name="Abil"></div>';
-  echo '<div style="width: ' . $widths['Spec'] . 'px; display: table-cell;"><input type="text" size="' . $fieldsizes['Spec'] . '" value="' . $individualclass['Spec'] . '" name="Spec"></div>';
-  echo '<div style="width: ' . $widths['Ages'] . 'px; display: table-cell;"><input type="text" size="' . $fieldsizes['Ages'] . '" value="' . $individualclass['Ages'] . '" name="Ages"></div>';
-  echo '<div style="width: ' . $widths['FreeText'] . 'px; display: table-cell;"><input type="text" size="' . $fieldsizes['FreeText'] . '" value="' . $individualclass['FreeText'] . '" name="FreeText"></div>';
-  echo '<div style="width: ' . $widths['Button'] . 'px; display: table-cell;"><input type="submit" value="Edit" name="ClassEdit"></div>';
-  echo '<div style="width: ' . $widths['Button'] . 'px; display: table-cell;"><input type="submit" value="Delete" name="ClassDelete" onclick="return confirm(\'This will delete the race class. Are you sure you want to continue?\')"></div>';
-  echo '<div style="0px; display: table-cell;"></form></div>';
-  echo '</div>';
-  }
-
-//Form to add a new class
-echo '<div style="display: table-row;">';
-echo '<div style="display: table-cell; width: 0px;"><form action="' . $defaulturls['EditRace'] . $variablejoin . 'race=' . $raceid . '" method="post"></div>';
-echo '<div style="width: ' . $widths['JSV'] . 'px; display: table-cell;"><input type="text" size="' . $fieldsizes['JSV'] . '" name="JSV"></div>';
-echo '<div style="width: ' . $widths['MW'] . 'px; display: table-cell;"><input type="text" size="' . $fieldsizes['MW'] . '" name="MW"></div>';
-echo '<div style="width: ' . $widths['CK'] . 'px; display: table-cell;"><input type="text" size="' . $fieldsizes['CK'] . '" name="CK"></div>';
-echo '<div style="width: ' . $widths['Abil'] . 'px; display: table-cell;"><input type="text" size="' . $fieldsizes['Abil'] . '" name="Abil"></div>';
-echo '<div style="width: ' . $widths['Spec'] . 'px; display: table-cell;"><input type="text" size="' . $fieldsizes['Spec'] . '" name="Spec"></div>';
-echo '<div style="width: ' . $widths['Ages'] . 'px; display: table-cell;"><input type="text" size="' . $fieldsizes['Ages'] . '" name="Ages"></div>';
-echo '<div style="width: ' . $widths['FreeText'] . 'px; display: table-cell;"><input type="text" size="' . $fieldsizes['FreeText'] . '" name="FreeText"></div>';
-echo '<div style="width: ' . $widths['Button'] . 'px; display: table-cell;"><input type="submit" value="Add" name="ClassAdd"></div>';
-echo '<div style="width: ' . $widths['Button'] . 'px; display: table-cell;"></div>';
-echo '<div style="display: table-cell;"></form></div>';
-echo '</div>';
-*/
-
-echo '</div>';
 
 //The paddler details
 echo '<p class="blockheading">Paddler Details</p>';

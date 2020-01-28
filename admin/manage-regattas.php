@@ -46,7 +46,7 @@ $widths['HideRelease'] = 50;
 $totalwidth = array_sum($widths);
 
 //Hyperlinks for management pages
-$manageregattahyperlink = $defaulturls['EditRegatta'] . "?regatta=";
+$manageregattahyperlink = $defaulturls['EditRegatta'] . $ahrefjoin . "regatta=";
 $apendraceshyperlink = $defaulturls['AddRegatta'] . $ahrefjoin . "regatta=";
 $deleteregattahyperlink = $defaulturls['ManageRegattas'] . $ahrefjoin . "action=delete&regatta=";
 $hidehyperlink = $defaulturls['ManageRegattas'] . $ahrefjoin . "action=hide&regatta=";

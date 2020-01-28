@@ -124,6 +124,6 @@ if ((isset($runsql) == true) AND (isset($runconstraints) == true))
   dbprepareandexecute($srrsdblink,$runsql,$runconstraints);
 
   //Echo message
-  echo "<p>" . $sqlmessage . "</p>";
+  $outputmessage = "<p>" . $sqlmessage . "</p>";
   }
 ?>
