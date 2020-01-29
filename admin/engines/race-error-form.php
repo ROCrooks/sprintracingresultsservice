@@ -105,7 +105,7 @@ $errorlist = implode("<br>",$errorlist);
 $errorlist = "<p>- " . $errorlist . "</p>";
 
 //Format form HTML
-$manualformhtml = '<form action="add-regatta.php?Regatta=' . $regattaid . '" method="post"><p>Race Details</p>' . $racedetailshtml . "<p>Paddler Details</p>" . $paddlerdetailshtml . '<p><input type="submit" name="submitfields" value="Add Race Fields"></p></form>';
-$textformhtml = '<form action="add-regatta.php?Regatta=' . $regattaid . '" method="post"><p><textarea rows="10" cols="45" name="RaceText">' . $racetext . '</textarea></p><p><input type="submit" name="submittext" value="Add Race Text"></p></form>';
+$manualformhtml = '<form action="' . $defaulturls['AddRegatta'] . $ahrefjoin . 'Regatta=' . $regattaid . '" method="post"><p>Race Details</p>' . $racedetailshtml . '"<p>Paddler Details</p>"' . $paddlerdetailshtml . '<p><input type="submit" name="submitfields" value="Add Race Fields"></p></form>';
+$textformhtml = '<form action="' . $defaulturls['AddRegatta'] . $ahrefjoin .'Regatta=' . $regattaid . '" method="post"><p><textarea rows="10" cols="45" name="RaceText">' . $racetext . '</textarea></p><p><input type="submit" name="submittext" value="Add Race Text"></p></form>';
 $addpaddlerformhtml = $errorlist . "<p>Manually Add</p>" . $manualformhtml . "<p>Amend the Text</p>" . $textformhtml;
 ?>
