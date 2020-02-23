@@ -9,6 +9,6 @@ if ($action == "release")
 
 //Run the query to hide or release the regatta
 $hidereleaseregattasql = "UPDATE `regattas` SET `Hide` = ? WHERE `Key` = ?";
-$hidreleaseconstraints = array($set,$doregatta);
-dbprepareandexecute($srrsdblink,$hidereleaseregattasql,$hidreleaseconstraints);
+$hidereleaseconstraints = array($set,$doregatta);
+dbprepareandexecute($srrsdblink,$hidereleaseregattasql,$hidereleaseconstraints);
 ?>

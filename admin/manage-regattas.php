@@ -11,13 +11,13 @@ if (isset($_GET['action']) == true)
   //Delete a specified regatta
   if ($action == "delete")
     {
-    include 'engines/delete-regatta.php';
+    include $adminenginesrelativepath . 'delete-regatta.php';
     $actionmessage = "<p>Regatta Deleted!</p>";
     }
   //Delete a specified regatta
   if (($action == "hide") OR ($action == "release"))
     {
-    include 'engines/releasehide-regatta.php';
+    include $adminenginesrelativepath . 'releasehide-regatta.php';
 
     if ($action == "hide")
       $actionmessage = "<p>Regatta Hidden!</p>";
