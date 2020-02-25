@@ -94,6 +94,8 @@ foreach($classdetails as $classkey=>$class)
     {
     if ($class['Abil'] == "O")
       $namewords['Band'] = "Open";
+    elseif ($class['Abil'] == "I")
+      $namewords['Band'] = "Intermediate";
     else
       {
       $namewords['Band'] = $class['Abil'];
