@@ -4,7 +4,7 @@ $files = array("srrs","userinput","db","array","drawgraph");
 //Get current directory
 //This makes the location independent of the location of the calling script
 $directory = dirname(__DIR__);
-$directory = str_replace("Git/public","Git/public/functions",$directory);
+$directory = str_replace("Git/Public","Git/Public/functions",$directory);
 
 //Include each required functions file
 foreach ($files as $file)
@@ -20,6 +20,7 @@ $directory = str_replace("Git/public/functions","",$directory);
 //Only create if not already created
 if (isset($srrsdblink) == false)
   {
+  $directory = str_replace("Git/Public/functions","",$directory);
   include_once $directory . '/dbconnect-function.php';
   $srrsdblink = createdbconnection("SRRS");
   }
