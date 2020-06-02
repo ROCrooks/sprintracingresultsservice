@@ -64,7 +64,7 @@ if (isset($noboatsstmt) == false)
   $noboatsstmt = dbprepare($srrsdblink,$noboatssql);
   }
 
-//SQL statement to count total number of boats in event
+//SQL statement to count total number of non-finishing boats in event
 if (isset($noboatsnrstmt) == false)
   {
   //Write the SQL statement
@@ -83,17 +83,53 @@ if (isset($noboatsnrstmt) == false)
   $noboatsnrstmt = dbprepare($srrsdblink,$noboatsnrsql);
   }
 
-echo $noboatsnrsql . "<br>";
+//SQL statement to get the mean time
+if (isset($meantimestmt) == false)
+  {
+  //Write the SQL statement
+  $meantimesql = "
+  SELECT AVG(`Time`) FROM `paddlers` p
+  LEFT JOIN `races` r ON r.`Key` = p.`Race`
+  LEFT JOIN `regattas` g ON g.`Key` = r.`Regatta` ";
+
+  //Bind common SQL constraints to query
+  $meantimesql = $meantimesql . $commonsql;
+
+  //Bind constraint for only results
+  $meantimesql = $meantimesql . " AND p.`NR` = ''";
+
+  //Prepare the query
+  $meantimestmt = dbprepare($srrsdblink,$meantimesql);
+  }
+
+//SQL statement to get the mean time
+if (isset($sdtimestmt) == false)
+  {
+  //Write the SQL statement
+  $sdtimesql = "
+  SELECT STD(`Time`) FROM `paddlers` p
+  LEFT JOIN `races` r ON r.`Key` = p.`Race`
+  LEFT JOIN `regattas` g ON g.`Key` = r.`Regatta` ";
+
+  //Bind common SQL constraints to query
+  $sdtimesql = $sdtimesql . $commonsql;
+
+  //Bind constraint for only results
+  $sdtimesql = $sdtimesql . " AND p.`NR` = ''";
+
+  //Prepare the query
+  $sdtimestmt = dbprepare($srrsdblink,$sdtimesql);
+  }
 
 //Run the queries
-//Make constraints and run query for counting all entrants
-$noboatsconstraints = $commonconstraints;
-$noboatsresult = dbexecute($noboatsstmt,$noboatsconstraints);
+//Make constraints and run query for counting all entrants and summary statistics
+$noboatsresult = dbexecute($noboatsstmt,$commonconstraints);
+$meantimeresult = dbexecute($meantimestmt,$commonconstraints);
+$sdtimeresult = dbexecute($sdtimestmt,$commonconstraints);
 
 //Make constraints for counting no results
 $noboatsnrconstraints = $commonconstraints;
 $noboatsnrconstraints[4] = "DNS";
-echo count($noboatsnrconstraints) . "<br>";
 $noboatsdnsresult = dbexecute($noboatsnrstmt,$noboatsnrconstraints);
 $noboatsnrconstraints[4] = "DNF";
 $noboatsdnfresult = dbexecute($noboatsnrstmt,$noboatsnrconstraints);
@@ -112,6 +148,11 @@ $resultsarray['DNF'] = $noboatsdnfresult[0]['COUNT(*)'];
 $resultsarray['DSQ'] = $noboatsdsqresult[0]['COUNT(*)'];
 $resultsarray['ERR'] = $noboatserrresult[0]['COUNT(*)'];
 $resultsarray['???'] = $noboatsunkresult[0]['COUNT(*)'];
+$resultsarray['Finishers'] = $resultsarray['Entries']-$resultsarray['DNS']-$resultsarray['DNF']-$resultsarray['DSQ']-$resultsarray['ERR']-$resultsarray['???'];
+$resultsarray['Means'] = $meantimeresult[0]['AVG(`Time`)'];
+$resultsarray['StDevs'] = $sdtimeresult[0]['STD(`Time`)'];
+
+
 
 print_r($resultsarray);
 ?>
