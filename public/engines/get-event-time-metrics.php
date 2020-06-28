@@ -2,7 +2,7 @@
 include_once 'required-functions.php';
 
 $mw = "M";
-$ck = "K";
+$ck = "C";
 $dist = 500;
 $boat = 1;
 //$jsv = "J";
@@ -107,7 +107,7 @@ if (isset($sdtimestmt) == false)
   {
   //Write the SQL statement
   $sdtimesql = "
-  SELECT STD(`Time`) FROM `paddlers` p
+  SELECT STDDEV(`Time`) FROM `paddlers` p
   LEFT JOIN `races` r ON r.`Key` = p.`Race`
   LEFT JOIN `regattas` g ON g.`Key` = r.`Regatta` ";
 
@@ -149,8 +149,10 @@ $resultsarray['DSQ'] = $noboatsdsqresult[0]['COUNT(*)'];
 $resultsarray['ERR'] = $noboatserrresult[0]['COUNT(*)'];
 $resultsarray['???'] = $noboatsunkresult[0]['COUNT(*)'];
 $resultsarray['Finishers'] = $resultsarray['Entries']-$resultsarray['DNS']-$resultsarray['DNF']-$resultsarray['DSQ']-$resultsarray['ERR']-$resultsarray['???'];
-$resultsarray['Means'] = $meantimeresult[0]['AVG(`Time`)'];
-$resultsarray['StDevs'] = $sdtimeresult[0]['STD(`Time`)'];
+$resultsarray['MeanS'] = $meantimeresult[0]['AVG(`Time`)'];
+$resultsarray['StDevS'] = $sdtimeresult[0]['STDDEV(`Time`)'];
+$resultsarray['MeanD'] = secstohms($resultsarray['MeanS']);
+$resultsarray['StDevD'] = secstohms($resultsarray['StDevS']);
 
 
 
