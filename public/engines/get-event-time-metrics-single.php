@@ -11,14 +11,6 @@ function percentsqllookup($percent,$all)
 
 include_once 'required-functions.php';
 
-$mw = "M";
-$ck = "K";
-$dist = 500;
-$boat = 1;
-//$jsv = "J";
-//$year = 2014;
-//$club = "LBZ";
-
 //Make common SQL and constraint arrays
 //Prepare array of common constraints
 $commonconstraints = array($mw,$ck,$dist,$boat);
@@ -230,6 +222,4 @@ $resultsarray['100%D'] = secstohms($resultsarray['100%S']);
 //Calculate time ranges
 $resultsarray['RangeS'] = $resultsarray['100%S']-$resultsarray['TopS'];
 $resultsarray['RangeD'] = secstohms($resultsarray['RangeS']);
-
-print_r($resultsarray);
 ?>
