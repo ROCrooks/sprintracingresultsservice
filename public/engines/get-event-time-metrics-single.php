@@ -85,6 +85,8 @@ if (isset($noboatsnrstmt) == false)
   $noboatsnrstmt = dbprepare($srrsdblink,$noboatsnrsql);
   }
 
+echo $noboatsnrsql . "<br>";
+
 //SQL statement to get the mean time
 if (isset($meantimestmt) == false)
   {
@@ -148,78 +150,92 @@ if (isset($rangetimestmt) == false)
 //Run the queries
 //Make constraints and run query for counting all entrants and summary statistics
 $noboatsresult = dbexecute($noboatsstmt,$commonconstraints);
-$meantimeresult = dbexecute($meantimestmt,$commonconstraints);
-$sdtimeresult = dbexecute($sdtimestmt,$commonconstraints);
 
-//Make constraints for counting no results
-$noboatsnrconstraints = $commonconstraints;
-$noboatsnrconstraints[4] = "DNS";
-$noboatsdnsresult = dbexecute($noboatsnrstmt,$noboatsnrconstraints);
-$noboatsnrconstraints[4] = "DNF";
-$noboatsdnfresult = dbexecute($noboatsnrstmt,$noboatsnrconstraints);
-$noboatsnrconstraints[4] = "DSQ";
-$noboatsdsqresult = dbexecute($noboatsnrstmt,$noboatsnrconstraints);
-$noboatsnrconstraints[4] = "ERR";
-$noboatserrresult = dbexecute($noboatsnrstmt,$noboatsnrconstraints);
-$noboatsnrconstraints[4] = "???";
-$noboatsunkresult = dbexecute($noboatsnrstmt,$noboatsnrconstraints);
+//Only run all queries if there are results
+if ($noboatsresult[0]['COUNT(*)'] > 0)
+  {
+  $resultsarray = array();
 
-//Compile results of the queries into output
-$resultsarray = array();
-$resultsarray['Entries'] = $noboatsresult[0]['COUNT(*)'];
-$resultsarray['DNS'] = $noboatsdnsresult[0]['COUNT(*)'];
-$resultsarray['DNF'] = $noboatsdnfresult[0]['COUNT(*)'];
-$resultsarray['DSQ'] = $noboatsdsqresult[0]['COUNT(*)'];
-$resultsarray['ERR'] = $noboatserrresult[0]['COUNT(*)'];
-$resultsarray['???'] = $noboatsunkresult[0]['COUNT(*)'];
-$resultsarray['Finishers'] = $resultsarray['Entries']-$resultsarray['DNS']-$resultsarray['DNF']-$resultsarray['DSQ']-$resultsarray['ERR']-$resultsarray['???'];
-$resultsarray['MeanS'] = $meantimeresult[0]['AVG(`Time`)'];
-$resultsarray['StDevS'] = $sdtimeresult[0]['STDDEV(`Time`)'];
-$resultsarray['MeanD'] = secstohms($resultsarray['MeanS']);
-$resultsarray['StDevD'] = secstohms($resultsarray['StDevS']);
+  $meantimeresult = dbexecute($meantimestmt,$commonconstraints);
+  $sdtimeresult = dbexecute($sdtimestmt,$commonconstraints);
 
-//Calculate percentages
-$perc05 = percentsqllookup(5,$resultsarray['Finishers']);
-$perc10 = percentsqllookup(10,$resultsarray['Finishers']);
-$perc25 = percentsqllookup(25,$resultsarray['Finishers']);
-$perc50 = percentsqllookup(50,$resultsarray['Finishers']);
-$perc75 = percentsqllookup(75,$resultsarray['Finishers']);
-$perc100 = percentsqllookup(100,$resultsarray['Finishers']);
+  //Make constraints for counting no results
+  $noboatsnrconstraints = $commonconstraints;
+  //Get the last element to add
+  $lastelement = count($noboatsnrconstraints);
+  $noboatsnrconstraints[$lastelement] = "DNS";
+  $noboatsdnsresult = dbexecute($noboatsnrstmt,$noboatsnrconstraints);
+  $noboatsnrconstraints[$lastelement] = "DNF";
+  $noboatsdnfresult = dbexecute($noboatsnrstmt,$noboatsnrconstraints);
+  $noboatsnrconstraints[$lastelement] = "DSQ";
+  $noboatsdsqresult = dbexecute($noboatsnrstmt,$noboatsnrconstraints);
+  $noboatsnrconstraints[$lastelement] = "ERR";
+  $noboatserrresult = dbexecute($noboatsnrstmt,$noboatsnrconstraints);
+  $noboatsnrconstraints[$lastelement] = "???";
+  $noboatsunkresult = dbexecute($noboatsnrstmt,$noboatsnrconstraints);
 
-//Get the % within times
-$rangetimeconstraints = $commonconstraints;
+  //Compile results of the queries into output
+  $resultsarray['Entries'] = $noboatsresult[0]['COUNT(*)'];
+  $resultsarray['DNS'] = $noboatsdnsresult[0]['COUNT(*)'];
+  $resultsarray['DNF'] = $noboatsdnfresult[0]['COUNT(*)'];
+  $resultsarray['DSQ'] = $noboatsdsqresult[0]['COUNT(*)'];
+  $resultsarray['ERR'] = $noboatserrresult[0]['COUNT(*)'];
+  $resultsarray['???'] = $noboatsunkresult[0]['COUNT(*)'];
+  $resultsarray['Finishers'] = $resultsarray['Entries']-$resultsarray['DNS']-$resultsarray['DNF']-$resultsarray['DSQ']-$resultsarray['ERR']-$resultsarray['???'];
+  $resultsarray['MeanS'] = $meantimeresult[0]['AVG(`Time`)'];
+  $resultsarray['StDevS'] = $sdtimeresult[0]['STDDEV(`Time`)'];
+  $resultsarray['MeanD'] = secstohms($resultsarray['MeanS']);
+  $resultsarray['StDevD'] = secstohms($resultsarray['StDevS']);
 
-//Retrieve % ranges
-$rangetimeconstraints[4] = 0;
-$resultsarray['TopS'] = dbexecute($rangetimestmt,$rangetimeconstraints);
-$resultsarray['TopS'] = $resultsarray['TopS'][0]['Time'];
-$resultsarray['TopD'] = secstohms($resultsarray['TopS']);
-$rangetimeconstraints[4] = $perc05;
-$resultsarray['5%S'] = dbexecute($rangetimestmt,$rangetimeconstraints);
-$resultsarray['5%S'] = $resultsarray['5%S'][0]['Time'];
-$resultsarray['5%D'] = secstohms($resultsarray['5%S']);
-$rangetimeconstraints[4] = $perc10;
-$resultsarray['10%S'] = dbexecute($rangetimestmt,$rangetimeconstraints);
-$resultsarray['10%S'] = $resultsarray['10%S'][0]['Time'];
-$resultsarray['10%D'] = secstohms($resultsarray['10%S']);
-$rangetimeconstraints[4] = $perc25;
-$resultsarray['25%S'] = dbexecute($rangetimestmt,$rangetimeconstraints);
-$resultsarray['25%S'] = $resultsarray['25%S'][0]['Time'];
-$resultsarray['25%D'] = secstohms($resultsarray['25%S']);
-$rangetimeconstraints[4] = $perc50;
-$resultsarray['50%S'] = dbexecute($rangetimestmt,$rangetimeconstraints);
-$resultsarray['50%S'] = $resultsarray['50%S'][0]['Time'];
-$resultsarray['50%D'] = secstohms($resultsarray['50%S']);
-$rangetimeconstraints[4] = $perc75;
-$resultsarray['75%S'] = dbexecute($rangetimestmt,$rangetimeconstraints);
-$resultsarray['75%S'] = $resultsarray['75%S'][0]['Time'];
-$resultsarray['75%D'] = secstohms($resultsarray['75%S']);
-$rangetimeconstraints[4] = $perc100;
-$resultsarray['100%S'] = dbexecute($rangetimestmt,$rangetimeconstraints);
-$resultsarray['100%S'] = $resultsarray['100%S'][0]['Time'];
-$resultsarray['100%D'] = secstohms($resultsarray['100%S']);
+  //Calculate percentages
+  $perc05 = percentsqllookup(5,$resultsarray['Finishers']);
+  $perc10 = percentsqllookup(10,$resultsarray['Finishers']);
+  $perc25 = percentsqllookup(25,$resultsarray['Finishers']);
+  $perc50 = percentsqllookup(50,$resultsarray['Finishers']);
+  $perc75 = percentsqllookup(75,$resultsarray['Finishers']);
+  $perc100 = percentsqllookup(100,$resultsarray['Finishers']);
 
-//Calculate time ranges
-$resultsarray['RangeS'] = $resultsarray['100%S']-$resultsarray['TopS'];
-$resultsarray['RangeD'] = secstohms($resultsarray['RangeS']);
+  //Get the % within times
+  $rangetimeconstraints = $commonconstraints;
+  $lastelement = count($rangetimeconstraints);
+
+  //Retrieve % ranges
+  $rangetimeconstraints[$lastelement] = 0;
+  $resultsarray['TopS'] = dbexecute($rangetimestmt,$rangetimeconstraints);
+  $resultsarray['TopS'] = $resultsarray['TopS'][0]['Time'];
+  $resultsarray['TopD'] = secstohms($resultsarray['TopS']);
+  $rangetimeconstraints[$lastelement] = $perc05;
+  $resultsarray['5%S'] = dbexecute($rangetimestmt,$rangetimeconstraints);
+  $resultsarray['5%S'] = $resultsarray['5%S'][0]['Time'];
+  $resultsarray['5%D'] = secstohms($resultsarray['5%S']);
+  $rangetimeconstraints[$lastelement] = $perc10;
+  $resultsarray['10%S'] = dbexecute($rangetimestmt,$rangetimeconstraints);
+  $resultsarray['10%S'] = $resultsarray['10%S'][0]['Time'];
+  $resultsarray['10%D'] = secstohms($resultsarray['10%S']);
+  $rangetimeconstraints[$lastelement] = $perc25;
+  $resultsarray['25%S'] = dbexecute($rangetimestmt,$rangetimeconstraints);
+  $resultsarray['25%S'] = $resultsarray['25%S'][0]['Time'];
+  $resultsarray['25%D'] = secstohms($resultsarray['25%S']);
+  $rangetimeconstraints[$lastelement] = $perc50;
+  $resultsarray['50%S'] = dbexecute($rangetimestmt,$rangetimeconstraints);
+  $resultsarray['50%S'] = $resultsarray['50%S'][0]['Time'];
+  $resultsarray['50%D'] = secstohms($resultsarray['50%S']);
+  $rangetimeconstraints[$lastelement] = $perc75;
+  $resultsarray['75%S'] = dbexecute($rangetimestmt,$rangetimeconstraints);
+  $resultsarray['75%S'] = $resultsarray['75%S'][0]['Time'];
+  $resultsarray['75%D'] = secstohms($resultsarray['75%S']);
+  $rangetimeconstraints[$lastelement] = $perc100;
+  $resultsarray['100%S'] = dbexecute($rangetimestmt,$rangetimeconstraints);
+  $resultsarray['100%S'] = $resultsarray['100%S'][0]['Time'];
+  $resultsarray['100%D'] = secstohms($resultsarray['100%S']);
+
+  //Calculate time ranges
+  $resultsarray['RangeS'] = $resultsarray['100%S']-$resultsarray['TopS'];
+  $resultsarray['RangeD'] = secstohms($resultsarray['RangeS']);
+  }
+else
+  {
+  //Create blank Output
+  $resultsarray = array();
+  }
 ?>
