@@ -1,6 +1,6 @@
 <?php
 //Start and end years
-$startyear = 2007;
+$startyear = 2006;
 $endyear = 2019;
 
 //Event to search for
@@ -12,7 +12,26 @@ $boat = 1;
 //$year = 2014;
 //$club = "LBZ";
 
-include 'get-event-time-metrics-single.php';
+//Array to store each year data
+$eventmetrics = array();
 
-print_r($resultsarray);
+//Loop through each year
+$year = $startyear;
+while ($year <= $endyear)
+  {
+  //Get year metrics
+  include 'get-event-time-metrics-single.php';
+
+  //Commit year metrics to array if there are results
+  if (count($resultsarray) > 0)
+    {
+    $resultsarray['Year'] = $year;
+    array_push($eventmetrics,$resultsarray);
+    }
+
+  //Increment year
+  $year++;
+  }
+
+print_r($eventmetrics);
 ?>
