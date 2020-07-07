@@ -1,14 +1,4 @@
 <?php
-//calculate the record to lookup based on percentage
-function percentsqllookup($percent,$all)
-  {
-  $perc01 = $all/100;
-  $percn = $percent*$perc01;
-  $percn = floor($percn);
-  $percn = $percn-1;
-  return($percn);
-  }
-
 include_once 'required-functions.php';
 
 //Make common SQL and constraint arrays
@@ -84,8 +74,6 @@ if (isset($noboatsnrstmt) == false)
   //Prepare the query
   $noboatsnrstmt = dbprepare($srrsdblink,$noboatsnrsql);
   }
-
-echo $noboatsnrsql . "<br>";
 
 //SQL statement to get the mean time
 if (isset($meantimestmt) == false)

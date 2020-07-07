@@ -215,4 +215,20 @@ function elementlisttoconstraint($list,$field,$table=false,$comparison="=")
   Return $output;
   }
 //---FunctionBreak---
+/*Gets the number of the record to look up to get a % of value
+
+$percent is the percent to lookup
+$all is the number of records in the SQL result
+
+Output is a number that is the record that % into the result*/
+//---DocumentationBreak---
+function percentsqllookup($percent,$all)
+  {
+  $perc01 = $all/100;
+  $percn = $percent*$perc01;
+  $percn = floor($percn);
+  $percn = $percn-1;
+  return($percn);
+  }
+//---FunctionBreak---
 ?>
