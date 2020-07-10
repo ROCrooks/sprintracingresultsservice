@@ -3,10 +3,10 @@ include_once 'required-functions.php';
 
 //Make common SQL and constraint arrays
 //Prepare array of common constraints
-$commonconstraints = array($mw,$ck,$dist,$boat);
+$eventmetricscommonconstraints = array($mw,$ck,$dist,$boat);
 
 //Prepare common SQL constraints used in all SQLs
-$commonsql = "WHERE p.`MW` = ?
+$eventmetricscommonsql = "WHERE p.`MW` = ?
 AND p.`CK` = ?
 AND r.`Dist` = ?
 AND r.`Boat` = ?";
@@ -14,8 +14,8 @@ AND r.`Boat` = ?";
 //Attach JSV if specified
 if (isset($jsv) == true)
   {
-  array_push($commonconstraints,$jsv);
-  $commonsql = $commonsql . " AND r.`JSV` = ?";
+  array_push($eventmetricscommonconstraints,$jsv);
+  $eventmetricscommonsql = $eventmetricscommonsql . " AND r.`JSV` = ?";
   }
 
 //Attach year to constraints if specified
@@ -25,10 +25,10 @@ if (isset($year) == true)
   $startdate = $year . "-01-01";
   $enddate = $year . "-12-31";
 
-  array_push($commonconstraints,$startdate);
-  array_push($commonconstraints,$enddate);
+  array_push($eventmetricscommonconstraints,$startdate);
+  array_push($eventmetricscommonconstraints,$enddate);
 
-  $commonsql = $commonsql . " AND g.`Date` BETWEEN ? AND ?";
+  $eventmetricscommonsql = $eventmetricscommonsql . " AND g.`Date` BETWEEN ? AND ?";
   }
 
 //Attach club to constrains if specified
@@ -36,7 +36,7 @@ if (isset($club) == true)
   {
   array_push($eventmetricsconstraints,$club);
 
-  $commonsql = $commonsql . " AND p.`Club` LIKE ?";
+  $eventmetricscommonsql = $eventmetricscommonsql . " AND p.`Club` LIKE ?";
   }
 
 //Prepare statements for the queries to run
@@ -50,7 +50,7 @@ if (isset($noboatsstmt) == false)
   LEFT JOIN `regattas` g ON g.`Key` = r.`Regatta` ";
 
   //Bind common SQL constraints to query
-  $noboatssql = $noboatssql . $commonsql;
+  $noboatssql = $noboatssql . $eventmetricscommonsql;
 
   //Prepare the query
   $noboatsstmt = dbprepare($srrsdblink,$noboatssql);
@@ -66,7 +66,7 @@ if (isset($noboatsnrstmt) == false)
   LEFT JOIN `regattas` g ON g.`Key` = r.`Regatta` ";
 
   //Bind common SQL constraints to query
-  $noboatsnrsql = $noboatsnrsql . $commonsql;
+  $noboatsnrsql = $noboatsnrsql . $eventmetricscommonsql;
 
   //Bind no result flag to SQL
   $noboatsnrsql = $noboatsnrsql . " AND p.`NR` = ?";
@@ -85,7 +85,7 @@ if (isset($meantimestmt) == false)
   LEFT JOIN `regattas` g ON g.`Key` = r.`Regatta` ";
 
   //Bind common SQL constraints to query
-  $meantimesql = $meantimesql . $commonsql;
+  $meantimesql = $meantimesql . $eventmetricscommonsql;
 
   //Bind constraint for only results
   $meantimesql = $meantimesql . " AND p.`NR` = ''";
@@ -104,7 +104,7 @@ if (isset($sdtimestmt) == false)
   LEFT JOIN `regattas` g ON g.`Key` = r.`Regatta` ";
 
   //Bind common SQL constraints to query
-  $sdtimesql = $sdtimesql . $commonsql;
+  $sdtimesql = $sdtimesql . $eventmetricscommonsql;
 
   //Bind constraint for only results
   $sdtimesql = $sdtimesql . " AND p.`NR` = ''";
@@ -123,7 +123,7 @@ if (isset($rangetimestmt) == false)
   LEFT JOIN `regattas` g ON g.`Key` = r.`Regatta` ";
 
   //Bind common SQL constraints to query
-  $rangetimesql = $rangetimesql . $commonsql;
+  $rangetimesql = $rangetimesql . $eventmetricscommonsql;
 
   //Bind constraint for only results
   $rangetimesql = $rangetimesql . " AND p.`NR` = ''";
@@ -137,18 +137,18 @@ if (isset($rangetimestmt) == false)
 
 //Run the queries
 //Make constraints and run query for counting all entrants and summary statistics
-$noboatsresult = dbexecute($noboatsstmt,$commonconstraints);
+$noboatsresult = dbexecute($noboatsstmt,$eventmetricscommonconstraints);
 
 //Only run all queries if there are results
 if ($noboatsresult[0]['COUNT(*)'] > 0)
   {
   $resultsarray = array();
 
-  $meantimeresult = dbexecute($meantimestmt,$commonconstraints);
-  $sdtimeresult = dbexecute($sdtimestmt,$commonconstraints);
+  $meantimeresult = dbexecute($meantimestmt,$eventmetricscommonconstraints);
+  $sdtimeresult = dbexecute($sdtimestmt,$eventmetricscommonconstraints);
 
   //Make constraints for counting no results
-  $noboatsnrconstraints = $commonconstraints;
+  $noboatsnrconstraints = $eventmetricscommonconstraints;
   //Get the last element to add
   $lastelement = count($noboatsnrconstraints);
   $noboatsnrconstraints[$lastelement] = "DNS";
@@ -184,7 +184,7 @@ if ($noboatsresult[0]['COUNT(*)'] > 0)
   $perc100 = percentsqllookup(100,$resultsarray['Finishers']);
 
   //Get the % within times
-  $rangetimeconstraints = $commonconstraints;
+  $rangetimeconstraints = $eventmetricscommonconstraints;
   $lastelement = count($rangetimeconstraints);
 
   //Retrieve % ranges
