@@ -3,9 +3,12 @@ include_once 'required-functions.php';
 
 //This is test data
 $mw = "M";
-$ck = "K";
-$dist = 1000;
+$ck = "C";
+$dist = 500;
 $boat = 1;
+
+//This is also test data for the number of rows to retrieve
+$tofind = 10;
 
 //SQL statements for the distinct and detailed best results SQL
 $besttimesdistinctsql = "
@@ -70,11 +73,28 @@ if (isset($besttimesdistinctstmt) == false)
 
 //Make constraints for the distinct rankings
 $besttimesdistinctconstraints = $besttimescommonconstraints;
+
+
+//Storage arrays for results as they're being retrieved
+$topnresults = array();
+
+//Push the limits constraints to the array
 array_push($besttimesdistinctconstraints,0);
 array_push($besttimesdistinctconstraints,10);
 
+//Run the query
 $distinctpaddlersresults = dbexecute($besttimesdistinctstmt,$besttimesdistinctconstraints);
 
-print_r($distinctpaddlersresults);
+//Put the results into the output array
+foreach ($distinctpaddlersresults as $distinctresult)
+  {
+  $topnresultsrow = array();
+  $topnresultsrow['Crew'] = $distinctresult['Crew'];
+  $topnresultsrow['Time'] = $distinctresult['MIN(`Time`)'];
+
+  array_push($topnresults,$topnresultsrow);
+  }
+
+print_r($topnresults);
 
 ?>
