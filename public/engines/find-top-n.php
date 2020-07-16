@@ -77,6 +77,7 @@ $besttimesdistinctconstraints = $besttimescommonconstraints;
 
 //Storage arrays for results as they're being retrieved
 $topnresults = array();
+$allreadyfound = array();
 
 //Push the limits constraints to the array
 array_push($besttimesdistinctconstraints,0);
@@ -88,6 +89,28 @@ $distinctpaddlersresults = dbexecute($besttimesdistinctstmt,$besttimesdistinctco
 //Put the results into the output array
 foreach ($distinctpaddlersresults as $distinctresult)
   {
+  //Make crew name for array checking
+  //This solves the problem of same crew described in different ways
+  $stndcrewname = $distinctresult['Crew'];
+
+  //Only do this for crew boats
+  if ($boat > 1)
+    {
+    $stndcrewname = explode("/",$stndcrewname);
+    foreach($stndcrewname as $stndcrewnamekey=>$stndmember)
+      {
+      $stndmember = explode(".",$stndmember);
+      $stndmember = array_pop($stndmember);
+      $stndmember = str_replace(" ","",$stndmember);
+      $stndcrewname[$stndcrewnamekey] = $stndmember;
+      }
+    sort($stndcrewname);
+    $stndcrewname = implode("/",$stndcrewname);
+    }
+
+  //Add the standard name to the already found list
+  array_push($allreadyfound,$stndcrewname);
+
   $topnresultsrow = array();
   $topnresultsrow['Crew'] = $distinctresult['Crew'];
   $topnresultsrow['Time'] = $distinctresult['MIN(`Time`)'];
@@ -96,5 +119,6 @@ foreach ($distinctpaddlersresults as $distinctresult)
   }
 
 print_r($topnresults);
+print_r($allreadyfound);
 
 ?>
