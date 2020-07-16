@@ -4,12 +4,12 @@ include_once 'required-functions.php';
 //This is test data
 $mw = "M";
 $ck = "K";
-$dist = 500;
+$dist = 1000;
 $boat = 1;
 
 //SQL statements for the distinct and detailed best results SQL
 $besttimesdistinctsql = "
-  SELECT DISTINCT `Crew` FROM `paddlers` p
+  SELECT DISTINCT `Crew`, MIN(`Time`) FROM `paddlers` p
   LEFT JOIN `races` r ON r.`Key` = p.`Race`
   LEFT JOIN `regattas` g ON g.`Key` = r.`Regatta` ";
 
@@ -58,18 +58,23 @@ if (isset($club) == true)
 
 //Create the SQL statements
 $besttimesdistinctsql = $besttimesdistinctsql . $besttimescommonsql .
-" ORDER BY `Time` ASC LIMIT ?, ? ";
+" GROUP BY `Crew`
+ ORDER BY MIN(`Time`) ASC LIMIT ?, ? ";
 $besttimesdetailssql = $besttimesdetailssql . $besttimescommonsql .
-" AND `Crew` = ?
- ORDER BY `Time` ASC LIMIT 0, 1 ";
+" AND `Crew` = ? AND `Time` = ?
+ ASC LIMIT 0, 1 ";
 
-if (isset($besttimesdistinctstmt) == true)
+//Prepare statements
+if (isset($besttimesdistinctstmt) == false)
   $besttimesdistinctstmt = dbprepare($srrsdblink,$besttimesdistinctsql);
 
+//Make constraints for the distinct rankings
+$besttimesdistinctconstraints = $besttimescommonconstraints;
+array_push($besttimesdistinctconstraints,0);
+array_push($besttimesdistinctconstraints,10);
 
+$distinctpaddlersresults = dbexecute($besttimesdistinctstmt,$besttimesdistinctconstraints);
 
-echo $besttimesdistinctsql;
-echo "<br>";
-echo $besttimesdetailssql;
+print_r($distinctpaddlersresults);
 
 ?>
