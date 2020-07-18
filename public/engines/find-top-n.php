@@ -3,7 +3,7 @@ include_once 'required-functions.php';
 
 //This is test data
 $mw = "M";
-$ck = "C";
+$ck = "";
 $dist = 500;
 $boat = 1;
 
@@ -32,32 +32,41 @@ $besttimescommonsql = "WHERE p.`MW` = ?
   AND p.`NR` = ''";
 
 //Attach JSV constraints if specified
-if (isset($jsv) == true)
+if (isset($jsv == true)
   {
-  array_push($besttimescommonconstraints,$jsv);
-  $besttimescommonsql = $besttimescommonsql . " AND p.`JSV` = ?";
+  if ($jsv != '')
+    {
+    array_push($besttimescommonconstraints,$jsv);
+    $besttimescommonsql = $besttimescommonsql . " AND p.`JSV` = ?";
+    }
   }
 
 //Attach year to constraints if specified
 if (isset($year) == true)
   {
-  //Make start and end dates for SQL range
-  $startdate = $year . "-01-01";
-  $enddate = $year . "-12-31";
+  if ($year != '')
+    {
+    //Make start and end dates for SQL range
+    $startdate = $year . "-01-01";
+    $enddate = $year . "-12-31";
 
-  array_push($besttimescommonconstraints,$startdate);
-  array_push($besttimescommonconstraints,$enddate);
+    array_push($besttimescommonconstraints,$startdate);
+    array_push($besttimescommonconstraints,$enddate);
 
-  $besttimescommonsql = $besttimescommonsql . " AND g.`Date` BETWEEN ? AND ?";
+    $besttimescommonsql = $besttimescommonsql . " AND g.`Date` BETWEEN ? AND ?";
+    }
   }
 
 //Attach club to constrains if specified
 if (isset($club) == true)
   {
-  $clublike = "%" . $club . "%";
-  array_push($besttimescommonconstraints,$clublike);
+  if ($club != '')
+    {
+    $clublike = "%" . $club . "%";
+    array_push($besttimescommonconstraints,$clublike);
 
-  $besttimescommonsql = $besttimescommonsql . " AND p.`Club` LIKE ?";
+    $besttimescommonsql = $besttimescommonsql . " AND p.`Club` LIKE ?";
+    }
   }
 
 //Create the SQL statement endings
