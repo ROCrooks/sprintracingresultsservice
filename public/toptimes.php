@@ -2,12 +2,16 @@
 //Include defaults
 include 'defaulturls.php';
 
+//Define join to attach URL variables
+if (strpos($defaulturls['RegattaLookup'],"?") === false)
+  $ahrefjoin = "?";
+else
+  $ahrefjoin = "&";
+
 //This gets and processes user input
 include 'engines/user-input-processing.php';
 
 //Get input parameters from user
-//$mw = "M";
-//$ck = "C";
 $dist = $_GET['distance'];
 $boat = $_GET['boat'];
 $tofind = $_GET['find'];
@@ -42,6 +46,28 @@ $columnwidths['ViewRace'] = 100;
 $columnwidths['ViewRegatta'] = 100;
 $totalwidth = array_sum($columnwidths);
 
+
+
+//Define the name of the event
+if ($mw = "M")
+  $eventname = "Mens";
+elseif ($mw = "W")
+  $eventname = "Womens";
+
+$eventname = $eventname . " " . $ck . $boat . " " . $dist . "m";
+
+//Define if it is for a year or all time
+if ($year != '')
+  $rangetext = 'by seasons best in the ' . $year . ' season';
+else
+  $rangetext = 'by all time personal best';
+
+if ($club != '')
+  $clubtext = 'from ' . $club;
+else
+  $clubtext = '';
+
+//Make the HTML for the output table
 $besttimeshtml = '<div style="display: table; margin: auto; width: ' . $totalwidth . 'px;">';
 
 foreach($topnresults as $resultkey=>$result)
@@ -71,18 +97,37 @@ foreach($topnresults as $resultkey=>$result)
   $month = $months[$month];
   $result['Date'] = $month . " " . $result['Date'][0];
 
+  //Generate URLs to go to regatta and race
+  $raceurl = $defaulturls['RaceResults'] . $ahrefjoin . 'race=' . $result['Race'];
+  $regattaurl = $defaulturls['RegattaResults'] . $ahrefjoin . 'regatta=' . $result['Regatta'];
+
+  //Apend club to URL
+  if ($club != '')
+    {
+    $raceurl = $raceurl . '&club=' . $club;
+    $regattaurl = $regattaurl . '&club=' . $club;
+    }
+
+  $racehtmllink = '<a href="' . $raceurl . '">View Race</a>';
+  $regattahtmllink = '<a href="' . $regattaurl . '">View Regatta</a>';
+
   $besttimeshtml = $besttimeshtml . '<div style="display: table-row; margin: auto; width: ' . $totalwidth . 'px;">';
   $besttimeshtml = $besttimeshtml . '<div style="display: table-cell; width: ' . $columnwidths['Position'] . 'px;"><p>' . $position . '</p></div>';
   $besttimeshtml = $besttimeshtml . '<div style="display: table-cell; width: ' . $columnwidths['Crew'] . 'px;"><p>' . $result['Crew'] . '</p></div>';
   $besttimeshtml = $besttimeshtml . '<div style="display: table-cell; width: ' . $columnwidths['Club'] . 'px;"><p>' . $result['Club'] . '</p></div>';
   $besttimeshtml = $besttimeshtml . '<div style="display: table-cell; width: ' . $columnwidths['Time'] . 'px;"><p>' . $result['Time'] . '</p></div>';
   $besttimeshtml = $besttimeshtml . '<div style="display: table-cell; width: ' . $columnwidths['Date'] . 'px;"><p>' . $result['Date'] . '</p></div>';
-  $besttimeshtml = $besttimeshtml . '<div style="display: table-cell; width: ' . $columnwidths['ViewRace'] . 'px;"><p>View Regatta</p></div>';
-  $besttimeshtml = $besttimeshtml . '<div style="display: table-cell; width: ' . $columnwidths['ViewRegatta'] . 'px;"><p>View Regatta</p></div>';
+  $besttimeshtml = $besttimeshtml . '<div style="display: table-cell; width: ' . $columnwidths['ViewRace'] . 'px;"><p>' . $racehtmllink . '</p></div>';
+  $besttimeshtml = $besttimeshtml . '<div style="display: table-cell; width: ' . $columnwidths['ViewRegatta'] . 'px;"><p>' . $regattahtmllink . '</p></div>';
   $besttimeshtml = $besttimeshtml . '</div>';
   }
 
 $besttimeshtml = $besttimeshtml . '</div>';
 ?>
+
+<div class="item">
+<p>All Time Rankings</p>
+
+<p>Ranking of top <?php echo $tofind; ?> paddlers <?php echo $clubtext; ?> in <?php echo $eventname; ?> <?php echo $rangetext; ?>.</p>
 
 <?php echo $besttimeshtml; ?>
