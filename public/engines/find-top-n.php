@@ -1,15 +1,6 @@
 <?php
 include_once 'required-functions.php';
 
-//This is test data
-$mw = "M";
-$ck = "";
-$dist = 500;
-$boat = 1;
-
-//This is also test data for the number of rows to retrieve
-$tofind = 10;
-
 //SQL statements for the distinct and detailed best results SQL
 $besttimesdistinctsql = "
   SELECT DISTINCT `Crew`, MIN(`Time`) FROM `paddlers` p
@@ -32,7 +23,7 @@ $besttimescommonsql = "WHERE p.`MW` = ?
   AND p.`NR` = ''";
 
 //Attach JSV constraints if specified
-if (isset($jsv == true)
+if (isset($jsv) == true)
   {
   if ($jsv != '')
     {
@@ -181,6 +172,4 @@ while ((count($topnresults) < $tofind) AND ($resultsend == false))
   //New start limit is the first record after the end
   $startlimit = $startlimit+$endlimit;
   }
-
-print_r($topnresults);
 ?>
