@@ -17,7 +17,7 @@ $besttimesdistinctsql = "
   LEFT JOIN `regattas` g ON g.`Key` = r.`Regatta` ";
 
 $besttimesdetailssql = "
-  SELECT `Crew`, `Time` FROM `paddlers` p
+  SELECT `Race`, `Regatta`, `Date`, `Club` FROM `paddlers` p
   LEFT JOIN `races` r ON r.`Key` = p.`Race`
   LEFT JOIN `regattas` g ON g.`Key` = r.`Regatta` ";
 
@@ -60,7 +60,7 @@ if (isset($club) == true)
   $besttimescommonsql = $besttimescommonsql . " AND p.`Club` LIKE ?";
   }
 
-//Create the SQL statements
+//Create the SQL statement endings
 $besttimesdistinctsql = $besttimesdistinctsql . $besttimescommonsql .
 " GROUP BY `Crew`
  ORDER BY MIN(`Time`) ASC LIMIT ?, ? ";
@@ -68,14 +68,17 @@ $besttimesdetailssql = $besttimesdetailssql . $besttimescommonsql .
 " AND `Crew` = ?
  AND `Time` = ?
  ORDER BY g.`Date` ASC
- ASC LIMIT 0, 1 ";
+ LIMIT 0, 1 ";
 
 //Prepare statements
 if (isset($besttimesdistinctstmt) == false)
   $besttimesdistinctstmt = dbprepare($srrsdblink,$besttimesdistinctsql);
+if (isset($besttimesdetailsstmt) == false)
+  $besttimesdetailsstmt = dbprepare($srrsdblink,$besttimesdetailssql);
 
 //Make constraints for the distinct rankings
 $besttimesdistinctconstraints = $besttimescommonconstraints;
+$besttimesdetailsconstraints = $besttimescommonconstraints;
 
 //Storage arrays for results as they're being retrieved
 $topnresults = array();
@@ -90,7 +93,7 @@ while ((count($topnresults) < $tofind) AND ($resultsend == false))
   //End limit is the number of records to retrieve
   $endlimit = $tofind-count($topnresults);
 
-  //Define the start and end limits
+  //Define the start and end limit keys
   if ((isset($startlimitkey) == false) AND (isset($endlimitkey) == false))
     {
     $startlimitkey = count($besttimesdistinctconstraints);
@@ -116,7 +119,7 @@ while ((count($topnresults) < $tofind) AND ($resultsend == false))
       //This solves the problem of same crew described in different ways
       $stndcrewname = $distinctresult['Crew'];
 
-      //Only do this for crew boats
+      //Only do standardise crew names for crew boats
       if ($boat > 1)
         {
         $stndcrewname = explode("/",$stndcrewname);
@@ -140,6 +143,27 @@ while ((count($topnresults) < $tofind) AND ($resultsend == false))
         $topnresultsrow['Crew'] = $distinctresult['Crew'];
         $topnresultsrow['Time'] = $distinctresult['MIN(`Time`)'];
 
+        //Define the crew and time keys
+        if ((isset($crewconstraintkey) == false) AND (isset($timeconstraintkey) == false))
+          {
+          $crewconstraintkey = count($besttimesdetailsconstraints);
+          $timeconstraintkey = $startlimitkey+1;
+          }
+
+        //Attach crew and time constraints to query
+        $besttimesdetailsconstraints[$crewconstraintkey] = $topnresultsrow['Crew'];
+        $besttimesdetailsconstraints[$timeconstraintkey] = $topnresultsrow['Time'];
+
+        //Get data about this result
+        $resultdetails = dbexecute($besttimesdetailsstmt,$besttimesdetailsconstraints);
+
+        //Apend data to the results row array
+        $fields = array("Race","Regatta","Date","Club");
+        foreach($fields as $field)
+          {
+          $topnresultsrow[$field] = $resultdetails[0][$field];
+          }
+
         array_push($topnresults,$topnresultsrow);
         }
       }
@@ -150,6 +174,4 @@ while ((count($topnresults) < $tofind) AND ($resultsend == false))
   }
 
 print_r($topnresults);
-print_r($allreadyfound);
-
 ?>
