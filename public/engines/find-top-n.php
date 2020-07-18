@@ -5,7 +5,7 @@ include_once 'required-functions.php';
 $mw = "M";
 $ck = "C";
 $dist = 500;
-$boat = 2;
+$boat = 1;
 
 //This is also test data for the number of rows to retrieve
 $tofind = 10;
@@ -21,6 +21,7 @@ $besttimesdetailssql = "
   LEFT JOIN `races` r ON r.`Key` = p.`Race`
   LEFT JOIN `regattas` g ON g.`Key` = r.`Regatta` ";
 
+//Array of constraints that are common to all queries
 $besttimescommonconstraints = array($mw,$ck,$dist,$boat);
 
 //Common SQL for best times
@@ -76,7 +77,6 @@ if (isset($besttimesdistinctstmt) == false)
 //Make constraints for the distinct rankings
 $besttimesdistinctconstraints = $besttimescommonconstraints;
 
-
 //Storage arrays for results as they're being retrieved
 $topnresults = array();
 $allreadyfound = array();
@@ -90,9 +90,16 @@ while ((count($topnresults) < $tofind) AND ($resultsend == false))
   //End limit is the number of records to retrieve
   $endlimit = $tofind-count($topnresults);
 
-  //Push the limits constraints to the array
-  array_push($besttimesdistinctconstraints,$startlimit);
-  array_push($besttimesdistinctconstraints,$endlimit);
+  //Define the start and end limits
+  if ((isset($startlimitkey) == false) AND (isset($endlimitkey) == false))
+    {
+    $startlimitkey = count($besttimesdistinctconstraints);
+    $endlimitkey = $startlimitkey+1;
+    }
+
+  //Add the limits constraints to the array
+  $besttimesdistinctconstraints[$startlimitkey] = $startlimit;
+  $besttimesdistinctconstraints[$endlimitkey] = $endlimit;
 
   //Run the query
   $distinctpaddlersresults = dbexecute($besttimesdistinctstmt,$besttimesdistinctconstraints);
@@ -124,25 +131,23 @@ while ((count($topnresults) < $tofind) AND ($resultsend == false))
         $stndcrewname = implode("/",$stndcrewname);
         }
 
-      //Add the standard name to the already found list
-      array_push($allreadyfound,$stndcrewname);
+      if (in_array($stndcrewname,$allreadyfound) === false)
+        {
+        //Add the standard name to the already found list
+        array_push($allreadyfound,$stndcrewname);
 
-      $topnresultsrow = array();
-      $topnresultsrow['Crew'] = $distinctresult['Crew'];
-      $topnresultsrow['Time'] = $distinctresult['MIN(`Time`)'];
+        $topnresultsrow = array();
+        $topnresultsrow['Crew'] = $distinctresult['Crew'];
+        $topnresultsrow['Time'] = $distinctresult['MIN(`Time`)'];
 
-      array_push($topnresults,$topnresultsrow);
+        array_push($topnresults,$topnresultsrow);
+        }
       }
     }
 
   //New start limit is the first record after the end
   $startlimit = $startlimit+$endlimit;
   }
-
-
-
-
-
 
 print_r($topnresults);
 print_r($allreadyfound);
