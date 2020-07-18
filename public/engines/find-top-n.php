@@ -5,7 +5,7 @@ include_once 'required-functions.php';
 $mw = "M";
 $ck = "C";
 $dist = 500;
-$boat = 1;
+$boat = 2;
 
 //This is also test data for the number of rows to retrieve
 $tofind = 10;
@@ -64,7 +64,9 @@ $besttimesdistinctsql = $besttimesdistinctsql . $besttimescommonsql .
 " GROUP BY `Crew`
  ORDER BY MIN(`Time`) ASC LIMIT ?, ? ";
 $besttimesdetailssql = $besttimesdetailssql . $besttimescommonsql .
-" AND `Crew` = ? AND `Time` = ?
+" AND `Crew` = ?
+ AND `Time` = ?
+ ORDER BY g.`Date` ASC
  ASC LIMIT 0, 1 ";
 
 //Prepare statements
@@ -78,45 +80,69 @@ $besttimesdistinctconstraints = $besttimescommonconstraints;
 //Storage arrays for results as they're being retrieved
 $topnresults = array();
 $allreadyfound = array();
+//Flag that can be set if no more results are found
+$resultsend = false;
 
-//Push the limits constraints to the array
-array_push($besttimesdistinctconstraints,0);
-array_push($besttimesdistinctconstraints,10);
+$startlimit = 0;
 
-//Run the query
-$distinctpaddlersresults = dbexecute($besttimesdistinctstmt,$besttimesdistinctconstraints);
-
-//Put the results into the output array
-foreach ($distinctpaddlersresults as $distinctresult)
+while ((count($topnresults) < $tofind) AND ($resultsend == false))
   {
-  //Make crew name for array checking
-  //This solves the problem of same crew described in different ways
-  $stndcrewname = $distinctresult['Crew'];
+  //End limit is the number of records to retrieve
+  $endlimit = $tofind-count($topnresults);
 
-  //Only do this for crew boats
-  if ($boat > 1)
+  //Push the limits constraints to the array
+  array_push($besttimesdistinctconstraints,$startlimit);
+  array_push($besttimesdistinctconstraints,$endlimit);
+
+  //Run the query
+  $distinctpaddlersresults = dbexecute($besttimesdistinctstmt,$besttimesdistinctconstraints);
+
+  //Set flag to be at the end if no results found
+  if (count($distinctpaddlersresults) == false)
+    $resultsend = true;
+  else
     {
-    $stndcrewname = explode("/",$stndcrewname);
-    foreach($stndcrewname as $stndcrewnamekey=>$stndmember)
+    //Put the results into the output array
+    foreach ($distinctpaddlersresults as $distinctresult)
       {
-      $stndmember = explode(".",$stndmember);
-      $stndmember = array_pop($stndmember);
-      $stndmember = str_replace(" ","",$stndmember);
-      $stndcrewname[$stndcrewnamekey] = $stndmember;
+      //Make crew name for array checking
+      //This solves the problem of same crew described in different ways
+      $stndcrewname = $distinctresult['Crew'];
+
+      //Only do this for crew boats
+      if ($boat > 1)
+        {
+        $stndcrewname = explode("/",$stndcrewname);
+        foreach($stndcrewname as $stndcrewnamekey=>$stndmember)
+          {
+          $stndmember = explode(".",$stndmember);
+          $stndmember = array_pop($stndmember);
+          $stndmember = str_replace(" ","",$stndmember);
+          $stndcrewname[$stndcrewnamekey] = $stndmember;
+          }
+        sort($stndcrewname);
+        $stndcrewname = implode("/",$stndcrewname);
+        }
+
+      //Add the standard name to the already found list
+      array_push($allreadyfound,$stndcrewname);
+
+      $topnresultsrow = array();
+      $topnresultsrow['Crew'] = $distinctresult['Crew'];
+      $topnresultsrow['Time'] = $distinctresult['MIN(`Time`)'];
+
+      array_push($topnresults,$topnresultsrow);
       }
-    sort($stndcrewname);
-    $stndcrewname = implode("/",$stndcrewname);
     }
 
-  //Add the standard name to the already found list
-  array_push($allreadyfound,$stndcrewname);
-
-  $topnresultsrow = array();
-  $topnresultsrow['Crew'] = $distinctresult['Crew'];
-  $topnresultsrow['Time'] = $distinctresult['MIN(`Time`)'];
-
-  array_push($topnresults,$topnresultsrow);
+  //New start limit is the first record after the end
+  $startlimit = $startlimit+$endlimit;
   }
+
+
+
+
+
 
 print_r($topnresults);
 print_r($allreadyfound);
