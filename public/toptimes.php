@@ -15,5 +15,74 @@ $tofind = $_GET['find'];
 //Get the data
 include 'engines/find-top-n.php';
 
-print_r($topnresults);
+//Lookup month names
+//There might be a function that does this already
+$months = array();
+$months['01'] = "January";
+$months['02'] = "February";
+$months['03'] = "March";
+$months['04'] = "April";
+$months['05'] = "May";
+$months['06'] = "June";
+$months['07'] = "July";
+$months['08'] = "August";
+$months['09'] = "September";
+$months['10'] = "October";
+$months['11'] = "November";
+$months['12'] = "December";
+
+//Parameters for div table
+$columnwidths = array();
+$columnwidths['Position'] = 40;
+$columnwidths['Crew'] = 250;
+$columnwidths['Club'] = 80;
+$columnwidths['Time'] = 60;
+$columnwidths['Date'] = 140;
+$columnwidths['ViewRace'] = 100;
+$columnwidths['ViewRegatta'] = 100;
+$totalwidth = array_sum($columnwidths);
+
+$besttimeshtml = '<div style="display: table; margin: auto; width: ' . $totalwidth . 'px;">';
+
+foreach($topnresults as $resultkey=>$result)
+  {
+  //Define position based on the array key
+  $position = $resultkey+1;
+
+  //Split into 2 lines if it is a K4/C4
+  if ($boat == 4)
+    {
+    $result['Crew'] = explode("/",$result['Crew']);
+    $result['Crew'] = $result['Crew'][0] . "/" . $result['Crew'][1] . "<br>" . $result['Crew'][2] . "/" . $result['Crew'][3];
+
+    if (strlen($result['Club']) == 15)
+      {
+      $result['Club'] = explode("/",$result['Club']);
+      $result['Club'] = $result['Club'][0] . "/" . $result['Club'][1] . "<br>" . $result['Club'][2] . "/" . $result['Club'][3];
+      }
+    }
+
+  //Convert seconds time to display time
+  $result['Time'] = secstohms($result['Time']);
+
+  //Convert date into Month and Year
+  $result['Date'] = explode("-",$result['Date']);
+  $month = $result['Date'][1];
+  $month = $months[$month];
+  $result['Date'] = $month . " " . $result['Date'][0];
+
+  $besttimeshtml = $besttimeshtml . '<div style="display: table-row; margin: auto; width: ' . $totalwidth . 'px;">';
+  $besttimeshtml = $besttimeshtml . '<div style="display: table-cell; width: ' . $columnwidths['Position'] . 'px;"><p>' . $position . '</p></div>';
+  $besttimeshtml = $besttimeshtml . '<div style="display: table-cell; width: ' . $columnwidths['Crew'] . 'px;"><p>' . $result['Crew'] . '</p></div>';
+  $besttimeshtml = $besttimeshtml . '<div style="display: table-cell; width: ' . $columnwidths['Club'] . 'px;"><p>' . $result['Club'] . '</p></div>';
+  $besttimeshtml = $besttimeshtml . '<div style="display: table-cell; width: ' . $columnwidths['Time'] . 'px;"><p>' . $result['Time'] . '</p></div>';
+  $besttimeshtml = $besttimeshtml . '<div style="display: table-cell; width: ' . $columnwidths['Date'] . 'px;"><p>' . $result['Date'] . '</p></div>';
+  $besttimeshtml = $besttimeshtml . '<div style="display: table-cell; width: ' . $columnwidths['ViewRace'] . 'px;"><p>View Regatta</p></div>';
+  $besttimeshtml = $besttimeshtml . '<div style="display: table-cell; width: ' . $columnwidths['ViewRegatta'] . 'px;"><p>View Regatta</p></div>';
+  $besttimeshtml = $besttimeshtml . '</div>';
+  }
+
+$besttimeshtml = $besttimeshtml . '</div>';
 ?>
+
+<?php echo $besttimeshtml; ?>
