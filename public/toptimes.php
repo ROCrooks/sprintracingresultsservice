@@ -49,9 +49,9 @@ $totalwidth = array_sum($columnwidths);
 
 
 //Define the name of the event
-if ($mw = "M")
+if ($mw == "M")
   $eventname = "Mens";
-elseif ($mw = "W")
+elseif ($mw == "W")
   $eventname = "Womens";
 
 $eventname = $eventname . " " . $ck . $boat . " " . $dist . "m";
