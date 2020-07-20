@@ -15,4 +15,6 @@ $defaulturls['RegattaResults'] = "regatta-results.php";
 $defaulturls['RaceResults'] = "race-display.php";
 $defaulturls['PaddlerPage'] = "paddler-page.php";
 $defaulturls['ClubPage'] = "club-page.php";
+$defaulturls['TopNTimes'] = "toptimes.php";
+$defaulturls['TopNTimesBrowser'] = "eventbesttimes.php";
 ?>
