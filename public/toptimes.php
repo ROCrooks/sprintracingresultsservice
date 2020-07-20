@@ -93,9 +93,16 @@ foreach($topnresults as $resultkey=>$result)
 
   //Convert date into Month and Year
   $result['Date'] = explode("-",$result['Date']);
-  $month = $result['Date'][1];
-  $month = $months[$month];
-  $result['Date'] = $month . " " . $result['Date'][0];
+
+  if (count($result['Date']) == 3)
+    {
+    $month = $result['Date'][1];
+    $month = $months[$month];
+    $result['Date'] = $month . " " . $result['Date'][0];
+    }
+  else
+    //If cannot generate date correctly, return unknown
+    $result['Date'] = "Unknown";
 
   //Generate URLs to go to regatta and race
   $raceurl = $defaulturls['RaceResults'] . $ahrefjoin . 'race=' . $result['Race'];
