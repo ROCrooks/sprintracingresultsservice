@@ -46,8 +46,6 @@ $columnwidths['ViewRace'] = 100;
 $columnwidths['ViewRegatta'] = 100;
 $totalwidth = array_sum($columnwidths);
 
-
-
 //Define the name of the event
 if ($mw == "M")
   $eventname = "Mens";
