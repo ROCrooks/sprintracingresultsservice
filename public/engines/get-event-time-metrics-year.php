@@ -1,16 +1,5 @@
 <?php
-//Start and end years
-$startyear = 2006;
-$endyear = 2019;
-
-//Event to search for
-$mw = "M";
-$ck = "K";
-$dist = 500;
-$boat = 1;
-//$jsv = "J";
-//$year = 2014;
-//$club = "LBZ";
+include_once 'required-functions.php';
 
 //Array to store each year data
 $eventmetrics = array();
@@ -33,5 +22,4 @@ while ($year <= $endyear)
   $year++;
   }
 
-print_r($eventmetrics);
 ?>
