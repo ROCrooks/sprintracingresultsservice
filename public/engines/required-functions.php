@@ -1,5 +1,5 @@
 <?php
-$files = array("srrs","userinput","db","array","drawgraph");
+$files = array("srrs","userinput","db","array","drawgraph","document");
 
 //Get current directory
 //This makes the location independent of the location of the calling script
