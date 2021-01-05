@@ -72,16 +72,10 @@ $timesmetricsfields = array("Year","TopD","5%D","10%D","25%D","50%D","75%D","100
 $timesmetricsheadings = array("Year","Fastest","5%","10%","25%","50%","75%","100%","Mean Time","StDev","Range");
 $timesmetricstable = arraytotable($eventmetrics,$timesmetricsfields,$metricsparams,$timesmetricsheadings);
 
-echo "<p>Finishers Table Array</p>";
-
-//print_r($finishersmetricstable);
-
+//Create HTML for scientific table
 $number = 1;
 $caption = "Entries and finishers metrics for " . $classname;
 $finishersmetricstablehtml = scientifictable($finishersmetricstable,$number,$caption);
-
-echo $finishersmetricstablehtml;
-
 
 //Edit the Mead and SD to be one cell
 foreach($timesmetricstable as $rowkey=>$editingrow)
@@ -100,6 +94,10 @@ foreach($timesmetricstable as $rowkey=>$editingrow)
 $number = 2;
 $caption = "Time metrics for " . $classname;
 $timesmetricstablehtml = scientifictable($timesmetricstable,$number,$caption);
+?>
+
+<?php
+echo $finishersmetricstablehtml;
 
 echo $timesmetricstablehtml;
 ?>
