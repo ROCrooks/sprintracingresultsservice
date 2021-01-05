@@ -74,7 +74,10 @@ $timesmetricstable = arraytotable($eventmetrics,$timesmetricsfields,$metricspara
 
 //Create HTML for scientific table
 $number = 1;
-$caption = "Entries and finishers metrics for " . $classname;
+$caption = "Entries and finishers metrics for " . $classname . ". Total number of
+entries and finishers, with breakdown of non-finishers into did not start (DNS),
+did not finish (DNF), disqualified (DSQ), timing error (ERR), or unknown no time
+listed (???).";
 $finishersmetricstablehtml = scientifictable($finishersmetricstable,$number,$caption);
 
 //Edit the Mead and SD to be one cell
@@ -92,7 +95,10 @@ foreach($timesmetricstable as $rowkey=>$editingrow)
   }
 
 $number = 2;
-$caption = "Time metrics for " . $classname;
+$caption = "Time metrics for " . $classname . ". Showing the fastest times in the
+calendar year, along with the times which 5%, 10%, 25%, 50%, 75% and 100% of
+results are within, the mean (and standard deviation) time in the event, the
+range between the fastest and slowest times.";
 $timesmetricstablehtml = scientifictable($timesmetricstable,$number,$caption);
 ?>
 
