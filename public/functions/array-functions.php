@@ -174,7 +174,7 @@ function scientifictable($array,$number=false,$caption=false,$heading=true)
 
     //Add colon to join to caption if caption also specified
     if ($caption != false)
-      $tablecaptionhtml = $tablecaptionhtml . ":";
+      $tablecaptionhtml = $tablecaptionhtml . ": ";
     }
 
   //Make Table caption HTML
@@ -185,7 +185,7 @@ function scientifictable($array,$number=false,$caption=false,$heading=true)
   if ($tablecaptionhtml != "")
     $tablecaptionhtml = $tablecaptionhtml . '<br>';
 
-  //Wrap 
+  //Wrap
   $html = '<div style="margin: auto; width: 90%;"><p>' . $tablecaptionhtml . $tablehtml . '</p></div>';
   return($html);
   }
