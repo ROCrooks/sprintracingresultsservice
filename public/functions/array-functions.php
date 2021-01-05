@@ -133,4 +133,61 @@ function arraytotable($array,$fields,$params=false,$headings=false)
   return $tablearray;
   }
 //---FunctionBreak---
+/*Converts and array table directly into HTML
+
+$array is the array to produce the table from
+$number (optional) is the number of the table in the document
+$caption (optional) is the table caption
+$heading (optional) is if the table contains a heading
+
+Output is the HTML for the table in scientific format*/
+//---DocumentationBreak---
+function scientifictable($array,$number=false,$caption=false,$heading=true)
+  {
+  //Container for the HTML
+  $tablehtml = array();
+
+  foreach($array as $arrayrow)
+    {
+    //Make table heading
+    if ($heading == true)
+      {
+      $arrayrow = "<th>" . implode("</th><th>",$arrayrow) . "</th>";
+      $heading = false;
+      }
+    else
+      $arrayrow = "<td>" . implode("</td><td>",$arrayrow) . "</td>";
+
+    //Add array row to the HTML
+    array_push($tablehtml,$arrayrow);
+    }
+
+  //Make HTML table
+  $tablehtml = '<table class="scientific"><tr>' . implode("</tr><tr>",$tablehtml) . '</tr></table>';
+
+  //Make table number HTML
+  $tablecaptionhtml = "";
+  if ($number != false)
+    {
+    //Add the table number
+    $tablecaptionhtml = $tablecaptionhtml . "Table " . $number;
+
+    //Add colon to join to caption if caption also specified
+    if ($caption != false)
+      $tablecaptionhtml = $tablecaptionhtml . ":";
+    }
+
+  //Make Table caption HTML
+  if ($caption != false)
+    $tablecaptionhtml = $tablecaptionhtml . $caption;
+
+  //Place the line break after the table caption
+  if ($tablecaptionhtml != "")
+    $tablecaptionhtml = $tablecaptionhtml . '<br>';
+
+  //Wrap 
+  $html = '<div style="margin: auto; width: 90%;"><p>' . $tablecaptionhtml . $tablehtml . '</p></div>';
+  return($html);
+  }
+//---FunctionBreak---
 ?>
