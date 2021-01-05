@@ -12,6 +12,37 @@ $boat = 1;
 //$year = 2014;
 //$club = "LBZ";
 
+$classname = array();
+
+//Specify if JSV in text
+if (isset($jsv) == true)
+  {
+  if ($jsv == "J")
+    array_push($classname,"junior");
+  elseif ($jsv == "S")
+    array_push($classname,"senior");
+  elseif ($jsv == "V")
+    array_push($classname,"veteran");
+  }
+
+//Male or female in text
+if ($mw == "M")
+  array_push($classname,"men's");
+elseif ($mw == "W")
+  array_push($classname,"women's");
+
+//Boat type in text
+$boattype = $ck . $boat;
+array_push($classname,$boattype);
+
+//Distance in text
+$distancetext = $dist . "m";
+array_push($classname,$distancetext);
+
+
+
+
+
 //Get event metrics
 include 'engines/get-event-time-metrics-year.php';
 
@@ -35,7 +66,13 @@ $timesmetricstable = arraytotable($eventmetrics,$timesmetricsfields,$metricspara
 
 echo "<p>Finishers Table Array</p>";
 
-print_r($finishersmetricstable);
+//print_r($finishersmetricstable);
+
+$number = 1;
+$caption = "";
+$finishersmetricstablehtml = scientifictable($finishersmetricstable);
+
+echo $finishersmetricstablehtml;
 
 echo "<p>Times Table Array</p>";
 
@@ -53,5 +90,9 @@ foreach($timesmetricstable as $rowkey=>$editingrow)
   $timesmetricstable[$rowkey]=$editingrow;
   }
 
-print_r($timesmetricstable);
+$number = 2;
+$caption = "";
+$timesmetricstablehtml = scientifictable($timesmetricstable);
+
+echo $timesmetricstablehtml;
 ?>
