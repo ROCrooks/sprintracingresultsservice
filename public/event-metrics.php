@@ -9,9 +9,9 @@ $ck = "K";
 $dist = 500;
 $boat = 1;
 //$jsv = "J";
-//$year = 2014;
 //$club = "LBZ";
 
+//Container for the description of the race classes being retrieved
 $classname = array();
 
 //Specify if JSV in text
@@ -39,14 +39,22 @@ array_push($classname,$boattype);
 $distancetext = $dist . "m";
 array_push($classname,$distancetext);
 
+//Year range
+$yearrange = "between " . $startyear . " and " . $endyear;
+array_push($classname,$yearrange);
 
+//Attach club to class name
+if (isset($club) == true)
+  {
+  $clubtext = "from " . $club;
+  array_push($classname,$clubtext);
+  }
 
-
+//Make classname as text
+$classname = implode(" ",$classname);
 
 //Get event metrics
 include 'engines/get-event-time-metrics-year.php';
-
-print_r($eventmetrics);
 
 //Parameters to format metrics table
 $metricsparams = array(
@@ -69,12 +77,11 @@ echo "<p>Finishers Table Array</p>";
 //print_r($finishersmetricstable);
 
 $number = 1;
-$caption = "";
-$finishersmetricstablehtml = scientifictable($finishersmetricstable);
+$caption = "Entries and finishers metrics for " . $classname;
+$finishersmetricstablehtml = scientifictable($finishersmetricstable,$number,$caption);
 
 echo $finishersmetricstablehtml;
 
-echo "<p>Times Table Array</p>";
 
 //Edit the Mead and SD to be one cell
 foreach($timesmetricstable as $rowkey=>$editingrow)
@@ -91,8 +98,8 @@ foreach($timesmetricstable as $rowkey=>$editingrow)
   }
 
 $number = 2;
-$caption = "";
-$timesmetricstablehtml = scientifictable($timesmetricstable);
+$caption = "Time metrics for " . $classname;
+$timesmetricstablehtml = scientifictable($timesmetricstable,$number,$caption);
 
 echo $timesmetricstablehtml;
 ?>
