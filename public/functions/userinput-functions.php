@@ -13,11 +13,15 @@ function legalcharactersonly($input,$legals)
 	if (is_array($legals) == false)
 		$legals = str_split($legals);
 
+	//If originally an array
+	$originarray = false;
+
 	//Convert string to array if not already
 	if (is_array($input) == false)
 		{
 		$output = "";
 		$input = str_split($input);
+		$originarray = true;
 		}
 	else
 		$output = array();
@@ -31,6 +35,9 @@ function legalcharactersonly($input,$legals)
 			unset($input[$inputkey]);
 			}
 		}
+
+	//Convert back to string and return
+	$input = implode("",$input);
 	Return $input;
 	}
 //---FunctionBreak---

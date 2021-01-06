@@ -1,10 +1,10 @@
 <?php
-$files = array("srrs","userinput","db","array","drawgraph");
+$files = array("srrs","userinput","db","array","drawgraph","document");
 
 //Get current directory
 //This makes the location independent of the location of the calling script
 $directory = dirname(__DIR__);
-$directory = str_replace("Git/Public","Git/Public/functions",$directory);
+$directory = str_replace("Git/public","Git/public/functions",$directory);
 
 //Include each required functions file
 foreach ($files as $file)
