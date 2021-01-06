@@ -101,9 +101,11 @@ results are within, the mean (and standard deviation) time in the event, the
 range between the fastest and slowest times.";
 $timesmetricstablehtml = scientifictable($timesmetricstable,$number,$caption);
 ?>
+<div class="item">
+<p>Event analytics for <?php echo $classname; ?>.</p>
 
-<?php
-echo $finishersmetricstablehtml;
+<?php echo $finishersmetricstablehtml; ?>
 
-echo $timesmetricstablehtml;
-?>
+<?php echo $timesmetricstablehtml; ?>
+
+</div>
