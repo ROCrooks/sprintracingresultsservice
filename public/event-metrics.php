@@ -17,12 +17,15 @@ $classname = array();
 //Specify if JSV in text
 if (isset($jsv) == true)
   {
-  if ($jsv == "J")
-    array_push($classname,"junior");
-  elseif ($jsv == "S")
-    array_push($classname,"senior");
-  elseif ($jsv == "V")
-    array_push($classname,"veteran");
+  if($jsv != '')
+    {
+    if ($jsv == "J")
+      array_push($classname,"junior");
+    elseif ($jsv == "S")
+      array_push($classname,"senior");
+    elseif ($jsv == "V")
+      array_push($classname,"veteran");
+    }
   }
 
 //Male or female in text
@@ -46,8 +49,11 @@ array_push($classname,$yearrange);
 //Attach club to class name
 if (isset($club) == true)
   {
-  $clubtext = "from " . $club;
-  array_push($classname,$clubtext);
+  if ($club != '')
+    {
+    $clubtext = "from " . $club;
+    array_push($classname,$clubtext);
+    }
   }
 
 //Make classname as text
