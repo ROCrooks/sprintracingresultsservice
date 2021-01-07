@@ -74,8 +74,8 @@ $finishersmetricsheadings = array("Year","Entries","DNS","DNF","DSQ","ERR","???"
 $finishersmetricstable = arraytotable($eventmetrics,$finishersmetricsfields,$metricsparams,$finishersmetricsheadings);
 
 //Fields and corresponding headings for finishers table
-$timesmetricsfields = array("Year","TopD","5%D","10%D","25%D","50%D","75%D","100%D","MeanD","StDevD","RangeD");
-$timesmetricsheadings = array("Year","Fastest","5%","10%","25%","50%","75%","100%","Mean Time","StDev","Range");
+$timesmetricsfields = array("Year","TopD","Crew","Race","Club","5%D","10%D","25%D","50%D","75%D","100%D","MeanD","StDevD","RangeD");
+$timesmetricsheadings = array("Year","Fastest","Crew","Race","Club","5%","10%","25%","50%","75%","100%","Mean Time","StDev","Range");
 $timesmetricstable = arraytotable($eventmetrics,$timesmetricsfields,$metricsparams,$timesmetricsheadings);
 
 //Create HTML for scientific table
@@ -89,6 +89,13 @@ $finishersmetricstablehtml = scientifictable($finishersmetricstable,$number,$cap
 //Edit the Mead and SD to be one cell
 foreach($timesmetricstable as $rowkey=>$editingrow)
   {
+  //Merge the mean and SD into one cell
+  if ($editingrow[3] != "Race")
+    $editingrow[2] = '<a href="?race=' . $editingrow[3] . '">' . $editingrow[2] . '</a>';
+
+  //Remove the SD cell
+  unset($editingrow[3]);
+
   //Merge the mean and SD into one cell
   if ($editingrow[8] != "Mean Time")
     $editingrow[8] = $editingrow[8] . " &plusmn; " . $editingrow[9];
