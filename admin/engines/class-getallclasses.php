@@ -4,7 +4,7 @@
 if ((isset($publicenginesrelativepath) == false) AND (isset($adminenginesrelativepath) == false))
   include '../srrsadminrelativepaths.php';
 
-include 'required-functions.php';
+include 'srrs-required-functions.php';
 
 //Get all hidden class names from race table
 $eachraceclasssql = "SELECT DISTINCT `Class` FROM `races` ORDER BY `Class` ASC";

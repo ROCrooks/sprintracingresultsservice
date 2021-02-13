@@ -1,7 +1,15 @@
 <?php
-//Get the relative paths for the engines
-include 'srrsadminrelativepaths.php';
-include 'srrsadmindefaulturls.php';
+//Get the directory of the engines
+$currentdirectory = getcwd();
+$removedirs = array("/pages","/engines","/admin","/srrs");
+$currentdirectory = str_replace($removedirs,"",$currentdirectory);
+
+//Get the admin and public engines directories
+$adminenginesrelativepath = $currentdirectory . "/admin/engines/";
+$publicenginesrelativepath = $currentdirectory . "/srrs/engines/";
+
+//Get default URLs
+include $adminenginesrelativepath . 'srrsadmindefaulturls.php';
 
 //Get classes list engine
 include $adminenginesrelativepath . 'class-getallclasses.php';

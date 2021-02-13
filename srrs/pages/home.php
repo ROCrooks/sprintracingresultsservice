@@ -1,5 +1,11 @@
 <?php
-include 'defaulturls.php';
+//Get the directory of the engines
+$currentdirectory = getcwd();
+$removedirs = array("/pages","/engines","/admin","/srrs");
+$currentdirectory = str_replace($removedirs,"",$currentdirectory);
+$enginesdirectory = $currentdirectory . "/srrs/engines/";
+
+include $enginesdirectory . 'defaulturls.php';
 
 //List of links
 $subsectionurls1 = array();

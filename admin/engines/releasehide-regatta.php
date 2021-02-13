@@ -1,5 +1,5 @@
 <?php
-include 'required-functions.php';
+include 'srrs-required-functions.php';
 
 //Hide or release regatta based on action code
 if ($action == "hide")

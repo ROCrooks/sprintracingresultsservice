@@ -23,7 +23,14 @@
 }
 </style>
 <?php
-include 'engines/user-input-processing.php';
+//Get the directory of the engines
+$currentdirectory = getcwd();
+$removedirs = array("/pages","/engines","/admin","/srrs");
+$currentdirectory = str_replace($removedirs,"",$currentdirectory);
+$enginesdirectory = $currentdirectory . "/srrs/engines/";
+
+include $enginesdirectory . 'user-input-processing.php';
+include $enginesdirectory . 'defaulturls.php';
 
 //Names for generating the paddler descriptions
 $boattypenames = array();
@@ -39,7 +46,7 @@ $boattypenames['CK']['P'] = "SUP";
 $boattypenames['CK']['T'] = "Touring Canoe";
 
 //Get the details for the single race
-include 'engines/get-single-race.php';
+include $enginesdirectory . 'get-single-race.php';
 
 echo '<div class="item">';
 

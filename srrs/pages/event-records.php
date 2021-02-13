@@ -1,5 +1,12 @@
 <?php
-include 'defaulturls.php';
+//Get the directory of the engines
+$currentdirectory = getcwd();
+$removedirs = array("/pages","/engines","/admin","/srrs");
+$currentdirectory = str_replace($removedirs,"",$currentdirectory);
+$enginesdirectory = $currentdirectory . "/srrs/engines/";
+
+include $enginesdirectory . 'user-input-processing.php';
+include $enginesdirectory . 'defaulturls.php';
 
 //Define join to attach club variable
 if (strpos($defaulturls['RegattaLookup'],"?") === false)
@@ -73,7 +80,7 @@ function boattyperecords($allrecords,$mwckcode,$defaulturls,$ahrefjoin,$club)
   }
 
 //Get user inputs
-include 'engines/user-input-processing.php';
+include $enginesdirectory . 'user-input-processing.php';
 //Unset all of the unneccesary user inputs
 unset($raceid);
 unset($mw);
@@ -83,7 +90,7 @@ unset($spec);
 unset($ages);
 unset($regattaid);
 
-include 'engines/regatta-records.php';
+include $enginesdirectory . 'regatta-records.php';
 
 echo '<div class="item">';
 
@@ -144,7 +151,7 @@ if ($recordshtml != "")
   }
 
 $getallregattas = false;
-include 'engines/list-years.php';
+include $enginesdirectory . 'list-years.php';
 
 //Define the width of the cells where the links are held
 $cellwidth = 150;

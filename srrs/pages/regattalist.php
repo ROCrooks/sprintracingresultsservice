@@ -1,5 +1,12 @@
 <?php
-include 'defaulturls.php';
+//Get the directory of the engines
+$currentdirectory = getcwd();
+$removedirs = array("/pages","/engines","/admin","/srrs");
+$currentdirectory = str_replace($removedirs,"",$currentdirectory);
+$enginesdirectory = $currentdirectory . "/srrs/engines/";
+
+include $enginesdirectory . 'user-input-processing.php';
+include $enginesdirectory . 'defaulturls.php';
 
 //Define join to attach club variable
 if (strpos($defaulturls['RegattaLookup'],"?") === false)
@@ -7,10 +14,8 @@ if (strpos($defaulturls['RegattaLookup'],"?") === false)
 else
   $ahrefjoin = "&";
 
-include 'engines/user-input-processing.php';
-
 $getallregattas = false;
-include 'engines/list-regattas.php';
+include $enginesdirectory . 'list-regattas.php';
 
 usort($allregattaslist,'sortregattas');
 

@@ -1,6 +1,12 @@
 <?php
-//Include defaults
-include 'defaulturls.php';
+//Get the directory of the engines
+$currentdirectory = getcwd();
+$removedirs = array("/pages","/engines","/admin","/srrs");
+$currentdirectory = str_replace($removedirs,"",$currentdirectory);
+$enginesdirectory = $currentdirectory . "/srrs/engines/";
+
+include $enginesdirectory . 'user-input-processing.php';
+include $enginesdirectory . 'defaulturls.php';
 
 //Define join to attach URL variables
 if (strpos($defaulturls['RegattaLookup'],"?") === false)
@@ -8,16 +14,13 @@ if (strpos($defaulturls['RegattaLookup'],"?") === false)
 else
   $ahrefjoin = "&";
 
-//This gets and processes user input
-include 'engines/user-input-processing.php';
-
 //Get input parameters from user
 $dist = $_GET['distance'];
 $boat = $_GET['boat'];
 $tofind = $_GET['find'];
 
 //Get the data
-include 'engines/find-top-n.php';
+include $enginesdirectory . 'find-top-n.php';
 
 //Lookup month names
 //There might be a function that does this already

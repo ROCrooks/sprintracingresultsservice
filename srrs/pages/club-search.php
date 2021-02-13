@@ -1,6 +1,12 @@
 <?php
-include 'defaulturls.php';
-include 'engines/required-functions.php';
+//Get the directory of the engines
+$currentdirectory = getcwd();
+$removedirs = array("/pages","/engines","/admin","/srrs");
+$currentdirectory = str_replace($removedirs,"",$currentdirectory);
+$enginesdirectory = $currentdirectory . "/srrs/engines/";
+
+include $enginesdirectory . 'user-input-processing.php';
+include $enginesdirectory . 'defaulturls.php';
 
 if (isset($_POST['Submit']) == true)
   {

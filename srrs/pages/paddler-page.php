@@ -1,5 +1,12 @@
 <?php
-include 'engines/user-input-processing.php';
+//Get the directory of the engines
+$currentdirectory = getcwd();
+$removedirs = array("/pages","/engines","/admin","/srrs");
+$currentdirectory = str_replace($removedirs,"",$currentdirectory);
+$enginesdirectory = $currentdirectory . "/srrs/engines/";
+
+include $enginesdirectory . 'user-input-processing.php';
+include $enginesdirectory . 'defaulturls.php';
 
 //Make variables for the URLs
 $urlvariables = array();
@@ -13,8 +20,6 @@ if ($padmw != '')
   array_push($urlvariables,"padmw=" . $padmw);
 if ($padck != '')
   array_push($urlvariables,"padck=" . $padck);
-
-include 'defaulturls.php';
 
 //Define join to attach club variable
 if (strpos($defaulturls['RegattaLookup'],"?") === false)

@@ -1,6 +1,15 @@
 <?php
-include 'srrsadminrelativepaths.php';
-include 'srrsadmindefaulturls.php';
+//Get the directory of the engines
+$currentdirectory = getcwd();
+$removedirs = array("/pages","/engines","/admin","/srrs");
+$currentdirectory = str_replace($removedirs,"",$currentdirectory);
+
+//Get the admin and public engines directories
+$adminenginesrelativepath = $currentdirectory . "/admin/engines/";
+$publicenginesrelativepath = $currentdirectory . "/srrs/engines/";
+
+//Get default URLs
+include $adminenginesrelativepath . 'srrsadmindefaulturls.php';
 
 //Get input from the form
 if ((isset($_POST['NewLine']) == true) OR (isset($_POST['AddClass']) == true) OR (isset($_POST['FinalCheck']) == true))

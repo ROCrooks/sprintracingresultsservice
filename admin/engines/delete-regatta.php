@@ -1,5 +1,5 @@
 <?php
-include 'required-functions.php';
+include 'srrs-required-functions.php';
 
 //Queries to delete the regatta and all linked records
 $deletepaddlersql = "DELETE p

@@ -1,4 +1,10 @@
 <?php
+//Get the directory of the engines
+$currentdirectory = getcwd();
+$removedirs = array("/pages","/engines","/admin","/srrs");
+$currentdirectory = str_replace($removedirs,"",$currentdirectory);
+$enginesdirectory = $currentdirectory . "/srrs/engines/";
+
 //Start and end years
 $startyear = 2006;
 $endyear = 2019;
@@ -60,7 +66,7 @@ if (isset($club) == true)
 $classname = implode(" ",$classname);
 
 //Get event metrics
-include 'engines/get-event-time-metrics-year.php';
+include $enginesdirectory . 'get-event-time-metrics-year.php';
 
 //Parameters to format metrics table
 $metricsparams = array(

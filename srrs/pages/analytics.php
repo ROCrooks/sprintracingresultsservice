@@ -1,6 +1,12 @@
 <?php
-include_once 'engines/required-functions.php';
-include_once 'engines/user-input-processing.php';
+//Get the directory of the engines
+$currentdirectory = getcwd();
+$removedirs = array("/pages","/engines","/admin","/srrs");
+$currentdirectory = str_replace($removedirs,"",$currentdirectory);
+$enginesdirectory = $currentdirectory . "/srrs/engines/";
+
+include_once $enginesdirectory . 'required-functions.php';
+include_once $enginesdirectory . 'user-input-processing.php';
 
 //Get minimum year
 $minyearsql = "SELECT DISTINCT `Year` FROM `regattas` WHERE `Year` > 0 ORDER BY `Year` ASC LIMIT 0, 1 ";
@@ -231,7 +237,7 @@ if (isset($_POST['submit']) == true)
 		}
 	else
 		{
-		include 'engines/analytics-engine.php';
+		include $enginesdirectory . 'analytics-engine.php';
 
 		echo '<p class="blockheading">Analytics Results</p>';
 
@@ -312,7 +318,7 @@ if (isset($_POST['submit']) == true)
 		echo '</textarea>';
 		}
 
-	include 'engines/analytics-chart.php';
+	$enginesdirectory . 'analytics-chart.php';
 
 	echo '<p>Series chart</p>';
 
