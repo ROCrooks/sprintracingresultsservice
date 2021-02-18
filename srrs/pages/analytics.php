@@ -318,7 +318,7 @@ if (isset($_POST['submit']) == true)
 		echo '</textarea>';
 		}
 
-	$enginesdirectory . 'analytics-chart.php';
+	include $enginesdirectory . 'analytics-chart.php';
 
 	echo '<p>Series chart</p>';
 
