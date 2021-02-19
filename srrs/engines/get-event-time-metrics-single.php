@@ -15,7 +15,7 @@ AND r.`Boat` = ?";
 if (isset($jsv) == true)
   {
   array_push($eventmetricscommonconstraints,$jsv);
-  $eventmetricscommonsql = $eventmetricscommonsql . " AND r.`JSV` = ?";
+  $eventmetricscommonsql = $eventmetricscommonsql . " AND p.`JSV` = ?";
   }
 
 //Attach year to constraints if specified
@@ -34,7 +34,7 @@ if (isset($year) == true)
 //Attach club to constrains if specified
 if (isset($club) == true)
   {
-  array_push($eventmetricsconstraints,$club);
+  array_push($eventmetricscommonconstraints,$club);
 
   $eventmetricscommonsql = $eventmetricscommonsql . " AND p.`Club` LIKE ?";
   }
