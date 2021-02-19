@@ -10,12 +10,14 @@ $startyear = 2006;
 $endyear = 2019;
 
 //Event to search for
-$mw = "M";
-$ck = "K";
-$dist = 500;
-$boat = 1;
-//$jsv = "J";
-//$club = "LBZ";
+$mw = $_GET['mw'];
+$ck = $_GET['ck'];
+$dist = $_GET['dist'];
+$boat = $_GET['boat'];
+if (isset($_GET['jsv']) == true)
+  $jsv = $_GET['jsv'];
+if (isset($_GET['club']) == true)
+  $club = $_GET['club'];
 
 //Container for the description of the race classes being retrieved
 $classname = array();
