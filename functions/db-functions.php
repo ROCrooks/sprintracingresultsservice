@@ -228,6 +228,10 @@ function percentsqllookup($percent,$all)
   $percn = $percent*$perc01;
   $percn = floor($percn);
   $percn = $percn-1;
+	//Make answer no less than 0
+	if ($percn < 0)
+		$percn = 0;
+	
   return($percn);
   }
 //---FunctionBreak---
