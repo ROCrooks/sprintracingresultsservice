@@ -15,7 +15,7 @@ else
   $ahrefjoin = "&";
 
 //Get input parameters from user
-$dist = $_GET['distance'];
+$dist = $_GET['dist'];
 $boat = $_GET['boat'];
 $tofind = $_GET['find'];
 

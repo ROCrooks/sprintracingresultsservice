@@ -101,7 +101,7 @@ foreach ($searches as $search)
     array_push($finalsqlconstraints,$distance);
 
     //Attach the distance to the URL
-    $distanceurl = $standardurlconstraints . "&distance=" . $distance;
+    $distanceurl = $standardurlconstraints . "&dist=" . $distance;
 
     //Loop each top N times list and put them below the distance
     $jsvshtml = array();
