@@ -134,7 +134,6 @@ foreach ($searches as $search)
       //Run the query to count number of paddlers
       $countpaddlers = dbexecute($lookupstmt,$lookupconstraints);
       $countpaddlers = $countpaddlers[0]['COUNT(*)'];
-      echo $countpaddlers . "<br>";
 
       //Make the HTML link for finding the top N results if there are paddlers
       if ($countpaddlers > 0)
