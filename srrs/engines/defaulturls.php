@@ -33,7 +33,7 @@ $defaulturls['ClubPage'] = array("URL"=>"club-page.php","PageName"=>"ClubHome");
 $defaulturls['TopNTimes'] = array("URL"=>"toptimes.php","PageName"=>"");
 $defaulturls['TopNTimesBrowser'] = array("URL"=>"eventbesttimes.php","PageName"=>"");
 $defaulturls['RestInstructions'] = array("URL"=>"","PageName"=>"RESTInfo");
-$defaulturls['TimesAnalysis'] = array("URL"=>"","PageName"=>"");
+$defaulturls['TimesAnalysis'] = array("URL"=>"event-metrics.php","PageName"=>"");
 $defaulturls['TimesAnalysisBrowser'] = array("URL"=>"","PageName"=>"");
 
 //Get the appropriate URL or page name
