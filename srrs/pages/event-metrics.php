@@ -5,6 +5,8 @@ $removedirs = array("/pages","/engines","/admin","/srrs");
 $currentdirectory = str_replace($removedirs,"",$currentdirectory);
 $enginesdirectory = $currentdirectory . "/srrs/engines/";
 
+include $enginesdirectory . 'defaulturls.php';
+
 //Start and end years
 $startyear = 2006;
 $endyear = 2019;
@@ -99,7 +101,7 @@ foreach($timesmetricstable as $rowkey=>$editingrow)
   {
   //Merge the mean and SD into one cell
   if ($editingrow[3] != "Race")
-    $editingrow[2] = '<a href="?race=' . $editingrow[3] . '">' . $editingrow[2] . '</a>';
+    $editingrow[2] = '<a href="' . $defaulturls['RaceResults'] . $ahrefjoin . 'race=' . $editingrow[3] . '">' . $editingrow[2] . '</a>';
 
   //Remove the SD cell
   unset($editingrow[3]);
