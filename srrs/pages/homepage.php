@@ -14,6 +14,8 @@ $subsectionurls1[1] = array("URL"=>$defaulturls['ClubSearch'],"Text"=>"Club Sear
 $subsectionurls1[2] = array("URL"=>$defaulturls['PaddlerSearch'],"Text"=>"Paddler Search");
 $subsectionurls1[3] = array("URL"=>$defaulturls['EventRecords'],"Text"=>"Event Records");
 $subsectionurls1[4] = array("URL"=>$defaulturls['Analytics'],"Text"=>"Regatta Analytics");
+$subsectionurls1[5] = array("URL"=>$defaulturls['TopNTimesBrowser'],"Text"=>"Top Results");
+$subsectionurls1[6] = array("URL"=>$defaulturls['TimesAnalysisBrowser'],"Text"=>"Regatta Analytics");
 
 
 $subsectionurls2 = array();

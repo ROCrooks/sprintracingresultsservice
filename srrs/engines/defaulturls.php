@@ -30,11 +30,11 @@ $defaulturls['RegattaResults'] = array("URL"=>"regatta-results.php","PageName"=>
 $defaulturls['RaceResults'] = array("URL"=>"race-display.php","PageName"=>"RaceView");
 $defaulturls['PaddlerPage'] = array("URL"=>"paddler-page.php","PageName"=>"PaddlerPage");
 $defaulturls['ClubPage'] = array("URL"=>"club-page.php","PageName"=>"ClubHome");
-$defaulturls['TopNTimes'] = array("URL"=>"toptimes.php","PageName"=>"");
-$defaulturls['TopNTimesBrowser'] = array("URL"=>"eventbesttimes.php","PageName"=>"");
+$defaulturls['TopNTimes'] = array("URL"=>"toptimes.php","PageName"=>"TopPerformances");
+$defaulturls['TopNTimesBrowser'] = array("URL"=>"eventbesttimes.php","PageName"=>"TopPerformancesBrowser");
 $defaulturls['RestInstructions'] = array("URL"=>"","PageName"=>"RESTInfo");
-$defaulturls['TimesAnalysis'] = array("URL"=>"event-metrics.php","PageName"=>"");
-$defaulturls['TimesAnalysisBrowser'] = array("URL"=>"","PageName"=>"");
+$defaulturls['TimesAnalysis'] = array("URL"=>"event-metrics.php","PageName"=>"TimeStatistics");
+$defaulturls['TimesAnalysisBrowser'] = array("URL"=>"browse-metrics.php","PageName"=>"TimeStatisticsBrowser");
 
 //Get the appropriate URL or page name
 foreach ($defaulturls as $defaultkey=>$options)
