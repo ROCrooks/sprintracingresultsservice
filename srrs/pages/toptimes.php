@@ -164,3 +164,5 @@ echo $newlinkshtml;
 <p>Ranking of top <?php echo $tofind; ?> paddlers <?php echo $clubtext; ?> in <?php echo $eventname; ?> <?php echo $rangetext; ?>.</p>
 
 <?php echo $besttimeshtml; ?>
+
+</div>
