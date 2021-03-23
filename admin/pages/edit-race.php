@@ -196,4 +196,6 @@ echo '<p><a href="' . $defaulturls['EditRegatta'] . $ahrefjoin . 'regatta=' . $r
 
 //Close page container
 echo '</div>';
+
+$regattaid = $racedetails['Regatta'];
 ?>
