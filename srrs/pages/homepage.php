@@ -9,13 +9,13 @@ include $enginesdirectory . 'defaulturls.php';
 
 //List of links
 $subsectionurls1 = array();
-$subsectionurls1[0] = array("URL"=>$defaulturls['RegattasList'],"Text"=>"Browse Regattas");
-$subsectionurls1[1] = array("URL"=>$defaulturls['ClubSearch'],"Text"=>"Club Search");
-$subsectionurls1[2] = array("URL"=>$defaulturls['PaddlerSearch'],"Text"=>"Paddler Search");
-$subsectionurls1[3] = array("URL"=>$defaulturls['EventRecords'],"Text"=>"Event Records");
-$subsectionurls1[4] = array("URL"=>$defaulturls['Analytics'],"Text"=>"Regatta Analytics");
-$subsectionurls1[5] = array("URL"=>$defaulturls['TopNTimesBrowser'],"Text"=>"Top Results");
-$subsectionurls1[6] = array("URL"=>$defaulturls['TimesAnalysisBrowser'],"Text"=>"Regatta Analytics");
+$subsectionurls1[0] = array("URL"=>$defaulturls['RegattasList'],"Text"=>"Browse Regattas","Description"=>"Browse all regattas in the database.");
+$subsectionurls1[1] = array("URL"=>$defaulturls['ClubSearch'],"Text"=>"Club Search","Description"=>"Search for results from a specific club in the regatta database.");
+$subsectionurls1[2] = array("URL"=>$defaulturls['PaddlerSearch'],"Text"=>"Paddler Search","Description"=>"Search for results from a specific paddler in the regatta database.");
+$subsectionurls1[3] = array("URL"=>$defaulturls['EventRecords'],"Text"=>"Event Records","Description"=>"Show the fastest times ever achieved in each event at regattas.");
+$subsectionurls1[4] = array("URL"=>$defaulturls['Analytics'],"Text"=>"Regatta Analytics","Description"=>"Get paddler entry statistics for different events at regattas.");
+$subsectionurls1[5] = array("URL"=>$defaulturls['TopNTimesBrowser'],"Text"=>"Top Results","Description"=>"Get a ranking of the fastest paddlers ever in each event at regattas.");
+$subsectionurls1[6] = array("URL"=>$defaulturls['TimesAnalysisBrowser'],"Text"=>"Time Statistics","Description"=>"Get metrics about the time distributions for each year for each event at regattas.");
 
 
 $subsectionurls2 = array();
@@ -31,7 +31,12 @@ foreach($subsectionurls1 as $listurl)
   echo '<p><a href="' . $listurl['URL'] . '"';
   if (isset($listurl['Target']) == true)
     echo ' target="' . $listurl['Target'] . '"';
-  echo '>' . $listurl['Text'] . '</a></p>';
+  echo '>' . $listurl['Text'] . '</a>';
+
+  if (isset($listurl['Description']) == true)
+    echo " - " . $listurl['Description'];
+
+  echo '</p>';
   }
 
 echo '<p class="blockheading">Support</p>';
