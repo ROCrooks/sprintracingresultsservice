@@ -40,6 +40,18 @@ foreach($regattaresults['Races'] as $raceelement)
     $racehtml = $racehtml . '&club=' . $club;
   if ($paddler != '')
     $racehtml = $racehtml . '&paddler=' . $paddler;
+  if ($jsv != '')
+    $racehtml = $racehtml . '&jsv=' . $jsv;
+  if ($mw != '')
+    $racehtml = $racehtml . '&mw=' . $mw;
+  if ($ck != '')
+    $racehtml = $racehtml . '&ck=' . $ck;
+  if ($abil != '')
+    $racehtml = $racehtml . '&abil=' . $abil;
+  if ($spec != '')
+    $racehtml = $racehtml . '&spec=' . $spec;
+  if ($ages != '')
+    $racehtml = $racehtml . '&ages=' . $ages;
   $racehtml = $racehtml . '">' . $raceelement['Name'] . '</a></p>';
   $racehtml = $racehtml . "</div>";
   foreach($raceelement['Paddlers'] as $paddlerelement)
@@ -61,6 +73,16 @@ foreach($regattaresults['Races'] as $raceelement)
     if ($raceelement['BoatSize'] == 4)
       {
       $paddlerelement['Crew'] = explode("/",$paddlerelement['Crew']);
+
+      //Update all unidentified paddlers if needed to display correctly
+      $checkfield = 0;
+      while ($checkfield < 4)
+        {
+        if (isset($paddlerelement['Crew'][$checkfield]) == false)
+          $paddlerelement['Crew'][$checkfield] = "??????";
+        $checkfield++;
+        }
+      
       $paddlerelement['Crew'] = $paddlerelement['Crew'][0] . "/" . $paddlerelement['Crew'][1] . "<br>" . $paddlerelement['Crew'][2] . "/" . $paddlerelement['Crew'][3];
 
       //Process club onto 2 lines if there are 4 clubs
