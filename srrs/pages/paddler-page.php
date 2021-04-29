@@ -36,7 +36,8 @@ echo '<div class="item">';
 
 foreach($subsectionurls as $listurl)
   {
-  echo '<p><a href="' . $listurl['URL'] . $ahrefjoin . $urlvariables . '">' . $listurl['Text'] . '</a></p>';
+  $linkurlvariables = implode("&",$urlvariables);
+  echo '<p><a href="' . $listurl['URL'] . $ahrefjoin . $linkurlvariables . '">' . $listurl['Text'] . '</a></p>';
   }
 
 echo '</div>';
