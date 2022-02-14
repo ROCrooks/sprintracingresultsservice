@@ -1,0 +1,76 @@
+/*---The style of the body and sections---*/
+body
+	{
+	background-color: #7F7F7F;
+	margin: auto;
+	width: 90%;
+	margin-top: 30px;
+	}
+
+section
+	{
+	overflow: hidden;
+	background-color: #CECECE;
+	padding: 20px;
+	border: 2px solid #000000;
+	border-radius: 10px;
+	margin-bottom: 10px;
+	}
+
+p
+	{
+	font-size: 18px;
+	font-family: "Arial", Arial, sans-serif;
+	}
+
+/*---The style of the headings---*/
+section.top
+	{
+	top: 10px;
+	margin-top: 30px;
+	padding: 1px;
+	}
+
+p.websitetitle
+	{
+	font-size: 34px;
+	margin: 0;
+	padding: 0;
+	}
+
+p.pagetitle
+	{
+	font-size: 28px;
+	font-style: italic;
+	}
+
+section.navigation
+	{
+	border-radius: 10px;
+	margin-bottom: 10px;
+	text-align: center;
+	padding: 1px;
+	}
+
+button.topnavigation
+	{
+	vertical-align: top;
+	background-color: #CECECE;
+	border: 2px solid #000000;
+	border-radius: 10px;
+	margin: 5px;
+	color: #000000;
+	text-align: center;
+	text-decoration: none;
+	display: inline-block;
+	font-size: 14px;
+	cursor: pointer;
+	width: 15%;
+	height: 40px;
+	}
+
+button.topnavigation:hover
+	{
+	background-color: #7F7F7F;
+	color: #000000;
+	}

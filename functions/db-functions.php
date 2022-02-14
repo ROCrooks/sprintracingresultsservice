@@ -9,7 +9,7 @@ Output is an SQL statement which can be passed to dbexecute with data*/
 //---DocumentationBreak---
 function dbprepare($dblink,$sql)
 	{
-	//Prepare finishers query
+	//Prepare query
 	$stmt = mysqli_prepare($dblink,$sql)
 		or die("MySQLi Error in preparing query: " . $dblink->error);
 
