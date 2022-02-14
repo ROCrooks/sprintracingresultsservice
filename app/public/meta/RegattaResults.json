@@ -1,0 +1,1 @@
+{"PageFormat":"php","PageAddress":"regatta-results.php","PageTitle":"Regatta Results","PageDescription":"Results from British Canoeing canoe sprint regattas","PageSecurity":false,"Parents":[{"Parent":"ResultsLookup","Variables":[{"Field":"regatta","Type":"F"},{"Field":"paddler","Type":"F"},{"Field":"club","Type":"F"}]}]}

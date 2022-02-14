@@ -1,0 +1,1 @@
+{"PageFormat":"php","PageAddress":"analytics.php","PageTitle":"Regatta Analytics","PageDescription":"Extract data and produce graphs about the paddlers at regattas","PageSecurity":false,"Parents":[{"Parent":"ClubHome","Variables":[{"Field":"club","Type":"R"}]},{"Parent":"SRRSIndex"}]}

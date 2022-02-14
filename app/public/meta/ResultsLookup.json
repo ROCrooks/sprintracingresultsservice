@@ -1,0 +1,1 @@
+{"PageFormat":"php","PageAddress":"regatta-results-lookup.php","PageTitle":"Regatta Results List","PageDescription":"A lookup page for the regatta results ordered by class","PageSecurity":false,"Parents":[{"Parent":"RegattaList","Variables":[{"Field":"paddler","Type":"F"},{"Field":"club","Type":"F"}]}]}
