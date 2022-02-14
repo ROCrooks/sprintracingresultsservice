@@ -1,3 +1,4 @@
 admin/dbconnect-function.php
 app/public/index.php
+app/public/phplibs/db-functions.php
 app/public/cms
