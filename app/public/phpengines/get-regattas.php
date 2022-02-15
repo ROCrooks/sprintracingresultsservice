@@ -1,5 +1,5 @@
 <?php
-include_once 'required-functions.php';
+include_once $engineslocation . 'srrs-required-functions.php';
 
 $listregattassql = "SELECT DISTINCT " . $regattafieldswanted . " FROM `regattas` g";
 

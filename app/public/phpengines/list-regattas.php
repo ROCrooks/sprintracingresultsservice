@@ -1,5 +1,5 @@
 <?php
-include_once 'required-functions.php';
+include_once $engineslocation . 'srrs-required-functions.php';
 
 //Get the regattas
 $regattafieldswanted = "g.`Key`, g.`Name`, g.`Date`, g.`Days`, g.`Hide`";

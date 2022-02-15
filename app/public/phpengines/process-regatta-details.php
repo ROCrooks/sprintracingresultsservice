@@ -1,5 +1,5 @@
 <?php
-include_once 'required-functions.php';
+include_once $engineslocation . 'srrs-required-functions.php';
 
 //Get start and end dates for regatta
 $regattaadddays = $regattadetailsline['Days']-1;
