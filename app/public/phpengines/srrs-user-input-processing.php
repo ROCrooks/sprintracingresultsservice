@@ -1,6 +1,4 @@
 <?php
-include_once 'srrs-required-functions.php';
-
 //Details of user inputs
 $inputrules = array();
 $inputrules['jsv'] = array("Whitelist"=>"JSV");
