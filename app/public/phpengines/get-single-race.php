@@ -1,5 +1,5 @@
 <?php
-include_once 'required-functions.php';
+include_once $engineslocation . 'srrs-required-functions.php';
 
 //Process race details
 $racesql = "SELECT `Regatta`, `R`, `D`, `Boat`, `Dist`, `FreeText` FROM `races` WHERE `Key` = ?";
