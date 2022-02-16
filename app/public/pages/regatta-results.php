@@ -1,28 +1,16 @@
 <?php
-//Get the directory of the engines
-$currentdirectory = getcwd();
-$removedirs = array("/pages","/engines","/admin","/srrs");
-$currentdirectory = str_replace($removedirs,"",$currentdirectory);
-$enginesdirectory = $currentdirectory . "/srrs/engines/";
-
-include $enginesdirectory . 'user-input-processing.php';
-include $enginesdirectory . 'defaulturls.php';
-
-//Define join to attach club variable
-if (strpos($defaulturls['RegattaLookup'],"?") === false)
-  $ahrefjoin = "?";
-else
-  $ahrefjoin = "&";
+include $engineslocation . 'srrs-required-functions.php';
+include $engineslocation . 'srrs-user-input-processing.php';
 
 //Get races
-include $enginesdirectory . 'get-races.php';
+include $engineslocation . 'get-races.php';
 
 //print_r($regattaresults);
 
-echo '<div class="item">';
-echo '<p style="font-size: 200%; text-align: center;">' . $regattaresults['Details']['Name'] . '</p>';
+$pagehtml = '<section>';
+$pagehtml = $pagehtml . '<p style="font-size: 200%; text-align: center;">' . $regattaresults['Details']['Name'] . '</p>';
 
-echo '<p>Showing a summary of the results of the regatta. Click on the name of any race to give a detailed view of the race.</p>';
+$pagehtml = $pagehtml . '<p>Showing a summary of the results of the regatta. Click on the name of any race to give a detailed view of the race.</p>';
 
 //Containers for HTML text in columns and heights of the columns
 $leftcolumn = '<div style="float: left; padding-left: 20px; padding-right: 20px;">';
@@ -35,7 +23,7 @@ foreach($regattaresults['Races'] as $raceelement)
   {
   //Create race description line
   $racehtml = "<div>";
-  $racehtml = $racehtml . '<p style="font-size: 120%;"><a href="' . $defaulturls['RaceResults'] . $ahrefjoin . "race=" . $raceelement['Key'];
+  $racehtml = $racehtml . '<p style="font-size: 120%;"><a href="RaceView?race=' . $raceelement['Key'];
   if ($club != '')
     $racehtml = $racehtml . '&club=' . $club;
   if ($paddler != '')
@@ -82,7 +70,7 @@ foreach($regattaresults['Races'] as $raceelement)
           $paddlerelement['Crew'][$checkfield] = "??????";
         $checkfield++;
         }
-      
+
       $paddlerelement['Crew'] = $paddlerelement['Crew'][0] . "/" . $paddlerelement['Crew'][1] . "<br>" . $paddlerelement['Crew'][2] . "/" . $paddlerelement['Crew'][3];
 
       //Process club onto 2 lines if there are 4 clubs
@@ -130,9 +118,9 @@ $leftcolumn = $leftcolumn . '</div>';
 $rightcolumn = $rightcolumn . '</div>';
 
 //Echo HTML
-echo '<div style="display: flex;">';
-echo $leftcolumn;
-echo $rightcolumn;
-echo '</div>';
-echo '</div>';
+$pagehtml = $pagehtml . '<div style="display: flex;">';
+$pagehtml = $pagehtml . $leftcolumn;
+$pagehtml = $pagehtml . $rightcolumn;
+$pagehtml = $pagehtml . '</div>';
+$pagehtml = $pagehtml . '</div>';
 ?>
