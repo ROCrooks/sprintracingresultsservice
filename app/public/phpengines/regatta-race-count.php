@@ -1,5 +1,5 @@
 <?php
-include_once 'required-functions.php';
+include_once $engineslocation . 'srrs-required-functions.php';
 
 //Get the details about the regatta
 $regattadetailssql = "SELECT `Date`, `Days`, `Name` FROM `regattas` WHERE `Key` = ?";
@@ -7,7 +7,7 @@ $regattadetailsline = dbprepareandexecute($srrsdblink,$regattadetailssql,$regatt
 if (count($regattadetailsline) > 0)
   {
   $regattadetailsline = $regattadetailsline[0];
-  include 'process-regatta-details.php';
+  include $engineslocation . 'process-regatta-details.php';
   }
 
 //All types of class to display
