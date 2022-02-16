@@ -23,14 +23,8 @@
 }
 </style>
 <?php
-//Get the directory of the engines
-$currentdirectory = getcwd();
-$removedirs = array("/pages","/engines","/admin","/srrs");
-$currentdirectory = str_replace($removedirs,"",$currentdirectory);
-$enginesdirectory = $currentdirectory . "/srrs/engines/";
-
-include $enginesdirectory . 'user-input-processing.php';
-include $enginesdirectory . 'defaulturls.php';
+include_once $engineslocation . 'srrs-required-functions.php';
+include_once $engineslocation . 'srrs-user-input-processing.php';
 
 //Names for generating the paddler descriptions
 $boattypenames = array();
@@ -46,11 +40,11 @@ $boattypenames['CK']['P'] = "SUP";
 $boattypenames['CK']['T'] = "Touring Canoe";
 
 //Get the details for the single race
-include $enginesdirectory . 'get-single-race.php';
+include $engineslocation . 'get-single-race.php';
 
-echo '<div class="item">';
+$pagehtml = '<section>';
 
-echo '<p style="font-size: 200%; text-align: center;">' . $racedetails['Name'] . '</p>';
+$pagehtml = $pagehtml . '<p style="font-size: 200%; text-align: center;">' . $racedetails['Name'] . '</p>';
 
 //Print results table
 foreach($racedetails['Paddlers'] as $paddlerrace)
@@ -66,19 +60,19 @@ foreach($racedetails['Paddlers'] as $paddlerrace)
   $highlight = highlightcheck($userinputs,$paddlerrace);
 
   if ($highlight == true)
-    echo '<div style="display: table; margin: auto; width: 520px; background-color: yellow;">';
+    $pagehtml = $pagehtml . '<div style="display: table; margin: auto; width: 520px; background-color: yellow;">';
   else
-    echo '<div style="display: table; margin: auto; width: 520px;">';
-  echo '<div style="display: table-cell; width: 20px;"><p>' . $paddlerrace['Position'] . '</p></div>';
-  echo '<div style="display: table-cell; width: 20px;"><p>' . $paddlerrace['Lane'] . '</p></div>';
-  echo '<div style="display: table-cell; width: 40px;"><p>' . $paddlerrace['Club'] . '</p></div>';
-  echo '<div style="display: table-cell; width: 300px;"><p>' . $paddlerrace['Crew'] . '</p></div>';
-  echo '<div style="display: table-cell; width: 100px;"><p>' . $paddlerrace['Time'] . '</p></div>';
-  echo '<div style="display: table-cell; width: 40px;"><div class="tooltip"><p>' . $paddlerrace['JSV'] . $paddlerrace['MW'] . $paddlerrace['CK'] . '<span class="tooltiptext">' . $hovertext . '</span></p></div></div>';
-  echo '</div>';
+    $pagehtml = $pagehtml . '<div style="display: table; margin: auto; width: 520px;">';
+  $pagehtml = $pagehtml . '<div style="display: table-cell; width: 20px;"><p>' . $paddlerrace['Position'] . '</p></div>';
+  $pagehtml = $pagehtml . '<div style="display: table-cell; width: 20px;"><p>' . $paddlerrace['Lane'] . '</p></div>';
+  $pagehtml = $pagehtml . '<div style="display: table-cell; width: 40px;"><p>' . $paddlerrace['Club'] . '</p></div>';
+  $pagehtml = $pagehtml . '<div style="display: table-cell; width: 300px;"><p>' . $paddlerrace['Crew'] . '</p></div>';
+  $pagehtml = $pagehtml . '<div style="display: table-cell; width: 100px;"><p>' . $paddlerrace['Time'] . '</p></div>';
+  $pagehtml = $pagehtml . '<div style="display: table-cell; width: 40px;"><div class="tooltip"><p>' . $paddlerrace['JSV'] . $paddlerrace['MW'] . $paddlerrace['CK'] . '<span class="tooltiptext">' . $hovertext . '</span></p></div></div>';
+  $pagehtml = $pagehtml . '</div>';
   }
 
-echo '</div>';
+$pagehtml = $pagehtml . '</section>';
 
 $regattaid = $racedetails['Regatta'];
 ?>
