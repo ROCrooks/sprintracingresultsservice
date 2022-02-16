@@ -1,5 +1,5 @@
 <?php
-include_once 'required-functions.php';
+include_once $engineslocation . 'srrs-required-functions.php';
 
 //Flag for if the result is a finish or not
 //No time means no result
@@ -15,7 +15,7 @@ else
   //If NR is unspecified then NR = ???
   if ($paddlerdetails['NR'] == '')
     $paddlerdetails['NR'] = "???";
-  
+
   $paddlerdetails['Result'] = false;
   $paddlerdetails['Secs'] = 0;
   $paddlerdetails['Time'] = $paddlerdetails['NR'];

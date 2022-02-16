@@ -1,5 +1,5 @@
 <?php
-include_once 'required-functions.php';
+include_once $engineslocation . 'srrs-required-functions.php';
 
 if (isset($boatsize) == false)
   $boatsize = "*";
