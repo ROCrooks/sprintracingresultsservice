@@ -1,30 +1,18 @@
 <?php
-//Get the directory of the engines
-$currentdirectory = getcwd();
-$removedirs = array("/pages","/engines","/admin","/srrs");
-$currentdirectory = str_replace($removedirs,"",$currentdirectory);
-$enginesdirectory = $currentdirectory . "/srrs/engines/";
+include_once $engineslocation . 'srrs-required-functions.php';
+include_once $engineslocation . 'srrs-user-input-processing.php';
 
-include $enginesdirectory . 'user-input-processing.php';
-include $enginesdirectory . 'defaulturls.php';
+include $engineslocation . 'regatta-race-count.php';
 
-//Define join to attach club variable
-if (strpos($defaulturls['RegattaLookup'],"?") === false)
-  $ahrefjoin = "?";
-else
-  $ahrefjoin = "&";
+$pagehtml = '<section>';
+$pagehtml = $pagehtml . '<p style="font-size: 200%; text-align: center;">' . $regattaresults['Details']['Name'] . '</p>';
 
-include $enginesdirectory . 'regatta-race-count.php';
-
-echo '<div class="item">';
-echo '<p style="font-size: 200%; text-align: center;">' . $regattaresults['Details']['Name'] . '</p>';
-
-echo '<p>Browse results of a regatta by class, or show all results.</p>';
+$pagehtml = $pagehtml . '<p>Browse results of a regatta by class, or show all results.</p>';
 
 //Output each class
 foreach($regattaresults['ClassesFound'] as $classfound)
   {
-  $hyperlink = $defaulturls['RegattaResults'] . $ahrefjoin . "regatta=" . $regattaid;
+  $hyperlink = "RegattaResults?regatta=" . $regattaid;
   if ($classfound['JSV'] != '')
     $hyperlink = $hyperlink . "&jsv=" . $classfound['JSV'];
   if ($classfound['MW'] != '')
@@ -42,7 +30,7 @@ foreach($regattaresults['ClassesFound'] as $classfound)
   if ($paddler != '')
     $hyperlink = $hyperlink . "&paddler=" . $paddler;
 
-  echo '<p><a href="' . $hyperlink . '">' . $classfound['Text'] . "</a> - " . $classfound['RacesCount'] . "</p>";
+  $pagehtml = $pagehtml . '<p><a href="' . $hyperlink . '">' . $classfound['Text'] . "</a> - " . $classfound['RacesCount'] . "</p>";
   }
-echo '</div>';
+$pagehtml = $pagehtml . '</section>';
 ?>
