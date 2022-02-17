@@ -1,13 +1,8 @@
 <?php
-//Get the directory of the engines
-$currentdirectory = getcwd();
-$removedirs = array("/pages","/engines","/admin","/srrs");
-$currentdirectory = str_replace($removedirs,"",$currentdirectory);
-$enginesdirectory = $currentdirectory . "/srrs/engines/";
+include_once $engineslocation . 'srrs-required-functions.php';
+include_once $engineslocation . 'srrs-user-input-processing.php';
 
-include $enginesdirectory . 'user-input-processing.php';
-include $enginesdirectory . 'defaulturls.php';
-
+$pagehtml = "";
 if (isset($_POST['Submit']) == true)
   {
   //Get club and paddler from form
@@ -47,29 +42,22 @@ if (isset($_POST['Submit']) == true)
     $paddlertext = $paddlertext . " (" . $club . ")";
     }
 
-  echo '<div class="item">';
-  echo '<p>Searched for ' . $paddlertext . '.</p>';
+  $pagehtml = $pagehtml . '<section>';
+  $pagehtml = $pagehtml . '<p>Searched for ' . $paddlertext . '.</p>';
   if ($paddlercount > 0)
     {
-    //Define join to attach club variable
-    if (strpos($defaulturls['PaddlerPage'],"?") === false)
-      $join = "?";
-    else
-      $join = "&";
-
-    echo '<p>Found ' . $paddlercount . ' matching race results.<p>';
-    echo '<p><a href="' . $defaulturls['PaddlerPage'] . $join . 'paddler=' . $paddler . '&club=' . $club . '">Click here</a> to go to the paddler index.</p>';
+    $pagehtml = $pagehtml . '<p>Found ' . $paddlercount . ' matching race results.<p>';
+    $pagehtml = $pagehtml . '<p><a href="PaddlerPage?paddler=' . $paddler . '&club=' . $club . '">Click here</a> to go to the paddler index.</p>';
     }
   else
     {
-    echo '<p>Couldn&#39;t find any results! Search again.<p>';
+    $pagehtml = $pagehtml . '<p>Couldn&#39;t find any results! Search again.<p>';
     }
-  echo '</div>';
+  $pagehtml = $pagehtml . '</section>';
   }
-?>
 
-<div class="item">
-<form action="<?php echo $defaulturls['PaddlerSearch']; ?>" method="post">
+$pagehtml = $pagehtml . '<section>
+<form action="PaddlerSearch" method="post">
 <p>Search for results from a particular paddler.</p>
 <p>Search for a paddler based on their name (I. SURNAME) and club(s).</p>
 <p>Multiple clubs are supported by separating club codes with commas.</p>
@@ -77,4 +65,5 @@ if (isset($_POST['Submit']) == true)
 <p>Club(s): <input type="text" size="20" name="Clubs"></p>
 <p><input type="submit" name="Submit" value="Go"></p>
 </form>
-</div>
+</section>';
+?>
