@@ -1,12 +1,6 @@
 <?php
-//Get the directory of the engines
-$currentdirectory = getcwd();
-$removedirs = array("/pages","/engines","/admin","/srrs");
-$currentdirectory = str_replace($removedirs,"",$currentdirectory);
-$enginesdirectory = $currentdirectory . "/srrs/engines/";
-
-include $enginesdirectory . 'user-input-processing.php';
-include $enginesdirectory . 'defaulturls.php';
+include_once $engineslocation . 'srrs-required-functions.php';
+include_once $engineslocation . 'srrs-user-input-processing.php';
 
 //Make variables for the URLs
 $urlvariables = array();
@@ -21,24 +15,18 @@ if ($padmw != '')
 if ($padck != '')
   array_push($urlvariables,"padck=" . $padck);
 
-//Define join to attach club variable
-if (strpos($defaulturls['RegattaLookup'],"?") === false)
-  $ahrefjoin = "?";
-else
-  $ahrefjoin = "&";
-
 //List of links
 $subsectionurls = array();
-$subsectionurls[0] = array("URL"=>$defaulturls['RegattasList'],"Text"=>"Browse Regattas");
-$subsectionurls[1] = array("URL"=>$defaulturls['EventRecords'],"Text"=>"Record Times");
+$subsectionurls[0] = array("URL"=>"RegattaList","Text"=>"Browse Regattas");
+$subsectionurls[1] = array("URL"=>"EventRecords","Text"=>"Record Times");
 
-echo '<div class="item">';
+$pagehtml = '<section>';
 
 foreach($subsectionurls as $listurl)
   {
   $linkurlvariables = implode("&",$urlvariables);
-  echo '<p><a href="' . $listurl['URL'] . $ahrefjoin . $linkurlvariables . '">' . $listurl['Text'] . '</a></p>';
+  $pagehtml = $pagehtml . '<p><a href="' . $listurl['URL'] . "?" . $linkurlvariables . '">' . $listurl['Text'] . '</a></p>';
   }
 
-echo '</div>';
+$pagehtml = $pagehtml . '</section>';
 ?>
