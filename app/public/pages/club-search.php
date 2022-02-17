@@ -1,12 +1,8 @@
 <?php
-//Get the directory of the engines
-$currentdirectory = getcwd();
-$removedirs = array("/pages","/engines","/admin","/srrs");
-$currentdirectory = str_replace($removedirs,"",$currentdirectory);
-$enginesdirectory = $currentdirectory . "/srrs/engines/";
+include_once $engineslocation . 'srrs-required-functions.php';
+include_once $engineslocation . 'srrs-user-input-processing.php';
 
-include $enginesdirectory . 'user-input-processing.php';
-include $enginesdirectory . 'defaulturls.php';
+$pagehtml = "";
 
 if (isset($_POST['Submit']) == true)
   {
@@ -19,30 +15,27 @@ if (isset($_POST['Submit']) == true)
   $searchresults = dbprepareandexecute($srrsdblink,$clubsearchsql,$searchvalues);
 
   //Make HTML of clubs found
-  $clubshtml = "";
-  foreach ($searchresults as $clubfound)
+  if (count($searchresults) > 0)
     {
-    //Define join to attach club variable
-    if (strpos($defaulturls['ClubPage'],"?") === false)
-      $join = "?";
-    else
-      $join = "&";
+    foreach ($searchresults as $resultskey=>$clubfound)
+      {
+      $searchresults[$resultskey] = '<p><a href="ClubHome?club=' . $clubfound['Code'] . '">' . $clubfound['LongName'] . '</a></p>';
+      }
 
-    $clubshtml = $clubshtml . '<p><a href="' . $defaulturls['ClubPage'] . $join . 'club=' . $clubfound['Code'] . '">' . $clubfound['LongName'] . '</a></p>';
+    $clubshtml = '<p>Found ' . count($searchresults) . ' clubs matching the search term ' . $_POST['Search'] . '</p>';
+    $clubshtml = $clubshtml . implode("",$searchresults);
     }
-  if ($clubshtml == "")
-    {
+  else
     $clubshtml = '<p>No clubs found that match the query "' . $_POST['Search'] . '"!</p>';
-    }
 
-  echo '<div class="item">' . $clubshtml . '</div>';
+  $pagehtml = $pagehtml . '<section>' . $clubshtml . '</section>';
   }
-?>
 
-<div class="item">
-<form action="<?php echo $defaulturls['ClubSearch']; ?>" method="post">
+$pagehtml = $pagehtml . '<section>
+<form action="ClubSearch" method="post">
 <p>Search for results from a particular club.</p>
 <p>Type the name of a club or a 3 letter code and search for results of that club.</p>
 <p><input type="text" size="20" name="Search"> <input type="submit" name="Submit" value="Go"></p>
 </form>
-</div>
+</section>';
+?>
