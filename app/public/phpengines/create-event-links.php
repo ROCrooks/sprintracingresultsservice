@@ -2,8 +2,9 @@
 //Required functions
 include_once $engineslocation . 'srrs-required-functions.php';
 
-//Container for the base SQL constraints
+//Container for the base SQL constraints and URL constraints
 $sqlcheckbaseconstraints = array();
+$urlbaseconstraints = array();
 
 //Create the SQL to check if the
 $sqlcheckforevent = "SELECT COUNT(*) FROM `paddlers` p
@@ -15,8 +16,7 @@ if (isset($club) == true)
   if ($club != '')
     {
     //Add club to URL
-    $lookupurl = $lookupurl . $ahrefjoin . "club=" . $club;
-    $ahrefjoin = "&";
+    array_push($urlbaseconstraints,"club=" . $club);
 
     //Add club wildcard to constraint
     $clubwildcard = "*" . $club . "*";
@@ -71,8 +71,12 @@ $eventslisthtml = $eventslisthtml . '</div>';
 
 foreach ($searches as $search)
   {
-  //The standard URL constraints
-  $standardurlconstraints = "mw=" . $search['MW'] . "&ck=" . $search['CK'] . "&boat=" . $search['Boat'] . "&find=10";
+  //The URL constraints for the link
+  $urlclassconstraints = $urlbaseconstraints;
+  array_push($urlclassconstraints,"mw=" . $search['MW']);
+  array_push($urlclassconstraints,"ck=" . $search['CK']);
+  array_push($urlclassconstraints,"boat=" . $search['Boat']);
+  array_push($urlclassconstraints,"find=10");
 
   //The SQL constraints based on the class
   $baseclasssqlconstraints = $sqlcheckbaseconstraints;
@@ -101,16 +105,18 @@ foreach ($searches as $search)
     array_push($finalsqlconstraints,$distance);
 
     //Attach the distance to the URL
-    $distanceurl = $standardurlconstraints . "&dist=" . $distance;
+    $urldistanceconstraints = $urlclassconstraints;
+    array_push($urldistanceconstraints,"&dist=" . $distance);
 
     //Loop each top N times list and put them below the distance
     $jsvshtml = array();
     foreach ($jsvs as $jsv)
       {
-      $fullurl = $lookupurl . $ahrefjoin . $distanceurl;
+      $urlageconstraints = $urldistanceconstraints;
+
       //Add the search
       if ($jsv != "")
-        $fullurl = $fullurl . "&jsv=" . $jsv;
+        array_push($urlageconstraints,"&jsv=" . $jsv);
 
       if ($jsv == "")
         $linkname = "Overall";
@@ -137,7 +143,11 @@ foreach ($searches as $search)
 
       //Make the HTML link for finding the top N results if there are paddlers
       if ($countpaddlers > 0)
+        {
+        //The URL
+        $fullurl = "TopPerformances?" . implode("&",$urlageconstraints);
         $linkname = '<a href="' . $fullurl . '">' . $linkname . '</a>';
+        }
 
       array_push($jsvshtml,$linkname);
       }
