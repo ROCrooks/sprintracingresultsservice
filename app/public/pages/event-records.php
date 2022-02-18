@@ -1,21 +1,9 @@
 <?php
-//Get the directory of the engines
-$currentdirectory = getcwd();
-$removedirs = array("/pages","/engines","/admin","/srrs");
-$currentdirectory = str_replace($removedirs,"",$currentdirectory);
-$enginesdirectory = $currentdirectory . "/srrs/engines/";
-
-include $enginesdirectory . 'user-input-processing.php';
-include $enginesdirectory . 'defaulturls.php';
-
-//Define join to attach club variable
-if (strpos($defaulturls['RegattaLookup'],"?") === false)
-  $ahrefjoin = "?";
-else
-  $ahrefjoin = "&";
+include_once $engineslocation . 'srrs-required-functions.php';
+include_once $engineslocation . 'srrs-user-input-processing.php';
 
 //Create the records table for a MW/CK combination
-function boattyperecords($allrecords,$mwckcode,$defaulturls,$ahrefjoin,$club)
+function boattyperecords($allrecords,$mwckcode,$club)
   {
   $htmloutput = "";
 
@@ -63,11 +51,11 @@ function boattyperecords($allrecords,$mwckcode,$defaulturls,$ahrefjoin,$club)
         $htmloutput = $htmloutput . '<div style="display: table-cell; width: ' . $widths['Crew'] . 'px;"><p>' . $record['Crew'] . '</p></div>';
         $htmloutput = $htmloutput . '<div style="display: table-cell; width: ' . $widths['Club'] . 'px;"><p>' . $record['Club'] . '</p></div>';
         $htmloutput = $htmloutput . '<div style="display: table-cell; width: ' . $widths['Time'] . 'px;"><p>' . $record['Time'] . '</p></div>';
-        $htmloutput = $htmloutput . '<div style="display: table-cell; width: ' . $widths['Regatta'] . 'px;"><p><a href="' . $defaulturls['RegattaLookup'] . $ahrefjoin . 'regatta=' . $record['Regatta'];
+        $htmloutput = $htmloutput . '<div style="display: table-cell; width: ' . $widths['Regatta'] . 'px;"><p><a href="ResultsLookup?regatta=' . $record['Regatta'];
         if ($club != '')
           $htmloutput = $htmloutput . '&club=' . $club;
         $htmloutput = $htmloutput . '">' . $record['MonthDate'] . '</a></p></div>';
-        $htmloutput = $htmloutput . '<div style="display: table-cell; width: ' . $widths['ViewRace'] . 'px;"><p><a href="' . $defaulturls['RaceResults'] . $ahrefjoin . 'race=' . $record['Race'];
+        $htmloutput = $htmloutput . '<div style="display: table-cell; width: ' . $widths['ViewRace'] . 'px;"><p><a href="RaceView?race=' . $record['Race'];
         if ($club != '')
           $htmloutput = $htmloutput . '&club=' . $club;
         $htmloutput = $htmloutput . '">View Race</a></p></div>';
@@ -79,8 +67,6 @@ function boattyperecords($allrecords,$mwckcode,$defaulturls,$ahrefjoin,$club)
   Return $htmloutput;
   }
 
-//Get user inputs
-include $enginesdirectory . 'user-input-processing.php';
 //Unset all of the unneccesary user inputs
 unset($raceid);
 unset($mw);
@@ -90,68 +76,68 @@ unset($spec);
 unset($ages);
 unset($regattaid);
 
-include $enginesdirectory . 'regatta-records.php';
+include $engineslocation . 'regatta-records.php';
 
-echo '<div class="item">';
+$pagehtml = '<section>';
 
 //Mens Kayak
-$recordshtml = boattyperecords($allrecords,"M-K",$defaulturls,$ahrefjoin,$club);
+$recordshtml = boattyperecords($allrecords,"M-K",$club);
 if ($recordshtml != "")
   {
-  echo '<p style="font-size: 150%; text-align: center;">';
+  $pagehtml = $pagehtml . '<p style="font-size: 150%; text-align: center;">';
   if ($jsv == "J")
-    echo "Junior ";
+    $pagehtml = $pagehtml . "Junior ";
   if ($jsv == "V")
-    echo "Masters ";
-  echo 'Mens Kayak</p>';
+    $pagehtml = $pagehtml . "Masters ";
+  $pagehtml = $pagehtml . 'Mens Kayak</p>';
 
-  echo $recordshtml;
+  $pagehtml = $pagehtml . $recordshtml;
   }
 
 //Womens Kayak
-$recordshtml = boattyperecords($allrecords,"W-K",$defaulturls,$ahrefjoin,$club);
+$recordshtml = boattyperecords($allrecords,"W-K",$club);
 if ($recordshtml != "")
   {
-  echo '<p style="font-size: 150%; text-align: center;">';
+  $pagehtml = $pagehtml . '<p style="font-size: 150%; text-align: center;">';
   if ($jsv == "J")
-    echo "Junior ";
+    $pagehtml = $pagehtml . "Junior ";
   if ($jsv == "V")
-    echo "Masters ";
-  echo 'Womens Kayak</p>';
+    $pagehtml = $pagehtml . "Masters ";
+  $pagehtml = $pagehtml . 'Womens Kayak</p>';
 
-  echo $recordshtml;
+  $pagehtml = $pagehtml . $recordshtml;
   }
 
 //Mens Canoe
-$recordshtml = boattyperecords($allrecords,"M-C",$defaulturls,$ahrefjoin,$club);
+$recordshtml = boattyperecords($allrecords,"M-C",$club);
 if ($recordshtml != "")
   {
-  echo '<p style="font-size: 150%; text-align: center;">';
+  $pagehtml = $pagehtml . '<p style="font-size: 150%; text-align: center;">';
   if ($jsv == "J")
-    echo "Junior ";
+    $pagehtml = $pagehtml . "Junior ";
   if ($jsv == "V")
-    echo "Masters ";
-  echo 'Mens Canoe</p>';
+    $pagehtml = $pagehtml . "Masters ";
+  $pagehtml = $pagehtml . 'Mens Canoe</p>';
 
-  echo $recordshtml;
+  $pagehtml = $pagehtml . $recordshtml;
   }
 
 //Womens Canoe
-$recordshtml = boattyperecords($allrecords,"W-C",$defaulturls,$ahrefjoin,$club);
+$recordshtml = boattyperecords($allrecords,"W-C",$club);
 if ($recordshtml != "")
   {
-  echo '<p style="font-size: 150%; text-align: center;">';
+  $pagehtml = $pagehtml . '<p style="font-size: 150%; text-align: center;">';
   if ($jsv == "J")
-    echo "Junior ";
+    $pagehtml = $pagehtml . "Junior ";
   if ($jsv == "V")
-    echo "Masters ";
-  echo 'Womens Canoe</p>';
+    $pagehtml = $pagehtml . "Masters ";
+  $pagehtml = $pagehtml . 'Womens Canoe</p>';
 
-  echo $recordshtml;
+  $pagehtml = $pagehtml . $recordshtml;
   }
 
 $getallregattas = false;
-include $enginesdirectory . 'list-years.php';
+include $engineslocation . 'list-years.php';
 
 //Define the width of the cells where the links are held
 $cellwidth = 150;
@@ -161,7 +147,7 @@ else
   $totalwidth = $cellwidth;
 
 //Make the base hyperlink for the records page
-$basehyperlink = $defaulturls['EventRecords'];
+$basehyperlink = "EventRecords";
 $baseconstraints = array();
 
 if ($club != '')
@@ -170,24 +156,24 @@ if ($paddler != '')
   array_push($baseconstraints,"paddler=" . $paddler);
 
 
-$baseconstraintshyperlink = $ahrefjoin . implode("&",$baseconstraints);
+$baseconstraintshyperlink = "?" . implode("&",$baseconstraints);
 $basehyperlink = $basehyperlink . $baseconstraintshyperlink;
 
 //The all time records
-echo '<div style="display: table; margin: auto; width: ' . $totalwidth . 'px;">';
+$pagehtml = $pagehtml . '<div style="display: table; margin: auto; width: ' . $totalwidth . 'px;">';
 $hyperlink = $basehyperlink;
-echo '<div style="display: table-cell; width: ' . $cellwidth . 'px;"><p><a href="' . $hyperlink . '">All Time Records</a></p></div>';
+$pagehtml = $pagehtml . '<div style="display: table-cell; width: ' . $cellwidth . 'px;"><p><a href="' . $hyperlink . '">All Time Records</a></p></div>';
 
 //The all time records if paddler isn't set
 if ($paddler == '')
   {
   $hyperlink = $basehyperlink . "&jsv=J";
-  echo '<div style="display: table-cell; width: ' . $cellwidth . 'px;"><p><a href="' . $hyperlink . '">All Time Junior Records</a></p></div>';
+  $pagehtml = $pagehtml . '<div style="display: table-cell; width: ' . $cellwidth . 'px;"><p><a href="' . $hyperlink . '">All Time Junior Records</a></p></div>';
   $hyperlink = $basehyperlink . "&jsv=V";
-  echo '<div style="display: table-cell; width: ' . $cellwidth . 'px;"><p><a href="' . $hyperlink . '">All Time Masters Records</a></p></div>';
+  $pagehtml = $pagehtml . '<div style="display: table-cell; width: ' . $cellwidth . 'px;"><p><a href="' . $hyperlink . '">All Time Masters Records</a></p></div>';
   }
 
-echo '</div>';
+$pagehtml = $pagehtml . '</div>';
 
 rsort($uniqueyears);
 
@@ -195,21 +181,21 @@ foreach($uniqueyears as $uniqueyear)
   {
   $yearhyperlink = $basehyperlink . "&year=" . $uniqueyear;
   //The all time records
-  echo '<div style="display: table; margin: auto; width: ' . $totalwidth . 'px;">';
+  $pagehtml = $pagehtml . '<div style="display: table; margin: auto; width: ' . $totalwidth . 'px;">';
   $hyperlink = $yearhyperlink;
-  echo '<div style="display: table-cell; width: ' . $cellwidth . 'px;"><p><a href="' . $hyperlink . '">' . $uniqueyear . ' Records</a></p></div>';
+  $pagehtml = $pagehtml . '<div style="display: table-cell; width: ' . $cellwidth . 'px;"><p><a href="' . $hyperlink . '">' . $uniqueyear . ' Records</a></p></div>';
 
   //The all time records if paddler isn't set
   if ($paddler == '')
     {
     $hyperlink = $yearhyperlink . "&jsv=J";
-    echo '<div style="display: table-cell; width: ' . $cellwidth . 'px;"><p><a href="' . $hyperlink . '">' . $uniqueyear . ' Junior Records</a></p></div>';
+    $pagehtml = $pagehtml . '<div style="display: table-cell; width: ' . $cellwidth . 'px;"><p><a href="' . $hyperlink . '">' . $uniqueyear . ' Junior Records</a></p></div>';
     $hyperlink = $yearhyperlink . "&jsv=V";
-    echo '<div style="display: table-cell; width: ' . $cellwidth . 'px;"><p><a href="' . $hyperlink . '">' . $uniqueyear . ' Masters Records</a></p></div>';
+    $pagehtml = $pagehtml . '<div style="display: table-cell; width: ' . $cellwidth . 'px;"><p><a href="' . $hyperlink . '">' . $uniqueyear . ' Masters Records</a></p></div>';
     }
 
-  echo '</div>';
+  $pagehtml = $pagehtml . '</div>';
   }
 
-echo '</div>';
+$pagehtml = $pagehtml . '</section>';
 ?>
