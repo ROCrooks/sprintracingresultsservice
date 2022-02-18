@@ -1,18 +1,6 @@
 <?php
-//Get the directory of the engines
-$currentdirectory = getcwd();
-$removedirs = array("/pages","/engines","/admin","/srrs");
-$enginesdirectory = str_replace($removedirs,"",$currentdirectory);
-$enginesdirectory = $enginesdirectory . "/srrs/engines/";
-
-include $enginesdirectory . 'user-input-processing.php';
-include $enginesdirectory . 'defaulturls.php';
-
-//Define join to attach URL variables
-if (strpos($defaulturls['RegattaLookup'],"?") === false)
-  $ahrefjoin = "?";
-else
-  $ahrefjoin = "&";
+include_once $engineslocation . 'srrs-required-functions.php';
+include_once $engineslocation . 'srrs-user-input-processing.php';
 
 //Get input parameters from user
 $dist = $_GET['dist'];
@@ -20,7 +8,7 @@ $boat = $_GET['boat'];
 $tofind = $_GET['find'];
 
 //Get the data
-include $enginesdirectory . 'find-top-n.php';
+include $engineslocation . 'find-top-n.php';
 
 //Lookup month names
 //There might be a function that does this already
@@ -46,7 +34,7 @@ $columnwidths['Club'] = 80;
 $columnwidths['Time'] = 60;
 $columnwidths['Date'] = 140;
 $columnwidths['ViewRace'] = 100;
-$columnwidths['ViewRegatta'] = 100;
+$columnwidths['ViewRegatta'] = 120;
 $totalwidth = array_sum($columnwidths);
 
 //Define the name of the event
@@ -106,8 +94,8 @@ foreach($topnresults as $resultkey=>$result)
     $result['Date'] = "Unknown";
 
   //Generate URLs to go to regatta and race
-  $raceurl = $defaulturls['RaceResults'] . $ahrefjoin . 'race=' . $result['Race'];
-  $regattaurl = $defaulturls['RegattaResults'] . $ahrefjoin . 'regatta=' . $result['Regatta'];
+  $raceurl = 'RaceView?race=' . $result['Race'];
+  $regattaurl = 'RegattaResults?regatta=' . $result['Regatta'];
 
   //Apend club to URL
   if ($club != '')
@@ -135,7 +123,7 @@ $besttimeshtml = $besttimeshtml . '</div>';
 //Make the links to change the number of
 $originaltofindtext = "&find=" . $tofind;
 //Get the current URL
-$currenturl = $defaulturls['TopNTimes'] . $ahrefjoin . 'mw=' . $mw . '&ck=' . $ck . '&boat=' . $boat . '&find=' . $tofind . '&dist=' . $dist;
+$currenturl = 'TopPerformances?mw=' . $mw . '&ck=' . $ck . '&boat=' . $boat . '&find=' . $tofind . '&dist=' . $dist;
 
 $numbers = array(5,10,20,50,100,250);
 
@@ -154,15 +142,15 @@ foreach ($numbers as $number)
   array_push($newlinkshtml,$urlhtml);
   }
 
-$newlinkshtml = '<div class="item"><p class="blockheading">Change Ranking Size</p><p>' . implode(" | ",$newlinkshtml) . '</p></div>';
-echo $newlinkshtml;
+$newlinkshtml = '<section><p class="blockheading">Change Ranking Size</p><p>' . implode(" | ",$newlinkshtml) . '</p></div>';
+$pagehtml = $newlinkshtml;
+
+$pagehtml = $pagehtml . '<div class="item">
+<p>All Time Rankings</p>';
+
+$pagehtml = $pagehtml . '<p>Ranking of top ' . $tofind . ' paddlers ' . $clubtext . ' in ' . $eventname . $rangetext . '.</p>';
+
+$pagehtml = $pagehtml . $besttimeshtml;
+
+$pagehtml = $pagehtml . '</section>';
 ?>
-
-<div class="item">
-<p>All Time Rankings</p>
-
-<p>Ranking of top <?php echo $tofind; ?> paddlers <?php echo $clubtext; ?> in <?php echo $eventname; ?> <?php echo $rangetext; ?>.</p>
-
-<?php echo $besttimeshtml; ?>
-
-</div>
