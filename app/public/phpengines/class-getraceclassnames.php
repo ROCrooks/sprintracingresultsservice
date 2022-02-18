@@ -1,5 +1,5 @@
 <?php
-include 'srrs-required-functions.php';
+include_once $engineslocation . 'srrs-required-functions.php';
 
 //Include the required paths if they haven't been already set
 //I.e. called from another script

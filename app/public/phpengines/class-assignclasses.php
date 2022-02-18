@@ -1,5 +1,5 @@
 <?php
-include 'srrs-required-functions.php';
+include_once $engineslocation . 'srrs-required-functions.php';
 
 if (isset($insertclassstmt) == false)
   {

@@ -1,5 +1,5 @@
 <?php
-include 'srrs-required-functions.php';
+include_once $engineslocation . 'srrs-required-functions.php';
 
 //Prepare query to purge the classes
 if (isset($purgeclassesstmt) == false)

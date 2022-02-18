@@ -1,6 +1,6 @@
 <?php
 //Required functions
-include 'required-functions.php';
+include_once $engineslocation . 'srrs-required-functions.php';
 
 //Container for the base SQL constraints
 $sqlcheckbaseconstraints = array();

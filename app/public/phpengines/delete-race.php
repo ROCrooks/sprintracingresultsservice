@@ -1,5 +1,5 @@
 <?php
-include 'srrs-required-functions.php';
+include_once $engineslocation . 'srrs-required-functions.php';
 
 //Queries to delete the regatta and all linked records
 $deletepaddlersql = "DELETE FROM `paddlers` WHERE `Race` = ?";

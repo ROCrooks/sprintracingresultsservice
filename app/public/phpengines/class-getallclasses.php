@@ -1,10 +1,5 @@
 <?php
-//Include the required paths if they haven't been already set
-//I.e. called from another script
-if ((isset($publicenginesrelativepath) == false) AND (isset($adminenginesrelativepath) == false))
-  include '../srrsadminrelativepaths.php';
-
-include 'srrs-required-functions.php';
+include_once $engineslocation . 'srrs-required-functions.php';
 
 //Get all hidden class names from race table
 $eachraceclasssql = "SELECT DISTINCT `Class` FROM `races` ORDER BY `Class` ASC";

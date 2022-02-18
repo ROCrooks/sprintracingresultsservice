@@ -1,5 +1,5 @@
 <?php
-include_once 'required-functions.php';
+include_once $engineslocation . 'srrs-required-functions.php';
 
 //Default SQL to retrieve regattas
 $regattasdetailssql = "SELECT `Key`, `Date`, `Days`, `Name` FROM `regattas`";

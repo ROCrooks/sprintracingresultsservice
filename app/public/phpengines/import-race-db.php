@@ -1,5 +1,5 @@
 <?php
-include_once 'srrs-required-functions.php';
+include_once $engineslocation . 'srrs-required-functions.php';
 /*
 //Testing code
 $racedetails = array("Distance"=>"200","defCK"=>"K","Boat"=>"1","Draw"=>"1","Round"=>"F","RaceName"=>"MEN OPEN (INC U23) K","defMW"=>"M","defJSV"=>"S");

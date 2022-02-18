@@ -1,6 +1,6 @@
 <?php
 //Get required files
-include 'srrs-required-functions.php';
+include_once $engineslocation . 'srrs-required-functions.php';
 
 //Get a single unset racename
 $getracenametosetsql = "SELECT `Class` FROM `races` WHERE `Set` = 0 ORDER BY `Class` ASC LIMIT 0,1";

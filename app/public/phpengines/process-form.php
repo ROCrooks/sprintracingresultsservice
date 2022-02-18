@@ -1,5 +1,5 @@
 <?php
-include_once 'srrs-required-functions.php';
+include_once $engineslocation . 'srrs-required-functions.php';
 
 //Processing flag
 $processing = true;

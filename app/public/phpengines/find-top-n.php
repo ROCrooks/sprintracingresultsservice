@@ -1,5 +1,5 @@
 <?php
-include_once 'required-functions.php';
+include_once $engineslocation . 'srrs-required-functions.php';
 
 //SQL statements for the distinct and detailed best results SQL
 $besttimesdistinctsql = "
