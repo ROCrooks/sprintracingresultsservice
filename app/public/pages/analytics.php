@@ -1,12 +1,6 @@
 <?php
-//Get the directory of the engines
-$currentdirectory = getcwd();
-$removedirs = array("/pages","/engines","/admin","/srrs");
-$currentdirectory = str_replace($removedirs,"",$currentdirectory);
-$enginesdirectory = $currentdirectory . "/srrs/engines/";
-
-include_once $enginesdirectory . 'required-functions.php';
-include_once $enginesdirectory . 'user-input-processing.php';
+include_once $engineslocation . 'srrs-required-functions.php';
+include_once $engineslocation . 'srrs-user-input-processing.php';
 
 //Get minimum year
 $minyearsql = "SELECT DISTINCT `Year` FROM `regattas` WHERE `Year` > 0 ORDER BY `Year` ASC LIMIT 0, 1 ";
@@ -19,6 +13,8 @@ $maxyearsql = "SELECT DISTINCT `Year` FROM `regattas` ORDER BY `Year` DESC LIMIT
 $maxyearquery = mysqli_query($srrsdblink,$maxyearsql);
 $maxyearresult = mysqli_fetch_array($maxyearquery);
 $maxyear = $maxyearresult['Year'];
+
+$pagehtml = '';
 
 if (isset($_POST['submit']) == true)
 	{
@@ -229,20 +225,20 @@ if (isset($_POST['submit']) == true)
 		$jsvstext = "";
 
 	//Begin echoing results
-	echo '<div class="item">';
+	$pagehtml = $pagehtml . '<section>';
 
 	if ((count($analyticsdistances) == 0) OR (count($analyticsmw) == 0) OR (count($analyticsck) == 0) OR (count($analyticsboatsizes) == 0) OR (count($analyticsjsv) == 0))
 		{
-		echo "<p>Sorry, you can't search for an absolute lack of anything, which is what you do if you deselect all types of a particular way of defining something!</p>";
+		$pagehtml = $pagehtml . "<p>Sorry, you can't search for an absolute lack of anything, which is what you do if you deselect all types of a particular way of defining something!</p>";
 		}
 	else
 		{
-		include $enginesdirectory . 'analytics-engine.php';
+		include $engineslocation . 'analytics-engine.php';
 
-		echo '<p class="blockheading">Analytics Results</p>';
+		$pagehtml = $pagehtml . '<p class="blockheading">Analytics Results</p>';
 
 		//Default text for legend
-		echo '<p>Total number of seats racing in regattas from ' . $minyear . ' to ' . $maxyear . '.';
+		$pagehtml = $pagehtml . '<p>Total number of seats racing in regattas from ' . $minyear . ' to ' . $maxyear . '.';
 
 		//Text for if only certain paddlers were included
 		echo $distancetext;
@@ -252,15 +248,15 @@ if (isset($_POST['submit']) == true)
 		echo $jsvstext;
 
 		//End paragraph for figure legend
-		echo '</p>';
+		$pagehtml = $pagehtml . '</p>';
 
-		echo '<p>Raw data for this series</p>';
+		$pagehtml = $pagehtml . '<p>Raw data for this series</p>';
 
 		//Data in an HTML table
-		echo '<table class="scientific">';
+		$pagehtml = $pagehtml . '<table class="scientific">';
 
 		//Heading
-		echo '<tr>';
+		$pagehtml = $pagehtml . '<tr>';
 
 		//Loop of table headings
 		$keyskey = 0;
@@ -269,7 +265,7 @@ if (isset($_POST['submit']) == true)
 		while ($keyskey < $keyscount)
 			{
 			//Table headings
-			echo '<th>' . $plotheadings[$keyskey] . '</th>';
+			$pagehtml = $pagehtml . '<th>' . $plotheadings[$keyskey] . '</th>';
 			$keyskey++;
 			}
 
@@ -288,12 +284,12 @@ if (isset($_POST['submit']) == true)
 
 			$datakey++;
 			}
-		echo '</table>';
+		$pagehtml = $pagehtml . '</table>';
 
-		echo '<p>Raw data for this series for copying into MS Excel</p>';
+		$pagehtml = $pagehtml . '<p>Raw data for this series for copying into MS Excel</p>';
 
 		//Data in an HTML table
-		echo '<textarea style="width: 50%;" rows="10">';
+		$pagehtml = $pagehtml . '<textarea style="width: 50%;" rows="10">';
 
 		//Table headings
 		$textareatableheadings = implode("\t",$plotheadings);
@@ -315,90 +311,90 @@ if (isset($_POST['submit']) == true)
 			$datakey++;
 			}
 
-		echo '</textarea>';
+		$pagehtml = $pagehtml . '</textarea>';
 		}
 
-	include $enginesdirectory . 'analytics-chart.php';
+	include $engineslocation . 'analytics-chart.php';
 
-	echo '<p>Series chart</p>';
+	$pagehtml = $pagehtml . '<p>Series chart</p>';
 
 	echo $canvas;
 
-	echo '</div>';
+	$pagehtml = $pagehtml . '</section>';
 
 	echo $js;
 	}
 
-echo '<div class="item">';
-echo '<p class="blockheading">Data Search</p>';
-echo '<p>Search the regatta results for the number of paddlers of a particular type, or in a particular type of race</p>';
-echo '<form action="?page=RegattaAnalytics';
+$pagehtml = $pagehtml . '<section>';
+$pagehtml = $pagehtml . '<p class="blockheading">Data Search</p>';
+$pagehtml = $pagehtml . '<p>Search the regatta results for the number of paddlers of a particular type, or in a particular type of race</p>';
+$pagehtml = $pagehtml . '<form action="RegattaAnalytics';
 
 if ($club != "")
-	echo "&club=" . $club;
+	$pagehtml = $pagehtml . "?club=" . $club;
 
-echo '" method="post">';
-echo '<input type="hidden" name="lookup" value="regattas">';
-echo '<p>Years: <input type="number" name="minyear" min="' . $minyear . '" max="' . $maxyear . '" value="' . $minyear . '" size="4" style="width: 60px;"> - <input type="number" name="maxyear" min="' . $minyear . '" max="' . $maxyear . '" value="' . $maxyear . '" size="4" style="width: 60px;"></p>';
-echo '<p><input type="submit" name="submit" value="Find"> <input type="reset" name="reset" value="Reset"></p>';
+$pagehtml = $pagehtml . '" method="post">';
+$pagehtml = $pagehtml . '<input type="hidden" name="lookup" value="regattas">';
+$pagehtml = $pagehtml . '<p>Years: <input type="number" name="minyear" min="' . $minyear . '" max="' . $maxyear . '" value="' . $minyear . '" size="4" style="width: 60px;"> - <input type="number" name="maxyear" min="' . $minyear . '" max="' . $maxyear . '" value="' . $maxyear . '" size="4" style="width: 60px;"></p>';
+$pagehtml = $pagehtml . '<p><input type="submit" name="submit" value="Find"> <input type="reset" name="reset" value="Reset"></p>';
 
 $includeboxwidth = 5;
 $rownamewidth = 10;
 $includeswidth = 18;
 
-echo '<div style="margins: auto; display: flex; overflow: hidden;">';
-echo '<div style="float: left; width: ' . $includeboxwidth . '%;"><p>Display</p></div>';
-echo '<div style="float: left; width: ' . $rownamewidth . '%;"></div>';
-echo '<div style="float: left; width: ' . $includeswidth . '%;"><p>Include</p></div>';
-echo '</div>';
+$pagehtml = $pagehtml . '<div style="margins: auto; display: flex; overflow: hidden;">';
+$pagehtml = $pagehtml . '<div style="float: left; width: ' . $includeboxwidth . '%;"><p>Display</p></div>';
+$pagehtml = $pagehtml . '<div style="float: left; width: ' . $rownamewidth . '%;"></div>';
+$pagehtml = $pagehtml . '<div style="float: left; width: ' . $includeswidth . '%;"><p>Include</p></div>';
+$pagehtml = $pagehtml . '</div>';
 
-echo '<div style="margins: auto; display: flex; overflow: hidden;">';
-echo '<div style="float: left; width: ' . $includeboxwidth . '%;"><p><input type="radio" name="displayas" value="All" checked></p></div>';
-echo '<div style="float: left; width: ' . $rownamewidth . '%;"><p>Combined</p></div>';
-echo '</div>';
+$pagehtml = $pagehtml . '<div style="margins: auto; display: flex; overflow: hidden;">';
+$pagehtml = $pagehtml . '<div style="float: left; width: ' . $includeboxwidth . '%;"><p><input type="radio" name="displayas" value="All" checked></p></div>';
+$pagehtml = $pagehtml . '<div style="float: left; width: ' . $rownamewidth . '%;"><p>Combined</p></div>';
+$pagehtml = $pagehtml . '</div>';
 
-echo '<div style="margins: auto; display: flex; overflow: hidden;">';
-echo '<div style="float: left; width: ' . $includeboxwidth . '%;"><p><input type="radio" name="displayas" value="Distance"></p></div>';
-echo '<div style="float: left; width: ' . $rownamewidth . '%;"><p>Distance</p></div>';
-echo '<div style="float: left; width: ' . $includeswidth . '%;"><p>200m: <input type="checkbox" name="find200" value="true" checked></p></div>';
-echo '<div style="float: left; width: ' . $includeswidth . '%;"><p>500m: <input type="checkbox" name="find500" value="true" checked></p></div>';
-echo '<div style="float: left; width: ' . $includeswidth . '%;"><p>1000m: <input type="checkbox" name="find1000" value="true" checked></p></div>';
-echo '<div style="float: left; width: ' . $includeswidth . '%;"><p>Long Distance: <input type="checkbox" name="findld" value="true" checked></p></div>';
-echo '</div>';
+$pagehtml = $pagehtml . '<div style="margins: auto; display: flex; overflow: hidden;">';
+$pagehtml = $pagehtml . '<div style="float: left; width: ' . $includeboxwidth . '%;"><p><input type="radio" name="displayas" value="Distance"></p></div>';
+$pagehtml = $pagehtml . '<div style="float: left; width: ' . $rownamewidth . '%;"><p>Distance</p></div>';
+$pagehtml = $pagehtml . '<div style="float: left; width: ' . $includeswidth . '%;"><p>200m: <input type="checkbox" name="find200" value="true" checked></p></div>';
+$pagehtml = $pagehtml . '<div style="float: left; width: ' . $includeswidth . '%;"><p>500m: <input type="checkbox" name="find500" value="true" checked></p></div>';
+$pagehtml = $pagehtml . '<div style="float: left; width: ' . $includeswidth . '%;"><p>1000m: <input type="checkbox" name="find1000" value="true" checked></p></div>';
+$pagehtml = $pagehtml . '<div style="float: left; width: ' . $includeswidth . '%;"><p>Long Distance: <input type="checkbox" name="findld" value="true" checked></p></div>';
+$pagehtml = $pagehtml . '</div>';
 
-echo '<div style="margins: auto; display: flex; overflow: hidden;">';
-echo '<div style="float: left; width: ' . $includeboxwidth . '%;"><p><input type="radio" name="displayas" value="MW"></p></div>';
-echo '<div style="float: left; width: ' . $rownamewidth . '%;"><p>Men/Women</p></div>';
-echo '<div style="float: left; width: ' . $includeswidth . '%;"><p>Men: <input type="checkbox" name="findmen" value="true" checked></p></div>';
-echo '<div style="float: left; width: ' . $includeswidth . '%;"><p>Women: <input type="checkbox" name="findwomen" value="true" checked></p></div>';
-echo '</div>';
+$pagehtml = $pagehtml . '<div style="margins: auto; display: flex; overflow: hidden;">';
+$pagehtml = $pagehtml . '<div style="float: left; width: ' . $includeboxwidth . '%;"><p><input type="radio" name="displayas" value="MW"></p></div>';
+$pagehtml = $pagehtml . '<div style="float: left; width: ' . $rownamewidth . '%;"><p>Men/Women</p></div>';
+$pagehtml = $pagehtml . '<div style="float: left; width: ' . $includeswidth . '%;"><p>Men: <input type="checkbox" name="findmen" value="true" checked></p></div>';
+$pagehtml = $pagehtml . '<div style="float: left; width: ' . $includeswidth . '%;"><p>Women: <input type="checkbox" name="findwomen" value="true" checked></p></div>';
+$pagehtml = $pagehtml . '</div>';
 
-echo '<div style="margins: auto; display: flex; overflow: hidden;">';
-echo '<div style="float: left; width: ' . $includeboxwidth . '%;"><p><input type="radio" name="displayas" value="CK"></p></div>';
-echo '<div style="float: left; width: ' . $rownamewidth . '%;"><p>Canoe/Kayak</p></div>';
-echo '<div style="float: left; width: ' . $includeswidth . '%;"><p>Canoe: <input type="checkbox" name="findcanoe" value="true" checked></p></div>';
-echo '<div style="float: left; width: ' . $includeswidth . '%;"><p>Kayak: <input type="checkbox" name="findkayak" value="true" checked></p></div>';
-echo '</div>';
+$pagehtml = $pagehtml . '<div style="margins: auto; display: flex; overflow: hidden;">';
+$pagehtml = $pagehtml . '<div style="float: left; width: ' . $includeboxwidth . '%;"><p><input type="radio" name="displayas" value="CK"></p></div>';
+$pagehtml = $pagehtml . '<div style="float: left; width: ' . $rownamewidth . '%;"><p>Canoe/Kayak</p></div>';
+$pagehtml = $pagehtml . '<div style="float: left; width: ' . $includeswidth . '%;"><p>Canoe: <input type="checkbox" name="findcanoe" value="true" checked></p></div>';
+$pagehtml = $pagehtml . '<div style="float: left; width: ' . $includeswidth . '%;"><p>Kayak: <input type="checkbox" name="findkayak" value="true" checked></p></div>';
+$pagehtml = $pagehtml . '</div>';
 
-echo '<div style="margins: auto; display: flex; overflow: hidden;">';
-echo '<div style="float: left; width: ' . $includeboxwidth . '%;"><p><input type="radio" name="displayas" value="BoatSize"></p></div>';
-echo '<div style="float: left; width: ' . $rownamewidth . '%;"><p>Boat Size</p></div>';
-echo '<div style="float: left; width: ' . $includeswidth . '%;"><p>Singles: <input type="checkbox" name="find1s" value="true" checked></p></div>';
-echo '<div style="float: left; width: ' . $includeswidth . '%;"><p>Doubles: <input type="checkbox" name="find2s" value="true" checked></p></div>';
-echo '<div style="float: left; width: ' . $includeswidth . '%;"><p>Fours: <input type="checkbox" name="find4s" value="true" checked></p></div>';
-echo '</div>';
+$pagehtml = $pagehtml . '<div style="margins: auto; display: flex; overflow: hidden;">';
+$pagehtml = $pagehtml . '<div style="float: left; width: ' . $includeboxwidth . '%;"><p><input type="radio" name="displayas" value="BoatSize"></p></div>';
+$pagehtml = $pagehtml . '<div style="float: left; width: ' . $rownamewidth . '%;"><p>Boat Size</p></div>';
+$pagehtml = $pagehtml . '<div style="float: left; width: ' . $includeswidth . '%;"><p>Singles: <input type="checkbox" name="find1s" value="true" checked></p></div>';
+$pagehtml = $pagehtml . '<div style="float: left; width: ' . $includeswidth . '%;"><p>Doubles: <input type="checkbox" name="find2s" value="true" checked></p></div>';
+$pagehtml = $pagehtml . '<div style="float: left; width: ' . $includeswidth . '%;"><p>Fours: <input type="checkbox" name="find4s" value="true" checked></p></div>';
+$pagehtml = $pagehtml . '</div>';
 
-echo '<div style="margins: auto; display: flex; overflow: hidden;">';
-echo '<div style="float: left; width: ' . $includeboxwidth . '%;"><p><input type="radio" name="displayas" value="JSV"></p></div>';
-echo '<div style="float: left; width: ' . $rownamewidth . '%;"><p>Age</p></div>';
-echo '<div style="float: left; width: ' . $includeswidth . '%;"><p>Juniors: <input type="checkbox" name="findjuniors" value="true" checked></p></div>';
-echo '<div style="float: left; width: ' . $includeswidth . '%;"><p>Seniors: <input type="checkbox" name="findseniors" value="true" checked></p></div>';
-echo '<div style="float: left; width: ' . $includeswidth . '%;"><p>Veterans: <input type="checkbox" name="findveterans" value="true" checked></p></div>';
-echo '</div>';
-echo '</form>';
+$pagehtml = $pagehtml . '<div style="margins: auto; display: flex; overflow: hidden;">';
+$pagehtml = $pagehtml . '<div style="float: left; width: ' . $includeboxwidth . '%;"><p><input type="radio" name="displayas" value="JSV"></p></div>';
+$pagehtml = $pagehtml . '<div style="float: left; width: ' . $rownamewidth . '%;"><p>Age</p></div>';
+$pagehtml = $pagehtml . '<div style="float: left; width: ' . $includeswidth . '%;"><p>Juniors: <input type="checkbox" name="findjuniors" value="true" checked></p></div>';
+$pagehtml = $pagehtml . '<div style="float: left; width: ' . $includeswidth . '%;"><p>Seniors: <input type="checkbox" name="findseniors" value="true" checked></p></div>';
+$pagehtml = $pagehtml . '<div style="float: left; width: ' . $includeswidth . '%;"><p>Veterans: <input type="checkbox" name="findveterans" value="true" checked></p></div>';
+$pagehtml = $pagehtml . '</div>';
+$pagehtml = $pagehtml . '</form>';
 
-echo '<p>Display chooses how you would like to display the results of the search. Default is combined, which displays a total for all paddlers in all races (bums on seats/knees on blocks) for each year in the range. Selecting the other categories will allow you to display separate totals for each distance, age classification, type of boat or gender.</p>';
+$pagehtml = $pagehtml . '<p>Display chooses how you would like to display the results of the search. Default is combined, which displays a total for all paddlers in all races (bums on seats/knees on blocks) for each year in the range. Selecting the other categories will allow you to display separate totals for each distance, age classification, type of boat or gender.</p>';
 
-echo '<p>You can select or deselect types of paddler or types of race using the include boxes. E.g. if you would only like to display the number of canoes who raced each year then you should deselect kayaks.</p>';
-echo '</div>';
+$pagehtml = $pagehtml . '<p>You can select or deselect types of paddler or types of race using the include boxes. E.g. if you would only like to display the number of canoes who raced each year then you should deselect kayaks.</p>';
+$pagehtml = $pagehtml . '</section>';
 ?>
