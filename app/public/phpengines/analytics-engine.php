@@ -1,5 +1,5 @@
 <?php
-include_once 'required-functions.php';
+include_once $engineslocation . 'srrs-required-functions.php';
 
 //$classsearch = array("JSV"=>"S","MW"=>"M","CK"=>"K","Abil"=>"A");
 $classsearch = false;
@@ -13,8 +13,8 @@ $classsearch = false;
 //$endyear = 2018;
 
 //Prepare the SQL statement for the analytics
-include 'prepare-analytics-stmt.php';
+include $engineslocation . 'prepare-analytics-stmt.php';
 
 //Run the analytics
-include 'run-analytics-stmt.php';
+include $engineslocation . 'run-analytics-stmt.php';
 ?>
