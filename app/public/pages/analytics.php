@@ -241,11 +241,11 @@ if (isset($_POST['submit']) == true)
 		$pagehtml = $pagehtml . '<p>Total number of seats racing in regattas from ' . $minyear . ' to ' . $maxyear . '.';
 
 		//Text for if only certain paddlers were included
-		echo $distancetext;
-		echo $mwstext;
-		echo $ckstext;
-		echo $boatstext;
-		echo $jsvstext;
+		$pagehtml = $pagehtml . $distancetext;
+		$pagehtml = $pagehtml . $mwstext;
+		$pagehtml = $pagehtml . $ckstext;
+		$pagehtml = $pagehtml . $boatstext;
+		$pagehtml = $pagehtml . $jsvstext;
 
 		//End paragraph for figure legend
 		$pagehtml = $pagehtml . '</p>';
@@ -280,7 +280,7 @@ if (isset($_POST['submit']) == true)
 			$line = "<tr><td>" . $line . "</td></tr>";
 
 			//Output line
-			echo $line;
+			$pagehtml = $pagehtml . $line;
 
 			$datakey++;
 			}
@@ -293,7 +293,7 @@ if (isset($_POST['submit']) == true)
 
 		//Table headings
 		$textareatableheadings = implode("\t",$plotheadings);
-		echo $textareatableheadings;
+		$pagehtml = $pagehtml . $textareatableheadings;
 
 		//Loop of data
 		$datakey = 0;
@@ -306,7 +306,7 @@ if (isset($_POST['submit']) == true)
 			$line = "\r\n" . $line;
 
 			//Output line
-			echo $line;
+			$pagehtml = $pagehtml . $line;
 
 			$datakey++;
 			}
@@ -318,11 +318,11 @@ if (isset($_POST['submit']) == true)
 
 	$pagehtml = $pagehtml . '<p>Series chart</p>';
 
-	echo $canvas;
+	$pagehtml = $pagehtml . $canvas;
 
 	$pagehtml = $pagehtml . '</section>';
 
-	echo $js;
+	$pagehtml = $pagehtml . $js;
 	}
 
 $pagehtml = $pagehtml . '<section>';
