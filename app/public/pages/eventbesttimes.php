@@ -1,7 +1,4 @@
 <?php
-//Get URL to send to the engine
-$lookupurl = "TopPerformances";
-
 //Create the event links page
 include $engineslocation . 'create-event-links.php';
 
