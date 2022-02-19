@@ -148,7 +148,7 @@ $pagehtml = $newlinkshtml;
 $pagehtml = $pagehtml . '<div class="item">
 <p>All Time Rankings</p>';
 
-$pagehtml = $pagehtml . '<p>Ranking of top ' . $tofind . ' paddlers ' . $clubtext . ' in ' . $eventname . $rangetext . '.</p>';
+$pagehtml = $pagehtml . '<p>Ranking of top ' . $tofind . ' paddlers ' . $clubtext . ' in ' . $eventname . " " . $rangetext . '.</p>';
 
 $pagehtml = $pagehtml . $besttimeshtml;
 
