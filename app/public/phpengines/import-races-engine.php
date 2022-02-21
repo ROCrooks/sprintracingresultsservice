@@ -1,4 +1,6 @@
 <?php
+include_once $engineslocation . 'srrs-required-functions.php';
+
 //Get the results file
 $regattatext = file_get_contents($filename);
 $regattatext = explode("Race:",$regattatext);
@@ -13,19 +15,19 @@ while (($regattalookupkey < $noraces) AND ($raceerror == false))
   {
   //Process race text into race arrays
   $racetext = $regattatext[$regattalookupkey];
-  include 'process-race-input.php';
+  include $engineslocation . 'process-race-input.php';
   //Check race arrays for errors
-  include 'check-race-import.php';
+  include $engineslocation . 'check-race-import.php';
   //If there are no errors import race into the database
   if ($raceerror == false)
     {
-    include 'import-race-db.php';
+    include $engineslocation . 'import-race-db.php';
     unset($regattatext[$regattalookupkey]);
     }
   else
     {
     $racetext = implode("\n",$racetext);
-    include 'race-error-form.php';
+    include $engineslocation . 'race-error-form.php';
     }
 
   $regattalookupkey++;
