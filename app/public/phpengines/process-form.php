@@ -1,6 +1,5 @@
 <?php
 include_once $engineslocation . 'srrs-required-functions.php';
-$tempfileslocation = str_replace("phpengines","tempfiles",$engineslocation);
 
 //Processing flag
 $processing = true;
