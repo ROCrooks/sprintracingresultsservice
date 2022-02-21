@@ -38,33 +38,22 @@ $raceid = mysqli_insert_id($srrsdblink);
 
 foreach ($allpaddlerdetails as $paddlerdetails)
   {
-  if ($paddlerdetails['NR'] == "")
+  if (isset($paddlerstmt) == false)
     {
-    //Insert race if paddler has a time
-    if (isset($paddlertimestmt) == false)
-      {
-      //Prepare statement if not already prepared
-      $paddlertimesql = "INSERT INTO `paddlers` (`Race`, `Position`, `Lane`, `Crew`, `Club`, `Time`, `JSV`, `MW`, `CK`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-    	$paddlertimestmt = dbprepare($srrsdblink,$paddlertimesql);
-      }
+    //Prepare statement if not already prepared
+    $paddlersql = "INSERT INTO `paddlers` (`Race`, `Position`, `Lane`, `Crew`, `Club`, `NR`, `Time`, `JSV`, `MW`, `CK`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    $paddlerstmt = dbprepare($srrsdblink,$paddlersql);
+    }
+
+  if ($paddlerdetails['NR'] == "")
     //Convert time to seconds
     $paddlerdetails['Time'] = hmstosecs($paddlerdetails['Time']);
+  else
+    $paddlerdetails['Time'] = 0;
 
-    $insertpaddlerdetails = array($raceid,$paddlerdetails['Position'],$paddlerdetails['Lane'],$paddlerdetails['Crew'],$paddlerdetails['Club'],$paddlerdetails['Time'],$paddlerdetails['JSV'],$paddlerdetails['MW'],$paddlerdetails['CK']);
-    dbexecute($paddlertimestmt,$insertpaddlerdetails);
-    }
-  elseif ($paddlerdetails['NR'] != "")
-    {
-    //Insert race if paddler doesn't have a time
-    if (isset($paddlernrstmt) == false)
-      {
-      //Prepare statement if not already prepared
-      $paddlernrsql = "INSERT INTO `paddlers` (`Race`, `Position`, `Lane`, `Crew`, `Club`, `NR`, `JSV`, `MW`, `CK`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-    	$paddlernrstmt = dbprepare($srrsdblink,$paddlernrsql);
-      }
-    $insertpaddlerdetails = array($raceid,$paddlerdetails['Position'],$paddlerdetails['Lane'],$paddlerdetails['Crew'],$paddlerdetails['Club'],$paddlerdetails['NR'],$paddlerdetails['JSV'],$paddlerdetails['MW'],$paddlerdetails['CK']);
-    dbexecute($paddlernrstmt,$insertpaddlerdetails);
-    }
+  $insertpaddlerdetails = array($raceid,$paddlerdetails['Position'],$paddlerdetails['Lane'],$paddlerdetails['Crew'],$paddlerdetails['Club'],$paddlerdetails['NR'],$paddlerdetails['Time'],$paddlerdetails['JSV'],$paddlerdetails['MW'],$paddlerdetails['CK']);
+
+  dbexecute($paddlerstmt,$insertpaddlerdetails);
   }
 
 if (isset($findclassstmt) == false)
