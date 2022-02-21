@@ -1,15 +1,6 @@
 <?php
-//Get the directory of the engines
-$currentdirectory = getcwd();
-$removedirs = array("/pages","/engines","/admin","/srrs");
-$currentdirectory = str_replace($removedirs,"",$currentdirectory);
-
-//Get the admin and public engines directories
-$adminenginesrelativepath = $currentdirectory . "/admin/engines/";
-$publicenginesrelativepath = $currentdirectory . "/srrs/engines/";
-
-//Get default URLs
-include $adminenginesrelativepath . 'srrsadmindefaulturls.php';
+include_once $engineslocation . 'srrs-required-functions.php';
+include_once $engineslocation . 'srrs-user-input-processing.php';
 
 //Hide or delete a regatta
 if (isset($_GET['action']) == true)
@@ -20,13 +11,13 @@ if (isset($_GET['action']) == true)
   //Delete a specified regatta
   if ($action == "delete")
     {
-    include $adminenginesrelativepath . 'delete-regatta.php';
+    include $engineslocation . 'delete-regatta.php';
     $actionmessage = "<p>Regatta Deleted!</p>";
     }
   //Delete a specified regatta
   if (($action == "hide") OR ($action == "release"))
     {
-    include $adminenginesrelativepath . 'releasehide-regatta.php';
+    include $engineslocation . 'releasehide-regatta.php';
 
     if ($action == "hide")
       $actionmessage = "<p>Regatta Hidden!</p>";
@@ -40,7 +31,7 @@ $club = '';
 $paddler = '';
 $getallregattas = true;
 
-include $publicenginesrelativepath . 'list-regattas.php';
+include $engineslocation . 'list-regattas.php';
 
 usort($allregattaslist,'sortregattas');
 
@@ -55,42 +46,44 @@ $widths['HideRelease'] = 50;
 $totalwidth = array_sum($widths);
 
 //Hyperlinks for management pages
-$manageregattahyperlink = $defaulturls['EditRegatta'] . $ahrefjoin . "regatta=";
-$apendraceshyperlink = $defaulturls['AddRegatta'] . $ahrefjoin . "regatta=";
-$deleteregattahyperlink = $defaulturls['ManageRegattas'] . $ahrefjoin . "action=delete&regatta=";
-$hidehyperlink = $defaulturls['ManageRegattas'] . $ahrefjoin . "action=hide&regatta=";
-$releasehyperlink = $defaulturls['ManageRegattas'] . $ahrefjoin . "action=release&regatta=";
+$manageregattahyperlink = "EditRegatta?regatta=";
+$apendraceshyperlink = "AddRegatta?regatta=";
+$deleteregattahyperlink = "ManageRegattas?action=delete&regatta=";
+$hidehyperlink = "ManageRegattas?action=hide&regatta=";
+$releasehyperlink = "ManageRegattas?action=release&regatta=";
+
+$pagehtml = "";
 
 if (isset($actionmessage) == true)
   {
-  echo '<div class="item">';
-  echo $actionmessage;
-  echo '</div>';
+  $pagehtml = $pagehtml . '<section>';
+  $pagehtml = $pagehtml . $actionmessage;
+  $pagehtml = $pagehtml . '</section>';
   }
 
-echo '<div class="item">';
+$pagehtml = $pagehtml . '<section>';
 
-echo '<form action="' . $defaulturls['EditRace'] . '" method="post">';
-echo '<p>Go directly to race: <input type="text" name="race" value="" size="5"> <input type="submit" name="submit" value="Go"></p>';
-echo '</form>';
+$pagehtml = $pagehtml . '<form action="EditRegatta" method="post">';
+$pagehtml = $pagehtml . '<p>Go directly to race: <input type="text" name="race" value="" size="5"> <input type="submit" name="submit" value="Go"></p>';
+$pagehtml = $pagehtml . '</form>';
 
-echo '<p><a href="' . $defaulturls['AddRegatta'] . '">Add Regatta</a></p>';
-echo '<p><a href="' . $defaulturls['ManageClasses'] . '">Manage Classes</a></p>';
+$pagehtml = $pagehtml . '<p><a href="AddRegatta">Add Regatta</a></p>';
+$pagehtml = $pagehtml . '<p><a href="ManageClasses">Manage Classes</a></p>';
 
-echo '</div>';
+$pagehtml = $pagehtml . '</section>';
 
-echo '<div class="item">';
+$pagehtml = $pagehtml . '<section>';
 
 //Make list of regattas
-echo '<div style="display: table; width: ' . $totalwidth . ';">';
+$pagehtml = $pagehtml . '<div style="display: table; width: ' . $totalwidth . ';">';
 foreach ($allregattaslist as $regattadetails)
   {
   //Make the row with the regatta details
-  echo '<div style="display: table-row; width: ' . $totalwidth . 'px; height: ' . $boxheight . 'px;">';
-  echo '<div style="display: table-cell; width: ' . $widths['Name'] . 'px; height: ' . $boxheight . 'px;"><p><a href="' . $manageregattahyperlink . $regattadetails['Key'] . '">' . $regattadetails['Name'] . '</a></p></div>';
-  echo '<div style="display: table-cell; width: ' . $widths['Date'] . 'px; height: ' . $boxheight . 'px;"><p>' . $regattadetails['Date'] . '</p></div>';
-  echo '<div style="display: table-cell; width: ' . $widths['Apend'] . 'px; height: ' . $boxheight . 'px;"><p><a href="' . $apendraceshyperlink . $regattadetails['Key'] . '">Apend Races</a></p></div>';
-  echo '<div style="display: table-cell; width: ' . $widths['Delete'] . 'px; height: ' . $boxheight . 'px;"><p><a href="' . $deleteregattahyperlink . $regattadetails['Key'] . '" onclick="return confirm(\'This will delete the regatta. Are you sure you want to continue?\')">Delete Regatta</a></p></div>';
+  $pagehtml = $pagehtml . '<div style="display: table-row; width: ' . $totalwidth . 'px; height: ' . $boxheight . 'px;">';
+  $pagehtml = $pagehtml . '<div style="display: table-cell; width: ' . $widths['Name'] . 'px; height: ' . $boxheight . 'px;"><p><a href="' . $manageregattahyperlink . $regattadetails['Key'] . '">' . $regattadetails['Name'] . '</a></p></div>';
+  $pagehtml = $pagehtml . '<div style="display: table-cell; width: ' . $widths['Date'] . 'px; height: ' . $boxheight . 'px;"><p>' . $regattadetails['Date'] . '</p></div>';
+  $pagehtml = $pagehtml . '<div style="display: table-cell; width: ' . $widths['Apend'] . 'px; height: ' . $boxheight . 'px;"><p><a href="' . $apendraceshyperlink . $regattadetails['Key'] . '">Apend Races</a></p></div>';
+  $pagehtml = $pagehtml . '<div style="display: table-cell; width: ' . $widths['Delete'] . 'px; height: ' . $boxheight . 'px;"><p><a href="' . $deleteregattahyperlink . $regattadetails['Key'] . '" onclick="return confirm(\'This will delete the regatta. Are you sure you want to continue?\')">Delete Regatta</a></p></div>';
   //Toggle hide and release for set and unset regatta
   if ($regattadetails['Hide'] == 0)
     {
@@ -102,10 +95,10 @@ foreach ($allregattaslist as $regattadetails)
     $hiderelease = "Release Regatta";
     $hidereleasehyperlink = $releasehyperlink;
     }
-  echo '<div style="display: table-cell; width: ' . $widths['HideRelease'] . 'px; height: ' . $boxheight . 'px;"><p><a href="' . $hidereleasehyperlink . $regattadetails['Key'] . '">' . $hiderelease . '</a></p></div>';
-  echo '</div>';
+  $pagehtml = $pagehtml . '<div style="display: table-cell; width: ' . $widths['HideRelease'] . 'px; height: ' . $boxheight . 'px;"><p><a href="' . $hidereleasehyperlink . $regattadetails['Key'] . '">' . $hiderelease . '</a></p></div>';
+  $pagehtml = $pagehtml . '</div>';
   }
-echo '</div>';
+$pagehtml = $pagehtml . '</div>';
 
-echo '</div>';
+$pagehtml = $pagehtml . '</section>';
 ?>
