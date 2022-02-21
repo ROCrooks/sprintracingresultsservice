@@ -1,15 +1,8 @@
 <?php
-//Get the directory of the engines
-$currentdirectory = getcwd();
-$removedirs = array("/pages","/engines","/admin","/srrs");
-$currentdirectory = str_replace($removedirs,"",$currentdirectory);
-
-//Get the admin and public engines directories
-$adminenginesrelativepath = $currentdirectory . "/admin/engines/";
-$publicenginesrelativepath = $currentdirectory . "/srrs/engines/";
+include_once $engineslocation . 'srrs-required-functions.php';
 
 //Get default URLs
-include $adminenginesrelativepath . 'srrsadmindefaulturls.php';
+include $engineslocation . 'srrsadmindefaulturls.php';
 
 //Get regatta ID
 if (isset($_GET['regatta']) == true)
@@ -20,7 +13,7 @@ else
 if (isset($_GET['deleterace']) == true)
   {
   $deleterace = $_GET['deleterace'];
-  include $adminenginesrelativepath . 'delete-race.php';
+  include $engineslocation . 'delete-race.php';
   }
 
 //Get the regatta and race details
@@ -34,25 +27,25 @@ $spec = '';
 $ages = '';
 
 //Get races engine
-include $publicenginesrelativepath . 'get-races.php';
+include $engineslocation . 'get-races.php';
 
-echo '<div class="item">';
+$pagehtml = '<section>';
 
 if (isset($regattaresults['Details']) == true)
   {
-  echo '<p class="blockheading">Edit Regatta</p>';
-  echo '<p>Regatta Name: <input type="text" size="80" value="' . $regattaresults['Details']['Name'] . '"></p>';
-  echo '<p>Regatta Date: <input type="text" size="15" value="' . $regattaresults['Details']['FullDate'] . '"></p>';
+  $pagehtml = $pagehtml . '<p class="blockheading">Edit Regatta</p>';
+  $pagehtml = $pagehtml . '<p>Regatta Name: <input type="text" size="80" value="' . $regattaresults['Details']['Name'] . '"></p>';
+  $pagehtml = $pagehtml . '<p>Regatta Date: <input type="text" size="15" value="' . $regattaresults['Details']['FullDate'] . '"></p>';
   }
 
 if (isset($regattaresults['Details']) == true)
   {
-  echo '<p class="blockheading">Races</p>';
+  $pagehtml = $pagehtml . '<p class="blockheading">Races</p>';
   foreach ($regattaresults['Races'] as $race)
     {
-    print '<p><a href="' . $defaulturls['EditRace'] . $ahrefjoin . 'race=' . $race['Key'] . '">' . $race['Name'] . '</a></p>';
+    $pagehtml = $pagehtml . '<p><a href="EditRace?race=' . $race['Key'] . '">' . $race['Name'] . '</a></p>';
     }
   }
 
-echo '</div>';
+$pagehtml = $pagehtml . '</section>';
 ?>
