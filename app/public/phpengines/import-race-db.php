@@ -1,21 +1,5 @@
 <?php
 include_once $engineslocation . 'srrs-required-functions.php';
-/*
-//Testing code
-$racedetails = array("Distance"=>"200","defCK"=>"K","Boat"=>"1","Draw"=>"1","Round"=>"F","RaceName"=>"MEN OPEN (INC U23) K","defMW"=>"M","defJSV"=>"S");
-$allpaddlerdetails = array();
-$allpaddlerdetails[0] = array("Time"=>"35.41","NR"=>"","Position"=>"1","Lane"=>"5","Club"=>"WEY","Crew"=>"L. HEATH","JSV"=>"S","MW"=>"M","CK"=>"K");
-$allpaddlerdetails[1] = array("Time"=>"35.77","NR"=>"","Position"=>"2","Lane"=>"6","Club"=>"SOR","Crew"=>"J. SCHOFIELD","JSV"=>"S","MW"=>"M","CK"=>"K");
-$allpaddlerdetails[2] = array("Time"=>"36.09","NR"=>"","Position"=>"3","Lane"=>"4","Club"=>"SPS","Crew"=>"L. FLETCHER","JSV"=>"S","MW"=>"M","CK"=>"K");
-$allpaddlerdetails[3] = array("Time"=>"36.58","NR"=>"","Position"=>"4","Lane"=>"3","Club"=>"SPS","Crew"=>"I. JAMES","JSV"=>"S","MW"=>"M","CK"=>"K");
-$allpaddlerdetails[4] = array("Time"=>"37.01","NR"=>"","Position"=>"5","Lane"=>"7","Club"=>"NOT","Crew"=>"S. NAFTANAILA","JSV"=>"S","MW"=>"M","CK"=>"K");
-$allpaddlerdetails[5] = array("Time"=>"37.14","NR"=>"","Position"=>"6","Lane"=>"2","Club"=>"EAL","Crew"=>"T. THOMSON","JSV"=>"S","MW"=>"M","CK"=>"K");
-$allpaddlerdetails[6] = array("Time"=>"37.56","NR"=>"","Position"=>"7","Lane"=>"8","Club"=>"CDF","Crew"=>"M. ROBINSON","JSV"=>"S","MW"=>"M","CK"=>"K");
-$allpaddlerdetails[7] = array("Time"=>"37.67","NR"=>"","Position"=>"8","Lane"=>"9","Club"=>"RDG","Crew"=>"D. ATKINS","JSV"=>"S","MW"=>"M","CK"=>"K");
-$allpaddlerdetails[8] = array("Time"=>"38.67","NR"=>"","Position"=>"9","Lane"=>"1","Club"=>"LEA","Crew"=>"N. DEMBELE","JSV"=>"S","MW"=>"M","CK"=>"K");
-
-$regattaid = 1000;
-*/
 
 if (isset($racestmt) == false)
   {
