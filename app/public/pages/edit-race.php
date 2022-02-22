@@ -1,22 +1,4 @@
 <?php
-//Get the directory of the engines
-$currentdirectory = getcwd();
-$removedirs = array("/pages","/engines","/admin","/srrs");
-$currentdirectory = str_replace($removedirs,"",$currentdirectory);
-
-//Get the admin and public engines directories
-$adminenginesrelativepath = $currentdirectory . "/admin/engines/";
-$publicenginesrelativepath = $currentdirectory . "/srrs/engines/";
-
-//Get default URLs
-include $adminenginesrelativepath . 'srrsadmindefaulturls.php';
-
-//To attach variables to the URL
-if (strpos($defaulturls['EditRace'],"?") === false)
-  $variablejoin = "?";
-else
-  $variablejoin = "&";
-
 //Get race ID from either POST or GET
 if (isset($_GET['race']) == true)
   $raceid = $_GET['race'];
@@ -25,10 +7,10 @@ elseif (isset($_POST['race']) == true)
 
 //Process forms
 if ((isset($_POST['RaceEdit']) == true) OR (isset($_POST['ClassEdit']) == true) OR (isset($_POST['ClassDelete']) == true) OR (isset($_POST['ClassAdd']) == true) OR (isset($_POST['PaddlerEdit']) == true) OR (isset($_POST['PaddlerDelete']) == true) OR (isset($_POST['PaddlerAdd']) == true))
-  include $adminenginesrelativepath . 'edit-race-engine.php';
+  include $engineslocation . 'edit-race-engine.php';
 
 $includeclassids = true;
-include $publicenginesrelativepath . 'get-single-race.php';
+include $engineslocation . 'get-single-race.php';
 
 //Regatta ID for back linking
 $regatta = $racedetails['Regatta'];
@@ -77,125 +59,125 @@ $fieldsizes['Spec'] = 2;
 $fieldsizes['Ages'] = 2;
 $fieldsizes['FreeText'] = 10;
 
-echo '<div class="item">';
+$pagehtml = '<section>';
 
 if (isset($outputmessage) == true)
-  echo $outputmessage;
+  $pagehtml = $pagehtml . $outputmessage;
 
-echo '<form action="' . $defaulturls['EditRace'] . $variablejoin . 'race=' . $raceid . '" method="post">';
+$pagehtml = $pagehtml . '<form action="EditRace?race=' . $raceid . '" method="post">';
 
 //The generic race details
-echo '<p class="blockheading">Race Details</p>';
+$pagehtml = $pagehtml . '<p class="blockheading">Race Details</p>';
 
-echo '<p>' . $racedetails['Name'] . '</p>';
+$pagehtml = $pagehtml . '<p>' . $racedetails['Name'] . '</p>';
 
-echo '<div style="display: table;">';
+$pagehtml = $pagehtml . '<div style="display: table;">';
 
-echo '<div style="display: table-row;">';
-echo '<div style="display: table-cell; width: ' . $widths['Label'] . 'px;">Regatta Number:</div>';
-echo '<div style="display: table-cell; width: ' . $widths['Box'] . 'px;"><input type="text" size="2" value="' . $racedetails['Regatta'] . '" name="Regatta"> (This will move the regatta the race is in)</div>';
-echo '</div>';
+$pagehtml = $pagehtml . '<div style="display: table-row;">';
+$pagehtml = $pagehtml . '<div style="display: table-cell; width: ' . $widths['Label'] . 'px;">Regatta Number:</div>';
+$pagehtml = $pagehtml . '<div style="display: table-cell; width: ' . $widths['Box'] . 'px;"><input type="text" size="2" value="' . $racedetails['Regatta'] . '" name="Regatta"> (This will move the regatta the race is in)</div>';
+$pagehtml = $pagehtml . '</div>';
 
-echo '<div style="display: table-row;">';
-echo '<div style="display: table-cell; width: ' . $widths['Label'] . 'px;">Boat Size:</div>';
-echo '<div style="display: table-cell; width: ' . $widths['Box'] . 'px;"><input type="text" size="1" value="' . $racedetails['BoatSize'] . '" name="BoatSize"></div>';
-echo '</div>';
+$pagehtml = $pagehtml . '<div style="display: table-row;">';
+$pagehtml = $pagehtml . '<div style="display: table-cell; width: ' . $widths['Label'] . 'px;">Boat Size:</div>';
+$pagehtml = $pagehtml . '<div style="display: table-cell; width: ' . $widths['Box'] . 'px;"><input type="text" size="1" value="' . $racedetails['BoatSize'] . '" name="BoatSize"></div>';
+$pagehtml = $pagehtml . '</div>';
 
-echo '<div style="display: table-row;">';
-echo '<div style="display: table-cell; width: ' . $widths['Label'] . 'px;">Distance:</div>';
-echo '<div style="display: table-cell; width: ' . $widths['Box'] . 'px;"><input type="text" size="3" value="' . $racedetails['Distance'] . '" name="Distance"></div>';
-echo '</div>';
+$pagehtml = $pagehtml . '<div style="display: table-row;">';
+$pagehtml = $pagehtml . '<div style="display: table-cell; width: ' . $widths['Label'] . 'px;">Distance:</div>';
+$pagehtml = $pagehtml . '<div style="display: table-cell; width: ' . $widths['Box'] . 'px;"><input type="text" size="3" value="' . $racedetails['Distance'] . '" name="Distance"></div>';
+$pagehtml = $pagehtml . '</div>';
 
-echo '<div style="display: table-row;">';
-echo '<div style="display: table-cell; width: ' . $widths['Label'] . 'px;">Round/Draw:</div>';
-echo '<div style="display: table-cell; width: ' . $widths['Box'] . 'px;"><input type="text" size="1" value="' . $rounddraw . '" name="RoundDraw"></div>';
-echo '</div>';
+$pagehtml = $pagehtml . '<div style="display: table-row;">';
+$pagehtml = $pagehtml . '<div style="display: table-cell; width: ' . $widths['Label'] . 'px;">Round/Draw:</div>';
+$pagehtml = $pagehtml . '<div style="display: table-cell; width: ' . $widths['Box'] . 'px;"><input type="text" size="1" value="' . $rounddraw . '" name="RoundDraw"></div>';
+$pagehtml = $pagehtml . '</div>';
 
-echo '<div style="display: table-row;">';
-echo '<div style="display: table-cell; width: ' . $widths['Label'] . 'px;">Free Text:</div>';
-echo '<div style="display: table-cell; width: ' . $widths['Box'] . 'px;"><input type="text" size="10" value="' . $racedetails['FreeText'] . '" name="FreeText"></div>';
-echo '</div>';
+$pagehtml = $pagehtml . '<div style="display: table-row;">';
+$pagehtml = $pagehtml . '<div style="display: table-cell; width: ' . $widths['Label'] . 'px;">Free Text:</div>';
+$pagehtml = $pagehtml . '<div style="display: table-cell; width: ' . $widths['Box'] . 'px;"><input type="text" size="10" value="' . $racedetails['FreeText'] . '" name="FreeText"></div>';
+$pagehtml = $pagehtml . '</div>';
 
-echo '</div>';
+$pagehtml = $pagehtml . '</div>';
 
 //The button of the form
-echo '<p><input type="submit" name="RaceEdit" value="Edit"></p>';
-echo '</form>';
+$pagehtml = $pagehtml . '<p><input type="submit" name="RaceEdit" value="Edit"></p>';
+$pagehtml = $pagehtml . '</form>';
 
 //The class details
-echo '<p class="blockheading">Class Details</p>';
+$pagehtml = $pagehtml . '<p class="blockheading">Class Details</p>';
 
 //Echo the class form
-$classformactionurl = $defaulturls['EditRace'] . $variablejoin . 'race=' . $raceid;
+$classformactionurl = 'EditRace?race=' . $raceid;
 $multirowform = false;
-include $adminenginesrelativepath . 'class-form-html.php';
-echo $classformhtml;
+include $engineslocation . 'class-form-html.php';
+$pagehtml = $pagehtml . $classformhtml;
 
 //The paddler details
-echo '<p class="blockheading">Paddler Details</p>';
+$pagehtml = $pagehtml . '<p class="blockheading">Paddler Details</p>';
 
 $paddlerstablewidth = $widths['Position']+$widths['Lane']+$widths['Crew']+$widths['Club']+$widths['Result']+$widths['JSV']+$widths['MW']+$widths['CK']+$widths['Button']+$widths['Button'];
 
 //Header for paddler list
-echo '<div style="width: ' . $paddlerstablewidth . 'px; display: table;">';
+$pagehtml = $pagehtml . '<div style="width: ' . $paddlerstablewidth . 'px; display: table;">';
 
-echo '<div style="display: table-row;">';
-echo '<div style="display: table-cell; width: 0px;"></div>';
-echo '<div style="width: ' . $widths['Position'] . 'px; display: table-cell;">Position</div>';
-echo '<div style="width: ' . $widths['Lane'] . 'px; display: table-cell;">Lane</div>';
-echo '<div style="width: ' . $widths['Crew'] . 'px; display: table-cell;">Crew</div>';
-echo '<div style="width: ' . $widths['Club'] . 'px; display: table-cell;">Club</div>';
-echo '<div style="width: ' . $widths['Result'] . 'px; display: table-cell;">Result</div>';
-echo '<div style="width: ' . $widths['JSV'] . 'px; display: table-cell;">JSV</div>';
-echo '<div style="width: ' . $widths['MW'] . 'px; display: table-cell;">MW</div>';
-echo '<div style="width: ' . $widths['CK'] . 'px; display: table-cell;">CK</div>';
-echo '<div style="width: ' . $widths['Button'] . 'px; display: table-cell;"></div>';
-echo '<div style="width: ' . $widths['Button'] . 'px; display: table-cell;"></div>';
-echo '<div style="display: table-cell;"></div>';
-echo '</div>';
+$pagehtml = $pagehtml . '<div style="display: table-row;">';
+$pagehtml = $pagehtml . '<div style="display: table-cell; width: 0px;"></div>';
+$pagehtml = $pagehtml . '<div style="width: ' . $widths['Position'] . 'px; display: table-cell;">Position</div>';
+$pagehtml = $pagehtml . '<div style="width: ' . $widths['Lane'] . 'px; display: table-cell;">Lane</div>';
+$pagehtml = $pagehtml . '<div style="width: ' . $widths['Crew'] . 'px; display: table-cell;">Crew</div>';
+$pagehtml = $pagehtml . '<div style="width: ' . $widths['Club'] . 'px; display: table-cell;">Club</div>';
+$pagehtml = $pagehtml . '<div style="width: ' . $widths['Result'] . 'px; display: table-cell;">Result</div>';
+$pagehtml = $pagehtml . '<div style="width: ' . $widths['JSV'] . 'px; display: table-cell;">JSV</div>';
+$pagehtml = $pagehtml . '<div style="width: ' . $widths['MW'] . 'px; display: table-cell;">MW</div>';
+$pagehtml = $pagehtml . '<div style="width: ' . $widths['CK'] . 'px; display: table-cell;">CK</div>';
+$pagehtml = $pagehtml . '<div style="width: ' . $widths['Button'] . 'px; display: table-cell;"></div>';
+$pagehtml = $pagehtml . '<div style="width: ' . $widths['Button'] . 'px; display: table-cell;"></div>';
+$pagehtml = $pagehtml . '<div style="display: table-cell;"></div>';
+$pagehtml = $pagehtml . '</div>';
 
 //Each paddler in a form line
 foreach ($racedetails['Paddlers'] as $paddler)
   {
-  echo '<div style="display: table-row;">';
-  echo '<div style="display: table-cell; width: 0px;"><form action="' . $defaulturls['EditRace'] . $variablejoin . 'race=' . $raceid . '" method="post"><input type="hidden" name="ItemKey" value="' . $paddler['Key'] . '"></div>';
-  echo '<div style="width: ' . $widths['Position'] . 'px; display: table-cell;"><input type="text" name="Position" value="' . $paddler['Position'] . '" size="' . $fieldsizes['Position'] . '"></div>';
-  echo '<div style="width: ' . $widths['Lane'] . 'px; display: table-cell;"><input type="text" name="Lane" value="' . $paddler['Lane'] . '" size="' . $fieldsizes['Lane'] . '"></div>';
-  echo '<div style="width: ' . $widths['Crew'] . 'px; display: table-cell;"><input type="text" name="Crew" value="' . $paddler['Crew'] . '" size="' . $fieldsizes['Crew'] . '"></div>';
-  echo '<div style="width: ' . $widths['Club'] . 'px; display: table-cell;"><input type="text" name="Club" value="' . $paddler['Club'] . '" size="' . $fieldsizes['Club'] . '"></div>';
-  echo '<div style="width: ' . $widths['Result'] . 'px; display: table-cell;"><input type="text" name="Result" value="' . $paddler['Time'] . '" size="' . $fieldsizes['Result'] . '"></div>';
-  echo '<div style="width: ' . $widths['JSV'] . 'px; display: table-cell;"><input type="text" name="JSV" value="' . $paddler['JSV'] . '" size="' . $fieldsizes['JSV'] . '"></div>';
-  echo '<div style="width: ' . $widths['MW'] . 'px; display: table-cell;"><input type="text" name="MW" value="' . $paddler['MW'] . '" size="' . $fieldsizes['MW'] . '"></div>';
-  echo '<div style="width: ' . $widths['CK'] . 'px; display: table-cell;"><input type="text" name="CK" value="' . $paddler['CK'] . '" size="' . $fieldsizes['CK'] . '"></div>';
-  echo '<div style="width: ' . $widths['Button'] . 'px; display: table-cell;"><input type="submit" value="Edit" name="PaddlerEdit"></div>';
-  echo '<div style="width: ' . $widths['Button'] . 'px; display: table-cell;"><input type="submit" value="Delete" name="PaddlerDelete" onclick="return confirm(\'This will delete the paddler. Are you sure you want to continue?\')"></div>';
-  echo '<div style="display: table-cell;"></form></div>';
-  echo '</div>';
+  $pagehtml = $pagehtml . '<div style="display: table-row;">';
+  $pagehtml = $pagehtml . '<div style="display: table-cell; width: 0px;"><form action="EditRace?race=' . $raceid . '" method="post"><input type="hidden" name="ItemKey" value="' . $paddler['Key'] . '"></div>';
+  $pagehtml = $pagehtml . '<div style="width: ' . $widths['Position'] . 'px; display: table-cell;"><input type="text" name="Position" value="' . $paddler['Position'] . '" size="' . $fieldsizes['Position'] . '"></div>';
+  $pagehtml = $pagehtml . '<div style="width: ' . $widths['Lane'] . 'px; display: table-cell;"><input type="text" name="Lane" value="' . $paddler['Lane'] . '" size="' . $fieldsizes['Lane'] . '"></div>';
+  $pagehtml = $pagehtml . '<div style="width: ' . $widths['Crew'] . 'px; display: table-cell;"><input type="text" name="Crew" value="' . $paddler['Crew'] . '" size="' . $fieldsizes['Crew'] . '"></div>';
+  $pagehtml = $pagehtml . '<div style="width: ' . $widths['Club'] . 'px; display: table-cell;"><input type="text" name="Club" value="' . $paddler['Club'] . '" size="' . $fieldsizes['Club'] . '"></div>';
+  $pagehtml = $pagehtml . '<div style="width: ' . $widths['Result'] . 'px; display: table-cell;"><input type="text" name="Result" value="' . $paddler['Time'] . '" size="' . $fieldsizes['Result'] . '"></div>';
+  $pagehtml = $pagehtml . '<div style="width: ' . $widths['JSV'] . 'px; display: table-cell;"><input type="text" name="JSV" value="' . $paddler['JSV'] . '" size="' . $fieldsizes['JSV'] . '"></div>';
+  $pagehtml = $pagehtml . '<div style="width: ' . $widths['MW'] . 'px; display: table-cell;"><input type="text" name="MW" value="' . $paddler['MW'] . '" size="' . $fieldsizes['MW'] . '"></div>';
+  $pagehtml = $pagehtml . '<div style="width: ' . $widths['CK'] . 'px; display: table-cell;"><input type="text" name="CK" value="' . $paddler['CK'] . '" size="' . $fieldsizes['CK'] . '"></div>';
+  $pagehtml = $pagehtml . '<div style="width: ' . $widths['Button'] . 'px; display: table-cell;"><input type="submit" value="Edit" name="PaddlerEdit"></div>';
+  $pagehtml = $pagehtml . '<div style="width: ' . $widths['Button'] . 'px; display: table-cell;"><input type="submit" value="Delete" name="PaddlerDelete" onclick="return confirm(\'This will delete the paddler. Are you sure you want to continue?\')"></div>';
+  $pagehtml = $pagehtml . '<div style="display: table-cell;"></form></div>';
+  $pagehtml = $pagehtml . '</div>';
   }
 
 //New paddler insert
-echo '<div style="display: table-row;">';
-echo '<div style="display: table-cell; width: 0px;"><form action="' . $defaulturls['EditRace'] . $variablejoin . 'race=' . $raceid . '" method="post"></div>';
-echo '<div style="width: ' . $widths['Position'] . 'px; display: table-cell;"><input type="text" name="Position" value="" size="' . $fieldsizes['Position'] . '"></div>';
-echo '<div style="width: ' . $widths['Lane'] . 'px; display: table-cell;"><input type="text" name="Lane" value="" size="' . $fieldsizes['Lane'] . '"></div>';
-echo '<div style="width: ' . $widths['Crew'] . 'px; display: table-cell;"><input type="text" name="Crew" value="" size="' . $fieldsizes['Crew'] . '"></div>';
-echo '<div style="width: ' . $widths['Club'] . 'px; display: table-cell;"><input type="text" name="Club" value="" size="' . $fieldsizes['Club'] . '"></div>';
-echo '<div style="width: ' . $widths['Result'] . 'px; display: table-cell;"><input type="text" name="Result" value="" size="' . $fieldsizes['Result'] . '"></div>';
-echo '<div style="width: ' . $widths['JSV'] . 'px; display: table-cell;"><input type="text" name="JSV" value="" size="' . $fieldsizes['JSV'] . '"></div>';
-echo '<div style="width: ' . $widths['MW'] . 'px; display: table-cell;"><input type="text" name="MW" value="" size="' . $fieldsizes['MW'] . '"></div>';
-echo '<div style="width: ' . $widths['CK'] . 'px; display: table-cell;"><input type="text" name="CK" value="" size="' . $fieldsizes['CK'] . '"></div>';
-echo '<div style="width: ' . $widths['Button'] . 'px; display: table-cell;"><input type="submit" value="Add" name="PaddlerAdd"></div>';
-echo '<div style="width: ' . $widths['Button'] . 'px; display: table-cell;"></form></div>';
-echo '<div style="display: table-cell;"></div>';
-echo '</div>';
+$pagehtml = $pagehtml . '<div style="display: table-row;">';
+$pagehtml = $pagehtml . '<div style="display: table-cell; width: 0px;"><form action="EditRace?race=' . $raceid . '" method="post"></div>';
+$pagehtml = $pagehtml . '<div style="width: ' . $widths['Position'] . 'px; display: table-cell;"><input type="text" name="Position" value="" size="' . $fieldsizes['Position'] . '"></div>';
+$pagehtml = $pagehtml . '<div style="width: ' . $widths['Lane'] . 'px; display: table-cell;"><input type="text" name="Lane" value="" size="' . $fieldsizes['Lane'] . '"></div>';
+$pagehtml = $pagehtml . '<div style="width: ' . $widths['Crew'] . 'px; display: table-cell;"><input type="text" name="Crew" value="" size="' . $fieldsizes['Crew'] . '"></div>';
+$pagehtml = $pagehtml . '<div style="width: ' . $widths['Club'] . 'px; display: table-cell;"><input type="text" name="Club" value="" size="' . $fieldsizes['Club'] . '"></div>';
+$pagehtml = $pagehtml . '<div style="width: ' . $widths['Result'] . 'px; display: table-cell;"><input type="text" name="Result" value="" size="' . $fieldsizes['Result'] . '"></div>';
+$pagehtml = $pagehtml . '<div style="width: ' . $widths['JSV'] . 'px; display: table-cell;"><input type="text" name="JSV" value="" size="' . $fieldsizes['JSV'] . '"></div>';
+$pagehtml = $pagehtml . '<div style="width: ' . $widths['MW'] . 'px; display: table-cell;"><input type="text" name="MW" value="" size="' . $fieldsizes['MW'] . '"></div>';
+$pagehtml = $pagehtml . '<div style="width: ' . $widths['CK'] . 'px; display: table-cell;"><input type="text" name="CK" value="" size="' . $fieldsizes['CK'] . '"></div>';
+$pagehtml = $pagehtml . '<div style="width: ' . $widths['Button'] . 'px; display: table-cell;"><input type="submit" value="Add" name="PaddlerAdd"></div>';
+$pagehtml = $pagehtml . '<div style="width: ' . $widths['Button'] . 'px; display: table-cell;"></form></div>';
+$pagehtml = $pagehtml . '<div style="display: table-cell;"></div>';
+$pagehtml = $pagehtml . '</div>';
 
 //Close Paddlers Table
-echo '</div>';
+$pagehtml = $pagehtml . '</div>';
 
-echo '<p><a href="' . $defaulturls['EditRegatta'] . $ahrefjoin . 'regatta=' . $racedetails['Regatta'] . '?deleterace=' . $raceid . '" onclick="return confirm(\'This will delete the race. Are you sure you want to continue?\')">Delete Race</a></p>';
+$pagehtml = $pagehtml . '<p><a href="EditRegatta?regatta=' . $racedetails['Regatta'] . '?deleterace=' . $raceid . '" onclick="return confirm(\'This will delete the race. Are you sure you want to continue?\')">Delete Race</a></p>';
 
 //Close page container
-echo '</div>';
+$pagehtml = $pagehtml . '</section>';
 
 $regattaid = $racedetails['Regatta'];
 ?>
