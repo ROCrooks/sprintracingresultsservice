@@ -1,16 +1,4 @@
 <?php
-//Get the directory of the engines
-$currentdirectory = getcwd();
-$removedirs = array("/pages","/engines","/admin","/srrs");
-$currentdirectory = str_replace($removedirs,"",$currentdirectory);
-
-//Get the admin and public engines directories
-$adminenginesrelativepath = $currentdirectory . "/admin/engines/";
-$publicenginesrelativepath = $currentdirectory . "/srrs/engines/";
-
-//Get default URLs
-include $adminenginesrelativepath . 'srrsadmindefaulturls.php';
-
 //Get class name from URL
 $findclassname = $_GET['class'];
 
@@ -27,25 +15,25 @@ else
 if (isset($_POST['UpdateClass']) == true)
   {
   //Read the input form to get the class to add
-  include $adminenginesrelativepath . "class-formtoclass.php";
+  include $engineslocation . "class-formtoclass.php";
   $classdetails = $inputclassesarray;
 
   //Purge Old classes
-  include $adminenginesrelativepath . "class-purgeclasses.php";
+  include $engineslocation . "class-purgeclasses.php";
 
   //Include the class to add
-  include $adminenginesrelativepath . "class-assignclasses.php";
+  include $engineslocation . "class-assignclasses.php";
   }
 
 //Temporary class details are retrieved from the form when new line is clicked
 if (isset($_POST['NewLine']) == true)
   {
   //Read the input form and make it the only input class
-  include $adminenginesrelativepath . "class-formtoclass.php";
+  include $engineslocation . "class-formtoclass.php";
   $classdetails = $inputclassesarray;
 
   //Format the race class for the class being added
-  include $publicenginesrelativepath . 'format-class.php';
+  include $engineslocation . 'format-class.php';
 
   //Place class details and name into array
   $allraceclasses = array();
@@ -60,14 +48,14 @@ if (isset($_POST['NewLine']) == true)
 else
   {
   //Get details about how this race is named in the records
-  include $adminenginesrelativepath . "class-getoneclass.php";
+  include $engineslocation . "class-getoneclass.php";
   $autoclassdetails = array();
   $autoclassdetails['Details'] = $classdetails;
   $autoclassdetails['ClassName'] = $autoclassname;
   //$autoclassdetails['Type'] = "Auto Class";
 
   //Get details about how this race is named in the records
-  include $adminenginesrelativepath . "class-getraceclassnames.php";
+  include $engineslocation . "class-getraceclassnames.php";
 
   //Check if there is an autoclass
   if ($autoclassdetails['ClassName'] == "No Autoclass Specified")
@@ -97,7 +85,7 @@ if (isset($autoclassdetails) == false)
 
 //Parameters needed for form generator
 $multirowform = true;
-$classformactionurl = $defaulturls['EditClass'] . $ahrefjoin . "class=" . $findclassname;
+$classformactionurl = "EditClass?class=" . $findclassname;
 //Make each form for race classes
 foreach($allraceclasses as $individualclass)
   {
@@ -107,7 +95,7 @@ foreach($allraceclasses as $individualclass)
 
   //Make the form with the class list
   $classdetails = $individualclass['Details'];
-  include $adminenginesrelativepath . "class-form-html.php";
+  include $engineslocation . "class-form-html.php";
 
   //Add the name of this class
   $classformhtml = '<p>' . $individualclass['ClassName'] . '</p>' . $classformhtml;
@@ -145,13 +133,14 @@ if (count($displaywarnings) > 0)
   $displaywarnings = '<p>' . implode("<br>",$displaywarnings) . '</p>';
 else
   $displaywarnings = '';
+
+$pagehtml = '<section>';
+$pagehtml = $pagehtml . '<p class="blockheading">Class Editor</p>';
+$pagehtml = $pagehtml . '<p>Editing the class: ' . $findclassname . '</p>';
+
+$pagehtml = $pagehtml . $displaywarnings;
+
+$pagehtml = $pagehtml . $classesformhtml;
+
+$pagehtml = $pagehtml . '</section>';
 ?>
-<div class="item">
-<p class="blockheading">Class Editor</p>
-<p>Editing the class: <?php echo $findclassname;?></p>
-
-<?php echo $displaywarnings; ?>
-
-<?php echo $classesformhtml; ?>
-
-</div>
