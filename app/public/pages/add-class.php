@@ -1,21 +1,9 @@
 <?php
-//Get the directory of the engines
-$currentdirectory = getcwd();
-$removedirs = array("/pages","/engines","/admin","/srrs");
-$currentdirectory = str_replace($removedirs,"",$currentdirectory);
-
-//Get the admin and public engines directories
-$adminenginesrelativepath = $currentdirectory . "/admin/engines/";
-$publicenginesrelativepath = $currentdirectory . "/srrs/engines/";
-
-//Get default URLs
-include $adminenginesrelativepath . 'srrsadmindefaulturls.php';
-
 //Get input from the form
 if ((isset($_POST['NewLine']) == true) OR (isset($_POST['AddClass']) == true) OR (isset($_POST['FinalCheck']) == true))
   {
   $racenametoset = $_POST['ClassName'];
-  include $adminenginesrelativepath . "class-formtoclass.php";
+  include $engineslocation . "class-formtoclass.php";
   $classdetails = $inputclassesarray;
   }
 else
@@ -35,7 +23,7 @@ else
 if (isset($_POST['AddClass']) == true)
   {
   $findclassname = $racenametoset;
-  include $adminenginesrelativepath . "class-assignclasses.php";
+  include $engineslocation . "class-assignclasses.php";
 
   //Unset the racename to set and class details after adding to database
   unset($racenametoset);
@@ -44,7 +32,7 @@ if (isset($_POST['AddClass']) == true)
 
 //Get the next unset class in the races table if a class details array is not set
 if (isset($racenametoset) == false)
-  include $adminenginesrelativepath . "class-getunassignedclass.php";
+  include $engineslocation . "class-getunassignedclass.php";
 
 if ($racenametoset != false)
   {
@@ -52,14 +40,14 @@ if ($racenametoset != false)
   $addclassdisplayhtml = '<p>Specify a class code for:<br>' . $racenametoset . '</p>';
 
   //Generate the current class name able to account for form input etc
-  include $publicenginesrelativepath . 'format-class.php';
+  include $engineslocation . 'format-class.php';
 
   //Make the add classes form
   $multirowform = true;
-  include $adminenginesrelativepath . "class-form-html.php";
+  include $engineslocation . "class-form-html.php";
 
   //Format class adding form
-  $classformhtml = '<form action="' . $defaulturls['AddClass'] . '" method="post">' . $classformhtml;
+  $classformhtml = '<form action="AddClass" method="post">' . $classformhtml;
   $classformhtml = $classformhtml . '<p>Make Autoclass: <input type="checkbox" name="AutoClass" value="checked"';
   if ($autoclass == true)
     $classformhtml = $classformhtml . ' checked';
@@ -83,9 +71,9 @@ else
   $addclassdisplayhtml = '<p>All classes have been set and there are no more
   unset races or class names to set! All regattas can be released now</p>';
   }
-?>
 
-<div class="item">
-<p class="blockheading">Add Classes</p>
-<?php echo $addclassdisplayhtml; ?>
-</div>
+$pagehtml = '<section>';
+$pagehtml = $pagehtml . '<p class="blockheading">Add Classes</p>';
+$pagehtml = $pagehtml . $addclassdisplayhtml;
+$pagehtml = $pagehtml . '</section>';
+?>
