@@ -117,7 +117,7 @@ foreach($allraceclasses as $individualclass)
   }
 
 //Make the HTML forms
-$classesformhtml = "<hr>" . implode("<hr>",$classesformhtml) . "<hr>";
+$classesformhtml = "<hr>" . implode("<hr>",$classesformhtml);
 
 //Display the notes and warnings
 $displaywarnings = array();

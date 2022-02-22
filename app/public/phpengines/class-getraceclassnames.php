@@ -1,11 +1,6 @@
 <?php
 include_once $engineslocation . 'srrs-required-functions.php';
 
-//Include the required paths if they haven't been already set
-//I.e. called from another script
-if ((isset($publicenginesrelativepath) == false) AND (isset($adminenginesrelativepath) == false))
-  include '../srrsadminrelativepaths.php';
-
 //Retrieve all race keys with a particular race name
 $getracekeyssql = "SELECT `Key` FROM `races` WHERE `Class` = ?";
 $racekeys = dbprepareandexecute($srrsdblink,$getracekeyssql,$findclassname);
@@ -18,11 +13,11 @@ foreach ($racekeys as $raceid)
   {
   $classtoadd = array();
   //Get the race class
-  include $publicenginesrelativepath . 'get-race-classes.php';
+  include $engineslocation . 'get-race-classes.php';
   $classtoadd['Details'] = $classdetails;
 
   //Get the race class
-  include $publicenginesrelativepath . 'format-class.php';
+  include $engineslocation . 'format-class.php';
   $classtoadd['ClassName'] = $raceclass;
 
   //Only include class details and autoclass names that are new
