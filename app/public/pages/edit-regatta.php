@@ -1,9 +1,6 @@
 <?php
 include_once $engineslocation . 'srrs-required-functions.php';
 
-//Get default URLs
-include $engineslocation . 'srrsadmindefaulturls.php';
-
 //Get regatta ID
 if (isset($_GET['regatta']) == true)
   $regattaid = $_GET['regatta'];
