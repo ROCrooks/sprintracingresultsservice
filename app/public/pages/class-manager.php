@@ -1,18 +1,6 @@
 <?php
-//Get the directory of the engines
-$currentdirectory = getcwd();
-$removedirs = array("/pages","/engines","/admin","/srrs");
-$currentdirectory = str_replace($removedirs,"",$currentdirectory);
-
-//Get the admin and public engines directories
-$adminenginesrelativepath = $currentdirectory . "/admin/engines/";
-$publicenginesrelativepath = $currentdirectory . "/srrs/engines/";
-
-//Get default URLs
-include $adminenginesrelativepath . 'srrsadmindefaulturls.php';
-
 //Get classes list engine
-include $adminenginesrelativepath . 'class-getallclasses.php';
+include $engineslocation . 'class-getallclasses.php';
 
 //Widths
 $racenamewidth = 200;
@@ -29,16 +17,16 @@ foreach($uniqueclassnames as $classitem)
   $allclasseslisthtml = $allclasseslisthtml . '<div style="display: table-row; width: ' . $fullwidthtable . 'px;">';
   $allclasseslisthtml = $allclasseslisthtml . '<div style="display: table-cell; width: ' . $racenamewidth . 'px;"><p>' . $classitem['InputClass'] . '<br>' . $classitem['AutoClass'] . '</p></div>';
   $allclasseslisthtml = $allclasseslisthtml . '<div style="display: table-cell; width: ' . $numberraceswidth . 'px; vertical-align: middle;"><p>' . $classitem['RaceCount'] . '</p></div>';
-  $allclasseslisthtml = $allclasseslisthtml . '<div style="display: table-cell; width: ' . $editlinkwidth . 'px; vertical-align: middle;"><p><a href="' . $defaulturls['EditClass'] . $ahrefjoin . 'class=' . $urlclass . '">Edit</a></p></div>';
+  $allclasseslisthtml = $allclasseslisthtml . '<div style="display: table-cell; width: ' . $editlinkwidth . 'px; vertical-align: middle;"><p><a href="EditClass?class=' . $urlclass . '">Edit</a></p></div>';
   $allclasseslisthtml = $allclasseslisthtml . '</div>';
   }
 $allclasseslisthtml = $allclasseslisthtml . '</div>';
 
-$addclasslinkhtml = '<p><a href="' . $defaulturls['AddClass'] . '">Add Classes</a></p>';
+$addclasslinkhtml = '<p><a href="AddClass">Add Classes</a></p>';
 
+$pagehtml = '<section>';
+$pagehtml = $pagehtml . '<p class="blockheading">Class Manager</p>';
+$pagehtml = $pagehtml . $addclasslinkhtml;
+$pagehtml = $pagehtml . $allclasseslisthtml;
+$pagehtml = $pagehtml . '</section>';
 ?>
-<div class="item">
-<p class="blockheading">Class Manager</p>
-<?php echo $addclasslinkhtml; ?>
-<?php echo $allclasseslisthtml; ?>
-</div>
