@@ -122,5 +122,5 @@ $pagehtml = $pagehtml . '<div style="display: flex;">';
 $pagehtml = $pagehtml . $leftcolumn;
 $pagehtml = $pagehtml . $rightcolumn;
 $pagehtml = $pagehtml . '</div>';
-$pagehtml = $pagehtml . '</div>';
+$pagehtml = $pagehtml . '</section>';
 ?>
