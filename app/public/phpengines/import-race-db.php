@@ -3,7 +3,7 @@ include_once $engineslocation . 'srrs-required-functions.php';
 
 if (isset($racestmt) == false)
   {
-  $racesql = "INSERT INTO `races` (`Regatta`, `Class`, `Boat`, `Dist`, `R`, `D`, `FreeText`) VALUES (?, ?, ?, ?, ?, ?, ?, '')";
+  $racesql = "INSERT INTO `races` (`Regatta`, `Class`, `Boat`, `Dist`, `R`, `D`, `FreeText`) VALUES (?, ?, ?, ?, ?, ?, '')";
 	$racestmt = dbprepare($srrsdblink,$racesql);
   }
 
