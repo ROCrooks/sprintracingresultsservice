@@ -84,7 +84,11 @@ foreach ($allpaddlerdetails as $paddlerdetails)
 
   //Check that the time is valid if there is a result
   if ((preg_match($regex['shorttime'],$paddlerdetails['Time']) == false) AND (preg_match($regex['regulartime'],$paddlerdetails['Time']) == false) AND (preg_match($regex['longtime'],$paddlerdetails['Time']) == false) AND (in_array($paddlerdetails['NR'],$legalnrs) === false))
+    {
     $raceerror = true;
+    array_push($errorlist,"Invalid time specified");
+    }
+
 
   //Check club is legal
   if ((strlen($paddlerdetails['Club']) == 3) OR ((strlen($paddlerdetails['Club']) == 7) AND ($racedetails['Boat'] == 2)) OR ((strlen($paddlerdetails['Club']) == 15) AND ($racedetails['Boat'] == 4)))
