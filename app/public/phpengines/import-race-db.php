@@ -40,39 +40,66 @@ foreach ($allpaddlerdetails as $paddlerdetails)
   dbexecute($paddlerstmt,$insertpaddlerdetails);
   }
 
-if (isset($findclassstmt) == false)
+//Separate RaceName into component parts - components are stored as separate auto races
+//Standardize all breaks into "+"
+$variablebreaks = array(" +"," + ","+ "," &"," & ","& ","&")
+$racenamecomponents = str_replace($variablebreaks,"+",$racedetails['RaceName']);
+
+//Find out if it's a kayak class or a canoe class
+$racenamecomponents = explode(" ",$racenamecomponents);
+$boattype = array_pop($racenamecomponents);
+
+//If the boat type is only 1 letter, add it to each race class
+if(strlen($boattype) == 1)
   {
-  $findclasssql = "SELECT * FROM `autoclasses` WHERE `RaceName` = ?";
-	$findclassstmt = dbprepare($srrsdblink,$findclasssql);
+  foreach ($racenamecomponents as $racenamekey=>$racename)
+    {
+    $racenamecomponents[$racenamekey] = $racename . " " . $boattype;
+    }
   }
 
-$autoclasses = dbexecute($findclassstmt,$racedetails['RaceName']);
-$raceset = false;
-
-//Add each race class
-foreach ($autoclasses as $classadd)
+//Find matching race classes in the autoclasses list
+$foundautoclasses = array();
+foreach($racenamecomponents as $namecomponent)
   {
-  if (isset($insertclassstmt) == false)
+  //Find the AutoClasses
+  if (isset($findclassstmt) == false)
     {
-    //Create insert class statement if not already created
-    $insertclasssql = "INSERT INTO `classes` (`Race`, `JSV`, `MW`, `CK`, `Spec`, `Abil`, `Ages`, `FreeText`) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-  	$insertclassstmt = dbprepare($srrsdblink,$insertclasssql);
+    $findclasssql = "SELECT * FROM `autoclasses` WHERE `RaceName` = ?";
+  	$findclassstmt = dbprepare($srrsdblink,$findclasssql);
     }
 
-  $insertclassdetails = array($raceid,$classadd['JSV'],$classadd['MW'],$classadd['CK'],$classadd['Spec'],$classadd['Abil'],$classadd['Ages'],$classadd['FreeText']);
-  dbexecute($insertclassstmt,$insertclassdetails);
+  //Add the autoclass if it's found
+  $autoclass = dbexecute($findclassstmt,$namecomponent);
+  if (count($autoclass) > 0)
+    array_push($foundautoclasses,$autoclass);
+  }
 
-  //Set race to class is set if not already done so
-  if ($raceset == false)
+if (count($foundautoclasses) == count($racenamecomponents))
+  {
+  //Add each race class
+  foreach ($foundautoclasses as $classadd)
     {
-    if (isset($setracestmt) == false)
+    if (isset($insertclassstmt) == false)
       {
-      $setracesql = "UPDATE `races` SET `Set` = 1 WHERE `Key` = ?";
-      $setracestmt = dbprepare($srrsdblink,$setracesql);
+      //Create insert class statement if not already created
+      $insertclasssql = "INSERT INTO `classes` (`Race`, `JSV`, `MW`, `CK`, `Spec`, `Abil`, `Ages`, `FreeText`) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+    	$insertclassstmt = dbprepare($srrsdblink,$insertclasssql);
       }
 
-    dbexecute($setracestmt,$raceid);
-    $raceset = true;
+    $insertclassdetails = array($raceid,$classadd['JSV'],$classadd['MW'],$classadd['CK'],$classadd['Spec'],$classadd['Abil'],$classadd['Ages'],$classadd['FreeText']);
+    dbexecute($insertclassstmt,$insertclassdetails);
     }
+
+  //Prepare the set race query if not already prepared
+  if (isset($setracestmt) == false)
+    {
+    $setracesql = "UPDATE `races` SET `Set` = 1 WHERE `Key` = ?";
+    $setracestmt = dbprepare($srrsdblink,$setracesql);
+    }
+
+  //Execute set race query as the class has been added by the race import script
+  dbexecute($setracestmt,$raceid);
   }
+
 ?>
