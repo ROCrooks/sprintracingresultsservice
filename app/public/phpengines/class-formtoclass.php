@@ -1,43 +1,44 @@
 <?php
 //Names of the fields to retrieve
-$fieldnames = array("Key","JSV","MW","CK","Abil","Spec","Ages","FreeText");
+$classfieldnames = array("RaceName","AutoClass","JSV","MW","CK","Abil","Spec","Ages","FreeText");
 
-//Number of the row
-$classrowkey = 1;
+//Name of the initial fields to retrieve
+$racerowkey = 1;
+$racecheckfield = "RaceName" . $racerowkey;
 
-//Name of the field to retrieve
-$checkfield = "FreeText" . $classrowkey;
+//Create array to insert classes
+$insertclassesarray = array();
 
-//Loop to read all rows
-$inputclassesarray = array();
-while (isset($_POST[$checkfield]) == true)
+while (isset($_POST[$racecheckfield]) == true)
   {
-  //Flag that the row is empty so it's not added
-  $emptyrow = true;
+  //Make the field name for the JSV check
+  $subclassrowkey = 1;
+  $classcheckfield = "JSV" . $racerowkey . "-" . $subclassrowkey;
 
-  //Read each field
-  $classrow = array();
-  foreach($fieldnames as $field)
+  while (isset($_POST[$classcheckfield]) == true)
     {
-    $formfield = $field . $classrowkey;
+    $insertclassesline = array();
+    foreach ($classfieldnames as $classfieldkey=>$classfieldname)
+      {
+      //Make the field name
+      $postfield = $classfieldname . "-" . $racerowkey;
+      if ($classfieldkey > 1)
+        $postfield = $postfield . "-" . $subclassrowkey;
 
-    //Add to the output if it exists in the input form
-    if (isset($_POST[$formfield]) == true)
-      $classrow[$field] = $_POST[$formfield];
-    else
-      $classrow[$field] = '';
+      //Retrieve the field and add it to the insert class array line
+      $insertclassesline[$classfieldname] = $_POST[$postfield];
+      }
 
-    if ($classrow[$field] != '')
-      $emptyrow = false;
+    //Add the line to the insert classes array
+    array_push($insertclassesarray,$insertclassesline);
+
+    //Make the field name for the JSV check for next cycle of loop
+    $subclassrowkey++;
+    $jsvfield = "JSV" . $racerowkey . "-" . $subclassrowkey;
     }
 
-  //Put row to array if it is not empty
-  if ($emptyrow == false)
-    array_push($inputclassesarray,$classrow);
-
-  //Increment row and checkfield
-  $classrowkey++;
-  $checkfield = "FreeText" . $classrowkey;
+  //Make the names for the fields for next loop cycle
+  $racerowkey++;
+  $racecheckfield = "RaceName" . $racerowkey;
   }
-
 ?>
