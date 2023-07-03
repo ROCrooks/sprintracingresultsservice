@@ -41,7 +41,7 @@ foreach ($allpaddlerdetails as $paddlerdetails)
   }
 
 //Look for any currently set autoclasses
-$racenameinput = $racedetails['RaceName']
+$findclassname = $racedetails['RaceName']
 include $engineslocation . "find-autoclasses.php";
 
 if (count($foundautoclasses) == count($racenamecomponents))

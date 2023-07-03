@@ -4,7 +4,7 @@ include_once $engineslocation . 'srrs-required-functions.php';
 //Separate RaceName into component parts - components are stored as separate auto races
 //Standardize all breaks into "+"
 $variablebreaks = array(" +"," + ","+ "," &"," & ","& ","&")
-$racenamecomponents = str_replace($variablebreaks,"+",$racenameinput);
+$racenamecomponents = str_replace($variablebreaks,"+",$findclassname);
 
 //Find out if it's a kayak class or a canoe class
 $racenamecomponents = explode(" ",$racenamecomponents);
