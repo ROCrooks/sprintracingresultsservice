@@ -1,26 +1,40 @@
 <?php
-//Get input from the form
-if ((isset($_POST['NewLine']) == true) OR (isset($_POST['AddClass']) == true) OR (isset($_POST['FinalCheck']) == true))
+//Get the class as it appears in the races database table
+if (isset($_POST['DBClass']) == true)
+  $racenametoset = $_POST['DBClass'];
+
+//Check if any of the new line buttons have been pressed
+$newlineno = 1;
+$newlineflag = false;
+$checkraceline = "RaceName" . $newlineno;
+while ((isset($_POST[$checkraceline]) == true) AND ($newlineflag == false))
   {
-  $racenametoset = $_POST['ClassName'];
+  //If the new line button has been pressed, set the flag to the race
+  $newlinebuttoncheck = "NewLine" . $newlineno;
+  if (isset($_POST[$newlinebuttoncheck]) == true)
+    $newlineflag = $newlineno;
+
+  //Increment the check number and race name field
+  $newlineno++;
+  $checkraceline = "RaceName" . $newlineno;
+  }
+
+//Get input from the form
+if (($newlineflag != true) OR (isset($_POST['FinalCheck']) == true) OR (isset($_POST['AddClasses']) == true))
+  {
+  $racenametoset = $_POST['DBClass'];
   include $engineslocation . "class-formtoclass.php";
   $classdetails = $inputclassesarray;
   }
 else
   $classdetails = array();
 
-//Get the autoclass flag
-if (isset($_POST['AutoClass']) == true)
-  {
-  $autoclass = $_POST['AutoClass'];
-  if ($autoclass == "true")
-    $autoclass = true;
-  }
-else
-  $autoclass = false;
+//Create a substitute class
+if (isset($_POST['SubstituteClassSubmit']) == true)
+  $substituteclasses = $_POST['SubstituteClass'];
 
-//Add the class to the database if button is pressed
-if (isset($_POST['AddClass']) == true)
+//Add the class to the database if add classes button is pressed
+if (isset($_POST['AddClasses']) == true)
   {
   $findclassname = $racenametoset;
   include $engineslocation . "class-assignclasses.php";
@@ -36,6 +50,13 @@ if (isset($racenametoset) == false)
 
 if ($racenametoset != false)
   {
+  //Look for any autoclasses and populate the class details using engine
+  if (isset($substituteclasses) == true)
+    $findclassname = $substituteclasses;
+  else
+    $findclassname = $racenametoset;
+  include $engineslocation . "find-autoclasses.php";
+
   //Message defining which class to set for
   $addclassdisplayhtml = '<p>Specify a class code for:<br>' . $racenametoset . '</p>';
 
@@ -47,19 +68,9 @@ if ($racenametoset != false)
   include $engineslocation . "class-form-html.php";
 
   //Format class adding form
-  $classformhtml = '<form action="AddClass" method="post">' . $classformhtml;
-  $classformhtml = $classformhtml . '<p>Make Autoclass: <input type="checkbox" name="AutoClass" value="checked"';
-  if ($autoclass == true)
-    $classformhtml = $classformhtml . ' checked';
-  $classformhtml = $classformhtml . '></p>';
-  $classformhtml = $classformhtml . '<input type="hidden" name="ClassName" value="' . $racenametoset . '">';
-  $classformhtml = $classformhtml . '<p>';
-  $classformhtml = $classformhtml . '<input type="submit" name="NewLine" value="New Line"> ';
-  $classformhtml = $classformhtml . '<input type="submit" name="FinalCheck" value="Final Check"> ';
-  $classformhtml = $classformhtml . '<input type="submit" name="AddClass" value="Add">';
-  $classformhtml = $classformhtml . '</p>';
-  $classformhtml = $classformhtml . '</form>';
+  $classformhtml = '<form action="AddClass" method="post">' . $classformhtml . '</form>';
 
+  //Format and display the name of the race
   $classformhtml = "<p>Input class: " . $racenametoset . "</p>
   <p>Generated class: " . $raceclass . "</p>" . $classformhtml;
 
