@@ -41,14 +41,24 @@ foreach ($allpaddlerdetails as $paddlerdetails)
   }
 
 //Look for any currently set autoclasses
-$findclassname = $racedetails['RaceName']
+$findclassname = $racedetails['RaceName'];
 include $engineslocation . "find-autoclasses.php";
+
+echo "Found Auto classes<br>";
+print_r($foundautoclasses);
+echo "<br>";
+echo "The race name components<br>";
+print_r($racenamecomponents);
+echo "<br>";
 
 if (count($foundautoclasses) == count($racenamecomponents))
   {
   //Add each race class
   foreach ($foundautoclasses as $classadd)
     {
+    echo "Add Class Array<br>";
+    print_r($classadd);
+    echo "<br>";
     if (isset($insertclassstmt) == false)
       {
       //Create insert class statement if not already created
