@@ -88,9 +88,16 @@ foreach($racetext as $racetextkey=>$raceline)
     $boatsizes = array();
     foreach ($boats as $boatskey=>$boatname)
       {
-      $boatname = str_split($boatname);
-      array_push($boatclasses,$boatname[0]);
-      array_push($boatsizes,$boatname[1]);
+      //Split the boat name into parts, as combined boat types are not separated otherwise
+      $boatname = explode("/",$boatname);
+
+      //Add the unique boat types to the array
+      foreach($boatname as $boatnamepart)
+        {
+        $boatnamepart = str_split($boatnamepart);
+        array_push($boatclasses,$boatnamepart[0]);
+        array_push($boatsizes,$boatnamepart[1]);
+        }
 
       unset($raceline[$boatskey]);
       }
@@ -99,8 +106,12 @@ foreach($racetext as $racetextkey=>$raceline)
     $boatsizes = array_unique($boatsizes);
     if (count($boatclasses) == 1)
       $racedetails['defCK'] = $boatclasses[0];
+    else
+      $racedetails['defCK'] = "";
     if (count($boatsizes) == 1)
       $racedetails['Boat'] = $boatsizes[0];
+    else
+      $racedetails['Boat'] = "";
 
     //Format round and draw
     $rounds = preg_grep($regex['round'],$raceline);
