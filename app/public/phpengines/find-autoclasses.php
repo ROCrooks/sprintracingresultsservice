@@ -21,6 +21,11 @@ if(strlen($boattype) == 1)
   foreach ($racenamecomponents as $racenamekey=>$racename)
     {
     $racenamecomponents[$racenamekey] = $racename . " " . $boattype;
+
+    //Replace erroneously double inserted boat types
+    $doubleaddsfind = array("A C K","B C K","C C K","D C K","A K C","B K C","C K C","D K C");
+    $doubleaddsreplace = array("A C","B C","C C","D C","A K","B K","C K","D K");
+    $racenamecomponents[$racenamekey] = str_replace($doubleaddsfind,$doubleaddsreplace,$racenamecomponents[$racenamekey]);
     }
   }
 
