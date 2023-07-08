@@ -4,7 +4,7 @@ include_once $engineslocation . 'srrs-required-functions.php';
 //Prepare race count query
 if (isset($countracesstmt) == false)
   {
-  $countracessql = "SELECT COUNT(`Key`) FROM `races` WHERE `Class` = ?";
+  $countracessql = "SELECT COUNT(`Key`) FROM `races` WHERE `Class` LIKE ?";
   $countracesstmt = dbprepare($srrsdblink,$countracessql);
   }
 
@@ -15,8 +15,11 @@ if (isset($autoclassgetstmt) == false)
   $autoclassgetstmt = dbprepare($srrsdblink,$autoclassgetsql);
   }
 
+//Make the wildcarded class name
+$findclassnamewildcard = "%" . $findclassname . "%";
+
 //Count number of races with this class text
-$countraces = dbexecute($countracesstmt,$findclassname);
+$countraces = dbexecute($countracesstmt,$findclassnamewildcard);
 $numberclassraces = $countraces[0]['COUNT(`Key`)'];
 
 //Get race names from autoclasses
