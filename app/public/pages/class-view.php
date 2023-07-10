@@ -22,11 +22,8 @@ foreach($uniqueclassnames as $classitem)
   }
 $allclasseslisthtml = $allclasseslisthtml . '</div>';
 
-$addclasslinkhtml = '<p><a href="AddClass">Add Classes</a></p>';
-
 $pagehtml = '<section>';
 $pagehtml = $pagehtml . '<p class="blockheading">Class Manager</p>';
-$pagehtml = $pagehtml . $addclasslinkhtml;
 $pagehtml = $pagehtml . $allclasseslisthtml;
 $pagehtml = $pagehtml . '</section>';
 ?>
