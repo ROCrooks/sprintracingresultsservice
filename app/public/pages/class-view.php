@@ -23,7 +23,7 @@ foreach($uniqueclassnames as $classitem)
 $allclasseslisthtml = $allclasseslisthtml . '</div>';
 
 $pagehtml = '<section>';
-$pagehtml = $pagehtml . '<p class="blockheading">Class Manager</p>';
+$pagehtml = $pagehtml . '<p class="blockheading">List of Classes</p>';
 $pagehtml = $pagehtml . $allclasseslisthtml;
 $pagehtml = $pagehtml . '</section>';
 ?>
