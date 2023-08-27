@@ -44,7 +44,15 @@ foreach ($allpaddlerdetails as $paddlerdetails)
 $findclassname = $racedetails['RaceName'];
 include $engineslocation . "find-autoclasses.php";
 
-if (count($foundautoclasses) == count($racenamecomponents))
+//Get the distinct classes found as autoclasses
+$distinctclasses = array();
+foreach($foundautoclasses as $foundautoclass)
+  {
+  if(in_array($foundautoclass['RaceName'],$distinctclasses) == false)
+    array_push($distinctclasses,$foundautoclass['RaceName']);
+  }
+
+if (count($distinctclasses) == count($racenamecomponents))
   {
   //Add each race class
   foreach ($foundautoclasses as $classadd)
