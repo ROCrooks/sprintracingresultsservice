@@ -8,7 +8,11 @@ $racenametoset = dbprepareandexecute($srrsdblink,$getracenametosetsql);
 
 //Return the race name, or false if there is none
 if (count($racenametoset) == 1)
+  {
   $racenametoset = $racenametoset[0]['Class'];
+  $inputclass = $racenametoset;
+  }
 else
   $racenametoset = false;
+  $inputclass = false;
 ?>
