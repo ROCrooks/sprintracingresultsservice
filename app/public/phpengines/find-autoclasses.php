@@ -9,7 +9,6 @@ $racenamecomponents = str_replace($variablebreaks,"+",$findclassname);
 //Find out if it's a kayak class or a canoe class
 $racenamecomponents = explode(" ",$racenamecomponents);
 $boattype = array_pop($racenamecomponents);
-echo $boattype . "<br>";
 $racenamecomponents = implode(" ",$racenamecomponents);
 
 //Explode racename by the + between each race class
@@ -29,9 +28,6 @@ if(strlen($boattype) == 1)
     }
   }
 
-print_r($racenamecomponents);
-echo "<br>";
-
 //Find matching race classes in the autoclasses list
 $foundautoclasses = array();
 foreach($racenamecomponents as $namecomponent)
@@ -47,7 +43,5 @@ foreach($racenamecomponents as $namecomponent)
   $autoclass = dbexecute($findclassstmt,$namecomponent);
   if (count($autoclass) > 0)
     $foundautoclasses = array_merge($foundautoclasses,$autoclass);
-  echo "Autoclass found in database<br>";
-  print_r($autoclass);
   }
 ?>
