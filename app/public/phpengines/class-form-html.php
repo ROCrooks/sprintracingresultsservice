@@ -1,4 +1,8 @@
 <?php
+
+$classformhtml = '';
+
+/*
 //Define cell widths
 $classwidths = array();
 $classwidths['JSV'] = 50;
@@ -35,8 +39,6 @@ elseif ($multirowform == false)
   $classtablewidth = $classwidths['JSV']+$classwidths['MW']+$classwidths['CK']+$classwidths['Abil']+$classwidths['Spec']+$classwidths['Ages']+$classwidths['FreeText']+$classwidths['Button']+$classwidths['Button'];
   $rowcount = '';
   }
-
-$classformhtml = '';
 
 //Header for class list
 $classformhtml = $classformhtml . '<div style="width: ' . $classtablewidth . 'px; display: table;">';
@@ -124,4 +126,5 @@ $classformhtml = $classformhtml . '</div>';
 
 //Close Table
 $classformhtml = $classformhtml . '</div>';
+*/
 ?>
