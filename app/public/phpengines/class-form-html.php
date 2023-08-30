@@ -2,6 +2,14 @@
 
 $classformhtml = '';
 
+$classformhtml = $classformhtml . '<form action="AddClass" method="post">';
+$classformhtml = $classformhtml . '<p>Assigning classes to:' . $racenametoset . '</p>';
+$classformhtml = $classformhtml . '<p>Update the input class text to attempt to find autoclasses.</p>';
+$classformhtml = $classformhtml . '<input type="hidden" name="DBClass" value="' . $racenametoset . '">';
+$classformhtml = $classformhtml . '<p>Update class name to: <input type="text" name="InputClass" value="' . $inputclass . '"></p>';
+$classformhtml = $classformhtml . '<p><input type="submit" name="UpdateInput" value="Update"></p>';
+$classformhtml = $classformhtml . '</form>';
+
 /*
 //Define cell widths
 $classwidths = array();
