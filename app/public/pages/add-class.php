@@ -42,15 +42,26 @@ foreach($foundautoclasses as $foundautoclass)
   {
   //Create array of the race name if it doesn't already exist
   if(array_key_exists($foundautoclass['RaceName'],$formdata) == false)
-    $formdata[$foundautoclass['RaceName']] == array();
+    $formdata[$foundautoclass['RaceName']] = array();
+  
+  //Convert the database data to the form data
+  array_push($formdata[$foundautoclass['RaceName']],$foundautoclass);
   }
 
-print_r($foundautoclasses);
+//Add the unfound race components to the race form array
+foreach($racenamecomponents as $racenamecomponent)
+  {
+  if (isset($formdata[$racenamecomponent]) == false)
+  $formdata[$racenamecomponent] = array();
+  }
 
-unset($findclassname);
+print_r($formdata);
+echo '<br>';
 
-$formdata = $foundautoclasses;
-unset($foundautoclasses);
+  //unset($findclassname);
+
+//$formdata = $foundautoclasses;
+//unset($foundautoclasses);
 
 //Make the form to add
 include $engineslocation . "class-form-html.php";
