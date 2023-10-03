@@ -98,11 +98,11 @@ $classformhtml = $classformhtml . '<input type="hidden" name="RaceClassBoxes" va
 
 //Submit buttons
 $classformhtml = $classformhtml . '<p>';
-$classformhtml = $classformhtml . '<input type="submit" name="submit" value="Add Classes">';
+$classformhtml = $classformhtml . '<input type="submit" name="SubmitClasses" value="Add Classes">';
 $classformhtml = $classformhtml . ' ';
-$classformhtml = $classformhtml . '<input type="submit" name="submit" value="Final Check">';
+$classformhtml = $classformhtml . '<input type="submit" name="SubmitClasses" value="Final Check">';
 $classformhtml = $classformhtml . ' ';
-$classformhtml = $classformhtml . '<input type="submit" name="submit" value="Add Rows">';
+$classformhtml = $classformhtml . '<input type="submit" name="SubmitClasses" value="Add Rows">';
 $classformhtml = $classformhtml . '</p>';
 $classformhtml = $classformhtml . '</form>';
 ?>
