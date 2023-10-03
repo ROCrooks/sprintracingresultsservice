@@ -10,7 +10,6 @@ $classformhtml = $classformhtml . '<p>Update class name to: <input type="text" n
 $classformhtml = $classformhtml . '<p><input type="submit" name="UpdateInput" value="Update"></p>';
 $classformhtml = $classformhtml . '</form>';
 
-/*
 //Define cell widths
 $classwidths = array();
 $classwidths['JSV'] = 50;
@@ -23,116 +22,87 @@ $classwidths['FreeText'] = 100;
 $classwidths['Button'] = 60;
 
 //Set field sizes
-if (isset($fieldsizes) == false)
-  {
-  $fieldsizes = array();
-  $fieldsizes['JSV'] = 1;
-  $fieldsizes['MW'] = $fieldsizes['JSV'];
-  $fieldsizes['CK'] = $fieldsizes['JSV'];
-  $fieldsizes['Abil'] = 2;
-  $fieldsizes['Spec'] = 2;
-  $fieldsizes['Ages'] = $fieldsizes['Spec'];
-  $fieldsizes['FreeText'] = 10;
-  }
+$fieldsizes = array();
+$fieldsizes['JSV'] = 2;
+$fieldsizes['MW'] = $fieldsizes['JSV'];
+$fieldsizes['CK'] = $fieldsizes['JSV'];
+$fieldsizes['Abil'] = 6;
+$fieldsizes['Spec'] = 6;
+$fieldsizes['Ages'] = $fieldsizes['Abil'];
+$fieldsizes['FreeText'] = 15;
 
-//Single row forms are wider than multi row forms
-//Also include the rowcount element
-if ($multirowform == true)
-  {
-  $classtablewidth = $classwidths['JSV']+$classwidths['MW']+$classwidths['CK']+$classwidths['Abil']+$classwidths['Spec']+$classwidths['Ages']+$classwidths['FreeText'];
-  $rowcount = 1;
-  }
-elseif ($multirowform == false)
-  {
-  $classtablewidth = $classwidths['JSV']+$classwidths['MW']+$classwidths['CK']+$classwidths['Abil']+$classwidths['Spec']+$classwidths['Ages']+$classwidths['FreeText']+$classwidths['Button']+$classwidths['Button'];
-  $rowcount = '';
-  }
-
-//Header for class list
-$classformhtml = $classformhtml . '<div style="width: ' . $classtablewidth . 'px; display: table;">';
-//echo '<div style="width: 50%; display: table;">';
-
+//Form headings
 $classformhtml = $classformhtml . '<div style="display: table-row;">';
-$classformhtml = $classformhtml . '<div style="display: table-cell;"></div>';
-$classformhtml = $classformhtml . '<div style="width: ' . $classwidths['JSV'] . 'px; display: table-cell;">JSV</div>';
-$classformhtml = $classformhtml . '<div style="width: ' . $classwidths['MW'] . 'px; display: table-cell;">MW</div>';
-$classformhtml = $classformhtml . '<div style="width: ' . $classwidths['CK'] . 'px; display: table-cell;">CK</div>';
-$classformhtml = $classformhtml . '<div style="width: ' . $classwidths['Abil'] . 'px; display: table-cell;">Abil</div>';
-$classformhtml = $classformhtml . '<div style="width: ' . $classwidths['Spec'] . 'px; display: table-cell;">Spec</div>';
-$classformhtml = $classformhtml . '<div style="width: ' . $classwidths['Ages'] . 'px; display: table-cell;">Ages</div>';
-$classformhtml = $classformhtml . '<div style="width: ' . $classwidths['FreeText'] . 'px; display: table-cell;">FreeText</div>';
-
-//Only generate buttons if it's a single row not multiple rows
-if ($multirowform == false)
-  {
-  $classformhtml = $classformhtml . '<div style="width: ' . $classwidths['Button'] . 'px; display: table-cell;"></div>';
-  $classformhtml = $classformhtml . '<div style="width: ' . $classwidths['Button'] . 'px; display: table-cell;"></div>';
-  }
-
-$classformhtml = $classformhtml . '<div style="display: table-cell;"></div>';
+$classformhtml = $classformhtml . '<div style="width: ' . $classwidths['JSV'] . 'px; display: table-cell;"><p>JSV</p></div>';
+$classformhtml = $classformhtml . '<div style="width: ' . $classwidths['MW'] . 'px; display: table-cell;"><p>MW</p></div>';
+$classformhtml = $classformhtml . '<div style="width: ' . $classwidths['CK'] . 'px; display: table-cell;"><p>CK</p></div>';
+$classformhtml = $classformhtml . '<div style="width: ' . $classwidths['Abil'] . 'px; display: table-cell;"><p>Abil</p></div>';
+$classformhtml = $classformhtml . '<div style="width: ' . $classwidths['Spec'] . 'px; display: table-cell;"><p>Spec</p></div>';
+$classformhtml = $classformhtml . '<div style="width: ' . $classwidths['Ages'] . 'px; display: table-cell;"><p>Ages</p></div>';
+$classformhtml = $classformhtml . '<div style="width: ' . $classwidths['FreeText'] . 'px; display: table-cell;"><p>FreeText</p></div>';
 $classformhtml = $classformhtml . '</div>';
 
-//Each class to edit
-foreach ($classdetails as $individualformclass)
+//Form row value that is incremented
+$formrow = 1;
+$classrow = 1;
+
+$classformhtml = $classformhtml . '<form action="AddClass" method="post">';
+
+foreach ($formdata as $itemkey=>$formitem)
   {
-  //Set default values
-  $classkeys = array("Key","JSV","MW","CK","Abil","Spec","Ages","FreeText");
-  $individualformclass = createblanksinarray($individualformclass,$classkeys);
-
-  //Pass the name of the
-  $classformhtml = $classformhtml . '<div style="display: table-row;">';
-  $classformhtml = $classformhtml . '<div style="display: table-cell; width: 0px;">';
-  //Start a form if not a multirow form
-  if ($multirowform == false)
-    $classformhtml = $classformhtml . '<form action="' . $classformactionurl . '" method="post">';
-  $classformhtml = $classformhtml . '<input type="hidden" name="ItemKey' . $rowcount . '" value="' . $individualformclass['Key'] . '"></div>';
-  $classformhtml = $classformhtml . '<div style="width: ' . $classwidths['JSV'] . 'px; display: table-cell;"><input type="text" size="' . $fieldsizes['JSV'] . '" value="' . $individualformclass['JSV'] . '" name="JSV' . $rowcount . '"></div>';
-  $classformhtml = $classformhtml . '<div style="width: ' . $classwidths['MW'] . 'px; display: table-cell;"><input type="text" size="' . $fieldsizes['MW'] . '" value="' . $individualformclass['MW'] . '" name="MW' . $rowcount . '"></div>';
-  $classformhtml = $classformhtml . '<div style="width: ' . $classwidths['CK'] . 'px; display: table-cell;"><input type="text" size="' . $fieldsizes['CK'] . '" value="' . $individualformclass['CK'] . '" name="CK' . $rowcount . '"></div>';
-  $classformhtml = $classformhtml . '<div style="width: ' . $classwidths['Abil'] . 'px; display: table-cell;"><input type="text" size="' . $fieldsizes['Abil'] . '" value="' . $individualformclass['Abil'] . '" name="Abil' . $rowcount . '"></div>';
-  $classformhtml = $classformhtml . '<div style="width: ' . $classwidths['Spec'] . 'px; display: table-cell;"><input type="text" size="' . $fieldsizes['Spec'] . '" value="' . $individualformclass['Spec'] . '" name="Spec' . $rowcount . '"></div>';
-  $classformhtml = $classformhtml . '<div style="width: ' . $classwidths['Ages'] . 'px; display: table-cell;"><input type="text" size="' . $fieldsizes['Ages'] . '" value="' . $individualformclass['Ages'] . '" name="Ages' . $rowcount . '"></div>';
-  $classformhtml = $classformhtml . '<div style="width: ' . $classwidths['FreeText'] . 'px; display: table-cell;"><input type="text" size="' . $fieldsizes['FreeText'] . '" value="' . $individualformclass['FreeText'] . '" name="FreeText' . $rowcount . '"></div>';
-
-  //Only generate buttons if it's a single row not multiple rows
-  if ($multirowform == false)
+  //Display the name of the individual race class on the page
+  $classformhtml = $classformhtml . '<p>' . $itemkey . '</p>';
+  
+  $classformhtml = $classformhtml . '<input type="hidden" name="RaceName' . $classrow . '" value="' . $itemkey . '">';
+  
+  //The start of the range that the class fields refer to
+  $startrow = $formrow;
+  foreach ($formitem as $formline)
     {
-    $classformhtml = $classformhtml . '<div style="width: ' . $classwidths['Button'] . 'px; display: table-cell;"><input type="submit" value="Edit" name="ClassEdit"></div>';
-    $classformhtml = $classformhtml . '<div style="width: ' . $classwidths['Button'] . 'px; display: table-cell;"><input type="submit" value="Delete" name="ClassDelete" onclick="return confirm(\'This will delete the race class. Are you sure you want to continue?\')"></form></div>';
+    //Add form elements to line
+    $classformhtml = $classformhtml . '<div style="display: table-row;">';
+    $classformhtml = $classformhtml . '<div style="width: ' . $classwidths['JSV'] . 'px; display: table-cell;"><input type="text" size="' . $fieldsizes['JSV'] . '" value="' . $formline['JSV'] . '" name="JSV' . $formrow . '"></div>';
+    $classformhtml = $classformhtml . '<div style="width: ' . $classwidths['MW'] . 'px; display: table-cell;"><input type="text" size="' . $fieldsizes['MW'] . '" value="' . $formline['MW'] . '" name="MW' . $formrow . '"></div>';
+    $classformhtml = $classformhtml . '<div style="width: ' . $classwidths['CK'] . 'px; display: table-cell;"><input type="text" size="' . $fieldsizes['CK'] . '" value="' . $formline['CK'] . '" name="CK' . $formrow . '"></div>';
+    $classformhtml = $classformhtml . '<div style="width: ' . $classwidths['Abil'] . 'px; display: table-cell;"><input type="text" size="' . $fieldsizes['Abil'] . '" value="' . $formline['Abil'] . '" name="Abil' . $formrow . '"></div>';
+    $classformhtml = $classformhtml . '<div style="width: ' . $classwidths['Spec'] . 'px; display: table-cell;"><input type="text" size="' . $fieldsizes['Spec'] . '" value="' . $formline['Spec'] . '" name="Spec' . $formrow . '"></div>';
+    $classformhtml = $classformhtml . '<div style="width: ' . $classwidths['Ages'] . 'px; display: table-cell;"><input type="text" size="' . $fieldsizes['Ages'] . '" value="' . $formline['Ages'] . '" name="Ages' . $formrow . '"></div>';
+    $classformhtml = $classformhtml . '<div style="width: ' . $classwidths['FreeText'] . 'px; display: table-cell;"><input type="text" size="' . $fieldsizes['FreeText'] . '" value="' . $formline['FreeText'] . '" name="FreeText' . $formrow . '"></div>';
+    $classformhtml = $classformhtml . '</div>';
+
+    //Increment form row count
+    $formrow++;
     }
-
+  
+  //Add last empty row
+  $classformhtml = $classformhtml . '<div style="display: table-row;">';
+  $classformhtml = $classformhtml . '<div style="width: ' . $classwidths['JSV'] . 'px; display: table-cell;"><input type="text" size="' . $fieldsizes['JSV'] . '" value="" name="JSV' . $formrow . '"></div>';
+  $classformhtml = $classformhtml . '<div style="width: ' . $classwidths['MW'] . 'px; display: table-cell;"><input type="text" size="' . $fieldsizes['MW'] . '" value="" name="MW' . $formrow . '"></div>';
+  $classformhtml = $classformhtml . '<div style="width: ' . $classwidths['CK'] . 'px; display: table-cell;"><input type="text" size="' . $fieldsizes['CK'] . '" value="" name="CK' . $formrow . '"></div>';
+  $classformhtml = $classformhtml . '<div style="width: ' . $classwidths['Abil'] . 'px; display: table-cell;"><input type="text" size="' . $fieldsizes['Abil'] . '" value="" name="Abil' . $formrow . '"></div>';
+  $classformhtml = $classformhtml . '<div style="width: ' . $classwidths['Spec'] . 'px; display: table-cell;"><input type="text" size="' . $fieldsizes['Spec'] . '" value="" name="Spec' . $formrow . '"></div>';
+  $classformhtml = $classformhtml . '<div style="width: ' . $classwidths['Ages'] . 'px; display: table-cell;"><input type="text" size="' . $fieldsizes['Ages'] . '" value="" name="Ages' . $formrow . '"></div>';
+  $classformhtml = $classformhtml . '<div style="width: ' . $classwidths['FreeText'] . 'px; display: table-cell;"><input type="text" size="' . $fieldsizes['FreeText'] . '" value="" name="FreeText' . $formrow . '"></div>';
   $classformhtml = $classformhtml . '</div>';
-
-  //Increase rowcount if it is a number rather than blank
-  if ($rowcount != '')
-    $rowcount++;
+  
+  //The end of the range that the class fields refer to
+  $endrow = $formrow;
+  
+  //The class range
+  $classformhtml = $classformhtml . '<input type="hidden" name="ClassRange' . $classrow . '" value="' . $startrow . '-' . $endrow . '">';
   }
 
-//Form to add a new class
-$classformhtml = $classformhtml . '<div style="display: table-row;">';
-$classformhtml = $classformhtml . '<div style="display: table-cell; width: 0px;">';
-if ($multirowform == false)
-  $classformhtml = $classformhtml . '<form action="' . $classformactionurl . '" method="post">';
-$classformhtml = $classformhtml . '</div>';
-$classformhtml = $classformhtml . '<div style="width: ' . $classwidths['JSV'] . 'px; display: table-cell;"><input type="text" size="' . $fieldsizes['JSV'] . '" name="JSV' . $rowcount . '"></div>';
-$classformhtml = $classformhtml . '<div style="width: ' . $classwidths['MW'] . 'px; display: table-cell;"><input type="text" size="' . $fieldsizes['MW'] . '" name="MW' . $rowcount . '"></div>';
-$classformhtml = $classformhtml . '<div style="width: ' . $classwidths['CK'] . 'px; display: table-cell;"><input type="text" size="' . $fieldsizes['CK'] . '" name="CK' . $rowcount . '"></div>';
-$classformhtml = $classformhtml . '<div style="width: ' . $classwidths['Abil'] . 'px; display: table-cell;"><input type="text" size="' . $fieldsizes['Abil'] . '" name="Abil' . $rowcount . '"></div>';
-$classformhtml = $classformhtml . '<div style="width: ' . $classwidths['Spec'] . 'px; display: table-cell;"><input type="text" size="' . $fieldsizes['Spec'] . '" name="Spec' . $rowcount . '"></div>';
-$classformhtml = $classformhtml . '<div style="width: ' . $classwidths['Ages'] . 'px; display: table-cell;"><input type="text" size="' . $fieldsizes['Ages'] . '" name="Ages' . $rowcount . '"></div>';
-$classformhtml = $classformhtml . '<div style="width: ' . $classwidths['FreeText'] . 'px; display: table-cell;"><input type="text" size="' . $fieldsizes['FreeText'] . '" name="FreeText' . $rowcount . '"></div>';
+//The 
+$classformhtml = $classformhtml . '<input type="hidden" name="RaceClassBoxes" value="' . count($formdata) . '">';
+$classformhtml = $classformhtml . '<input type="hidden" name="RaceClassBoxes" value="' . count($formdata) . '">';
 
-//Only generate buttons if it's a single row not multiple rows
-if ($multirowform == false)
-  {
-  $classformhtml = $classformhtml . '<div style="width: ' . $classwidths['Button'] . 'px; display: table-cell;"><input type="submit" value="Add" name="ClassAdd"></div>';
-  $classformhtml = $classformhtml . '<div style="width: ' . $classwidths['Button'] . 'px; display: table-cell;"></form></div>';
-  }
-
-//Close New Class Row
-$classformhtml = $classformhtml . '</div>';
-
-//Close Table
-$classformhtml = $classformhtml . '</div>';
-*/
+//Submit buttons
+$classformhtml = $classformhtml . '<p>';
+$classformhtml = $classformhtml . '<input type="submit" name="submit" value="Add Classes">';
+$classformhtml = $classformhtml . ' ';
+$classformhtml = $classformhtml . '<input type="submit" name="submit" value="Final Check">';
+$classformhtml = $classformhtml . ' ';
+$classformhtml = $classformhtml . '<input type="submit" name="submit" value="Add Rows">';
+$classformhtml = $classformhtml . '</p>';
+$classformhtml = $classformhtml . '</form>';
 ?>
