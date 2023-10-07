@@ -1,9 +1,8 @@
 <?php
-
 $classformhtml = '';
 
 $classformhtml = $classformhtml . '<form action="AddClass" method="post">';
-$classformhtml = $classformhtml . '<p>Assigning classes to:' . $racenametoset . '</p>';
+$classformhtml = $classformhtml . '<p>Assigning classes to: ' . $racenametoset . '</p>';
 $classformhtml = $classformhtml . '<p>Update the input class text to attempt to find autoclasses.</p>';
 $classformhtml = $classformhtml . '<input type="hidden" name="DBClass" value="' . $racenametoset . '">';
 $classformhtml = $classformhtml . '<p>Update class name to: <input type="text" name="InputClass" value="' . $inputclass . '"></p>';
@@ -84,17 +83,23 @@ foreach ($formdata as $itemkey=>$formitem)
   $classformhtml = $classformhtml . '<div style="width: ' . $classwidths['Ages'] . 'px; display: table-cell;"><input type="text" size="' . $fieldsizes['Ages'] . '" value="" name="Ages' . $formrow . '"></div>';
   $classformhtml = $classformhtml . '<div style="width: ' . $classwidths['FreeText'] . 'px; display: table-cell;"><input type="text" size="' . $fieldsizes['FreeText'] . '" value="" name="FreeText' . $formrow . '"></div>';
   $classformhtml = $classformhtml . '</div>';
-  
+
   //The end of the range that the class fields refer to
   $endrow = $formrow;
   
   //The class range
   $classformhtml = $classformhtml . '<input type="hidden" name="ClassRange' . $classrow . '" value="' . $startrow . '-' . $endrow . '">';
+
+  //Increment form and class row count
+  $formrow++;
+  $classrow++;
   }
 
-//The 
-$classformhtml = $classformhtml . '<input type="hidden" name="RaceClassBoxes" value="' . count($formdata) . '">';
-$classformhtml = $classformhtml . '<input type="hidden" name="RaceClassBoxes" value="' . count($formdata) . '">';
+//Hidden global data to send through the form
+$classformhtml = $classformhtml . '<input type="hidden" name="ClassRows" value="' . $classrow-1 . '">';
+$classformhtml = $classformhtml . '<input type="hidden" name="RaceClassBoxes" value="' . $formrow-1 . '">';
+$classformhtml = $classformhtml . '<input type="hidden" name="DBClass" value="' . $racenametoset . '">';
+$classformhtml = $classformhtml . '<input type="hidden" name="InputClass" value="' . $inputclass . '">';
 
 //Submit buttons
 $classformhtml = $classformhtml . '<p>';
