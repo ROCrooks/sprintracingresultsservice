@@ -82,7 +82,7 @@ if (isset($racenamecomponents) == false)
 foreach($racenamecomponents as $racenamecomponent)
   {
   if (isset($formdata[$racenamecomponent]) == false)
-  $formdata[$racenamecomponent] = array();
+    $formdata[$racenamecomponent] = array();
   }
 
 print_r($formdata);
