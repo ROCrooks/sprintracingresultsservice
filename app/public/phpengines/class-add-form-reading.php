@@ -44,7 +44,7 @@ While($classpointer <= $totalclassrows)
 
 //Retrieve the race lines from the form
 $racerowspointer = 1;
-$inputdata = array();
+$forminputdata = array();
 while ($racerowspointer <= $totalracerows)
     {
     $formdataline = array();
@@ -61,7 +61,7 @@ while ($racerowspointer <= $totalracerows)
         {
         //Get the data from the array of class data
         $formdataline = array_merge($formdataline,$classfieldsdata[$racerowspointer]);
-        array_push($inputdata, $formdataline);
+        array_push($forminputdata,$formdataline);
         }
     
     //increment class form row pointer

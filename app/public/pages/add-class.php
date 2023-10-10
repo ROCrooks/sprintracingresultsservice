@@ -36,20 +36,39 @@ if (isset($_POST['SubmitClasses']) == true)
 if (isset($racenametoset) == false)
   include $engineslocation . "class-getunassignedclass.php";
 
-//Get any specified autoclasses
-$findclassname = $inputclass;
-include $engineslocation . "find-autoclasses.php";
+if (isset($forminputdata) == false)
+  {
+  //Get any specified autoclasses
+  $findclassname = $inputclass;
+  include $engineslocation . "find-autoclasses.php";
+  
+  //Put the autoclasses into the classes to add array
+  $classestoadd = $foundautoclasses;
+  unset($foundautoclasses);
+  }
+else
+  {
+  //Put the form input into the classes to add array
+  $classestoadd = $forminputdata;
+  unset($forminputdata);
+  }
 
 //Process found autoclasses into form data
 $formdata = array();
-foreach($foundautoclasses as $foundautoclass)
+foreach($classestoadd as $classtoadd)
   {
   //Create array of the race name if it doesn't already exist
-  if(array_key_exists($foundautoclass['RaceName'],$formdata) == false)
-    $formdata[$foundautoclass['RaceName']] = array();
+  if(array_key_exists($classtoadd['RaceName'],$formdata) == false)
+    $formdata[$classtoadd['RaceName']] = array();
   
   //Convert the database data to the form data
-  array_push($formdata[$foundautoclass['RaceName']],$foundautoclass);
+  array_push($formdata[$classtoadd['RaceName']],$classtoadd);
+  }
+
+//Make the racenamecomponents array if it does not already exist
+if (isset($racenamecomponents) == false)
+  {
+  
   }
 
 //Add the unfound race components to the race form array
