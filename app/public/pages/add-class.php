@@ -24,6 +24,10 @@ if (isset($_POST['DBClass']) == true)
     $inputclass = $racenametoset;
   }
 
+//Get the input from the form
+if (isset($_POST['SubmitClasses']) == true)
+  include $engineslocation . "class-add-form-reading.php";
+
 //If add button pressed, add the classes
 
 //If the change input class button is pressed, change the input class
