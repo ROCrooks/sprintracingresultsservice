@@ -68,7 +68,8 @@ foreach($classestoadd as $classtoadd)
 //Make the racenamecomponents array if it does not already exist
 if (isset($racenamecomponents) == false)
   {
-  
+  $findclassname = $inputclass;
+  include $engineslocation . "atomize-racenames.php";
   }
 
 //Add the unfound race components to the race form array
