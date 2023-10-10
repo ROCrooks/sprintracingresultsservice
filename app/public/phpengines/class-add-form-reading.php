@@ -1,5 +1,6 @@
 <?php
 //The list of field names to retrieve
+<<<<<<< HEAD
 $classfieldsget = array("JSV", "MW", "CK", "Abil", "Age", "Spec", "FreeText");
 $racefieldsget = array("RaceName", "AddAutoClass", "IsAutoClass", "ClassRange")
 
@@ -18,11 +19,40 @@ While($autoclasspointer <= $raceclassboxes) {
         $postfieldname = $field . $raceclasspointer;
         $raceformdataline[$field] = $_POST[$postfieldname];
     }
+=======
+$racefieldsget = array("JSV", "MW", "CK", "Abil", "Age", "Spec", "FreeText");
+$classfieldsget = array("RaceName",/*"AddAutoClass", "IsAutoClass", */"ClassRange");
+
+//Get the number of race class rows to retrieve and the number of autoclass check boxes to retrieve
+$totalclassrows = $_POST['ClassRows'];
+$totalracerows = $_POST['RaceRows'];
+
+echo $totalclassrows . '<br>';
+echo $totalracerows . '<br>';
+
+//Retrieve contents of race classes inputs and place in lookup array for class lines
+$classpointer = 1;
+$classfieldsdata = array();
+
+While($classpointer <= $totalclassrows)
+    {
+    echo $classpointer . '<br>';
+
+    //Retrieve the data about each race name
+    $raceformdataline = array();
+    foreach ($classfieldsget as $field)
+        {
+        $postfieldname = $field . $classpointer;
+        $raceformdataline[$field] = $_POST[$postfieldname];
+        echo $raceformdataline[$field] . '<br>';
+        }
+>>>>>>> bb600d932476e9f5b4206ab3c49e1281d0edb6b9
 
     //Make the start and finish of the class line ranges
     $racerange = explode("-", $raceformdataline['ClassRange']);
     $keyclassline = $racerange[0];
     $endclassline = $racerange[1];
+<<<<<<< HEAD
 
     //Add to look up array for class lines
     while ($keyclassline <= $endclassline) {
@@ -31,10 +61,24 @@ While($autoclasspointer <= $raceclassboxes) {
         $classlinedata['AddAutoClass'] = $raceformdata['AddAutoClass'];
         $classlinedata['IsAutoClass'] = $raceformdata['IsAutoClass'];
         $racefieldsdata[$keyclassline] = $classlinedata;
+=======
+    
+    echo $keyclassline . ' to ' . $endclassline . '<br>';
+
+    //Add to look up array for class lines
+    while ($keyclassline <= $endclassline)
+        {
+        $classlinedata = array();
+        $classlinedata['RaceName'] = $raceformdataline['RaceName'];
+        //$classlinedata['AddAutoClass'] = $raceformdataline['AddAutoClass'];
+        //$classlinedata['IsAutoClass'] = $raceformdataline['IsAutoClass'];
+        $classfieldsdata[$keyclassline] = $classlinedata;
+>>>>>>> bb600d932476e9f5b4206ab3c49e1281d0edb6b9
         $keyclassline++;
     }
 
     //Increment the pointer
+<<<<<<< HEAD
     $raceclasspointer++;
 }
 
@@ -47,6 +91,27 @@ while ($classrowspointer <= $classfieldsget) {
         $postfieldname = $field . $classrowspointer;
         $formdataline[$field] = $_POST[$postfieldname];
     }
+=======
+    $classpointer++;
+    }
+
+print_r($classfieldsdata);
+echo '<br>';
+
+//Retrieve the race lines from the form
+$racerowspointer = 1;
+$formdata = array();
+while ($racerowspointer <= $totalracerows)
+    {
+    $formdataline = array();
+    //Retrieve field data and add to formdataline array
+    foreach ($racefieldsget as $field)
+        {
+        $postfieldname = $field . $classrowspointer;
+        $formdataline[$field] = $_POST[$postfieldname];
+        }
+    /*
+>>>>>>> bb600d932476e9f5b4206ab3c49e1281d0edb6b9
 
     //Check if the user editable fields have any contents, if so add to array
     $checkline = implode("", $formdataline)
@@ -55,8 +120,16 @@ while ($classrowspointer <= $classfieldsget) {
         $formdataline = array_merge($formdataline, $racefieldsdata[$classrowspointer]);
         array_push($formdata, $formdataline);
     }
+<<<<<<< HEAD
 
     //increment class form row pointer
     $classrowspointer++;
 }
+=======
+    */
+    
+    //increment class form row pointer
+    $racerowspointer++;
+    }
+>>>>>>> bb600d932476e9f5b4206ab3c49e1281d0edb6b9
 ?>
