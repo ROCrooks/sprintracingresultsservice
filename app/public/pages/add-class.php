@@ -42,6 +42,12 @@ if (isset($forminputdata) == false)
   $findclassname = $inputclass;
   include $engineslocation . "find-autoclasses.php";
   
+  //Set each found autoclass with a flag saying that the autoclass has been found
+  foreach($foundautoclasses as $foundclasskey=>$foundautoclass)
+    {
+    $foundautoclasses[$foundclasskey][AutoClass] = "Is";
+    }
+  
   //Put the autoclasses into the classes to add array
   $classestoadd = $foundautoclasses;
   unset($foundautoclasses);
