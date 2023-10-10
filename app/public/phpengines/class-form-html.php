@@ -87,6 +87,14 @@ foreach ($formdata as $itemkey=>$formitem)
   $classformhtml = $classformhtml . '<div style="width: ' . $classwidths['Ages'] . 'px; display: table-cell;"><input type="text" size="' . $fieldsizes['Ages'] . '" value="" name="Ages' . $formrow . '"></div>';
   $classformhtml = $classformhtml . '<div style="width: ' . $classwidths['FreeText'] . 'px; display: table-cell;"><input type="text" size="' . $fieldsizes['FreeText'] . '" value="" name="FreeText' . $formrow . '"></div>';
   $classformhtml = $classformhtml . '</div>';
+  
+  //Add the autoclass box depending on the status of the autoclass
+  if ($autoclassflag == "Is")
+    $classformhtml = $classformhtml . '<p>This is already an automatic class.</p>';
+  elseif ($autoclassflag == "Blank")
+    $classformhtml = $classformhtml . '<p>Add automatic class <input type="checkbox" name="Autoclass" value="Add"></p>';
+  elseif ($autoclassflag == "Blank")
+    $classformhtml = $classformhtml . '<p>Add automatic class <input type="checkbox" name="Autoclass" value="Add" checked></p>';
 
   //The end of the range that the class fields refer to
   $endrow = $formrow;
