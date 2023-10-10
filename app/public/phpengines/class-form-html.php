@@ -52,6 +52,10 @@ foreach ($formdata as $itemkey=>$formitem)
   //Display the name of the individual race class on the page
   $classformhtml = $classformhtml . '<p>' . $itemkey . '</p>';
   
+  //Retrieve the autoclass flag and remove it to prevent confusion when reading classes
+  $autoclassflag = $formitem['AutoClass'];
+  unset($formitem['AutoClass']);
+
   $classformhtml = $classformhtml . '<input type="hidden" name="RaceName' . $classrow . '" value="' . $itemkey . '">';
   
   //The start of the range that the class fields refer to

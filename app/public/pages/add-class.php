@@ -45,7 +45,7 @@ if (isset($forminputdata) == false)
   //Set each found autoclass with a flag saying that the autoclass has been found
   foreach($foundautoclasses as $foundclasskey=>$foundautoclass)
     {
-    $foundautoclasses[$foundclasskey][AutoClass] = "Is";
+    $foundautoclasses[$foundclasskey]['AutoClass'] = "Is";
     }
   
   //Put the autoclasses into the classes to add array
@@ -69,6 +69,15 @@ foreach($classestoadd as $classtoadd)
   
   //Convert the database data to the form data
   array_push($formdata[$classtoadd['RaceName']],$classtoadd);
+
+  //Add the autoclass flag (which applies to the entire atomized class)
+  if(isset($formdata[$classtoadd['RaceName']]['AutoClass']) == false)
+    {
+    if (isset($classtoadd['AutoClass']) == true)
+      $formdata[$classtoadd['RaceName']]['AutoClass'] = $classtoadd['AutoClass'];
+    else
+      $formdata[$classtoadd['RaceName']]['AutoClass'] = "Once";
+    }
   }
 
 //Make the racenamecomponents array if it does not already exist
@@ -82,7 +91,7 @@ if (isset($racenamecomponents) == false)
 foreach($racenamecomponents as $racenamecomponent)
   {
   if (isset($formdata[$racenamecomponent]) == false)
-    $formdata[$racenamecomponent] = array();
+    $formdata[$racenamecomponent] = array("AutoClass"=>"Blank");
   }
 
 print_r($formdata);
