@@ -26,11 +26,15 @@ if (isset($_POST['DBClass']) == true)
 
 //Get the input from the form
 if (isset($_POST['SubmitClasses']) == true)
+  {
   include $engineslocation . "class-add-form-reading.php";
 
-//If add button pressed, add the classes
-
-//If the change input class button is pressed, change the input class
+  //If add button pressed, add the classes
+  if ($_POST['SubmitClasses'] == "Add Classes")
+    {
+    include $engineslocation . 'class-assignclasses.php';
+    }
+  }
 
 //Get the next unset class in the races table if a class details array is not set
 if (isset($racenametoset) == false)
@@ -94,10 +98,7 @@ foreach($racenamecomponents as $racenamecomponent)
     $formdata[$racenamecomponent] = array("AutoClass"=>"Blank");
   }
 
-print_r($formdata);
-echo '<br>';
-
-  //unset($findclassname);
+//unset($findclassname);
 
 //$formdata = $foundautoclasses;
 //unset($foundautoclasses);
