@@ -32,7 +32,16 @@ if (isset($_POST['SubmitClasses']) == true)
   //If add button pressed, add the classes
   if ($_POST['SubmitClasses'] == "Add Classes")
     {
+    //Assign the classes
     include $engineslocation . 'class-assignclasses.php';
+    
+    //Clear the variables which came from the form originally if the form data was added to the database
+    unset($totalclassrows);
+    unset($totalracerows);
+    unset($racenametoset);
+    unset($inputclass);
+    unset($classfieldsdata);
+    unset($forminputsdata);
     }
   }
 
@@ -80,7 +89,7 @@ foreach($classestoadd as $classtoadd)
     if (isset($classtoadd['AutoClass']) == true)
       $formdata[$classtoadd['RaceName']]['AutoClass'] = $classtoadd['AutoClass'];
     else
-      $formdata[$classtoadd['RaceName']]['AutoClass'] = "Once";
+      $formdata[$classtoadd['RaceName']]['AutoClass'] = "Blank";
     }
   }
 
@@ -98,10 +107,7 @@ foreach($racenamecomponents as $racenamecomponent)
     $formdata[$racenamecomponent] = array("AutoClass"=>"Blank");
   }
 
-//unset($findclassname);
-
-//$formdata = $foundautoclasses;
-//unset($foundautoclasses);
+echo count($formdata) . '<br>';
 
 //Make the form to add
 include $engineslocation . "class-form-html.php";
