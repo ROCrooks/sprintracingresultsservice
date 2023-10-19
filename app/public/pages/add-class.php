@@ -41,7 +41,8 @@ if (isset($_POST['SubmitClasses']) == true)
     unset($racenametoset);
     unset($inputclass);
     unset($classfieldsdata);
-    unset($forminputsdata);
+    unset($forminputdata);
+    unset($racenamecomponents);
     }
   }
 
@@ -106,8 +107,6 @@ foreach($racenamecomponents as $racenamecomponent)
   if (isset($formdata[$racenamecomponent]) == false)
     $formdata[$racenamecomponent] = array("AutoClass"=>"Blank");
   }
-
-echo count($formdata) . '<br>';
 
 //Make the form to add
 include $engineslocation . "class-form-html.php";
