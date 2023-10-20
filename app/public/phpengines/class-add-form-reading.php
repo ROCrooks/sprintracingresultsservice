@@ -55,6 +55,9 @@ while ($racerowspointer <= $totalracerows)
         {
         $postfieldname = $field . $racerowspointer;
         $formdataline[$field] = $_POST[$postfieldname];
+        //Make the race class upper case when being added
+        if ($field != "FreeText")
+           $formdataline[$field] = strtoupper($formdataline[$field]);
         }
 
     //Check if the user editable fields have any contents, if so add to array
