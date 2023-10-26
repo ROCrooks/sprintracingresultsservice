@@ -64,7 +64,7 @@ if (($racenametoset != '') AND ($inputclass != ''))
       {
       $foundautoclasses = array();
       }
-    
+
     //Set each found autoclass with a flag saying that the autoclass has been found
     foreach($foundautoclasses as $foundclasskey=>$foundautoclass)
       {
