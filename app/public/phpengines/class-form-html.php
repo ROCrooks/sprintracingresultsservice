@@ -149,8 +149,8 @@ foreach ($formclasses as $itemkey=>$formitem)
   }
 
 //Hidden global data to send through the form
-$classformhtml = $classformhtml . '<input type="hidden" name="ClassRows" value="' . $classrow-1 . '">';
-$classformhtml = $classformhtml . '<input type="hidden" name="RaceRows" value="' . $formrow-1 . '">';
+$classformhtml = $classformhtml . '<input type="hidden" name="TotalAtomizedClassRows" value="' . $classrow-1 . '">';
+$classformhtml = $classformhtml . '<input type="hidden" name="TotalTableRows" value="' . $formrow-1 . '">';
 $classformhtml = $classformhtml . '<input type="hidden" name="DBClass" value="' . $racenametoset . '">';
 $classformhtml = $classformhtml . '<input type="hidden" name="InputClass" value="' . $inputclass . '">';
 
