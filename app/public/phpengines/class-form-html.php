@@ -161,6 +161,4 @@ $classformhtml = $classformhtml . ' ';
 $classformhtml = $classformhtml . '<input type="submit" name="SubmitClasses" value="Final Check">';
 $classformhtml = $classformhtml . '</p>';
 $classformhtml = $classformhtml . '</form>';
-
-echo $classformhtml;
 ?>
