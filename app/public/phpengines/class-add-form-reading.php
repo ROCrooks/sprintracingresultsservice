@@ -6,6 +6,9 @@ $tablefieldsget = array("JSV","MW","CK","Abil","Ages","Spec","FreeText");
 $totalatomizedclasses = $_POST['TotalAtomizedClassRows'];
 $totaltablerows = $_POST['TotalTableRows'];
 
+//Get the name of the race to set
+$racenametoset = $_POST['InputClass'];
+
 //Retrieve contents of race classes inputs and place in lookup array for class lines
 $atomizedclasspointer = 1;
 $tablerowpointer = 1;
