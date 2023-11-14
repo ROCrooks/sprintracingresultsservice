@@ -1,16 +1,69 @@
 <?php
 //The list of field names to retrieve
-$racefieldsget = array("JSV","MW","CK","Abil","Ages","Spec","FreeText");
-$classfieldsget = array("RaceName","AutoClass","ClassRange");
+$tablefieldsget = array("JSV","MW","CK","Abil","Ages","Spec","FreeText");
 
 //Get the number of race class rows to retrieve and the number of autoclass check boxes to retrieve
-$totalclassrows = $_POST['ClassRows'];
-$totalracerows = $_POST['RaceRows'];
+$totalatomizedclasses = $_POST['TotalAtomizedClassRows'];
+$totaltablerows = $_POST['TotalTableRows'];
 
 //Retrieve contents of race classes inputs and place in lookup array for class lines
-$classpointer = 1;
-$classfieldsdata = array();
+$atomizedclasspointer = 1;
+$tablerowpointer = 1;
 
+//Retrieve the classes from the form, along with their codes, and put them into the array
+$formclasses = array();
+while($atomizedclasspointer <= $totalatomizedclasses)
+    {
+    //Retrieve the race name, and make an array key with this race name
+    $racenamefield = "RaceName" . $atomizedclasspointer;
+    $racename = $_POST[$racenamefield];
+    $formclasses[$racename] = array();
+
+    //Get the autoclass flag from the form and add it to the array
+    $autoclassfield = "AutoClass" . $atomizedclasspointer;
+    if (isset($_POST[$autoclassfield]) == true)
+        $formclasses[$racename]['AutoClass'] = $_POST[$autoclassfield];
+    else
+        $formclasses[$racename]['AutoClass'] = "Blank";
+    
+    //Make the array that holds the class codes
+    $formclasses[$racename]['Classcodes'] = array();
+
+    //Get the class range from the field, and split to get the start and finish keys for the field range
+    $classrangefield = "ClassRange" . $atomizedclasspointer;
+    $classrange = $_POST[$classrangefield];
+    $classrange = explode("-",$classrange);
+    $keyclassline = $classrange[0];
+    $endclassline = $classrange[1];
+
+    //Read all of the classlines and add to array if not blank
+    while ($keyclassline <= $endclassline)
+        {
+        //Read each of the fields and add to the form data line array
+        $formdataline = array();
+        foreach ($tablefieldsget as $field)
+            {
+            $postfieldname = $field . $keyclassline;
+            $formdataline[$field] = $_POST[$postfieldname];
+            //Make the race class upper case when being added
+            if ($field != "FreeText")
+                $formdataline[$field] = strtoupper($formdataline[$field]);
+            }
+        
+        $checkline = implode("", $formdataline);
+        if ($checkline != '')
+            {
+            //Add the form data line to the classes array
+            array_push($formclasses[$racename]['Classcodes'],$formdataline);
+            }
+
+        $keyclassline++;
+        }
+
+    $atomizedclasspointer++;
+    }
+
+/*
 While($classpointer <= $totalclassrows)
     {
     //Retrieve the data about each race name
@@ -72,4 +125,5 @@ while ($racerowspointer <= $totalracerows)
     //increment class form row pointer
     $racerowspointer++;
     }
+*/
 ?>
