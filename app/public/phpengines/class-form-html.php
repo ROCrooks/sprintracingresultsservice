@@ -129,6 +129,9 @@ foreach ($formclasses as $itemkey=>$formitem)
     $classformhtml = $classformhtml . '<div style="width: ' . $classwidths['Ages'] . 'px; display: table-cell;"><input type="text" size="' . $fieldsizes['Ages'] . '" value="" name="Ages' . $formrow . '"></div>';
     $classformhtml = $classformhtml . '<div style="width: ' . $classwidths['FreeText'] . 'px; display: table-cell;"><input type="text" size="' . $fieldsizes['FreeText'] . '" value="" name="FreeText' . $formrow . '"></div>';
     $classformhtml = $classformhtml . '</div>';
+
+    //Increment form row count
+    $formrow++;
     
     //Display the autoclass box on the form
     if ($autoclassflag == "Blank")
@@ -138,13 +141,12 @@ foreach ($formclasses as $itemkey=>$formitem)
     }
 
   //The end of the range that the class fields refer to
-  $endrow = $formrow;
+  $endrow = $formrow-1;
   
   //The class range
   $classformhtml = $classformhtml . '<input type="hidden" name="ClassRange' . $classrow . '" value="' . $startrow . '-' . $endrow . '">';
 
   //Increment form and class row count
-  $formrow++;
   $classrow++;
   }
 
