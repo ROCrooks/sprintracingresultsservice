@@ -1,38 +1,34 @@
 <?php
-//Function to sort the form lines into the correct order
-function sortformlines($a,$b)
-  {
-  if ($a['RaceName'] == $b['RaceName'])
-    {
-    if ($a['Line'] == $b['Line'])
-      {
-      return 0;
-      }
-    return ($a['Line'] > $b['Line']) ? -1 : 1;
-    }
-  return ($a['RaceName'] > $b['RaceName']) ? -1 : 1;
-  }
+//Flag to search for new race classes to add to database
+$findnextrace = true;
 
-//Get the race name and the input class if it has been sent by a form
-if (isset($_POST['DBClass']) == true)
+//Update the race name input from form
+if (isset($_POST['UpdateInput']) == true)
   {
   $racenametoset = $_POST['DBClass'];
+  $inputclass = $_POST['InputClass'];
+  
+  //Look up autoclasses for the input class name
+  $findclassname = $inputclass;
+  include $engineslocation . "find-autoclasses.php";
+  unset($findclassname);
 
-  if (isset($_POST['InputClass']) == true)
-    $inputclass = $_POST['InputClass'];
-  else
-    $inputclass = $racenametoset;
+  //Make the form classes (as output in the HTML) those found by searching for the input class
+  $formclasses = $foundautoclasses;
+
+  //Flag to not look up the next race in the database
+  $findnextrace = false;
+  $endofraces = false;
   }
-
-//Get the input from the form
-if (isset($_POST['SubmitClasses']) == true)
+elseif (isset($_POST['SubmitClasses']) == true)
   {
   include $engineslocation . "class-add-form-reading.php";
-
+  
   //If add button pressed, add the classes
   if ($_POST['SubmitClasses'] == "Add Classes")
     {
     //Assign the classes
+    $classesadd = $formclasses;
     include $engineslocation . 'class-assignclasses.php';
     
     //Clear the variables which came from the form originally if the form data was added to the database
@@ -40,88 +36,36 @@ if (isset($_POST['SubmitClasses']) == true)
     unset($totalracerows);
     unset($racenametoset);
     unset($inputclass);
+    unset($classesadd);
     unset($classfieldsdata);
     unset($forminputdata);
     unset($racenamecomponents);
-    }
-  }
-
-//Get the next unset class in the races table if a class details array is not set
-if (isset($racenametoset) == false)
-  include $engineslocation . "class-getunassignedclass.php";
-
-if (($racenametoset != '') AND ($inputclass != ''))
-  {
-  if (isset($forminputdata) == false)
-    {
-    //Get any specified autoclasses
-    if ($inputclass != false)
-      {
-      $findclassname = $inputclass;
-      include $engineslocation . "find-autoclasses.php";
-      }
-    else
-      {
-      $foundautoclasses = array();
-      }
-
-    //Set each found autoclass with a flag saying that the autoclass has been found
-    foreach($foundautoclasses as $foundclasskey=>$foundautoclass)
-      {
-      $foundautoclasses[$foundclasskey]['AutoClass'] = "Is";
-      }
     
-    //Put the autoclasses into the classes to add array
-    $classestoadd = $foundautoclasses;
-    unset($foundautoclasses);
+    //As classes have been added, flag to search for the new race name
+    $findnextrace = true;
     }
   else
     {
-    //Put the form input into the classes to add array
-    $classestoadd = $forminputdata;
-    unset($forminputdata);
-    }
-
-  //Process found autoclasses into form data
-  $formdata = array();
-  foreach($classestoadd as $classtoadd)
-    {
-    //Create array of the race name if it doesn't already exist
-    if(array_key_exists($classtoadd['RaceName'],$formdata) == false)
-      $formdata[$classtoadd['RaceName']] = array();
-    
-    //Convert the database data to the form data
-    array_push($formdata[$classtoadd['RaceName']],$classtoadd);
-
-    //Add the autoclass flag (which applies to the entire atomized class)
-    if(isset($formdata[$classtoadd['RaceName']]['AutoClass']) == false)
-      {
-      if (isset($classtoadd['AutoClass']) == true)
-        $formdata[$classtoadd['RaceName']]['AutoClass'] = $classtoadd['AutoClass'];
-      else
-        $formdata[$classtoadd['RaceName']]['AutoClass'] = "Blank";
-      }
-    }
-
-  //Make the racenamecomponents array if it does not already exist
-  if (isset($racenamecomponents) == false)
-    {
-    $findclassname = $inputclass;
-    include $engineslocation . "atomize-racenames.php";
-    }
-
-  //Add the unfound race components to the race form array
-  foreach($racenamecomponents as $racenamecomponent)
-    {
-    if (isset($formdata[$racenamecomponent]) == false)
-      $formdata[$racenamecomponent] = array("AutoClass"=>"Blank");
-    }
-  
-  //Make the form to add
-  include $engineslocation . "class-form-html.php";
+    //Make the form classes the form input data for a final check
+    $formclasses = $formclasses;
+    $findnextrace = false;
+    $endofraces = false;
+    }    
   }
+
+//Get the next racename to set and automatically set any races that can be found in the database
+if ($findnextrace == true)
+  {
+  include $engineslocation . "class-findnextracename.php";
+  $formclasses = $foundautoclasses;
+  $inputclass = $racenametoset;
+  }
+
+//Make the form to add
+if ($endofraces == false)
+  include $engineslocation . "class-form-html.php";
 else
-  $classformhtml = "<p>All race classes have been assigned! You may now release regattas from the database!</p>";
+  $classformhtml = '<p>Success! All race classes have been set!</p>';
 
 $pagehtml = '<section>';
 $pagehtml = $pagehtml . '<p class="blockheading">Add Classes</p>';
