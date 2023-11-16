@@ -47,6 +47,17 @@ foreach ($classesadd as $atomizedracename=>$classline)
       $classaddconstraints = array($racekey,$classcodes['JSV'],$classcodes['MW'],$classcodes['CK'],$classcodes['Spec'],$classcodes['Abil'],$classcodes['Ages'],$classcodes['FreeText']);
       dbexecute($insertclassstmt,$classaddconstraints);
       }
+    
+    //Statement to set the race to set once the classes have been assigned
+    if (isset($setracesstmt) == false)
+      {
+      $setracessql = "UPDATE `races` SET `Set` = 1 WHERE `Key` = ?";
+      $setracesstmt = dbprepare($srrsdblink,$setracessql);
+      }
+    
+    //Update the races to set them
+    $racekeysconstraints = array($racekey);
+    dbexecute($setracesstmt,$racekeysconstraints);
     }
   
   //Add the autoclass if add autoclass has been set
