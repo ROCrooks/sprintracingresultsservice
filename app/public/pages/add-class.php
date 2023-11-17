@@ -57,8 +57,11 @@ elseif (isset($_POST['SubmitClasses']) == true)
 if ($findnextrace == true)
   {
   include $engineslocation . "class-findnextracename.php";
-  $formclasses = $foundautoclasses;
-  $inputclass = $racenametoset;
+  if ($endofraces == false)
+    {
+    $formclasses = $foundautoclasses;
+    $inputclass = $racenametoset;
+    }
   }
 
 //Make the form to add
