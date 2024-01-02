@@ -150,9 +150,13 @@ foreach ($formclasses as $itemkey=>$formitem)
   $classrow++;
   }
 
+//Format the numbers to display on the form
+$htmlclassrow = $classrow-1;
+$htmlformrow = $formrow-1;
+
 //Hidden global data to send through the form
-$classformhtml = $classformhtml . '<input type="hidden" name="TotalAtomizedClassRows" value="' . $classrow-1 . '">';
-$classformhtml = $classformhtml . '<input type="hidden" name="TotalTableRows" value="' . $formrow-1 . '">';
+$classformhtml = $classformhtml . '<input type="hidden" name="TotalAtomizedClassRows" value="' . $htmlclassrow . '">';
+$classformhtml = $classformhtml . '<input type="hidden" name="TotalTableRows" value="' . $htmlformrow . '">';
 $classformhtml = $classformhtml . '<input type="hidden" name="DBClass" value="' . $racenametoset . '">';
 $classformhtml = $classformhtml . '<input type="hidden" name="InputClass" value="' . $inputclass . '">';
 
