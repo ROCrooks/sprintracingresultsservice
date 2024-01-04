@@ -18,14 +18,20 @@ foreach($classdetails as $classkey=>$class)
     $namewords['JSVMW'] = "Boys";
   elseif (($class['JSV'] == "J") AND ($class['MW'] == "W"))
     $namewords['JSVMW'] = "Girls";
+  elseif (($class['JSV'] == "J") AND ($class['MW'] == "X"))
+    $namewords['JSVMW'] = "Boys/Girls Mixed";
   elseif ((($class['JSV'] == "S") AND ($class['MW'] == "M")) OR (($class['JSV'] == "") AND ($class['MW'] == "M")))
     $namewords['JSVMW'] = "Mens";
   elseif ((($class['JSV'] == "S") AND ($class['MW'] == "W")) OR (($class['JSV'] == "") AND ($class['MW'] == "W")))
     $namewords['JSVMW'] = "Womens";
+  elseif ((($class['JSV'] == "S") AND ($class['MW'] == "X")) OR (($class['JSV'] == "") AND ($class['MW'] == "W")))
+    $namewords['JSVMW'] = "Mens/Womens Mixed";
   elseif (($class['JSV'] == "V") AND ($class['MW'] == "M"))
     $namewords['JSVMW'] = "Mens Masters";
   elseif (($class['JSV'] == "V") AND ($class['MW'] == "W"))
     $namewords['JSVMW'] = "Womens Masters";
+  elseif (($class['JSV'] == "V") AND ($class['MW'] == "X"))
+    $namewords['JSVMW'] = "Mens/Womens Mixed Masters";
   elseif (($class['JSV'] == "J") AND ($class['MW'] == ""))
     $namewords['JSVMW'] = "Junior";
   elseif (($class['JSV'] == "S") AND ($class['MW'] == ""))
