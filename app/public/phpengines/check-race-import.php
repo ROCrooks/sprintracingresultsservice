@@ -49,7 +49,7 @@ if (in_array($racedetails['Boat'],$legalboats) === false)
   }
 
 $legaljsvs = str_split("JSV");
-$legalmw = str_split("MW");
+$legalmw = str_split("MWX");
 $legalck = str_split("CKVTP");
 $legalnrs = array("DSQ","ERR","DNS","DNF","???");
 foreach ($allpaddlerdetails as $paddlerdetails)
