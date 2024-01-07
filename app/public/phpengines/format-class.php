@@ -12,6 +12,14 @@ $classnames = array();
 foreach($classdetails as $classkey=>$class)
   {
   $namewords = array();
+  
+  //Display the class band if it is requested
+  if ($class['ShowBand'] == 1)
+    {
+    $classbands = $class['Band'];
+    $classbands = str_split($classbands);
+    $namewords['ClassBands'] = "Band " . implode("/",$classbands);
+    }
 
   //Define athlete type
   if (($class['JSV'] == "J") AND ($class['MW'] == "M"))
@@ -32,6 +40,12 @@ foreach($classdetails as $classkey=>$class)
     $namewords['JSVMW'] = "Womens Masters";
   elseif (($class['JSV'] == "V") AND ($class['MW'] == "X"))
     $namewords['JSVMW'] = "Mens/Womens Mixed Masters";
+  elseif (($class['JSV'] == "") AND ($class['MW'] == "M"))
+    $namewords['JSVMW'] = "Male";
+  elseif (($class['JSV'] == "") AND ($class['MW'] == "W"))
+    $namewords['JSVMW'] = "Female";
+  elseif (($class['JSV'] == "") AND ($class['MW'] == "X"))
+    $namewords['JSVMW'] = "Mixed";
   elseif (($class['JSV'] == "J") AND ($class['MW'] == ""))
     $namewords['JSVMW'] = "Junior";
   elseif (($class['JSV'] == "S") AND ($class['MW'] == ""))
