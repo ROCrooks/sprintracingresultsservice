@@ -68,6 +68,9 @@ $classrow = 1;
 
 $classformhtml = $classformhtml . '<form action="AddClass" method="post">';
 
+//Create an array of class details in order to format the input class
+$classdetails = array();
+
 foreach ($formclasses as $itemkey=>$formitem)
   {
   //Display the name of the individual race class on the page
@@ -103,6 +106,9 @@ foreach ($formclasses as $itemkey=>$formitem)
       $classformhtml = $classformhtml . '<div style="width: ' . $classwidths['ShowBand'] . 'px; display: table-cell;"><input type="hidden" value="' . $classline['ShowBand'] . '" name="Band' . $formrow . '"><p>' . $bandlineshow . '</p></div>';
       $classformhtml = $classformhtml . '<div style="width: ' . $classwidths['FreeText'] . 'px; display: table-cell;"><input type="hidden" value="' . $classline['FreeText'] . '" name="FreeText' . $formrow . '"><p>' . $classline['FreeText'] . '</p></div>';
       $classformhtml = $classformhtml . '</div>';
+      
+      //Add the class to the class details array
+      array_push($classdetails,$classline);
 
       //Increment form row count
       $formrow++;
@@ -132,6 +138,9 @@ foreach ($formclasses as $itemkey=>$formitem)
       $classformhtml = $classformhtml . '<div style="width: ' . $classwidths['ShowBand'] . 'px; display: table-cell;"><input type="checkbox" value="1" id="ShowBand' . $formrow . '" name="ShowBand' . $formrow . '"' . $bandlineshow . '></div>';
       $classformhtml = $classformhtml . '<div style="width: ' . $classwidths['FreeText'] . 'px; display: table-cell;"><input type="text" size="' . $fieldsizes['FreeText'] . '" value="' . $classline['FreeText'] . '" name="FreeText' . $formrow . '"></div>';
       $classformhtml = $classformhtml . '</div>';
+
+      //Add the class to the class details array
+      array_push($classdetails,$classline);
 
       //Increment form row count
       $formrow++;
@@ -175,6 +184,13 @@ $classformhtml = $classformhtml . '<input type="hidden" name="TotalAtomizedClass
 $classformhtml = $classformhtml . '<input type="hidden" name="TotalTableRows" value="' . $formrow-1 . '">';
 $classformhtml = $classformhtml . '<input type="hidden" name="DBClass" value="' . $racenametoset . '">';
 $classformhtml = $classformhtml . '<input type="hidden" name="InputClass" value="' . $inputclass . '">';
+
+//Format what the input class will look like and display it
+if (count($classdetails) > 0)
+  {
+  include $engineslocation . 'format-class.php';
+  $classformhtml = $classformhtml . '<p>Display Class: ' . $raceclass . '</p>';
+  }
 
 //Submit buttons
 $classformhtml = $classformhtml . '<p>';
