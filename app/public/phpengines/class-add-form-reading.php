@@ -1,6 +1,6 @@
 <?php
 //The list of field names to retrieve
-$tablefieldsget = array("JSV","MW","CK","Abil","Ages","Spec","Band","FreeText");
+$tablefieldsget = array("JSV","MW","CK","Abil","Ages","Spec","Band","ShowBand","FreeText");
 
 //Get the number of race class rows to retrieve and the number of autoclass check boxes to retrieve
 $totalatomizedclasses = $_POST['TotalAtomizedClassRows'];
