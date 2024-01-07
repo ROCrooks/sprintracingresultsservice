@@ -48,7 +48,12 @@ while($atomizedclasspointer <= $totalatomizedclasses)
         foreach ($tablefieldsget as $field)
             {
             $postfieldname = $field . $keyclassline;
-            $formdataline[$field] = $_POST[$postfieldname];
+            //Check if the field exists, and if not default to blank
+            if (isset($_POST[$postfieldname]) == true)
+                $formdataline[$field] = $_POST[$postfieldname];
+            else
+                $formdataline[$field] = "";
+            
             //Make the race class upper case when being added
             if ($field != "FreeText")
                 $formdataline[$field] = strtoupper($formdataline[$field]);
