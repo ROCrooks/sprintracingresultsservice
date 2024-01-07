@@ -39,12 +39,12 @@ foreach ($classesadd as $atomizedracename=>$classline)
       if (isset($insertclassstmt) == false)
         {
         //Create insert class statement if not already created
-        $insertclasssql = "INSERT INTO `classes` (`Race`, `JSV`, `MW`, `CK`, `Spec`, `Abil`, `Ages`, `FreeText`) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        $insertclasssql = "INSERT INTO `classes` (`Race`, `JSV`, `MW`, `CK`, `Spec`, `Abil`, `Ages`, `Band`, `ShowBand`, `FreeText`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         $insertclassstmt = dbprepare($srrsdblink,$insertclasssql);
         }
       
       //Add class using the class lines and the race keys
-      $classaddconstraints = array($racekey,$classcodes['JSV'],$classcodes['MW'],$classcodes['CK'],$classcodes['Spec'],$classcodes['Abil'],$classcodes['Ages'],$classcodes['FreeText']);
+      $classaddconstraints = array($racekey,$classcodes['JSV'],$classcodes['MW'],$classcodes['CK'],$classcodes['Spec'],$classcodes['Abil'],$classcodes['Ages'],$classcodes['Band'],$classcodes['ShowBand'],$classcodes['FreeText']);
       dbexecute($insertclassstmt,$classaddconstraints);
       }
     
@@ -66,12 +66,12 @@ foreach ($classesadd as $atomizedracename=>$classline)
     //Prepare statement to add the autoclass
     if (isset($addautoclassstmt) == false)
       {
-      $addautoclasssql = "INSERT INTO `autoclasses` (`RaceName`, `JSV`, `MW`, `CK`, `Spec`, `Abil`, `Ages`, `FreeText`) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+      $addautoclasssql = "INSERT INTO `autoclasses` (`RaceName`, `JSV`, `MW`, `CK`, `Spec`, `Abil`, `Ages`, `Band`, `ShowBand`, `FreeText`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
       $addautoclassstmt = dbprepare($srrsdblink,$addautoclasssql);
       }
     
     //Add class to the autoclasses table
-    $classaddconstraints = array($atomizedracename,$classcodes['JSV'],$classcodes['MW'],$classcodes['CK'],$classcodes['Spec'],$classcodes['Abil'],$classcodes['Ages'],$classcodes['FreeText']);
+    $classaddconstraints = array($atomizedracename,$classcodes['JSV'],$classcodes['MW'],$classcodes['CK'],$classcodes['Spec'],$classcodes['Abil'],$classcodes['Ages'],$classcodes['Band'],$classcodes['ShowBand'],$classcodes['FreeText']);
     dbexecute($addautoclassstmt,$classaddconstraints);
     }
   }
