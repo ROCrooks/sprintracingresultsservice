@@ -88,7 +88,7 @@ foreach ($formclasses as $itemkey=>$formitem)
   if ($autoclassflag == "Is")
     {
     foreach ($classlines as $classline)
-      {
+      {      
       //Add form elements to line
       $classformhtml = $classformhtml . '<div style="display: table-row;">';
       $classformhtml = $classformhtml . '<div style="width: ' . $classwidths['JSV'] . 'px; display: table-cell;"><input type="hidden" value="' . $classline['JSV'] . '" name="JSV' . $formrow . '"><p>' . $classline['JSV'] . '</p></div>';
@@ -103,7 +103,7 @@ foreach ($formclasses as $itemkey=>$formitem)
         $bandlineshow = "Yes";
       else
         $bandlineshow = "No";
-      $classformhtml = $classformhtml . '<div style="width: ' . $classwidths['ShowBand'] . 'px; display: table-cell;"><input type="hidden" value="' . $classline['ShowBand'] . '" name="Band' . $formrow . '"><p>' . $bandlineshow . '</p></div>';
+      $classformhtml = $classformhtml . '<div style="width: ' . $classwidths['ShowBand'] . 'px; display: table-cell;"><input type="hidden" value="' . $classline['ShowBand'] . '" name="ShowBand' . $formrow . '"><p>' . $bandlineshow . '</p></div>';
       $classformhtml = $classformhtml . '<div style="width: ' . $classwidths['FreeText'] . 'px; display: table-cell;"><input type="hidden" value="' . $classline['FreeText'] . '" name="FreeText' . $formrow . '"><p>' . $classline['FreeText'] . '</p></div>';
       $classformhtml = $classformhtml . '</div>';
       

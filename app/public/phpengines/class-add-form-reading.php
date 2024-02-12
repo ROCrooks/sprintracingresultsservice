@@ -66,7 +66,7 @@ while($atomizedclasspointer <= $totalatomizedclasses)
             if ($field != "FreeText")
                 $formdataline[$field] = strtoupper($formdataline[$field]);
             }
-        
+
         $checkline = implode("", $formdataline);
         if ($checkline != '00')
             {
