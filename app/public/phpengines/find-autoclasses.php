@@ -10,7 +10,7 @@ foreach($racenamecomponents as $namecomponent)
   //Find the AutoClasses
   if (isset($findclassstmt) == false)
     {
-    $findclasssql = "SELECT `JSV`, `MW`, `CK`, `Spec`, `Abil`, `Ages`, `FreeText` FROM `autoclasses` WHERE `RaceName` = ?";
+    $findclasssql = "SELECT `JSV`, `MW`, `CK`, `Spec`, `Abil`, `Ages`, `Band`, `ShowBand`, `FreeText` FROM `autoclasses` WHERE `RaceName` = ?";
   	$findclassstmt = dbprepare($srrsdblink,$findclasssql);
     }
 
