@@ -58,7 +58,7 @@ while($atomizedclasspointer <= $totalatomizedclasses)
             if (($field == "Band") AND ($formdataline[$field] == ""))
                 $formdataline[$field] = 0;
 
-            //Default the ShowBand to 0, or 1 if it is not 0
+            //Default the ShowBand to 0
             if (($field == "ShowBand") AND ($formdataline[$field] == ""))
                 $formdataline[$field] = 0;
 
