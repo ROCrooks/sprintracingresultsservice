@@ -54,13 +54,21 @@ while($atomizedclasspointer <= $totalatomizedclasses)
             else
                 $formdataline[$field] = "";
             
+            //Default the Band to 0
+            if (($field == "Band") AND ($formdataline[$field] == ""))
+                $formdataline[$field] = 0;
+
+            //Default the ShowBand to 0, or 1 if it is not 0
+            if (($field == "ShowBand") AND ($formdataline[$field] == ""))
+                $formdataline[$field] = 0;
+
             //Make the race class upper case when being added
             if ($field != "FreeText")
                 $formdataline[$field] = strtoupper($formdataline[$field]);
             }
         
         $checkline = implode("", $formdataline);
-        if ($checkline != '')
+        if ($checkline != '00')
             {
             //Add the form data line to the classes array
             array_push($formclasses[$racename]['ClassCodes'],$formdataline);
