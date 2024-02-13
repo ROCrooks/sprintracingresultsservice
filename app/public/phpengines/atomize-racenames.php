@@ -7,6 +7,9 @@ $racenamecomponents = str_replace($variablebreaks,"+",$findclassname);
 //Find out if it's a kayak class or a canoe class
 $racenamecomponents = explode(" ",$racenamecomponents);
 $boattype = array_pop($racenamecomponents);
+//Add the boat type back in if it is not a valid boat type
+if (($boattype != "K") AND ($boattype != "C") OR ($boattype != "V"))
+  array_push($racenamecomponents,$boattype);
 $racenamecomponents = implode(" ",$racenamecomponents);
 
 //Explode racename by the + between each race class

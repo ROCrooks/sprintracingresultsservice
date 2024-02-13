@@ -21,7 +21,8 @@ while (($manualaddclassflag == false) AND ($endofraces == false))
         //Find any autoclasses asssociated with that full class name
         $findclassname = $racenametoset;
         include $engineslocation . "find-autoclasses.php";
-        
+        //$foundautoclasses = array();
+
         //Set flag for manually adding a race to false
         $manualaddclassflag = false;
 

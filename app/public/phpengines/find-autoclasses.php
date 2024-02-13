@@ -11,7 +11,7 @@ foreach($racenamecomponents as $namecomponent)
   if (isset($findclassstmt) == false)
     {
     $findclasssql = "SELECT `JSV`, `MW`, `CK`, `Spec`, `Abil`, `Ages`, `Band`, `ShowBand`, `FreeText` FROM `autoclasses` WHERE `RaceName` = ?";
-  	$findclassstmt = dbprepare($srrsdblink,$findclasssql);
+    $findclassstmt = dbprepare($srrsdblink,$findclasssql);
     }
 
   //Add the autoclass if it's found
