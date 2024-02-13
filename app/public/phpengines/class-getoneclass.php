@@ -11,7 +11,7 @@ if (isset($countracesstmt) == false)
 //Prepare query to get autoclasses
 if (isset($autoclassgetstmt) == false)
   {
-  $autoclassgetsql = "SELECT `JSV`, `MW`, `CK`, `Spec`, `Abil`, `Ages`, `FreeText` FROM `autoclasses` WHERE `RaceName` = ?";
+  $autoclassgetsql = "SELECT `JSV`, `MW`, `CK`, `Spec`, `Abil`, `Ages`, `Band`, `ShowBand`, `FreeText` FROM `autoclasses` WHERE `RaceName` = ?";
   $autoclassgetstmt = dbprepare($srrsdblink,$autoclassgetsql);
   }
 
