@@ -59,7 +59,7 @@ foreach ($classesadd as $atomizedracename=>$classline)
     $racekeysconstraints = array($racekey);
     dbexecute($setracesstmt,$racekeysconstraints);
     }
-  
+
   //Add the autoclass if add autoclass has been set
   if ($autoclassflag == "Add")
     {
@@ -71,8 +71,12 @@ foreach ($classesadd as $atomizedracename=>$classline)
       }
     
     //Add class to the autoclasses table
-    $classaddconstraints = array($atomizedracename,$classcodes['JSV'],$classcodes['MW'],$classcodes['CK'],$classcodes['Spec'],$classcodes['Abil'],$classcodes['Ages'],$classcodes['Band'],$classcodes['ShowBand'],$classcodes['FreeText']);
-    dbexecute($addautoclassstmt,$classaddconstraints);
+    //Loop through each class code
+    foreach ($classcodeslines as $classcodes)
+      {
+      $classaddconstraints = array($atomizedracename,$classcodes['JSV'],$classcodes['MW'],$classcodes['CK'],$classcodes['Spec'],$classcodes['Abil'],$classcodes['Ages'],$classcodes['Band'],$classcodes['ShowBand'],$classcodes['FreeText']);
+      dbexecute($addautoclassstmt,$classaddconstraints);
+      }
     }
   }
 
