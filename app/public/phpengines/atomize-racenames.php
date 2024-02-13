@@ -8,7 +8,7 @@ $racenamecomponents = str_replace($variablebreaks,"+",$findclassname);
 $racenamecomponents = explode(" ",$racenamecomponents);
 $boattype = array_pop($racenamecomponents);
 //Add the boat type back in if it is not a valid boat type
-if (($boattype != "K") AND ($boattype != "C") OR ($boattype != "V"))
+if (($boattype != "K") AND ($boattype != "C") AND ($boattype != "V"))
   array_push($racenamecomponents,$boattype);
 $racenamecomponents = implode(" ",$racenamecomponents);
 
