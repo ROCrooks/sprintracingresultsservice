@@ -51,8 +51,8 @@ if(strlen($boattype) == 1)
     $racenamecomponents[$racenamekey] = implode($racename) . " " . $boattype;
 
     //Replace erroneously double inserted boat types
-    $doubleaddsfind = array("A C K","B C K","C C K","D C K","A K C","B K C","C K C","D K C","A K K","B K K","C K K","D K K","A C C","B C C","C C C","D C C");
-    $doubleaddsreplace = array("A C","B C","C C","D C","A K","B K","C K","D K","A K","B K","C K","D K","A C","B C","C C","D C");
+    $doubleaddsfind = array("A C K","B C K","C C K","D C K","A K C","B K C","C K C","D K C","A K K","B K K","C K K","D K K","A C C","B C C","C C C","D C C","K K");
+    $doubleaddsreplace = array("A C","B C","C C","D C","A K","B K","C K","D K","A K","B K","C K","D K","A C","B C","C C","D C","K");
     $racenamecomponents[$racenamekey] = str_replace($doubleaddsfind,$doubleaddsreplace,$racenamecomponents[$racenamekey]);
     }
   }
