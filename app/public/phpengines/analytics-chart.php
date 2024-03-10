@@ -104,19 +104,16 @@ foreach($linekeys as $linekey=>$linefield)
 $linesjs = implode("",$linesjs);
 
 //Create javascript
-$js = 'var canvas = document.getElementById("SRRSChart");';
-$js = $js . 'var ctx = canvas.getContext("2d");';
+$analyticsjs = 'var canvas = document.getElementById("SRRSChart");';
+$analyticsjs = $analyticsjs . 'var ctx = canvas.getContext("2d");';
 
-$js = $js . fillgraphbackground("#FFFFFF");
+$analyticsjs = $analyticsjs . fillgraphbackground("#FFFFFF");
 
-$js = $js . yaxis("Paddlers",$ylabels,$yticks);
+$analyticsjs = $analyticsjs . yaxis("Paddlers",$ylabels,$yticks);
 
-$js = $js . xaxis("Year",$xlabels,$xticks);
+$analyticsjs = $analyticsjs . xaxis("Year",$xlabels,$xticks);
 
-$js = $js . $linesjs;
-
-//Encapsulate JS into script tag
-$js = '<script>' . $js . '</script>';
+$analyticsjs = $analyticsjs . $linesjs;
 
 //Create canvas
 $canvas = '<canvas id="SRRSChart" width="950" height="650"></canvas>';

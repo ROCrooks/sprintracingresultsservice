@@ -321,8 +321,8 @@ if (isset($_POST['submit']) == true)
 	$pagehtml = $pagehtml . $canvas;
 
 	$pagehtml = $pagehtml . '</section>';
-
-	$pagehtml = $pagehtml . $js;
+	
+	$pagehtml = $pagehtml . '<script>' . $analyticsjs . '</script>';
 	}
 
 $pagehtml = $pagehtml . '<section>';

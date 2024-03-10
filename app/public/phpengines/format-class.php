@@ -22,7 +22,13 @@ foreach($classdetails as $classkey=>$class)
     }
 
   //Define athlete type
-  if (($class['JSV'] == "J") AND ($class['MW'] == "M"))
+  if (($class['JSV'] == "J") AND ($class['MW'] == "X"))
+    $namewords['JSVMW'] = "Mixed Junior";
+  elseif (($class['JSV'] == "S") AND ($class['MW'] == "X"))
+    $namewords['JSVMW'] = "Mixed Senior";
+  elseif (($class['JSV'] == "V") AND ($class['MW'] == "X"))
+    $namewords['JSVMW'] = "Mixed Masters";
+  elseif (($class['JSV'] == "J") AND ($class['MW'] == "M"))
     $namewords['JSVMW'] = "Boys";
   elseif (($class['JSV'] == "J") AND ($class['MW'] == "W"))
     $namewords['JSVMW'] = "Girls";
