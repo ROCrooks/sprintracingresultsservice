@@ -4,25 +4,45 @@ include $engineslocation . 'race-reading-regexs.php';
 //Turn the segment of text into an array of lines
 $racetext = explode("\n",$racetext);
 
-//Get the first lines of each paddler
+//Get the first lines of each paddler by preg_grep matching to the positon and lane
 $firstlines = array();
+
+//Get position and lane regular expressions
+$postitionlaneregexs = $regex['positionlaneversions'];
+
+//Find the first lines of crew details which match the regular expression
+foreach ($postitionlaneregexs as $postitionlaneregex)
+  {
+  $poslanes = preg_grep($postitionlaneregex,$racetext);
+  $foundfirstlines = array_keys($poslanes);
+  $firstlines = array_merge($firstlines,$foundfirstlines);
+  }
+
+//Make unique and sort the first line array
+$firstlines = array_unique($firstlines);
+sort($firstlines)
+
+/*
 $poslanes = preg_grep($regex['positionandlane'],$racetext);
 foreach ($poslanes as $racelinekey=>$raceline)
   {
   array_push($firstlines,$racelinekey);
   }
+//Get the first lines of each paddler by preg_grep matching to the positon and lane
 $onenumber = preg_grep($regex['positionorlane'],$racetext);
 foreach ($onenumber as $racelinekey=>$raceline)
   {
   array_push($firstlines,$racelinekey);
   }
+*/
 
 //Merge line into a standard of 1 line for race info with subsequent lines for paddlers
 $firstlinekey = 0;
 $racerkey = $firstlines[$firstlinekey];
 $firstlinekey++;
 $mergekey = 0;
-foreach($racetext as $racetextkey=>$raceline)
+
+foreach ($racetext as $racetextkey=>$raceline)
   {
   //Specify keys for merging lines
   if ($racetextkey == $racerkey)
