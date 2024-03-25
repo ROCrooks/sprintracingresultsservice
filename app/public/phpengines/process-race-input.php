@@ -8,7 +8,8 @@ $racetext = explode("\n",$racetext);
 $firstlines = array();
 
 //Get position and lane regular expressions
-$postitionlaneregexs = $regex['positionlaneversions'];
+$postitionlaneregexs = $regex['linestarts'];
+$notfinishingregexs = $regex['notfinishings'];
 
 //Find the first lines of crew details which match the regular expression
 foreach ($postitionlaneregexs as $postitionlaneregex)
@@ -18,9 +19,17 @@ foreach ($postitionlaneregexs as $postitionlaneregex)
   $firstlines = array_merge($firstlines,$foundfirstlines);
   }
 
+//Find if no race code is present and add to the first lines array
+foreach ($notfinishingregexs as $notfinishregex)
+  {
+  $poslanes = preg_grep($postitionlaneregex,$racetext);
+  $foundfirstlines = array_keys($poslanes);
+  $firstlines = array_merge($firstlines,$foundfirstlines);
+  }
+
 //Make unique and sort the first line array
 $firstlines = array_unique($firstlines);
-sort($firstlines)
+sort($firstlines);
 
 /*
 $poslanes = preg_grep($regex['positionandlane'],$racetext);
@@ -179,12 +188,148 @@ foreach($racetext as $racetextkey=>$raceline)
     }
   else
     {
-    $paddlerdetails = array("Time"=>0,"NR"=>"");
+    $paddlerdetails = array();
 
+    echo $raceline . "<br>";
+    //Preg to extract the position, lane and club
+    
+    //Get the position, lane and club, from the preamble of the line
+    $linestartscount = count($regex['linestarts']);
+    $linestartskey = 0;
+    $foundlinestart = array();
+    
+    //Test and extract each time format
+    while (($linestartskey < $linestartscount) AND (count($foundlinestart) == 0))
+      {
+      //Get the regex for the time format, in priority format
+      $linestartformat = $regex['linestarts'][$linestartskey];
+      
+      //Get the formatted time
+      preg_match($linestartformat,$raceline,$foundlinestart);
+
+      $linestartskey++;
+      }
+    
+    //Make the line starts
+    if (count($foundlinestart) > 0)
+      $foundlinestart = $foundlinestart[0];
+    else
+      $foundlinestart = "";
+    
+    echo $foundlinestart;
+    echo "<br>";
+    
+    //Explode the preamble into an array to separate out the parts
+    $foundlinestartarray = explode(" ",$foundlinestart);
+    //Extract the position, lane and club depending on the format
+    //This uses the key the loop stops on so that the format of the preamble is known
+    if ($linestartskey == 1)
+      {
+      $position = $foundlinestartarray[0];
+      $lane = $foundlinestartarray[1];
+      $defaultclub = $foundlinestartarray[2];
+      }
+    elseif (($linestartskey == 2) OR ($linestartskey == 3))
+      {
+      //Default club is always the second element
+      $defaultclub = $foundlinestartarray[1];
+      
+      //Find out if the lone is likely to be a lane or a position
+      $notfinishfound = false;
+      foreach($regex['notfinishings'] as $notfinishings)
+        {
+        if(str_contains($raceline,$notfinishings) == true)
+          $notfinishfound = true;
+        }
+      
+      //Assign the lane and position
+      if ($notfinishfound == true)
+        {
+        $position = "";
+        $lane = $foundlinestartarray[0];
+        }
+      elseif ($notfinishfound == false)
+        {
+        $position = $foundlinestartarray[0];
+        $lane = "";
+        }
+      }
+    elseif ($linestartskey == 4)
+      {
+      //Default club is always the first element
+      $defaultclub = $foundlinestartarray[0];
+      
+      //Position and lane are always blank in this format
+      $position = "";
+      $lane = "";
+      }
+    elseif (($linestartskey == 5) OR ($linestartskey == 6))
+      {
+      //Default club is blank in this format
+      $defaultclub = "???";
+      
+      //Position and lane are first and second in this format
+      $position = $foundlinestartarray[0];
+      $lane = $foundlinestartarray[1];
+      }
+    elseif (($linestartskey == 7) OR ($linestartskey == 7))
+      {
+      //Default club is blank in this format
+      $defaultclub = "???";
+      
+      //Position and lane are first and second in this format
+      $position = $foundlinestartarray[0];
+      $lane = "";
+      }
+    
+    //Specify a default club if it's missing
+    if (isset($defaultclub) == false)
+      {
+      preg_match($regex['defaultclub'],$raceline,$defaultclub);
+      $defaultclub = $defaultclub[0];
+      $defaultclub = str_replace(" ","",$defaultclub);
+      if ($defaultclub == "")
+        $defaultclub = "???";
+      }
+    
+    echo $position;
+    echo "<br>";
+    echo $lane;
+    echo "<br>";
+    echo $defaultclub;
+    echo "<br>";
+    
+    //Get the time from the paddler line
+    $timeformatscount = count($regex['timeformats']);
+    $timeformatskey = 0;
+    $foundtime = array();
+    
+    //Test and extract each time format
+    while (($timeformatskey < $timeformatscount) AND (count($foundtime) == 0))
+      {
+      //Get the regex for the time format, in priority format
+      $timeformat = $regex['timeformats'][$timeformatskey];
+      
+      //Get the formatted time
+      preg_match($timeformat,$raceline,$foundtime);
+
+      $timeformatskey++;
+      }
+    
+    $foundtime = $foundtime[0];
+    echo $foundtime;
+    echo "<br>";
+
+    /*
+    //Default the time and NR 
+    $paddlerdetails = array("Time"=>0,"NR"=>"");
+    
+    //Find if the result is a time or not
     $raceline = str_replace($faultsfind,$faultsreplace,$raceline);
     $notfinishing = array("dsq","???","dnf","dns"," err");
     str_ireplace($notfinishing,$notfinishing,$raceline,$notfinishingcount);
-    if (($notfinishingcount > 0) AND (preg_match($regex['positionorlane'],$raceline) == true))
+
+    if (($notfinishingcount > 0) AND ((preg_match($regex['positionorlane'],$raceline) == true) OR (preg_match($regex['positionorlane'],$raceline) == true)))
       $raceline = "0 " . $raceline;
     elseif (($notfinishingcount == 0) AND (preg_match($regex['positionorlane'],$raceline) == true))
       {
@@ -333,6 +478,7 @@ foreach($racetext as $racetextkey=>$raceline)
     $paddlerdetails['CK'] = $racedetails['defCK'];
 
     array_push($allpaddlerdetails,$paddlerdetails);
+    */
     }
   }
 ?>
