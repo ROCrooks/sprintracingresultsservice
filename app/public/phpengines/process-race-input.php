@@ -31,20 +31,6 @@ foreach ($notfinishingregexs as $notfinishregex)
 $firstlines = array_unique($firstlines);
 sort($firstlines);
 
-/*
-$poslanes = preg_grep($regex['positionandlane'],$racetext);
-foreach ($poslanes as $racelinekey=>$raceline)
-  {
-  array_push($firstlines,$racelinekey);
-  }
-//Get the first lines of each paddler by preg_grep matching to the positon and lane
-$onenumber = preg_grep($regex['positionorlane'],$racetext);
-foreach ($onenumber as $racelinekey=>$raceline)
-  {
-  array_push($firstlines,$racelinekey);
-  }
-*/
-
 //Merge line into a standard of 1 line for race info with subsequent lines for paddlers
 $firstlinekey = 0;
 $racerkey = $firstlines[$firstlinekey];
@@ -68,7 +54,7 @@ foreach ($racetext as $racetextkey=>$raceline)
   //Merge lines where needed
   if ($racetextkey != $mergekey)
     {
-    $racetext[$mergekey] = $racetext[$mergekey] . " " . $raceline;
+    $racetext[$mergekey] = $racetext[$mergekey] . "/" . $raceline;
     unset($racetext[$racetextkey]);
     }
   }
@@ -185,14 +171,15 @@ foreach($racetext as $racetextkey=>$raceline)
 
     //Read the race classes to work out what sort of race it is
     include 'race-classes.php';
+
+    print_r($racedetails);
+    echo "<br>";
     }
   else
     {
     $paddlerdetails = array();
-
-    echo $raceline . "<br>";
-    //Preg to extract the position, lane and club
     
+    //Preg to extract the position, lane and club
     //Get the position, lane and club, from the preamble of the line
     $linestartscount = count($regex['linestarts']);
     $linestartskey = 0;
@@ -216,11 +203,9 @@ foreach($racetext as $racetextkey=>$raceline)
     else
       $foundlinestart = "";
     
-    echo $foundlinestart;
-    echo "<br>";
-    
     //Explode the preamble into an array to separate out the parts
     $foundlinestartarray = explode(" ",$foundlinestart);
+    $noresultflag = "";
     //Extract the position, lane and club depending on the format
     //This uses the key the loop stops on so that the format of the preamble is known
     if ($linestartskey == 1)
@@ -239,7 +224,10 @@ foreach($racetext as $racetextkey=>$raceline)
       foreach($regex['notfinishings'] as $notfinishings)
         {
         if(str_contains($raceline,$notfinishings) == true)
+          {
           $notfinishfound = true;
+          $noresultflag = $notfinishings;
+          }
         }
       
       //Assign the lane and position
@@ -292,13 +280,6 @@ foreach($racetext as $racetextkey=>$raceline)
         $defaultclub = "???";
       }
     
-    echo $position;
-    echo "<br>";
-    echo $lane;
-    echo "<br>";
-    echo $defaultclub;
-    echo "<br>";
-    
     //Get the time from the paddler line
     $timeformatscount = count($regex['timeformats']);
     $timeformatskey = 0;
@@ -316,8 +297,66 @@ foreach($racetext as $racetextkey=>$raceline)
       $timeformatskey++;
       }
     
-    $foundtime = $foundtime[0];
-    echo $foundtime;
+    //Assigned the time if it is found
+    if (isset($foundtime[0]) == true)
+      $foundtime = $foundtime[0];
+    else
+      $foundtime = "";
+    
+    $paddlers = $raceline;
+
+    //Remove the start of the paddler line
+    $paddlers = str_replace($foundlinestart,"",$paddlers);
+    //Remove the time from the paddler line and replace with /
+    if ($foundtime != "")
+      $paddlers = str_replace($foundtime,"/",$paddlers);
+    //Remove the NR from the paddler line and replace with /
+    if ($noresultflag != "")
+      $paddlers = str_replace($noresultflag,"/",$paddlers);
+    
+    //Remove any double spaces
+    $doublespaces = 1;
+    while ($doublespaces > 0)
+      {
+      $paddlers = str_replace("  "," ",$paddlers,$doublespaces);
+      }
+
+    //Remove weird slashes
+    $paddlers = str_replace(" / ","/",$paddlers);
+    $paddlers = str_replace("//","/",$paddlers);
+
+    //Remove spaces and and slashes from the start and finish of the paddlers
+    while ((substr($paddlers,0,1) == " ") OR (substr($paddlers,0,1) == "/"))
+      {
+      $paddlers = substr($paddlers,1);
+      }
+    while ((substr($paddlers,-1) == " ") OR (substr($paddlers,-1) == "/"))
+      {
+      $paddlers = substr($paddlers,0,-1);
+      }
+
+    echo $paddlers . "<br>";
+
+    //Add the position and lane to the paddlerdetails line
+    $paddlerdetails['Position'] = $position;
+    $paddlerdetails['Lane'] = $lane;
+    
+    //Add the club and paddler to the paddlerdetails line
+    $paddlerdetails['Club'] = $defaultclub;
+    //$paddlerdetails['Lane'] = $lane;
+
+    //Add the found time to the paddlerdetails line
+    $paddlerdetails['Time'] = $foundtime;
+    $paddlerdetails['NR'] = $noresultflag;
+
+    //Define the JSV/MW/CK from the defaults for the race
+    $paddlerdetails['JSV'] = $racedetails['defJSV'];
+    $paddlerdetails['MW'] = $racedetails['defMW'];
+    $paddlerdetails['CK'] = $racedetails['defCK'];
+
+    $paddlerdetails['Lane'] = $lane;
+
+    print_r($paddlerdetails);
     echo "<br>";
 
     /*
