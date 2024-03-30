@@ -334,9 +334,11 @@ foreach($racetext as $racetextkey=>$raceline)
       {
       $paddlers = substr($paddlers,0,-1);
       }
+    
+    $paddlers = str_replace($faultsfind,$faultsreplace,$paddlers);
 
     echo $paddlers . "<br>";
-
+    
     //Add the position and lane to the paddlerdetails line
     $paddlerdetails['Position'] = $position;
     $paddlerdetails['Lane'] = $lane;
