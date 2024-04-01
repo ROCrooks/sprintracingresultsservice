@@ -12,6 +12,7 @@ $regex['notfinishings'] = array('DSQ','DNF','DSQ','NR','???','ERR','UNK');
 $regex['pagedetails'] = '(page [0-9] of [0-9])i';
 $regex['timeformats'] = array('( [0-9]:[0-5][0-9].[0-9][0-9])','( [2-5][0-9].[0-9][0-9])','( [0-9]:[0-5][0-9]:[0-5][0-9])','( [0-5][0-9]:[0-5][0-9])','( [0-5][0-9]:[0-5][0-9])','( [0-9]:[0-5][0-9])');
 $regex['differentclassflag'] = '(\[[jsv][mwx][ck]\])';
+$regex['individualclub'] = '(\([0-9A-Z][0-9A-Z][0-9A-Z]\))';
 
 
 
