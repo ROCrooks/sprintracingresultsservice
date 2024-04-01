@@ -344,40 +344,58 @@ foreach($racetext as $racetextkey=>$raceline)
     $foundclubs = array();
     foreach ($paddlers as $foundpaddler)
       {
-      //Make the space better the initial and surname a space and period
-      $foundpaddler = explode(" ",$foundpaddler);
-      if (strlen($foundpaddler[0]) == 1)
-        $foundpaddler[0] = $foundpaddler[0] . ".";
-      $foundpaddler = implode(" ",$foundpaddler);
-
-      //Extract any extra club from the paddler name
-      preg_match($regex['individualclub'],$foundpaddler,$foundclub);
-      if (count($foundclub) == 1)
+      if (strlen($foundpaddler) > 0)
         {
-        $foundclub = $foundclub[0]; 
-        //Remove the club in brackets from the found paddler string
-        $foundpaddler = str_replace($foundclub,"",$foundpaddler);
-        $foundclub = substr($foundclub,1,-1);
-        }        
-      else
-        $foundclub = $defaultclub;
-      
-      //Add the club and paddlers to the found clubs and paddlers arrays
-      array_push($foundclubs,$foundclub);
-      array_push($foundpaddlers,$foundpaddler);
+        //Make the space better the initial and surname a space and period
+        $foundpaddler = explode(" ",$foundpaddler);
+        if (strlen($foundpaddler[0]) == 1)
+          $foundpaddler[0] = $foundpaddler[0] . ".";
+        $foundpaddler = implode(" ",$foundpaddler);
+
+        //Extract any extra club from the paddler name
+        preg_match($regex['individualclub'],$foundpaddler,$foundclub);
+        if (count($foundclub) == 1)
+          {
+          $foundclub = $foundclub[0]; 
+          //Remove the club in brackets from the found paddler string
+          $foundpaddler = str_replace($foundclub,"",$foundpaddler);
+          $foundclub = substr($foundclub,1,-1);
+          }        
+        else
+          $foundclub = $defaultclub;
+        
+        //Add the club and paddlers to the found clubs and paddlers arrays
+        array_push($foundclubs,$foundclub);
+        array_push($foundpaddlers,$foundpaddler);
+        }
+      }
+
+    //Pad paddlers and club out with unknown ?. ?????? when the crew is too short
+    $paddlerpadinsertkey = count($foundpaddlers);
+    while ($paddlerpadinsertkey < $racedetails['Boat'])
+      {
+      array_push($foundpaddlers,"?. ??????");
+      array_push($foundclubs,$defaultclub);
+      $paddlerpadinsertkey++;
       }
     
+    //Format club as either a single club or a mixed club crew
+    $checkclub = array_unique($foundclubs);
+    if (count($checkclub) == 1)
+      $foundclubs = $checkclub[0];
+    else
+      $foundclubs = implode("/",$foundclubs);
+
     //Turn the found paddlers into a string
     $foundpaddlers = implode("/",$foundpaddlers);
-    echo $foundpaddlers . "<br>";
 
     //Add the position and lane to the paddlerdetails line
     $paddlerdetails['Position'] = $position;
     $paddlerdetails['Lane'] = $lane;
     
     //Add the club and paddler to the paddlerdetails line
-    $paddlerdetails['Club'] = $defaultclub;
-    //$paddlerdetails['Lane'] = $lane;
+    $paddlerdetails['Club'] = $foundclubs;
+    $paddlerdetails['Crew'] = $foundpaddlers;
 
     //Add the found time to the paddlerdetails line
     $paddlerdetails['Time'] = $foundtime;
@@ -389,10 +407,9 @@ foreach($racetext as $racetextkey=>$raceline)
     $paddlerdetails['CK'] = $racedetails['defCK'];
 
     $paddlerdetails['Lane'] = $lane;
-
-    print_r($paddlerdetails);
-    echo "<br>";
-
+    
+    array_push($allpaddlerdetails,$paddlerdetails);
+    
     /*
     //Default the time and NR 
     $paddlerdetails = array("Time"=>0,"NR"=>"");
