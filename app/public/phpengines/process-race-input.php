@@ -335,10 +335,42 @@ foreach($racetext as $racetextkey=>$raceline)
       $paddlers = substr($paddlers,0,-1);
       }
     
+    //Remove errors in paddler names, and split paddlers into an array
     $paddlers = str_replace($faultsfind,$faultsreplace,$paddlers);
+    $paddlers = explode("/",$paddlers);
 
-    echo $paddlers . "<br>";
+    //Find the paddlers and clubs from the paddlers array
+    $foundpaddlers = array();
+    $foundclubs = array();
+    foreach ($paddlers as $foundpaddler)
+      {
+      //Make the space better the initial and surname a space and period
+      $foundpaddler = explode(" ",$foundpaddler);
+      if (strlen($foundpaddler[0]) == 1)
+        $foundpaddler[0] = $foundpaddler[0] . ".";
+      $foundpaddler = implode(" ",$foundpaddler);
+
+      //Extract any extra club from the paddler name
+      preg_match($regex['individualclub'],$foundpaddler,$foundclub);
+      if (count($foundclub) == 1)
+        {
+        $foundclub = $foundclub[0]; 
+        //Remove the club in brackets from the found paddler string
+        $foundpaddler = str_replace($foundclub,"",$foundpaddler);
+        $foundclub = substr($foundclub,1,-1);
+        }        
+      else
+        $foundclub = $defaultclub;
+      
+      //Add the club and paddlers to the found clubs and paddlers arrays
+      array_push($foundclubs,$foundclub);
+      array_push($foundpaddlers,$foundpaddler);
+      }
     
+    //Turn the found paddlers into a string
+    $foundpaddlers = implode("/",$foundpaddlers);
+    echo $foundpaddlers . "<br>";
+
     //Add the position and lane to the paddlerdetails line
     $paddlerdetails['Position'] = $position;
     $paddlerdetails['Lane'] = $lane;
