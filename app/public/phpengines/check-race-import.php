@@ -109,6 +109,23 @@ foreach ($allpaddlerdetails as $paddlerdetails)
     $raceerror = true;
     array_push($errorlist,"Invalid club code specified");
     }
+  
+  //Check if there are any weird characters in crew names
+  $weirdcharacters = str_split("()[]");
+  $weirdcharacterskey = 0;
+  $weirdcharacterscount = count($weirdcharacters);
+  $weirdcharacterfound = false;
+  while (($weirdcharacterskey < $weirdcharacterscount) AND ($weirdcharacterfound == false))
+    {
+    if (str_contains($paddlerdetails['Crew'],$weirdcharacters[$weirdcharacterskey]) == true)
+      {
+      $raceerror = true;
+      array_push($errorlist,"Weird character found in crew name");
+      $weirdcharacterfound = true;
+      }
+    
+    $weirdcharacterskey++;
+    }
   }
 $errorlist = array_unique($errorlist);
 ?>
