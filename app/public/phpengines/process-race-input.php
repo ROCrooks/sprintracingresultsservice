@@ -73,24 +73,23 @@ foreach($racetext as $racetextkey=>$raceline)
   if ($racetextkey == 0)
     {
     $raceline = explode(" ",$raceline);
-
     //Get distance from details line
     $distances = preg_grep($regex['distance'],$raceline);
     if (count($distances) == 1)
       {
-      $distance = reset($distances);
-      //Format distance into an integer
-      $chars = array("m","k");
-      if (strpos($distance,"k") !== false)
+      //Get the distance from the 
+      $distances = array_values($distances);
+      $distance = $distances[0];
+      
+      //Remove the m from the distance
+      $distance = str_ireplace("m","",$distance);
+      
+      //Check if the distance is a km distance
+      if ((str_contains($distance,"k") == true) OR (str_contains($distance,"K") == true))
         {
-        $distance = str_ireplace($chars,"",$distance);
+        $distance = str_ireplace("k","",$distance);
         $distance = $distance*1000;
         }
-      else
-        $distance = str_ireplace($chars,"",$distance);
-
-      $distancekey = key($distances);
-      unset($raceline[$distancekey]);
 
       $racedetails['Distance'] = $distance;
       }
@@ -171,9 +170,6 @@ foreach($racetext as $racetextkey=>$raceline)
 
     //Read the race classes to work out what sort of race it is
     include 'race-classes.php';
-
-    print_r($racedetails);
-    echo "<br>";
     }
   else
     {
@@ -409,166 +405,6 @@ foreach($racetext as $racetextkey=>$raceline)
     $paddlerdetails['Lane'] = $lane;
     
     array_push($allpaddlerdetails,$paddlerdetails);
-    
-    /*
-    //Default the time and NR 
-    $paddlerdetails = array("Time"=>0,"NR"=>"");
-    
-    //Find if the result is a time or not
-    $raceline = str_replace($faultsfind,$faultsreplace,$raceline);
-    $notfinishing = array("dsq","???","dnf","dns"," err");
-    str_ireplace($notfinishing,$notfinishing,$raceline,$notfinishingcount);
-
-    if (($notfinishingcount > 0) AND ((preg_match($regex['positionorlane'],$raceline) == true) OR (preg_match($regex['positionorlane'],$raceline) == true)))
-      $raceline = "0 " . $raceline;
-    elseif (($notfinishingcount == 0) AND (preg_match($regex['positionorlane'],$raceline) == true))
-      {
-      $raceline = explode(" ",$raceline);
-      $raceline[-1] = $raceline[0];
-      $raceline[0] = "0";
-      ksort($raceline);
-      $raceline = implode(" ",$raceline);
-      }
-
-    $raceline = explode(" ",$raceline);
-
-    //Extract time from line
-    $regulartime = preg_grep($regex['regulartime'],$raceline);
-    $shorttime = preg_grep($regex['shorttime'],$raceline);
-    $longtime = preg_grep($regex['longtime'],$raceline);
-
-    //Find time or no result
-    if (count($regulartime) > 0)
-      {
-      $paddlerdetails['Time'] = reset($regulartime);
-      $timekey = key($regulartime);
-      unset($raceline[$timekey]);
-      }
-    elseif (count($shorttime) > 0)
-      {
-      $paddlerdetails['Time'] = reset($shorttime);
-      $timekey = key($shorttime);
-      unset($raceline[$timekey]);
-      }
-    elseif (count($longtime) > 0)
-      {
-      $paddlerdetails['Time'] = reset($longtime);
-      $time = explode(":",$time);
-      //Reformat the long time format used for long distance races
-      $time = $time[0] . ":" . $time[1] . "." . $time[2];
-      $timekey = key($longtime);
-      unset($raceline[$timekey]);
-      }
-    elseif ($notfinishingcount > 0)
-      {
-      //Format different forms of no result
-      if (in_array("DNF",$raceline) !== false)
-        {
-        $nrkey = array_search("DNF",$raceline);
-        $paddlerdetails['NR'] = "DNF";
-        unset($raceline[$nrkey]);
-        }
-      elseif (in_array("DNS",$raceline) !== false)
-        {
-        $nrkey = array_search("DNS",$raceline);
-        $paddlerdetails['NR'] = "DNS";
-        unset($raceline[$nrkey]);
-        }
-      elseif (in_array("DSQ",$raceline) !== false)
-        {
-        $nrkey = array_search("DSQ",$raceline);
-        $paddlerdetails['NR'] = "DSQ";
-        unset($raceline[$nrkey]);
-        }
-      elseif (in_array("DISQ",$raceline) !== false)
-        {
-        $nrkey = array_search("DISQ",$raceline);
-        $paddlerdetails['NR'] = "DSQ";
-        unset($raceline[$nrkey]);
-        }
-      elseif (in_array("???",$raceline) !== false)
-        {
-        $nrkey = array_search("???",$raceline);
-        $paddlerdetails['NR'] = "???";
-        unset($raceline[$nrkey]);
-        }
-      elseif (in_array("ERR",$raceline) !== false)
-        {
-        $nrkey = array_search("ERR",$raceline);
-        $paddlerdetails['NR'] = "ERR";
-        unset($raceline[$nrkey]);
-        }
-      }
-
-    //Resolve to ??? if still ambiguous time
-    if (($paddlerdetails['Time'] == 0) AND ($paddlerdetails['NR'] == ""))
-      $paddlerdetails['NR'] = "???";
-
-    //Get position, lane and club
-    $paddlerdetails['Position'] = $raceline[0];
-    if ($racedetails['Distance'] > 1000)
-      $paddlerdetails['Lane'] = 0;
-    else
-      $paddlerdetails['Lane'] = $raceline[1];
-
-    $masterclub = $raceline[2];
-    unset($raceline[0]);
-    unset($raceline[1]);
-    unset($raceline[2]);
-
-    //Explode line by paddler
-    $raceline = implode(" ",$raceline);
-    $raceline = explode("/",$raceline);
-
-    $allclubs = array();
-    $allpaddlers = array();
-    foreach($raceline as $paddler)
-      {
-      //Remove leading and trailing spaces from paddler name
-      while (substr($paddler,0,1) == " ")
-        {
-        $paddler = substr($paddler,1);
-        }
-      while (substr($paddler,-1) == " ")
-        {
-        $paddler = substr($paddler,0,-1);
-        }
-
-      //Identify bracketed clubs if present
-      if (strpos($paddler,"(") !== false)
-        {
-        $paddler = explode("(",$paddler);
-        $paddlerclub = $paddler[1];
-        $paddlerclub = str_replace(")","",$paddlerclub);
-        $paddler = $paddler[0];
-        }
-      else
-        $paddlerclub = $masterclub;
-
-      //Initialise paddler name
-      $paddler = explode(" ",$paddler);
-      if (strlen($paddler[0]) == 1)
-        $paddler[0] = $paddler[0] . ".";
-      $paddler = implode(" ",$paddler);
-
-      array_push($allclubs,$paddlerclub);
-      array_push($allpaddlers,$paddler);
-      }
-
-    //Use mixed club, or master club as appropriate
-    $uniqueclubs = array_unique($allclubs);
-    if (count($uniqueclubs) > 1)
-      $paddlerdetails['Club'] = implode("/",$allclubs);
-    else
-      $paddlerdetails['Club'] = $masterclub;
-    $paddlerdetails['Crew'] = implode("/",$allpaddlers);
-
-    $paddlerdetails['JSV'] = $racedetails['defJSV'];
-    $paddlerdetails['MW'] = $racedetails['defMW'];
-    $paddlerdetails['CK'] = $racedetails['defCK'];
-
-    array_push($allpaddlerdetails,$paddlerdetails);
-    */
     }
   }
 ?>
