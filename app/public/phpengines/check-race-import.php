@@ -104,15 +104,11 @@ foreach ($allpaddlerdetails as $paddlerdetails)
     }
 
   //Check club is legal
-  if ((strlen($paddlerdetails['Club']) == 3) OR ((strlen($paddlerdetails['Club']) == 7) AND ($racedetails['Boat'] == 2)) OR ((strlen($paddlerdetails['Club']) == 15) AND ($racedetails['Boat'] == 4)))
-    {
-    }
-  else
+  if ((($racedetails['Boat'] == 1) AND (strlen($paddlerdetails['Club']) <> 3)) OR (($racedetails['Boat'] == 2) AND (strlen($paddlerdetails['Club']) <> 3) AND (strlen($paddlerdetails['Club']) <> 7)) OR (($racedetails['Boat'] == 4) AND (strlen($paddlerdetails['Club']) <> 3) AND (strlen($paddlerdetails['Club']) <> 15)))
     {
     $raceerror = true;
     array_push($errorlist,"Invalid club code specified");
     }
   }
-
 $errorlist = array_unique($errorlist);
 ?>
