@@ -83,12 +83,25 @@ foreach ($allpaddlerdetails as $paddlerdetails)
     }
 
   //Check that the time is valid if there is a result
-  if ((preg_match($regex['shorttime'],$paddlerdetails['Time']) == false) AND (preg_match($regex['regulartime'],$paddlerdetails['Time']) == false) AND (preg_match($regex['longtime'],$paddlerdetails['Time']) == false) AND (in_array($paddlerdetails['NR'],$legalnrs) === false))
+  $validtimes = array_merge($regex['timeformats'],$regex['notfinishings']);
+  $validtimescount = count($validtimes);
+  $validtimeskey = 0;
+  $validtimefound = false;
+  //Check each valid format until either it is found, or options run out
+  while (($validtimeskey < $validtimescount) AND ($validtimefound == false))
+    {
+    if (preg_match($validtimes[$validtimeskey],$paddlerdetails['Time']) != false)
+      $validtimefound = true;
+    
+    $validtimeskey++;
+    }
+  
+  //If none of the valid race times have been found, return an error
+  if ($validtimefound == false)
     {
     $raceerror = true;
     array_push($errorlist,"Invalid time specified");
     }
-
 
   //Check club is legal
   if ((strlen($paddlerdetails['Club']) == 3) OR ((strlen($paddlerdetails['Club']) == 7) AND ($racedetails['Boat'] == 2)) OR ((strlen($paddlerdetails['Club']) == 15) AND ($racedetails['Boat'] == 4)))
