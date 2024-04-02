@@ -300,6 +300,26 @@ foreach($racetext as $racetextkey=>$raceline)
       $foundtime = "";
     
     $paddlers = $raceline;
+    
+    //Read and remove the flag for a different class crew
+    preg_match($regex['differentclassflag'],$paddlers,$differentclass);
+    if (isset($differentclass[0]) == true)
+      {
+      $classcodes = substr($differentclass[0],1,-1);
+      $classcodes = str_split($classcodes);
+      $paddlerjsv = $classcodes[0];
+      $paddlermw = $classcodes[1];
+      $paddlerck = $classcodes[2];
+      
+      //Remove the different class flag from the paddler
+      $paddlers = str_replace($differentclass[0],"",$paddlers);
+      }
+    else
+      {
+      $paddlerjsv = $racedetails['defJSV'];
+      $paddlermw = $racedetails['defMW'];
+      $paddlerck = $racedetails['defCK'];      
+      }
 
     //Remove the start of the paddler line
     $paddlers = str_replace($foundlinestart,"",$paddlers);
@@ -309,7 +329,6 @@ foreach($racetext as $racetextkey=>$raceline)
     //Remove the NR from the paddler line and replace with /
     if ($noresultflag != "")
       $paddlers = str_replace($noresultflag,"/",$paddlers);
-    
     //Remove any double spaces
     $doublespaces = 1;
     while ($doublespaces > 0)
@@ -398,9 +417,9 @@ foreach($racetext as $racetextkey=>$raceline)
     $paddlerdetails['NR'] = $noresultflag;
 
     //Define the JSV/MW/CK from the defaults for the race
-    $paddlerdetails['JSV'] = $racedetails['defJSV'];
-    $paddlerdetails['MW'] = $racedetails['defMW'];
-    $paddlerdetails['CK'] = $racedetails['defCK'];
+    $paddlerdetails['JSV'] = $paddlerjsv;
+    $paddlerdetails['MW'] = $paddlermw;
+    $paddlerdetails['CK'] = $paddlerck;
 
     $paddlerdetails['Lane'] = $lane;
     
