@@ -73,6 +73,7 @@ foreach($racetext as $racetextkey=>$raceline)
   if ($racetextkey == 0)
     {
     $raceline = explode(" ",$raceline);
+
     //Get distance from details line
     $distances = preg_grep($regex['distance'],$raceline);
     if (count($distances) == 1)
@@ -80,14 +81,14 @@ foreach($racetext as $racetextkey=>$raceline)
       //Get the distance from the 
       $distances = array_values($distances);
       $distance = $distances[0];
-      
+
       //Remove the m from the distance
       $distance = str_ireplace("m","",$distance);
       
       //Check if the distance is a km distance
-      if ((str_contains($distance,"k") == true) OR (str_contains($distance,"K") == true))
+      if (str_contains($distance,"K") == true)
         {
-        $distance = str_ireplace("k","",$distance);
+        $distance = str_ireplace("K","",$distance);
         $distance = $distance*1000;
         }
 
@@ -115,6 +116,7 @@ foreach($racetext as $racetextkey=>$raceline)
 
       unset($raceline[$boatskey]);
       }
+    
     //If unique
     $boatclasses = array_unique($boatclasses);
     $boatsizes = array_unique($boatsizes);
@@ -167,7 +169,7 @@ foreach($racetext as $racetextkey=>$raceline)
       $racedetails['RaceName'] = $racedetails['RaceName'] . " V";
     else
       $racedetails['RaceName'] = $racedetails['RaceName'] . " C/K";
-
+    
     //Read the race classes to work out what sort of race it is
     include 'race-classes.php';
     }
