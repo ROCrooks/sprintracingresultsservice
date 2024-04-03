@@ -173,6 +173,9 @@ foreach($racetext as $racetextkey=>$raceline)
     }
   else
     {
+    //The default single number is 0, it is set if one is found
+    $singlenumber = 0;
+
     $paddlerdetails = array();
     
     //Preg to extract the position, lane and club
@@ -198,10 +201,9 @@ foreach($racetext as $racetextkey=>$raceline)
       $foundlinestart = $foundlinestart[0];
     else
       $foundlinestart = "";
-    
+
     //Explode the preamble into an array to separate out the parts
     $foundlinestartarray = explode(" ",$foundlinestart);
-    $noresultflag = "";
     //Extract the position, lane and club depending on the format
     //This uses the key the loop stops on so that the format of the preamble is known
     if ($linestartskey == 1)
@@ -214,34 +216,19 @@ foreach($racetext as $racetextkey=>$raceline)
       {
       //Default club is always the second element
       $defaultclub = $foundlinestartarray[1];
-      
-      //Find out if the lone is likely to be a lane or a position
-      $notfinishfound = false;
-      foreach($regex['notfinishings'] as $notfinishings)
-        {
-        if(str_contains($raceline,$notfinishings) == true)
-          {
-          $notfinishfound = true;
-          $noresultflag = $notfinishings;
-          }
-        }
-      
-      //Assign the lane and position
-      if ($notfinishfound == true)
-        {
-        $position = 0;
-        $lane = $foundlinestartarray[0];
-        }
-      elseif ($notfinishfound == false)
-        {
-        $position = $foundlinestartarray[0];
-        $lane = 0;
-        }
+
+      //Store the single number, work out what it is later
+      $singlenumber = $foundlinestartarray[0];
       }
     elseif ($linestartskey == 4)
       {
       //Default club is always the first element
       $defaultclub = $foundlinestartarray[0];
+
+      //Make sure the default club picked up is the club code, and not the last 3 letters of the name
+      $startcheck = substr($raceline,0,3);
+      if ($defaultclub != $startcheck)
+        $defaultclub = "???";
       
       //Position and lane are always blank in this format
       $position = 0;
@@ -256,7 +243,7 @@ foreach($racetext as $racetextkey=>$raceline)
       $position = $foundlinestartarray[0];
       $lane = $foundlinestartarray[1];
       }
-    elseif (($linestartskey == 7) OR ($linestartskey == 7))
+    elseif ($linestartskey == 7)
       {
       //Default club is blank in this format
       $defaultclub = "???";
@@ -293,13 +280,56 @@ foreach($racetext as $racetextkey=>$raceline)
       $timeformatskey++;
       }
     
-    //Assigned the time if it is found
-    if (isset($foundtime[0]) == true)
-      $foundtime = $foundtime[0];
-    else
-      $foundtime = "";
-    
     $paddlers = $raceline;
+    
+    //Assign the time if it is found
+    if (isset($foundtime[0]) == true)
+      {
+      $foundtime = $foundtime[0];
+      $paddlers = str_replace($foundtime,'',$paddlers);
+      }
+    else
+      $foundtime = false;
+
+    //Assign what the single number found means
+    if (isset($singlenumber) == true)
+      {
+      if ($foundtime != false)
+        {
+        $position = $singlenumber;
+        $lane = 0;
+        $noresultflag = '';
+        }
+      else
+        {
+        $position = 0;
+        $lane = $singlenumber;
+        
+        //Get the reason for no result by looking in the paddlers line
+        $paddlers = explode(" ",$paddlers);
+        $paddlerskey = 0;
+        $paddlerscount = count($paddlers);
+        $noresultflag = false;
+        while (($paddlerskey < $paddlerscount) AND ($noresultflag == false))
+          {
+          $paddlerelement = $paddlers[$paddlerskey];
+
+          $noresultflag = array_search($paddlerelement,$regex['notfinishings']);
+          if ($noresultflag != false)
+            $noresultflag = $regex['notfinishings'][$noresultflag];
+          
+          $paddlerskey++;
+          }
+        
+        //Remove the no result flag from the paddler line
+        if ($noresultflag != false)
+          unset($paddlers[$paddlerskey-1]);
+        else
+          $noresultflag = '';
+
+        $paddlers = implode(" ",$paddlers);
+        }
+      }
     
     //Read and remove the flag for a different class crew
     preg_match($regex['differentclassflag'],$paddlers,$differentclass);
@@ -326,9 +356,6 @@ foreach($racetext as $racetextkey=>$raceline)
     //Remove the time from the paddler line and replace with /
     if ($foundtime != "")
       $paddlers = str_replace($foundtime,"/",$paddlers);
-    //Remove the NR from the paddler line and replace with /
-    if ($noresultflag != "")
-      $paddlers = str_replace($noresultflag,"/",$paddlers);
     //Remove any double spaces
     $doublespaces = 1;
     while ($doublespaces > 0)
@@ -422,7 +449,7 @@ foreach($racetext as $racetextkey=>$raceline)
     $paddlerdetails['CK'] = $paddlerck;
 
     $paddlerdetails['Lane'] = $lane;
-    
+
     array_push($allpaddlerdetails,$paddlerdetails);
     }
   }

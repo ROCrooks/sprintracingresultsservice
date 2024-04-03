@@ -84,14 +84,25 @@ foreach ($allpaddlerdetails as $paddlerdetails)
 
   //Check that the time is valid if there is a result
   $validtimes = array_merge($regex['timeformats'],$regex['notfinishings']);
+  $changelookuppoint = count($regex['timeformats']);
   $validtimescount = count($validtimes);
   $validtimeskey = 0;
   $validtimefound = false;
   //Check each valid format until either it is found, or options run out
   while (($validtimeskey < $validtimescount) AND ($validtimefound == false))
     {
-    if (preg_match($validtimes[$validtimeskey],$paddlerdetails['Time']) != false)
-      $validtimefound = true;
+    //Check against time formats regex
+    if ($validtimeskey < $changelookuppoint)
+      {
+      if (preg_match($validtimes[$validtimeskey],$paddlerdetails['Time']) != false)
+        $validtimefound = true;
+      }
+    //Check against no result codes
+    else
+      {
+      if ($paddlerdetails['NR'] == $validtimes[$validtimeskey])
+        $validtimefound = true;
+      }
     
     $validtimeskey++;
     }
