@@ -229,13 +229,13 @@ foreach($racetext as $racetextkey=>$raceline)
       //Assign the lane and position
       if ($notfinishfound == true)
         {
-        $position = "";
+        $position = 0;
         $lane = $foundlinestartarray[0];
         }
       elseif ($notfinishfound == false)
         {
         $position = $foundlinestartarray[0];
-        $lane = "";
+        $lane = 0;
         }
       }
     elseif ($linestartskey == 4)
@@ -244,8 +244,8 @@ foreach($racetext as $racetextkey=>$raceline)
       $defaultclub = $foundlinestartarray[0];
       
       //Position and lane are always blank in this format
-      $position = "";
-      $lane = "";
+      $position = 0;
+      $lane = 0;
       }
     elseif (($linestartskey == 5) OR ($linestartskey == 6))
       {
@@ -263,7 +263,7 @@ foreach($racetext as $racetextkey=>$raceline)
       
       //Position and lane are first and second in this format
       $position = $foundlinestartarray[0];
-      $lane = "";
+      $lane = 0;
       }
     
     //Specify a default club if it's missing
