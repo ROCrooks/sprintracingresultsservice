@@ -84,9 +84,9 @@ foreach($racetext as $racetextkey=>$raceline)
 
       //Remove the m from the distance
       $distance = str_ireplace("m","",$distance);
-      
+
       //Check if the distance is a km distance
-      if (str_contains($distance,"K") == true)
+      if (substr($distance,-1) == "K")
         {
         $distance = str_ireplace("K","",$distance);
         $distance = $distance*1000;
