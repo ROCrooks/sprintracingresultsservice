@@ -80,11 +80,11 @@ foreach($racetext as $racetextkey=>$raceline)
       {
       //Get the distance from the 
       $distances = array_values($distances);
-      $distance = $distances[0];
+      $distancetext = $distances[0];
 
       //Remove the m from the distance
-      $distance = str_ireplace("m","",$distance);
-
+      $distance = str_ireplace("m","",$distancetext);
+      
       //Check if the distance is a km distance
       if (substr($distance,-1) == "K")
         {
@@ -160,6 +160,9 @@ foreach($racetext as $racetextkey=>$raceline)
       unset($raceline[1]);
 
     $racedetails['RaceName'] = implode(" ",$raceline);
+    
+    //Remove the text that describes the race distance
+    $racedetails['RaceName'] = str_ireplace($distancetext,"",$racedetails['RaceName']);
 
     if ($racedetails['defCK'] == "K")
       $racedetails['RaceName'] = $racedetails['RaceName'] . " K";
@@ -169,6 +172,13 @@ foreach($racetext as $racetextkey=>$raceline)
       $racedetails['RaceName'] = $racedetails['RaceName'] . " V";
     else
       $racedetails['RaceName'] = $racedetails['RaceName'] . " C/K";
+    
+    //Remove double spaces
+    $spacesremoved = 1;
+    while ($spacesremoved > 0)
+      {
+      $racedetails['RaceName'] = str_ireplace("  "," ",$racedetails['RaceName'],$spacesremoved);
+      }
     
     //Read the race classes to work out what sort of race it is
     include 'race-classes.php';
