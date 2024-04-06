@@ -95,7 +95,11 @@ foreach($racetext as $racetextkey=>$raceline)
       $racedetails['Distance'] = $distance;
       }
     else
+      {
       $racedetails['Distance'] = "";
+      $distancetext = '';
+      }
+      
 
     //Get boats from details line
     $boats = preg_grep($regex['boats'],$raceline);
@@ -185,9 +189,6 @@ foreach($racetext as $racetextkey=>$raceline)
     }
   else
     {
-    //The default single number is 0, it is set if one is found
-    $singlenumber = 0;
-
     $paddlerdetails = array();
     
     //Preg to extract the position, lane and club
@@ -213,18 +214,20 @@ foreach($racetext as $racetextkey=>$raceline)
       $foundlinestart = $foundlinestart[0];
     else
       $foundlinestart = "";
-
+    
+    $raceline = str_replace($foundlinestart,"",$raceline);
+    
     //Explode the preamble into an array to separate out the parts
     $foundlinestartarray = explode(" ",$foundlinestart);
     //Extract the position, lane and club depending on the format
     //This uses the key the loop stops on so that the format of the preamble is known
-    if ($linestartskey == 1)
+    if (($linestartskey == 1) OR ($linestartskey == 2) OR ($linestartskey == 3))
       {
       $position = $foundlinestartarray[0];
       $lane = $foundlinestartarray[1];
       $defaultclub = $foundlinestartarray[2];
       }
-    elseif (($linestartskey == 2) OR ($linestartskey == 3))
+    elseif (($linestartskey == 4) OR ($linestartskey == 5))
       {
       //Default club is always the second element
       $defaultclub = $foundlinestartarray[1];
@@ -232,7 +235,7 @@ foreach($racetext as $racetextkey=>$raceline)
       //Store the single number, work out what it is later
       $singlenumber = $foundlinestartarray[0];
       }
-    elseif ($linestartskey == 4)
+    elseif ($linestartskey == 6)
       {
       //Default club is always the first element
       $defaultclub = $foundlinestartarray[0];
@@ -246,7 +249,7 @@ foreach($racetext as $racetextkey=>$raceline)
       $position = 0;
       $lane = 0;
       }
-    elseif (($linestartskey == 5) OR ($linestartskey == 6))
+    elseif (($linestartskey == 7) OR ($linestartskey == 8))
       {
       //Default club is blank in this format
       $defaultclub = "???";
@@ -255,7 +258,7 @@ foreach($racetext as $racetextkey=>$raceline)
       $position = $foundlinestartarray[0];
       $lane = $foundlinestartarray[1];
       }
-    elseif ($linestartskey == 7)
+    elseif ($linestartskey == 9)
       {
       //Default club is blank in this format
       $defaultclub = "???";
@@ -274,7 +277,7 @@ foreach($racetext as $racetextkey=>$raceline)
       if ($defaultclub == "")
         $defaultclub = "???";
       }
-    
+
     //Get the time from the paddler line
     $timeformatscount = count($regex['timeformats']);
     $timeformatskey = 0;
@@ -302,7 +305,7 @@ foreach($racetext as $racetextkey=>$raceline)
       }
     else
       $foundtime = false;
-
+    
     //Assign what the single number found means
     if (isset($singlenumber) == true)
       {
@@ -327,7 +330,8 @@ foreach($racetext as $racetextkey=>$raceline)
           $paddlerelement = $paddlers[$paddlerskey];
 
           $noresultflag = array_search($paddlerelement,$regex['notfinishings']);
-          if ($noresultflag != false)
+          
+          if (($noresultflag != false) OR ($noresultflag === 0)) 
             $noresultflag = $regex['notfinishings'][$noresultflag];
           
           $paddlerskey++;
@@ -342,7 +346,7 @@ foreach($racetext as $racetextkey=>$raceline)
         $paddlers = implode(" ",$paddlers);
         }
       }
-    
+
     //Read and remove the flag for a different class crew
     preg_match($regex['differentclassflag'],$paddlers,$differentclass);
     if (isset($differentclass[0]) == true)
@@ -453,7 +457,10 @@ foreach($racetext as $racetextkey=>$raceline)
 
     //Add the found time to the paddlerdetails line
     $paddlerdetails['Time'] = $foundtime;
-    $paddlerdetails['NR'] = $noresultflag;
+    if (isset($noresultflag) == true)
+      $paddlerdetails['NR'] = $noresultflag;
+    else
+      $paddlerdetails['NR'] = '';
 
     //Define the JSV/MW/CK from the defaults for the race
     $paddlerdetails['JSV'] = $paddlerjsv;
