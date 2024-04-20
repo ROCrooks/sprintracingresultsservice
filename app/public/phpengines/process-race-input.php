@@ -467,9 +467,20 @@ foreach($racetext as $racetextkey=>$raceline)
     $paddlerdetails['MW'] = $paddlermw;
     $paddlerdetails['CK'] = $paddlerck;
 
-    $paddlerdetails['Lane'] = $lane;
-
     array_push($allpaddlerdetails,$paddlerdetails);
+
+    //Unset all found variables to stop them being reused in error
+    unset($paddlerdetails);
+    unset($position);
+    unset($lane);
+    unset($foundclubs);
+    unset($foundpaddlers);
+    unset($foundtime);
+    unset($noresultflag);
+    unset($paddlerjsv);
+    unset($paddlermw);
+    unset($paddlerck);
+    unset($singlenumber);
     }
   }
 ?>
