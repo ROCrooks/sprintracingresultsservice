@@ -63,10 +63,6 @@ foreach ($racetext as $racetextkey=>$raceline)
 $racedetails = array();
 $allpaddlerdetails = array();
 
-//Common faults to find and replace
-$faultsfind = array(" / ","//");
-$faultsreplace = array("/","/");
-
 foreach($racetext as $racetextkey=>$raceline)
   {
   $raceline = strtoupper($raceline);

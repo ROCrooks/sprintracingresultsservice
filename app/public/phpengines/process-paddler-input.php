@@ -1,4 +1,11 @@
 <?php
+//Common faults to find and replace
+if ((isset($faultsfind) == false) AND (isset($faultsreplace) == false))
+  {
+  $faultsfind = array(" / ","//");
+  $faultsreplace = array("/","/");
+  }
+
 $paddlerdetails = array();
     
 //Preg to extract the position, lane and club
@@ -76,6 +83,14 @@ elseif ($linestartskey == 9)
   //Position and lane are first and second in this format
   $position = $foundlinestartarray[0];
   $lane = 0;
+  }
+elseif ($linestartskey == 10)
+  {
+  //Default club is blank in this format
+  $defaultclub = "???";
+  
+  //The single number is unclear at this point
+  $singlenumber = $foundlinestartarray[0];
   }
 
 //Specify a default club if it's missing
@@ -280,7 +295,7 @@ $paddlerdetails['CK'] = $paddlerck;
 array_push($allpaddlerdetails,$paddlerdetails);
 
 //Unset all found variables to stop them being reused in error
-unset($paddlerdetails);
+//unset($paddlerdetails);
 unset($position);
 unset($lane);
 unset($foundclubs);
