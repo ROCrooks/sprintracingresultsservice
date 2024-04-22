@@ -1,4 +1,7 @@
 <?php
+
+
+/*
 //Common faults to find and replace
 if ((isset($faultsfind) == false) AND (isset($faultsreplace) == false))
   {
@@ -33,6 +36,8 @@ else
   $foundlinestart = "";
 
 $raceline = str_replace($foundlinestart,"",$raceline);
+
+echo $raceline . "<br>";
 
 //Explode the preamble into an array to separate out the parts
 $foundlinestartarray = explode(" ",$foundlinestart);
@@ -94,12 +99,30 @@ elseif ($linestartskey == 10)
   }
 
 //Specify a default club if it's missing
-if (isset($defaultclub) == false)
+if ($defaultclub == "???")
   {
-  preg_match($regex['defaultclub'],$raceline,$defaultclub);
-  $defaultclub = $defaultclub[0];
-  $defaultclub = str_replace(" ","",$defaultclub);
-  if ($defaultclub == "")
+  //Loop through each club format until one that matches is found
+  $clubregexescount = count($regex['defaultclub']);
+  $clubregexeskey = 0;
+  $foundclub = false;
+  while (($clubregexeskey < $clubregexescount) AND ($foundclub == false))
+    {
+    $clubformatregex = $regex['defaultclub'][$clubregexeskey];
+
+    //Check each type of club format
+    preg_match($clubformatregex,$raceline,$defaultclub);
+    echo count($defaultclub) . "<br>";
+    if (count($defaultclub) == 1)
+      {
+      $defaultclub = $defaultclub[0];
+      $defaultclub = str_replace(" ","",$defaultclub);
+      $foundclub = true;
+      }
+
+    $clubregexeskey++;
+    }
+  
+  if (is_array($defaultclub) == true)
     $defaultclub = "???";
   }
 
@@ -306,4 +329,5 @@ unset($paddlerjsv);
 unset($paddlermw);
 unset($paddlerck);
 unset($singlenumber);
+*/
 ?>
