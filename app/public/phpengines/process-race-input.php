@@ -54,7 +54,12 @@ foreach ($racetext as $racetextkey=>$raceline)
   //Merge lines where needed
   if ($racetextkey != $mergekey)
     {
-    $racetext[$mergekey] = $racetext[$mergekey] . "/" . $raceline;
+    //Remove the time from the previous line before the merge, before adding it to the end
+    $movingtimearray = explode(" ",$racetext[$mergekey]);
+    $crewtime = array_pop($movingtimearray);
+    $movingtimearray = implode(" ",$movingtimearray);
+
+    $racetext[$mergekey] = $movingtimearray . "/" . $raceline . " " . $crewtime;
     unset($racetext[$racetextkey]);
     }
   }
