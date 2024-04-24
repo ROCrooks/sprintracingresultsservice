@@ -23,8 +23,71 @@ foreach($regex['longdistancelanes'] as $ldracelane)
 //Get the last element of the array as the time or the no result
 $timeelement = array_pop($raceline);
 
-print_r($timeelement);
+//Check if the last element is a time
+$regexcount = count($regex['timeformats']);
+$regexkey = 0;
+$foundtime = false;
+while (($regexkey < $regexcount) AND ($foundtime == false))
+  {
+  if (preg_match($regex['timeformats'][$regexkey],$timeelement) == true)
+    {
+    $paddlerdetails['Time'] = $timeelement;
+    $paddlerdetails['NR'] = "";
+    $foundtime = true;
+    }
+  $regexkey++;
+  }
+
+//Search for no results
+$regexcount = count($regex['notfinishings']);
+$regexkey = 0;
+while (($regexkey < $regexcount) AND ($foundtime == false))
+  {
+  if ($regex['notfinishings'][$regexkey] == $timeelement)
+    {
+    $paddlerdetails['Time'] = 0;
+    $paddlerdetails['NR'] = $timeelement;
+    $foundtime = true;
+    }
+  $regexkey++;
+  }
+
+$raceline = array_values($raceline);
+
+//Get the position and lane from the first 2 elements
+echo $raceline[0] . "<br>";
+echo $raceline[1] . "<br>";
+if ((is_numeric($raceline[0]) == true) AND (is_numeric($raceline[1]) == true))
+  {
+  $paddlerdetails['Position'] = $raceline[0];
+  $paddlerdetails['Lane'] = $raceline[1];
+  unset($raceline[0]);
+  unset($raceline[1]);
+  }
+elseif ((is_numeric($raceline[0]) == true) AND ($paddlerdetails['NR'] == ""))
+  {
+  $paddlerdetails['Position'] = $raceline[0];
+  $paddlerdetails['Lane'] = 0;
+  unset($raceline[0]);
+  }
+elseif ((is_numeric($raceline[0]) == true) AND ($paddlerdetails['NR'] != ""))
+  {
+  $paddlerdetails['Position'] = 0;
+  $paddlerdetails['Lane'] = $raceline[0];
+  unset($raceline[0]);
+  }
+else
+  {
+  $paddlerdetails['Position'] = 0;
+  $paddlerdetails['Lane'] = 0;
+  }
+
+$raceline = array_values($raceline);
+
 print_r($raceline);
+echo "<br>";
+
+print_r($paddlerdetails);
 echo "<br>";
 
 /*
