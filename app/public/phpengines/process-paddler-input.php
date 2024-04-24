@@ -1,5 +1,31 @@
 <?php
+$paddlerdetails = array();
 
+$raceline = explode(" ",$raceline);
+print_r($raceline);
+echo "<br>";
+
+//Check the first 2 elements for LD race lane numbers, and unset them if they're found
+foreach($regex['longdistancelanes'] as $ldracelane)
+  {
+  if (isset($raceline[0]) == true)
+    {
+    if (preg_match($ldracelane,$raceline[0]) == true)
+    unset($raceline[0]);
+    }
+  if (isset($raceline[1]) == true)
+    {
+    if (preg_match($ldracelane,$raceline[1]) == true)
+      unset($raceline[1]);
+    }
+  }
+
+//Get the last element of the array as the time or the no result
+$timeelement = array_pop($raceline);
+
+print_r($timeelement);
+print_r($raceline);
+echo "<br>";
 
 /*
 //Common faults to find and replace
