@@ -82,6 +82,26 @@ else
 
 $raceline = array_values($raceline);
 
+//Check if the first element is a club and if so make it the default club
+$regexcount = count($regex['defaultclub']);
+$regexkey = 0;
+$defaultclub = false;
+while (($regexkey < $regexcount) AND ($defaultclub == false))
+  {
+  if (preg_match($regex['defaultclub'][$regexkey],$raceline[0]) == true)
+    {
+    $defaultclub = $raceline[0];
+    unset($raceline[0]);
+    }
+  $regexkey++;
+  }
+
+//Make the default club ??? if it is not found
+if ($defaultclub == false)
+  $defaultclub = "???";
+
+$raceline = array_values($raceline);
+
 print_r($raceline);
 echo "<br>";
 
