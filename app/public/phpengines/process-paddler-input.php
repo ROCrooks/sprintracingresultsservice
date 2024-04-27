@@ -55,8 +55,6 @@ while (($regexkey < $regexcount) AND ($foundtime == false))
 $raceline = array_values($raceline);
 
 //Get the position and lane from the first 2 elements
-echo $raceline[0] . "<br>";
-echo $raceline[1] . "<br>";
 if ((is_numeric($raceline[0]) == true) AND (is_numeric($raceline[1]) == true))
   {
   $paddlerdetails['Position'] = $raceline[0];
