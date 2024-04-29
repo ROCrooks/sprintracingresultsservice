@@ -1,6 +1,7 @@
 <?php
 $paddlerdetails = array();
 
+$raceline = strtoupper($raceline);
 $raceline = explode(" ",$raceline);
 print_r($raceline);
 echo "<br>";
@@ -125,6 +126,36 @@ else
   }
 
 $raceline = array_values($raceline);
+
+//Format the clubs and paddlers
+$raceline = implode(" ",$raceline);
+$paddlers = explode("/",$raceline);
+$clubs = explode("/",$defaultclub);
+
+foreach($paddlers as $paddler)
+  {
+  //Remove spaces at the beginning and end of paddler
+  $endofpaddler = substr($paddler,-1);
+  while ($endofpaddler == " ")
+    {
+    $paddler = substr($paddler,1);
+    $endofpaddler = substr($paddler,0,-1);
+    }
+  $startofpaddler = substr($paddler,0,1);
+  while ($startofpaddler == " ")
+    {
+    $paddler = substr($paddler,1);
+    $startofpaddler = substr($paddler,0,1);
+    }
+  
+  $paddler = explode(" ",$paddler);
+  if (strlen($paddler[0]) == 1)
+    {
+    $paddler[0] = $paddler[0] . ".";
+    }
+  $paddler = implode(" ",$paddler);
+  echo $paddler . "<br>";
+  }
 
 print_r($raceline);
 echo "<br>";
