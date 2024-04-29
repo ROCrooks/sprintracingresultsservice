@@ -102,6 +102,30 @@ if ($defaultclub == false)
 
 $raceline = array_values($raceline);
 
+//Get the different class flag from the raceline
+$differentclassflag = preg_grep($regex['differentclassflag'],$raceline);
+if ($differentclassflag != false)
+  {
+  //Get the key of the flag in order to remove it
+  $differentclassflagkey = array_key_first($differentclassflag);
+  $differentclassflag = str_split($differentclassflag[$differentclassflagkey]);
+  
+  $paddlerdetails['JSV'] = $differentclassflag[1];
+  $paddlerdetails['MW'] = $differentclassflag[2];
+  $paddlerdetails['CK'] = $differentclassflag[3];
+  
+  unset($raceline[$differentclassflagkey]);
+  }
+else
+  {
+  //Set the class as the default for the race
+  $paddlerdetails['JSV'] = $racedetails['defJSV'];
+  $paddlerdetails['MW'] = $racedetails['defMW'];
+  $paddlerdetails['CK'] = $racedetails['defCK'];
+  }
+
+$raceline = array_values($raceline);
+
 print_r($raceline);
 echo "<br>";
 

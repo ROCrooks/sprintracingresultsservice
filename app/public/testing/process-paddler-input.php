@@ -25,8 +25,8 @@ $singleracelines[12] = "4 S Cook DNF";
 $singleracelines[13] = "S Cook DNF";
 $singleracelines[14] = "4 NOR S Cook DSQ";
 $singleracelines[15] = "4 S Cook DSQ";
-$singleracelines[16] = "S Cook DSQ";
-
+$singleracelines[16] = "4 5 S Cook [SMC] DSQ";
+$singleracelines[17] = "S Cook DSQ";
 
 $doubleracelines[1] = "3 4 NOR S Cook/T THOMPSON 3:23.87";
 $doubleracelines[2] = "3 NOR S Cook/T THOMPSON 3:23.87";
