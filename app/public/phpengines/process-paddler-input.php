@@ -44,12 +44,18 @@ while (($regexkey < $regexcount) AND ($foundtime == false))
   {
   if ($regex['notfinishings'][$regexkey] == $timeelement)
     {
-    $paddlerdetails['Time'] = 0;
+    $paddlerdetails['Time'] = "";
     $paddlerdetails['NR'] = $timeelement;
     $foundtime = true;
     }
   $regexkey++;
   }
+
+//Set the time and no results fields to empty if they haven't already been set 
+if (isset($paddlerdetails['Time']) == false)
+  $paddlerdetails['Time'] = "";
+if (isset($paddlerdetails['NR']) == false)
+  $paddlerdetails['NR'] = "";
 
 $raceline = array_values($raceline);
 
