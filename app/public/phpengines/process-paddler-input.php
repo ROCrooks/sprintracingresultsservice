@@ -3,8 +3,6 @@ $paddlerdetails = array();
 
 $raceline = strtoupper($raceline);
 $raceline = explode(" ",$raceline);
-print_r($raceline);
-echo "<br>";
 
 //Check the first 2 elements for LD race lane numbers, and unset them if they're found
 foreach($regex['longdistancelanes'] as $ldracelane)
@@ -132,7 +130,19 @@ $raceline = implode(" ",$raceline);
 $paddlers = explode("/",$raceline);
 $clubs = explode("/",$defaultclub);
 
-foreach($paddlers as $paddler)
+//Turn the club into the format of multiple clubs to standardize
+if (count($clubs) == 1)
+  {
+  $singleclub = $clubs[0];
+  
+  if ($racedetails['Boat'] == 2)
+    $clubs = array($singleclub,$singleclub);
+  
+  if ($racedetails['Boat'] == 4)
+    $clubs = array($singleclub,$singleclub,$singleclub,$singleclub);
+  }
+
+foreach($paddlers as $paddlerkey=>$paddler)
   {
   //Remove spaces at the beginning and end of paddler
   $endofpaddler = substr($paddler,-1);
@@ -148,20 +158,41 @@ foreach($paddlers as $paddler)
     $startofpaddler = substr($paddler,0,1);
     }
   
+  //Initialize the first letter in the paddler name
   $paddler = explode(" ",$paddler);
   if (strlen($paddler[0]) == 1)
     {
     $paddler[0] = $paddler[0] . ".";
     }
   $paddler = implode(" ",$paddler);
-  echo $paddler . "<br>";
+  
+  //Find a different club flag
+  $differentclub = array();
+  preg_match($regex['individualclub'],$paddler,$differentclub);
+  if (count($differentclub) == 1)
+    {
+    //Remove the different club flag from the paddler text
+    str_replace($differentclub[0],"",$paddler);
+    $differentclub = substr($differentclub[0],1,-1);
+    
+    //Change the club to a different club
+    $clubs[$paddlerkey] = $differentclub;
+    }
+  
+  //Add the formatted paddler back to the array
+  $paddlers[$paddlerkey] = $paddler;
   }
 
-print_r($raceline);
-echo "<br>";
+//Replace the club array with a single club if only 1 club is present
+$uniqueclubs = array_unique($clubs);
+if (count($uniqueclubs) == 1)
+  $clubs = $clubs[0];
+else
+  $clubs = implode("/",$clubs);
 
-print_r($paddlerdetails);
-echo "<br>";
+//Add the clubs and crew to the paddler details
+$paddlerdetails['Club'] = $clubs;
+$paddlerdetails['Crew'] = implode("/",$paddlers);
 
 /*
 //Common faults to find and replace
