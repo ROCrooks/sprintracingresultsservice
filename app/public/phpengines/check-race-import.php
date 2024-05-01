@@ -41,6 +41,7 @@ if (($racedetails['Round'] != "F") AND ($racedetails['Draw'] == 0))
   array_push($errorlist,"Draw missing from a round that needs one");
   }
 
+//Check that the boat size is legal
 $legalboats = array(1,2,4);
 if (in_array($racedetails['Boat'],$legalboats) === false)
   {
@@ -82,33 +83,17 @@ foreach ($allpaddlerdetails as $paddlerdetails)
     array_push($errorlist,"Invalid no result code specified");
     }
 
-  //Check that the time is valid if there is a result
-  $validtimes = array_merge($regex['timeformats'],$regex['notfinishings']);
-  $changelookuppoint = count($regex['timeformats']);
-  $validtimescount = count($validtimes);
-  $validtimeskey = 0;
-  $validtimefound = false;
-  //Check each valid format until either it is found, or options run out
-  while (($validtimeskey < $validtimescount) AND ($validtimefound == false))
+  //Check there is a time or no result
+  if (($paddlerdetails['NR'] == '') AND ($paddlerdetails['Time'] == 0))
     {
-    //Check against time formats regex
-    if ($validtimeskey < $changelookuppoint)
-      {
-      if (preg_match($validtimes[$validtimeskey],$paddlerdetails['Time']) != false)
-        $validtimefound = true;
-      }
-    //Check against no result codes
-    else
-      {
-      if ($paddlerdetails['NR'] == $validtimes[$validtimeskey])
-        $validtimefound = true;
-      }
-    
-    $validtimeskey++;
+    $raceerror = true;
+    array_push($errorlist,"To valid time or result specified");
     }
-  
-  //If none of the valid race times have been found, return an error
-  if ($validtimefound == false)
+
+  //Check that the time is valid if there is a result
+  $legaltimecharachers = array("1234567890:.");
+  $timeremnants = str_replace($legaltimecharachers,"",$paddlerdetails['Time']);
+  if (strlen($timeremnants) > 0)
     {
     $raceerror = true;
     array_push($errorlist,"Invalid time specified");
@@ -122,7 +107,7 @@ foreach ($allpaddlerdetails as $paddlerdetails)
     }
   
   //Check if there are any weird characters in crew names
-  $weirdcharacters = str_split("()[]");
+  $weirdcharacters = str_split("()[]1234567890");
   $weirdcharacterskey = 0;
   $weirdcharacterscount = count($weirdcharacters);
   $weirdcharacterfound = false;
