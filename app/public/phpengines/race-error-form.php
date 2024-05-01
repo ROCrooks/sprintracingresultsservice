@@ -4,7 +4,7 @@ function raceformbox($label,$name,$content,$size)
   {
   $html = '<div style="width: 100%; display: table;">';
   $html = $html . '<div style="display: table-row;">';
-  $html = $html . '<div style="width: 100px; display: table-cell;">' . $label . '</div>';
+  $html = $html . '<div style="width: 100px; display: table-cell;"><p>' . $label . '</p></div>';
   $html = $html . '<div style="display: table-cell;"><input type="text" name="' . $name . '" value="' . $content . '" size="' . $size . '"></div>';
   $html = $html . '</div>';
   $html = $html . '</div>';
@@ -33,11 +33,11 @@ $racedetailshtml = implode("",$racedetailshtml);
 
 //Widths for the defaults
 $widths = array();
-$widths['Position'] = 50;
+$widths['Position'] = 80;
 $widths['Lane'] = 50;
-$widths['Club'] = 50;
-$widths['Crew'] = 100;
-$widths['Time'] = 50;
+$widths['Club'] = 150;
+$widths['Crew'] = 400;
+$widths['Time'] = 80;
 $widths['JSV'] = 50;
 $widths['MW'] = 50;
 $widths['CK'] = 50;
@@ -69,14 +69,14 @@ $paddlerdetailshtml = $paddlerdetailshtml . '<div style="width: ' . $widths['CK'
 $paddlerdetailshtml = $paddlerdetailshtml . '</div>';
 //The headers for the paddler details column headings
 $paddlerdetailshtml = $paddlerdetailshtml . '<div style="display: table-row;">';
-$paddlerdetailshtml = $paddlerdetailshtml . '<div style="width: ' . $widths['Position'] . 'px; display: table-cell;">Position</div>';
-$paddlerdetailshtml = $paddlerdetailshtml . '<div style="width: ' . $widths['Lane'] . 'px; display: table-cell;">Lane</div>';
-$paddlerdetailshtml = $paddlerdetailshtml . '<div style="width: ' . $widths['Club'] . 'px; display: table-cell;">Club</div>';
-$paddlerdetailshtml = $paddlerdetailshtml . '<div style="width: ' . $widths['Crew'] . 'px; display: table-cell;">Crew</div>';
-$paddlerdetailshtml = $paddlerdetailshtml . '<div style="width: ' . $widths['Time'] . 'px; display: table-cell;">Time</div>';
-$paddlerdetailshtml = $paddlerdetailshtml . '<div style="width: ' . $widths['JSV'] . 'px; display: table-cell;">JSV</div>';
-$paddlerdetailshtml = $paddlerdetailshtml . '<div style="width: ' . $widths['MW'] . 'px; display: table-cell;">MW</div>';
-$paddlerdetailshtml = $paddlerdetailshtml . '<div style="width: ' . $widths['CK'] . 'px; display: table-cell;">CK</div>';
+$paddlerdetailshtml = $paddlerdetailshtml . '<div style="width: ' . $widths['Position'] . 'px; display: table-cell;"><p>Position</p></div>';
+$paddlerdetailshtml = $paddlerdetailshtml . '<div style="width: ' . $widths['Lane'] . 'px; display: table-cell;"><p>Lane</p></div>';
+$paddlerdetailshtml = $paddlerdetailshtml . '<div style="width: ' . $widths['Club'] . 'px; display: table-cell;"><p>Club</p></div>';
+$paddlerdetailshtml = $paddlerdetailshtml . '<div style="width: ' . $widths['Crew'] . 'px; display: table-cell;"><p>Crew</p></div>';
+$paddlerdetailshtml = $paddlerdetailshtml . '<div style="width: ' . $widths['Time'] . 'px; display: table-cell;"><p>Time</p></div>';
+$paddlerdetailshtml = $paddlerdetailshtml . '<div style="width: ' . $widths['JSV'] . 'px; display: table-cell;"><p>JSV</p></div>';
+$paddlerdetailshtml = $paddlerdetailshtml . '<div style="width: ' . $widths['MW'] . 'px; display: table-cell;"><p>MW</p></div>';
+$paddlerdetailshtml = $paddlerdetailshtml . '<div style="width: ' . $widths['CK'] . 'px; display: table-cell;"><p>CK</p></div>';
 $paddlerdetailshtml = $paddlerdetailshtml . '</div>';
 $paddlerline = 1;
 //Each paddler line on a form
@@ -101,11 +101,11 @@ foreach($allpaddlerdetails as $paddlerdetails)
 $paddlerdetailshtml = $paddlerdetailshtml . '</div>';
 
 //Format error list
-$errorlist = implode("<br>",$errorlist);
+$errorlist = implode("<br>- ",$errorlist);
 $errorlist = "<p>- " . $errorlist . "</p>";
 
 //Format form HTML
-$manualformhtml = '<form action="AddRegatta?Regatta=' . $regattaid . '" method="post"><p>Race Details</p>' . $racedetailshtml . '"<p>Paddler Details</p>"' . $paddlerdetailshtml . '<p><input type="submit" name="submitfields" value="Add Race Fields"></p></form>';
+$manualformhtml = '<form action="AddRegatta?Regatta=' . $regattaid . '" method="post"><p>Race Details</p>' . $racedetailshtml . '<p>Paddler Details</p>' . $paddlerdetailshtml . '<p><input type="submit" name="submitfields" value="Add Race Fields"></p></form>';
 $textformhtml = '<form action="AddRegatta?Regatta=' . $regattaid . '" method="post"><p><textarea rows="10" cols="45" name="RaceText">' . $racetext . '</textarea></p><p><input type="submit" name="submittext" value="Add Race Text"></p></form>';
 $addpaddlerformhtml = $errorlist . "<p>Manually Add</p>" . $manualformhtml . "<p>Amend the Text</p>" . $textformhtml;
 ?>
