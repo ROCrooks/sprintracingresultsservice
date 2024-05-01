@@ -193,7 +193,6 @@ else
 //Add the clubs and crew to the paddler details
 $paddlerdetails['Club'] = $clubs;
 $paddlerdetails['Crew'] = implode("/",$paddlers);
-
 /*
 //Common faults to find and replace
 if ((isset($faultsfind) == false) AND (isset($faultsreplace) == false))

@@ -191,6 +191,7 @@ foreach($racetext as $racetextkey=>$raceline)
   else
     {
     include 'process-paddler-input.php';
+    array_push($allpaddlerdetails,$paddlerdetails);
     }
   }
 ?>
