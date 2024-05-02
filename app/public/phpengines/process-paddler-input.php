@@ -186,7 +186,10 @@ foreach($paddlers as $paddlerkey=>$paddler)
     }
   
   //Add the formatted paddler back to the array
-  $paddlers[$paddlerkey] = $paddler;
+  if ($paddler != "")
+    $paddlers[$paddlerkey] = $paddler;
+  else
+    unset($paddlers[$paddlerkey]);   
   }
 
 //Replace the club array with a single club if only 1 club is present
