@@ -87,12 +87,20 @@ foreach ($allpaddlerdetails as $paddlerdetails)
   if (($paddlerdetails['NR'] == '') AND ($paddlerdetails['Time'] == 0))
     {
     $raceerror = true;
-    array_push($errorlist,"To valid time or result specified");
+    array_push($errorlist,"No valid time or result specified");
+    }
+  
+  //Check crew size
+  $crewcheck = explode("/",$paddlerdetails['Crew']);
+  if (count($crewcheck) <> $racedetails['Boat'])
+    {
+    $raceerror = true;
+    array_push($errorlist,"Inconsistency between crew size and boat size");
     }
 
   //Check that the time is valid if there is a result
-  $legaltimecharachers = array("1234567890:.");
-  $timeremnants = str_replace($legaltimecharachers,"",$paddlerdetails['Time']);
+  $legaltimecharacters = str_split("1234567890:. ");
+  $timeremnants = str_replace($legaltimecharacters,"",$paddlerdetails['Time']);
   if (strlen($timeremnants) > 0)
     {
     $raceerror = true;
