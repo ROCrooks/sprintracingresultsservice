@@ -81,7 +81,15 @@ foreach ($allpaddlerdetails as $paddlerdetails)
     $raceerror = true;
     array_push($errorlist,"Invalid no result code specified");
     }
-
+  
+  //Check the size of the boat in the crew
+  $crewcheck = explode("/",$paddlerdetails['NR']);
+  if (count($crewcheck) != $racedetails['Boat'])
+    {
+    $raceerror = true;
+    array_push($errorlist,"Boat size is inconsistent with crew size");
+    }
+  
   //Check that the time is valid if there is a result
   $validtimes = array_merge($regex['timeformats'],$regex['notfinishings']);
   $changelookuppoint = count($regex['timeformats']);
