@@ -178,7 +178,7 @@ foreach($paddlers as $paddlerkey=>$paddler)
   if (count($differentclub) == 1)
     {
     //Remove the different club flag from the paddler text
-    str_replace($differentclub[0],"",$paddler);
+    $paddler = str_replace($differentclub[0],"",$paddler);
     $differentclub = substr($differentclub[0],1,-1);
     
     //Change the club to a different club
