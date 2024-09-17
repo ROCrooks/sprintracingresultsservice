@@ -3,16 +3,21 @@ include_once $engineslocation . 'srrs-required-functions.php';
 include_once $engineslocation . 'srrs-user-input-processing.php';
 
 //Get minimum year
-$minyearsql = "SELECT DISTINCT `Year` FROM `regattas` WHERE `Year` > 0 ORDER BY `Year` ASC LIMIT 0, 1 ";
+/*$minyearsql = "SELECT DISTINCT `Date` FROM `regattas` ORDER BY `Date` ASC LIMIT 0, 1 ";
 $minyearquery = mysqli_query($srrsdblink,$minyearsql);
 $minyearresult = mysqli_fetch_array($minyearquery);
-$minyear = $minyearresult['Year'];
+$minyear = $minyearresult['Date'];
+$minyear = substr($minyear,0,4)
 
 //Get maximum year
-$maxyearsql = "SELECT DISTINCT `Year` FROM `regattas` ORDER BY `Year` DESC LIMIT 0, 1 ";
+$maxyearsql = "SELECT DISTINCT `Date` FROM `regattas` ORDER BY `Date` DESC LIMIT 0, 1 ";
 $maxyearquery = mysqli_query($srrsdblink,$maxyearsql);
 $maxyearresult = mysqli_fetch_array($maxyearquery);
-$maxyear = $maxyearresult['Year'];
+$maxyear = $maxyearresult['Date'];
+$maxyear = substr($maxyear,0,4)*/
+
+$minyear = 2005;
+$maxyear = 2024;
 
 $pagehtml = '';
 
