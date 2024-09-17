@@ -69,6 +69,7 @@ $pagehtml = $pagehtml . '</form>';
 
 $pagehtml = $pagehtml . '<p><a href="AddRegatta">Add Regatta</a></p>';
 $pagehtml = $pagehtml . '<p><a href="ManageClasses">Manage Classes</a></p>';
+$pagehtml = $pagehtml . '<p><a href="ClubManager">Manage Clubs</a></p>';
 
 $pagehtml = $pagehtml . '</section>';
 
