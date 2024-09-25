@@ -9,19 +9,33 @@ $clubdetailsresult = dbexecute($clubdetailsstmt,"");
 $clubcodesfound = resulttocolumn($clubdetailsresult,"Code");
 
 //Get the clubs from the paddlers table
-$allclubssql = "SELECT DISTINCT `Club` FROM `paddlers`";
+$allclubssql = "SELECT DISTINCT `Club` FROM `paddlers` WHERE `Club` != '' ";
 $allclubsstmt = dbprepare($srrsdblink,$allclubssql);
 $allclubsresult = dbexecute($allclubsstmt,"");
 //Make the clubs into an array of club codes
 $allclubsresult = resulttocolumn($allclubsresult,"Club");
 
+$foundclubs = array();
+//Process results to find a single array of found clubs
+foreach ($allclubsresult as $crewclub)
+    {
+    //Explode the club to find the individual clubs of the class
+    $crewclub = explode("/",$crewclub);
+    $foundclubs = array_merge($foundclubs,$crewclub);
+    }
+//Make a unique club array
+$foundclubs = array_unique($foundclubs);
 
+print_r($foundclubs);
 
-print_r($clubcodesfound);
-echo "<br>";
+//print_r($clubcodesfound);
+//echo "<br>";
 
 //print_r($allclubsresult);
 
-print_r($allclubsresult);
-echo "<br>";
+//print_r($allsingleclubsresult);
+//echo "<br>";
+
+//print_r($allcrewclubsresult);
+//echo "<br>";
 ?>
