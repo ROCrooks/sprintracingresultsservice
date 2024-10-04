@@ -13,29 +13,39 @@ $allclubssql = "SELECT DISTINCT `Club` FROM `paddlers` WHERE `Club` != '' ";
 $allclubsstmt = dbprepare($srrsdblink,$allclubssql);
 $allclubsresult = dbexecute($allclubsstmt,"");
 //Make the clubs into an array of club codes
-$allclubsresult = resulttocolumn($allclubsresult,"Club");
+$allclubscodeslist = resulttocolumn($allclubsresult,"Club");
 
-$foundclubs = array();
+$paddlerclubs = array();
 //Process results to find a single array of found clubs
-foreach ($allclubsresult as $crewclub)
+foreach ($allclubscodeslist as $crewclub)
     {
     //Explode the club to find the individual clubs of the class
     $crewclub = explode("/",$crewclub);
-    $foundclubs = array_merge($foundclubs,$crewclub);
+    $paddlerclubs = array_merge($paddlerclubs,$crewclub);
     }
 //Make a unique club array
-$foundclubs = array_unique($foundclubs);
+$paddlerclubs = array_unique($paddlerclubs);
 
-print_r($foundclubs);
+//Orphan clubs array
+$orphanclubs = array();
 
-//print_r($clubcodesfound);
-//echo "<br>";
+//Add found clubs to the database clubs array if they're not already present
+foreach ($paddlerclubs as $paddlerclub)
+    {
+    //Check to see if the club code is missing from the array, and if not, add to orphan club array
+    if ((in_array($paddlerclub,$allclubscodeslist) === false) AND ($paddlerclub != ''))
+        {
+        array_push($orphanclubs,$paddlerclub);
+        }
+    }
 
-//print_r($allclubsresult);
+//Unset unneeded arrays
+unset($clubcodesfound);
+unset($allclubscodeslist);
+unset($paddlerclubs);
 
-//print_r($allsingleclubsresult);
-//echo "<br>";
-
-//print_r($allcrewclubsresult);
-//echo "<br>";
+print_r($clubdetailsresult);
+echo "<br>";
+print_r($orphanclubs);
+echo "<br>";
 ?>
