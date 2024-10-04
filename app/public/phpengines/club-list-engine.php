@@ -43,9 +43,4 @@ foreach ($paddlerclubs as $paddlerclub)
 unset($clubcodesfound);
 unset($allclubscodeslist);
 unset($paddlerclubs);
-
-print_r($clubdetailsresult);
-echo "<br>";
-print_r($orphanclubs);
-echo "<br>";
 ?>
