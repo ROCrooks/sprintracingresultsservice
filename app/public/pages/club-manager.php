@@ -3,7 +3,7 @@ include_once $engineslocation . 'srrs-required-functions.php';
 
 include $engineslocation . 'club-list-engine.php';
 
-//print_r($clubdetailsresult);
+//print_r($orphanclubs);
 //echo "<br>";
 //print_r($orphanclubs);
 //echo "<br>";
@@ -18,6 +18,10 @@ $pagehtml = "";
 $pagehtml = $pagehtml . '<div style="display: table">';
 $pagehtml = $pagehtml . '<div style="display: table-cell; width: ' . $codewidth . 'px;"><p>Code</p></div>';
 $pagehtml = $pagehtml . '<div style="display: table-cell; width: ' . $clubnamewidth . 'px;"><p>Club</p></div>';
+$pagehtml = $pagehtml . '<div style="display: table-cell; width: ' . $colourswidth . 'px;"><p>Colours</p></div>';
+$pagehtml = $pagehtml . '<div style="display: table-cell; width: ' . $codewidth . 'px;"><p>Code</p></div>';
+$pagehtml = $pagehtml . '<div style="display: table-cell; width: ' . $clubnamewidth . 'px;"><p>Club</p></div>';
+$pagehtml = $pagehtml . '<div style="display: table-cell; width: ' . $colourswidth . 'px;"><p>Colours</p></div>';
 $pagehtml = $pagehtml . '</div>';
 
 //Start the column on 1
@@ -49,14 +53,22 @@ foreach($clubdetailsresult as $clubdetails)
         $column = 1;
     }
 
-/*$pagehtml = $pagehtml . '<div style="display: table-cell; width: 20px;"><p>' . $paddlerrace['Position'] . '</p></div>';
-$pagehtml = $pagehtml . '<div style="display: table-cell; width: 20px;"><p>' . $paddlerrace['Lane'] . '</p></div>';
-$pagehtml = $pagehtml . '<div style="display: table-cell; width: 40px;"><p>' . $paddlerrace['Club'] . '</p></div>';
-$pagehtml = $pagehtml . '<div style="display: table-cell; width: 300px;"><p>' . $paddlerrace['Crew'] . '</p></div>';
-$pagehtml = $pagehtml . '<div style="display: table-cell; width: 100px;"><p>' . $paddlerrace['Time'] . '</p></div>';
-$pagehtml = $pagehtml . '<div style="display: table-cell; width: 40px;"><div class="tooltip"><p>' . $paddlerrace['JSV'] . $paddlerrace['MW'] . $paddlerrace['CK'] . '<span class="tooltiptext">' . $hovertext . '</span></p></div></div>';*/
+$sqlquerywidth = "600";
 
+//Break into a new section
+$pagehtml = $pagehtml . "</section><section>";
+$pagehtml = $pagehtml . "<h2>Orphan clubs</h2>";
+$pagehtml = $pagehtml . "<p>The following club codes have been found which are not in the database. It is recommended to either add a database entry for them, or to update them to a correct club code.</p>";
 
+foreach ($orphanclubs as $orphanclub)
+    {
+    $orphansql = "SELECT * FROM `paddlers` WHERE `club` LIKE '%" . $orphanclub . "%' ";
+
+    $pagehtml = $pagehtml . '<div style="display: table">';
+    $pagehtml = $pagehtml . '<div style="display: table-cell; width: ' . $codewidth . 'px;"><p>' . $orphanclub . '</p></div>';
+    $pagehtml = $pagehtml . '<div style="display: table-cell; width: ' . $sqlquerywidth . 'px;"><p style="font-family: Courier, monospace;">' . $orphansql . '</p></div>';
+    $pagehtml = $pagehtml . '</div>';
+    }
 
 
 $pagehtml = "<section>" . $pagehtml . "</section>";
