@@ -2,7 +2,7 @@
 include_once $engineslocation . 'srrs-required-functions.php';
 
 //Get the clubs from the club table
-$clubdetailssql = "SELECT * FROM `clubs`";
+$clubdetailssql = "SELECT * FROM `clubs` ORDER BY `code` ASC";
 $clubdetailsstmt = dbprepare($srrsdblink,$clubdetailssql);
 $clubdetailsresult = dbexecute($clubdetailsstmt,"");
 //Make a list of clubs found in the database
