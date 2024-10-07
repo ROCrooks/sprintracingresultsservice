@@ -11,7 +11,7 @@ include $engineslocation . 'club-list-engine.php';
 //Widths of the columns
 $codewidth = 100;
 $clubnamewidth = 400;
-$colourswidth = 150;
+$colourswidth = 200;
 
 //Make the table heading
 $pagehtml = "";
@@ -20,9 +20,13 @@ $pagehtml = $pagehtml . '<div style="display: table-cell; width: ' . $codewidth 
 $pagehtml = $pagehtml . '<div style="display: table-cell; width: ' . $clubnamewidth . 'px;"><p>Club</p></div>';
 $pagehtml = $pagehtml . '</div>';
 
+//Start the column on 1
+$column = 1;
 foreach($clubdetailsresult as $clubdetails)
     {
-    $pagehtml = $pagehtml . '<div style="display: table">';
+    if ($column == 1)
+        $pagehtml = $pagehtml . '<div style="display: table">';
+
     $pagehtml = $pagehtml . '<div style="display: table-cell; width: ' . $codewidth . 'px; vertical-align: middle;"><p>' . $clubdetails['Code'] . '</p></div>';
     $pagehtml = $pagehtml . '<div style="display: table-cell; width: ' . $clubnamewidth . 'px; vertical-align: middle;"><p>' . $clubdetails['LongName'] . '</p></div>';
     
@@ -34,7 +38,15 @@ foreach($clubdetailsresult as $clubdetails)
         $coloursfile = "../clubcolours/" . "unknown.png";
 
     $pagehtml = $pagehtml . '<div style="display: table-cell; width: ' . $colourswidth . 'px;"><p><img src=' . $coloursfile . '></p></div>';
-    $pagehtml = $pagehtml . '</div>';
+    
+    if ($column == 2)
+        $pagehtml = $pagehtml . '</div>';
+
+    //Change the column from 1 to 2
+    if ($column == 1)
+        $column = 2;
+    elseif ($column == 2)
+        $column = 1;
     }
 
 /*$pagehtml = $pagehtml . '<div style="display: table-cell; width: 20px;"><p>' . $paddlerrace['Position'] . '</p></div>';
