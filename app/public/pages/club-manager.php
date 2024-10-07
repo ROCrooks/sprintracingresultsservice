@@ -57,9 +57,12 @@ $sqlquerywidth = "600";
 
 //Break into a new section
 $pagehtml = $pagehtml . "</section><section>";
-$pagehtml = $pagehtml . "<h2>Orphan clubs</h2>";
+
+//Section of orphan club codes
+$pagehtml = $pagehtml . "<h2>Orphan Clubs</h2>";
 $pagehtml = $pagehtml . "<p>The following club codes have been found which are not in the database. It is recommended to either add a database entry for them, or to update them to a correct club code.</p>";
 
+//Make a list of orphan clubs, and SQL queries to find them in the database to correct them
 foreach ($orphanclubs as $orphanclub)
     {
     $orphansql = "SELECT * FROM `paddlers` WHERE `club` LIKE '%" . $orphanclub . "%' ";
@@ -70,6 +73,23 @@ foreach ($orphanclubs as $orphanclub)
     $pagehtml = $pagehtml . '</div>';
     }
 
+//Break into a new section
+$pagehtml = $pagehtml . "</section><section>";
+
+//Section of orphan club codes
+$pagehtml = $pagehtml . "<h2>Orphan Colours</h2>";
+$pagehtml = $pagehtml . "<p>The following club colours have no database entry associated with them. Recommend creating a database entry for these clubs.</p>";
+
+foreach($orphancolours as $orphancolour)
+    {
+    //Create the URL of the orphan club colour file
+    $orphancolourfile = "../clubcolours/" . $orphancolour . ".png";
+    
+    $pagehtml = $pagehtml . '<div style="display: table">';
+    $pagehtml = $pagehtml . '<div style="display: table-cell; width: ' . $codewidth . 'px;"><p>' . $orphancolour . '</p></div>';
+    $pagehtml = $pagehtml . '<div style="display: table-cell; width: ' . $colourswidth . 'px;"><p><img src=' . $orphancolourfile . '></p></div>';
+    $pagehtml = $pagehtml . '</div>';
+    }
 
 $pagehtml = "<section>" . $pagehtml . "</section>";
 ?>
