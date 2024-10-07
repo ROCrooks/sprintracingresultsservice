@@ -3,14 +3,14 @@ include_once $engineslocation . 'srrs-required-functions.php';
 
 include $engineslocation . 'club-list-engine.php';
 
-print_r($clubdetailsresult);
-echo "<br>";
-print_r($orphanclubs);
-echo "<br>";
+//print_r($clubdetailsresult);
+//echo "<br>";
+//print_r($orphanclubs);
+//echo "<br>";
 
 //Widths of the columns
-$codewidth = 150;
-$clubnamewidth = 3000;
+$codewidth = 100;
+$clubnamewidth = 400;
 $colourswidth = 150;
 
 //Make the table heading
@@ -23,8 +23,17 @@ $pagehtml = $pagehtml . '</div>';
 foreach($clubdetailsresult as $clubdetails)
     {
     $pagehtml = $pagehtml . '<div style="display: table">';
-    $pagehtml = $pagehtml . '<div style="display: table-cell; width: ' . $codewidth . 'px;"><p>' . $clubdetails['Code'] . '</p></div>';
-    $pagehtml = $pagehtml . '<div style="display: table-cell; width: ' . $clubnamewidth . 'px;"><p>' . $clubdetails['LongName'] . '</p></div>';
+    $pagehtml = $pagehtml . '<div style="display: table-cell; width: ' . $codewidth . 'px; vertical-align: middle;"><p>' . $clubdetails['Code'] . '</p></div>';
+    $pagehtml = $pagehtml . '<div style="display: table-cell; width: ' . $clubnamewidth . 'px; vertical-align: middle;"><p>' . $clubdetails['LongName'] . '</p></div>';
+    
+    //Get the club colours file, or a plain colours if not found
+    $coloursfile = $clubcoloursfileslocation . $clubdetails['Code'] . ".png";
+    if (file_exists($coloursfile) == true)
+        $coloursfile = "../clubcolours/" . $clubdetails['Code'] . ".png";
+    else
+        $coloursfile = "../clubcolours/" . "unknown.png";
+
+    $pagehtml = $pagehtml . '<div style="display: table-cell; width: ' . $colourswidth . 'px;"><p><img src=' . $coloursfile . '></p></div>';
     $pagehtml = $pagehtml . '</div>';
     }
 
