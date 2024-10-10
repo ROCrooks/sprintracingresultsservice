@@ -67,7 +67,7 @@ $orphancolours = array();
 foreach ($clubcolourfiles as $clubcolour)
     {
     //Check to see if the club code is missing from the array, and if not, add to orphan club array
-    if ((in_array($clubcolour,$allclubscodeslist) === false) AND ($clubcolour != ''))
+    if ((in_array($clubcolour,$clubcodesfound) == false) AND ($clubcolour != ''))
         {
         array_push($orphancolours,$clubcolour);
         }
