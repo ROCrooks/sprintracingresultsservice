@@ -36,7 +36,6 @@ if (file_exists($coloursfile) == true)
 else
     $coloursfile = "../clubcolours/" . "unknown.png";
 
+//Attach club colours to the club details array
 $clubfindresult['Colours'] = $coloursfile;
-
-print_r($clubfindresult);
 ?>
