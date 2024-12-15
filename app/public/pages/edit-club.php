@@ -29,7 +29,7 @@ $pagehtml = $pagehtml . '<div style="display: table-cell; width: ' . $formcellwi
 $pagehtml = $pagehtml . '</div>';
 $pagehtml = $pagehtml . '<div style="display: table;">';
 $pagehtml = $pagehtml . '<div style="display: table-cell; width: ' . $labelwidth . 'px;"><p>Short Name:</p></div>';
-$pagehtml = $pagehtml . '<div style="display: table-cell; width: ' . $formcellwidth . 'px;"><p><input type="text" name="LongName" value= "' . $clubfindresult['ShortName'] . '" size="20"></p></div>';
+$pagehtml = $pagehtml . '<div style="display: table-cell; width: ' . $formcellwidth . 'px;"><p><input type="text" name="ShortName" value= "' . $clubfindresult['ShortName'] . '" size="20"></p></div>';
 $pagehtml = $pagehtml . '</div>';
 $pagehtml = $pagehtml . '<div style="display: table;">';
 $pagehtml = $pagehtml . '<div style="display: table-cell; width: ' . $labelwidth . 'px;"><p>Website:</p></div>';
