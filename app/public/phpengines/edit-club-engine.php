@@ -25,10 +25,21 @@ if ($forminput['Code'] != $forminput['OriginalCode'])
     //Check if the files exist
     $originalcolourexists = file_exists($originalcolourfile);
     $newcolourexists = file_exists($newcolourfile);
+    
+    //Choose behaviour depending on whether the new club colour code file already exists
+    if (($originalcolourexists == true) AND ($newcolourexists == true))
+        $clubcoloursbehaviour = "CodeClash";
+    elseif (($originalcolourexists == true) AND ($newcolourexists === false))
+        $clubcoloursbehaviour = "RenameFile";
+    elseif (($originalcolourexists === false) AND ($newcolourexists == true))
+        $clubcoloursbehaviour = "ReplaceDBOnly";
+    elseif (($originalcolourexists === false) AND ($newcolourexists === false))
+        $clubcoloursbehaviour = "ReplaceDBOnly";
     }
+else
+    $clubcoloursbehaviour = "ReplaceDBOnly";
 
 //Check for the existence of club code clashes
-
 
 //Run SQL query
 $updateclubsql = "UPDATE `clubs` SET `Code` = ?, `ShortName` = ?, `LongName` = ?, `WWW` = ?, `WWWapp` = ? WHERE `Code` = ? ";
