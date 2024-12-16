@@ -15,6 +15,17 @@ $forminput['OriginalCode'] = $clubcode;
 print_r($forminput);
 
 //Check for the existence of club colours files
+//Only conduct this check if the club code is being changed
+if ($forminput['Code'] != $forminput['OriginalCode'])
+    {
+    //Get the locations for the original and new club filenames
+    $originalcolourfile = "clubcolours/" . $forminput['OriginalCode'] . ".png";
+    $newcolourfile = "clubcolours/" . $forminput['Code'] . ".png";
+    
+    //Check if the files exist
+    $originalcolourexists = file_exists($originalcolourfile);
+    $newcolourexists = file_exists($newcolourfile);
+    }
 
 //Check for the existence of club code clashes
 
