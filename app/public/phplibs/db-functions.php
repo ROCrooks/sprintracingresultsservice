@@ -232,7 +232,23 @@ function percentsqllookup($percent,$all)
 	if ($percn < 0)
 		$percn = 0;
 	
-  return($percn);
+  return $percn;
+  }
+//---FunctionBreak---
+/*Checks
+
+$sqlresult is the SQL result returned by the dbexecute function
+
+Output is true or false whether the record exists or not*/
+//---DocumentationBreak---
+function sqlrecordchecktrueorfalse($sqlresult)
+  {
+  $result = $sqlresult[0]['COUNT(1)'];
+  if ($result == 1)
+    $result = true;
+  elseif ($result == 0)
+    $result = false;
+  return $result;
   }
 //---FunctionBreak---
 ?>
