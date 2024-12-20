@@ -1,4 +1,6 @@
 <?php
+include_once $engineslocation . 'srrs-required-functions.php';
+
 //Get the inputs from the form
 $forminput['Code'] = $_POST['Code'];
 $forminput['ShortName'] = $_POST['ShortName'];
@@ -40,6 +42,27 @@ else
     $clubcoloursbehaviour = "ReplaceDBOnly";
 
 //Check for the existence of club code clashes
+if ($forminput['OriginalCode'] != $forminput['Code'])
+    {
+    //Statement to check the database
+    $clubcodecheckingsql = "SELECT COUNT(1) FROM `clubs` WHERE `Code` = ? ";
+    $clubcodecheckingstmt = dbprepare($srrsdblink,$clubcodecheckingsql);
+    $checkoriginalcoderesult = dbexecute($clubcodecheckingstmt,$forminput['OriginalCode']);
+    $originalcodeexists = sqlrecordchecktrueorfalse($checkoriginalcoderesult);
+    $checknewcoderesult = dbexecute($clubcodecheckingstmt,$forminput['Code']);
+    $newcodeexists = sqlrecordchecktrueorfalse($checknewcoderesult);
+    
+    //Select behaviour based on the codes
+    if (($originalcodeexists == true) AND ($newcodeexists == true))
+        $clubcodebehaviour = "CodeClash";
+    elseif (($originalcodeexists == true) AND ($newcodeexists == false))
+        $clubcodebehaviour = "UpdateCode";
+    elseif (($originalcodeexists == false) AND ($newcodeexists == true))
+        $clubcodebehaviour = "CodeClash";
+    elseif (($originalcodeexists == false) AND ($newcodeexists == false))
+        $clubcodebehaviour = "NewClub";
+    }
+
 
 //Run SQL query
 $updateclubsql = "UPDATE `clubs` SET `Code` = ?, `ShortName` = ?, `LongName` = ?, `WWW` = ?, `WWWapp` = ? WHERE `Code` = ? ";
