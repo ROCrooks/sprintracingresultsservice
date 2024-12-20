@@ -63,6 +63,21 @@ if ($forminput['OriginalCode'] != $forminput['Code'])
         $clubcodebehaviour = "NewClub";
     }
 
+if (($clubcoloursbehaviour == "CodeClash") OR ($clubcodebehaviour == "CodeClash"))
+    {
+    //If there is a code clash, create an error message
+    $clubchangeformerrormessage = "<p>Error - You are trying to give a club a code that has already been assigned to another club!</p>";
+    }
+elseif ($clubcodebehaviour == "UpdateCode")
+    {
+    //If the club is updating a new club
+    $updateclubsql = "UPDATE `clubs` SET `Code` = ?, `ShortName` = ?, `LongName` = ?, `WWW` = ?, `WWWapp` = ? WHERE `Code` = ? ";    
+    }
+elseif ($clubcodebehaviour == "NewCode")
+    {
+    //If the club is updating a new club
+    $insertclubsql = "INSERT INTO `clubs` (`Code`, `ShortName`, `LongName`, `WWW`, `WWWapp`) VALUES (?, ?, ?, ?, ?) ";    
+    }
 
 //Run SQL query
 $updateclubsql = "UPDATE `clubs` SET `Code` = ?, `ShortName` = ?, `LongName` = ?, `WWW` = ?, `WWWapp` = ? WHERE `Code` = ? ";

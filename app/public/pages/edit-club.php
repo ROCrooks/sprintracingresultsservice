@@ -23,11 +23,17 @@ elseif ($clubfindresult['WWWapp'] == 0)
 
 //Specify form cell widths
 $labelwidth = 130;
-$formcellwidth = 330;
+$formcellwidth = 630;
 
 //Make the form for changing the club details
 $pagehtml = $pagehtml . '<form id="ClubDetailsForm" method="post" action="EditClub?club=' . $clubfindresult['Code'] . '">';
 $pagehtml = $pagehtml . '<div style="display: table-cell; width: 70%;">';
+if (isset($clubchangeformerrormessage) == true)
+    {
+    $pagehtml = $pagehtml . '<div style="display: table;">';
+    $pagehtml = $pagehtml . '<div style="display: table-cell; width: ' . $labelwidth+$formcellwidth . 'px;">' . $clubchangeformerrormessage . '</div>';
+    $pagehtml = $pagehtml . '</div>';
+    }
 $pagehtml = $pagehtml . '<div style="display: table;">';
 $pagehtml = $pagehtml . '<div style="display: table-cell; width: ' . $labelwidth . 'px;"><p>Code:</p></div>';
 $pagehtml = $pagehtml . '<div style="display: table-cell; width: ' . $formcellwidth . 'px;"><p><input type="text" id="Code" name="Code" value= "' . $clubfindresult['Code'] . '" size="3"></p></div>';
