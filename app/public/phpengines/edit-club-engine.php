@@ -62,24 +62,31 @@ if ($forminput['OriginalCode'] != $forminput['Code'])
     elseif (($originalcodeexists == false) AND ($newcodeexists == false))
         $clubcodebehaviour = "NewClub";
     }
+else
+    $clubcodebehaviour = "NoCodeChange";
 
 if (($clubcoloursbehaviour == "CodeClash") OR ($clubcodebehaviour == "CodeClash"))
     {
     //If there is a code clash, create an error message
     $clubchangeformerrormessage = "<p>Error - You are trying to give a club a code that has already been assigned to another club!</p>";
     }
-elseif ($clubcodebehaviour == "UpdateCode")
+elseif (($clubcodebehaviour == "UpdateCode") OR ($clubcodebehaviour = "NoCodeChange"))
     {
     //If the club is updating a new club
-    $updateclubsql = "UPDATE `clubs` SET `Code` = ?, `ShortName` = ?, `LongName` = ?, `WWW` = ?, `WWWapp` = ? WHERE `Code` = ? ";    
+    $updateclubsql = "UPDATE `clubs` SET `Code` = ?, `ShortName` = ?, `LongName` = ?, `WWW` = ?, `WWWapp` = ? WHERE `Code` = ? ";
+    $sqlconstraints = array_values($forminput);
+    dbprepareandexecute($srrsdblink,$updateclubsql,$sqlconstraints);
     }
 elseif ($clubcodebehaviour == "NewCode")
     {
-    //If the club is updating a new club
+    //If the club is adding a new club
     $insertclubsql = "INSERT INTO `clubs` (`Code`, `ShortName`, `LongName`, `WWW`, `WWWapp`) VALUES (?, ?, ?, ?, ?) ";    
+    $sqlconstraints = array_values($forminput);
+    $sqlconstraints = array_slice($sqlconstraints,0,5);
+    dbprepareandexecute($srrsdblink,$insertclubsql,$sqlconstraints);
     }
 
 //Run SQL query
-$updateclubsql = "UPDATE `clubs` SET `Code` = ?, `ShortName` = ?, `LongName` = ?, `WWW` = ?, `WWWapp` = ? WHERE `Code` = ? ";
+//$updateclubsql = "UPDATE `clubs` SET `Code` = ?, `ShortName` = ?, `LongName` = ?, `WWW` = ?, `WWWapp` = ? WHERE `Code` = ? ";
 
 ?>
