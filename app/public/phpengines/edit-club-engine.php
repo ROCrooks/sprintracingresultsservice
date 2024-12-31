@@ -84,6 +84,12 @@ elseif (($clubcodebehaviour == "UpdateCode") OR ($clubcodebehaviour = "NoCodeCha
     $updateclubsql = "UPDATE `clubs` SET `Code` = ?, `ShortName` = ?, `LongName` = ?, `WWW` = ?, `WWWapp` = ? WHERE `Code` = ? ";
     $sqlconstraints = array_values($forminput);
     dbprepareandexecute($srrsdblink,$updateclubsql,$sqlconstraints);
+    
+    //Rename club colours file if needed
+    if ($clubcoloursbehaviour == "RenameFile")
+        {
+        rename($originalcolourfile,$newcolourfile);
+        }
     }
 
 ?>
