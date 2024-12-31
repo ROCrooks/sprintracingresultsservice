@@ -31,7 +31,7 @@ foreach($clubdetailsresult as $clubdetails)
     if ($column == 1)
         $pagehtml = $pagehtml . '<div style="display: table">';
 
-    $pagehtml = $pagehtml . '<div style="display: table-cell; width: ' . $codewidth . 'px; vertical-align: middle;"><p>' . $clubdetails['Code'] . '</p></div>';
+    $pagehtml = $pagehtml . '<div style="display: table-cell; width: ' . $codewidth . 'px; vertical-align: middle;"><p><a href="EditClub?club=' . $clubdetails['Code'] . '">' . $clubdetails['Code'] . '</a></p></div>';
     $pagehtml = $pagehtml . '<div style="display: table-cell; width: ' . $clubnamewidth . 'px; vertical-align: middle;"><p>' . $clubdetails['LongName'] . '</p></div>';
     
     //Get the club colours file, or a plain colours if not found
