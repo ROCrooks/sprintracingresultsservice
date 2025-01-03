@@ -51,7 +51,7 @@ foreach($clubdetailsresult as $clubdetails)
 
     //The columns for the edit buttons
     $pagehtml = $pagehtml . '<div style="display: table-cell; width: ' . $buttonwidth . 'px; vertical-align: middle;"><p><a href="EditClub?club=' . $clubdetails['Code'] . '">Edit</a></p></div>';
-    $pagehtml = $pagehtml . '<div style="display: table-cell; width: ' . $buttonwidth . 'px; vertical-align: middle;"><p><a href="ClubManager?action=delete&club=' . $clubdetails['Code'] . '">Delete</a></p></div>';
+    $pagehtml = $pagehtml . '<div style="display: table-cell; width: ' . $buttonwidth . 'px; vertical-align: middle;"><p><a href="ClubManager?action=delete&club=' . $clubdetails['Code'] . '" onclick="return confirm(\'This will delete the club ' . $clubdetails['LongName'] . '. Are you sure you want to continue?\')">Delete</a></p></div>';
 
     if ($column == 2)
         $pagehtml = $pagehtml . '</div>';
