@@ -10,18 +10,23 @@ include $engineslocation . 'club-list-engine.php';
 
 //Widths of the columns
 $codewidth = 100;
-$clubnamewidth = 400;
-$colourswidth = 200;
+$clubnamewidth = 300;
+$colourswidth = 180;
+$buttonwidth = 100;
 
 //Make the table heading
 $pagehtml = "";
 $pagehtml = $pagehtml . '<div style="display: table">';
 $pagehtml = $pagehtml . '<div style="display: table-cell; width: ' . $codewidth . 'px;"><p>Code</p></div>';
 $pagehtml = $pagehtml . '<div style="display: table-cell; width: ' . $clubnamewidth . 'px;"><p>Club</p></div>';
-$pagehtml = $pagehtml . '<div style="display: table-cell; width: ' . $colourswidth . 'px;"><p>Colours</p></div>';
+$pagehtml = $pagehtml . '<div style="display: table-cell; width: ' . $colourswidth . 'px;"><p style="text-align: center;">Colours</p></div>';
+$pagehtml = $pagehtml . '<div style="display: table-cell; width: ' . $buttonwidth . 'px;"></div>';
+$pagehtml = $pagehtml . '<div style="display: table-cell; width: ' . $buttonwidth . 'px;"></div>';
 $pagehtml = $pagehtml . '<div style="display: table-cell; width: ' . $codewidth . 'px;"><p>Code</p></div>';
 $pagehtml = $pagehtml . '<div style="display: table-cell; width: ' . $clubnamewidth . 'px;"><p>Club</p></div>';
-$pagehtml = $pagehtml . '<div style="display: table-cell; width: ' . $colourswidth . 'px;"><p>Colours</p></div>';
+$pagehtml = $pagehtml . '<div style="display: table-cell; width: ' . $colourswidth . 'px;"><p style="text-align: center;">Colours</p></div>';
+$pagehtml = $pagehtml . '<div style="display: table-cell; width: ' . $buttonwidth . 'px;"></div>';
+$pagehtml = $pagehtml . '<div style="display: table-cell; width: ' . $buttonwidth . 'px;"></div>';
 $pagehtml = $pagehtml . '</div>';
 
 //Start the column on 1
@@ -31,7 +36,7 @@ foreach($clubdetailsresult as $clubdetails)
     if ($column == 1)
         $pagehtml = $pagehtml . '<div style="display: table">';
 
-    $pagehtml = $pagehtml . '<div style="display: table-cell; width: ' . $codewidth . 'px; vertical-align: middle;"><p><a href="EditClub?club=' . $clubdetails['Code'] . '">' . $clubdetails['Code'] . '</a></p></div>';
+    $pagehtml = $pagehtml . '<div style="display: table-cell; width: ' . $codewidth . 'px; vertical-align: middle;"><p>' . $clubdetails['Code'] . '</p></div>';
     $pagehtml = $pagehtml . '<div style="display: table-cell; width: ' . $clubnamewidth . 'px; vertical-align: middle;"><p>' . $clubdetails['LongName'] . '</p></div>';
     
     //Get the club colours file, or a plain colours if not found
@@ -40,9 +45,14 @@ foreach($clubdetailsresult as $clubdetails)
         $coloursfile = "../clubcolours/" . $clubdetails['Code'] . ".png";
     else
         $coloursfile = "../clubcolours/" . "unknown.png";
-
-    $pagehtml = $pagehtml . '<div style="display: table-cell; width: ' . $colourswidth . 'px;"><p><img src=' . $coloursfile . '></p></div>';
     
+    //The column for the club colours
+    $pagehtml = $pagehtml . '<div style="display: table-cell; width: ' . $colourswidth . 'px;"><p style="text-align: center;"><img src=' . $coloursfile . '></p></div>';
+
+    //The columns for the edit buttons
+    $pagehtml = $pagehtml . '<div style="display: table-cell; width: ' . $buttonwidth . 'px; vertical-align: middle;"><p><a href="EditClub?club=' . $clubdetails['Code'] . '">Edit</a></p></div>';
+    $pagehtml = $pagehtml . '<div style="display: table-cell; width: ' . $buttonwidth . 'px; vertical-align: middle;"><p><a href="ClubManager?action=delete&club=' . $clubdetails['Code'] . '">Delete</a></p></div>';
+
     if ($column == 2)
         $pagehtml = $pagehtml . '</div>';
 
