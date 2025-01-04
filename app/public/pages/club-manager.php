@@ -1,12 +1,11 @@
 <?php
 include_once $engineslocation . 'srrs-required-functions.php';
 
-include $engineslocation . 'club-list-engine.php';
+//If delete a club is picked, delete it
+if (isset($_GET['deleteclub']) == true)
+    include $engineslocation . 'delete-club-engine.php';
 
-//print_r($orphanclubs);
-//echo "<br>";
-//print_r($orphanclubs);
-//echo "<br>";
+include $engineslocation . 'club-list-engine.php';
 
 //Widths of the columns
 $codewidth = 100;
@@ -14,8 +13,12 @@ $clubnamewidth = 300;
 $colourswidth = 180;
 $buttonwidth = 100;
 
-//Make the table heading
 $pagehtml = "";
+
+if (isset($deletemessage) == true)
+$pagehtml = $pagehtml . $deletemessage;
+
+//Make the table of clubs
 $pagehtml = $pagehtml . '<div style="display: table">';
 $pagehtml = $pagehtml . '<div style="display: table-cell; width: ' . $codewidth . 'px;"><p>Code</p></div>';
 $pagehtml = $pagehtml . '<div style="display: table-cell; width: ' . $clubnamewidth . 'px;"><p>Club</p></div>';
@@ -51,7 +54,7 @@ foreach($clubdetailsresult as $clubdetails)
 
     //The columns for the edit buttons
     $pagehtml = $pagehtml . '<div style="display: table-cell; width: ' . $buttonwidth . 'px; vertical-align: middle;"><p><a href="EditClub?club=' . $clubdetails['Code'] . '">Edit</a></p></div>';
-    $pagehtml = $pagehtml . '<div style="display: table-cell; width: ' . $buttonwidth . 'px; vertical-align: middle;"><p><a href="ClubManager?action=delete&club=' . $clubdetails['Code'] . '" onclick="return confirm(\'This will delete the club ' . $clubdetails['LongName'] . '. Are you sure you want to continue?\')">Delete</a></p></div>';
+    $pagehtml = $pagehtml . '<div style="display: table-cell; width: ' . $buttonwidth . 'px; vertical-align: middle;"><p><a href="ClubManager?deleteclub=' . $clubdetails['Code'] . '" onclick="return confirm(\'This will delete the club ' . $clubdetails['LongName'] . '. Are you sure you want to continue?\')">Delete</a></p></div>';
 
     if ($column == 2)
         $pagehtml = $pagehtml . '</div>';
