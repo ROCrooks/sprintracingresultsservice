@@ -8,5 +8,12 @@ $deletecode = $_GET['deleteclub'];
 $deleteclubsql = "DELETE FROM `clubs` WHERE `Code` = ?";
 
 //Delete the club
-dbprepareandexecute($srrsdblink,$deleteclubsql,$deletecode);
+dbprepareandexecute($srrsdblink,$deleteclubsql,$deletecode);\
+
+//Delete the club colours if they exist
+$colourfile = "clubcolours/" . $deletecode . ".png";
+if (file_exists($colourfile) == true)
+    {
+    unlink($colourfile);
+    }
 ?>
