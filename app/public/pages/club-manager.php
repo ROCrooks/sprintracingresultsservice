@@ -13,10 +13,12 @@ $clubnamewidth = 300;
 $colourswidth = 180;
 $buttonwidth = 100;
 
-$pagehtml = "";
+$pagehtml = '';
 
 if (isset($deletemessage) == true)
-$pagehtml = $pagehtml . $deletemessage;
+    $pagehtml = $pagehtml . $deletemessage;
+
+$pagehtml = $pagehtml . '<p><a href="AddClub">Add New Club</a></p>';
 
 //Make the table of clubs
 $pagehtml = $pagehtml . '<div style="display: table">';
@@ -101,6 +103,7 @@ foreach($orphancolours as $orphancolour)
     $pagehtml = $pagehtml . '<div style="display: table">';
     $pagehtml = $pagehtml . '<div style="display: table-cell; width: ' . $codewidth . 'px;"><p>' . $orphancolour . '</p></div>';
     $pagehtml = $pagehtml . '<div style="display: table-cell; width: ' . $colourswidth . 'px;"><p><img src=' . $orphancolourfile . '></p></div>';
+    $pagehtml = $pagehtml . '<div style="display: table-cell; width: ' . $buttonwidth . 'px;"><p><a href="AddClub?code=' . $orphancolour . '">Add Club</a></p></div>';
     $pagehtml = $pagehtml . '</div>';
     }
 
