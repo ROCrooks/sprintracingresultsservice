@@ -1,10 +1,10 @@
 <?php
 if (isset($_POST['Submit']) == true)
     {
-    $clubaddfields['Code'] = "";
-    $clubaddfields['LongName'] = "";
-    $clubaddfields['ShortName'] = "";
-    $clubaddfields['WWW'] = "";
+    $clubaddfields['Code'] = $_POST['Code'];
+    $clubaddfields['LongName'] = $_POST['LongName'];
+    $clubaddfields['ShortName'] = $_POST['ShortName'];
+    $clubaddfields['WWW'] = $_POST['WWW'];
     }
 else
     {
