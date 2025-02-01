@@ -1,10 +1,17 @@
 <?php
 if (isset($_POST['Submit']) == true)
     {
+    //Get the input items from the club input form
     $clubaddfields['Code'] = $_POST['Code'];
     $clubaddfields['LongName'] = $_POST['LongName'];
     $clubaddfields['ShortName'] = $_POST['ShortName'];
     $clubaddfields['WWW'] = $_POST['WWW'];
+
+    //Run the import engine
+    include $engineslocation . 'add-club-db-engine.php';
+
+    if (count($inputerrors) > 0)
+        $addclubformerrormessage = "<p>" . implode("<br>",$inputerrors) . "</p>";
     }
 else
     {
