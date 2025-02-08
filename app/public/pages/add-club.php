@@ -9,9 +9,6 @@ if (isset($_POST['Submit']) == true)
 
     //Run the import engine
     include $engineslocation . 'add-club-db-engine.php';
-
-    if (count($inputerrors) > 0)
-        $addclubformerrormessage = "<p>" . implode("<br>",$inputerrors) . "</p>";
     }
 else
     {
@@ -34,12 +31,8 @@ $formcellwidth = 630;
 $pagehtml = '<form method="post" action="AddClub">';
 
 //Make and display an error message
-if (isset($addclubformerrormessage) == true)
-    {
-    $pagehtml = $pagehtml . '<div style="display: table;">';
-    $pagehtml = $pagehtml . '<div style="display: table-cell; width: ' . $labelwidth+$formcellwidth . 'px;">' . $addclubformerrormessage . '</div>';
-    $pagehtml = $pagehtml . '</div>';
-    }
+if (isset($addclubmessage) == true)
+    $pagehtml = $pagehtml. $addclubmessage;
 
 //Make the form for adding a club
 $pagehtml = $pagehtml . '<div style="display: table;">';
