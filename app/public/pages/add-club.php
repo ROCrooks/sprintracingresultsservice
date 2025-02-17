@@ -1,4 +1,6 @@
 <?php
+include_once $engineslocation . 'srrs-required-functions.php';
+
 if (isset($_POST['Submit']) == true)
     {
     //Get the input items from the club input form
