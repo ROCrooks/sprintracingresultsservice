@@ -43,6 +43,15 @@ if (count($inputerrors) == 0)
     if ($clubaddfields['WWW'] != "")
         $addclubmessage = $addclubmessage . " Its website is: " . $clubaddfields['WWW'];
     $addclubmessage = $addclubmessage . "</p>";
+
+    //Upload club colours
+    if (isset($_FILES["ColoursFile"]["tmp_name"]) == true)
+        {
+        echo "File upload is true<br>";
+        $clubcoloursfile = $clubcoloursfileslocation . $clubaddfields['Code'];
+        move_uploaded_file($_FILES["ColoursFile"]["tmp_name"],$clubcoloursfile);
+        }
+    
     
     //Make the club add array fields empty
     $clubaddfields['Code'] = "";

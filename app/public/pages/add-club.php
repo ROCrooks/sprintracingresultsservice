@@ -30,7 +30,7 @@ $labelwidth = 130;
 $formcellwidth = 630;
 
 //Make the form for adding a new club
-$pagehtml = '<form method="post" action="AddClub">';
+$pagehtml = '<form method="post" action="AddClub" enctype="multipart/form-data">';
 
 //Make and display an error message
 if (isset($addclubmessage) == true)
@@ -53,10 +53,10 @@ $pagehtml = $pagehtml . '<div style="display: table;">';
 $pagehtml = $pagehtml . '<div style="display: table-cell; width: ' . $labelwidth . 'px;"><p>Website:</p></div>';
 $pagehtml = $pagehtml . '<div style="display: table-cell; width: ' . $formcellwidth . 'px;"><input type="text" name="WWW" value= "' . $clubaddfields['WWW'] . '" size="30"></div>';
 $pagehtml = $pagehtml . '</div>';
-$pagehtml = $pagehtml . '<div style="display: table;">';
+/*$pagehtml = $pagehtml . '<div style="display: table;">';
 $pagehtml = $pagehtml . '<div style="display: table-cell; width: ' . $labelwidth . 'px;"><p>Colours:</p></div>';
-$pagehtml = $pagehtml . '<div style="display: table-cell; width: ' . $formcellwidth . 'px;"><input type="file" name="Colours" accept="image/png"></div>';
-$pagehtml = $pagehtml . '</div>';
+$pagehtml = $pagehtml . '<div style="display: table-cell; width: ' . $formcellwidth . 'px;"><input type="file" name="ColoursFile" id="ColoursFile" accept="image/png"></div>';
+$pagehtml = $pagehtml . '</div>';*/
 
 //Submit buttons
 $pagehtml = $pagehtml . '<div style="display: table;">';
