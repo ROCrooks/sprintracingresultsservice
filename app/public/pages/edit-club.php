@@ -9,6 +9,7 @@ if (isset($_POST['Submit']) == true)
     include $engineslocation . 'edit-club-engine.php';    
 
 //Get the details of the club
+$clubmetrics = false;
 include $engineslocation . 'club-details-engine.php';
 
 $pagehtml = "<section>";
