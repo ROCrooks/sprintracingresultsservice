@@ -31,13 +31,20 @@ $checknewclubshortnametruefalse = sqlrecordchecktrueorfalse($checknewclubshortna
 if ($checknewclubshortnametruefalse == true)
     array_push($inputerrors,"Club short name already exists");
 
-//Create and run query to add club name
-//$addnewclubsql = "INSERT INTO `clubs` (`Code`, `ShortName`, `LongName`, `WWW`, `WWWApp`) VALUES (?, ?, ?, ?, ?)";
-//dbprepareandexecute($srrsdblink,$addnewclubsql,$clubaddfields);
-
 //Create error message
 if (count($inputerrors) == 0)
     {
+    //If a club URL is specified, make the URL approved
+    if ($clubaddfields['WWW'] == "")
+        $clubaddfields['WWWApp'] = 0;
+    else
+        $clubaddfields['WWWApp'] = 1;
+    
+    //Create and run query to add new club
+    $clubaddconstraints = array_values($clubaddfields);
+    $addnewclubsql = "INSERT INTO `clubs` (`Code`, `ShortName`, `LongName`, `WWW`, `WWWApp`) VALUES (?, ?, ?, ?, ?)";
+    dbprepareandexecute($srrsdblink,$addnewclubsql,$clubaddconstraints);
+
     //Create adding message
     $addclubmessage = "<p>Success! The club " . $clubaddfields['LongName'] . " (" . $clubaddfields['ShortName'] . ") with the club code " . $clubaddfields['Code'] . " has been added!";
     if ($clubaddfields['WWW'] != "")
@@ -45,19 +52,19 @@ if (count($inputerrors) == 0)
     $addclubmessage = $addclubmessage . "</p>";
 
     //Upload club colours
-    if (isset($_FILES["ColoursFile"]["tmp_name"]) == true)
+    /*if (isset($_FILES["ColoursFile"]["tmp_name"]) == true)
         {
         echo "File upload is true<br>";
         $clubcoloursfile = $clubcoloursfileslocation . $clubaddfields['Code'];
         move_uploaded_file($_FILES["ColoursFile"]["tmp_name"],$clubcoloursfile);
-        }
-    
+        }*/
     
     //Make the club add array fields empty
     $clubaddfields['Code'] = "";
     $clubaddfields['LongName'] = "";
     $clubaddfields['ShortName'] = "";
     $clubaddfields['WWW'] = "";
+    $clubaddfields['WWWApp'] = 0;
     }
 else
     $addclubmessage = "<p>" . implode("<br>",$inputerrors) . "</p>";
