@@ -2,6 +2,11 @@
 include_once $engineslocation . 'srrs-required-functions.php';
 include_once $engineslocation . 'srrs-user-input-processing.php';
 
+//Get the details of the club
+$clubmetrics = true;
+$clubcode = $club;
+include $engineslocation . 'club-details-engine.php';
+
 //List of links
 $subsectionurls = array();
 $subsectionurls[0] = array("URL"=>"RegattaList?club=" . $club,"Text"=>"Browse Regattas");
