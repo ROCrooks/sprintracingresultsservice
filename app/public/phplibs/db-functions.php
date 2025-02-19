@@ -235,7 +235,24 @@ function percentsqllookup($percent,$all)
   return $percn;
   }
 //---FunctionBreak---
-/*Checks
+/*Returns the value of any SQL COUNT() query, the function is indifferent to the names of the array elements
+
+$sqlresult is the SQL result returned by the dbexecute function
+
+Output is the value of the SQL count result*/
+//---DocumentationBreak---
+function sqlcountoutput($sqlresult)
+  {
+  //First element of the outer array
+  $result = $sqlresult[0];
+  //Convert the inner array into a list
+  $result = array_values($result);
+  //Extract the first value from the list
+  $result = $result[0];
+  return $result;
+  }
+//---FunctionBreak---
+/*Checks if an SQL result for looking for a record is true or false
 
 $sqlresult is the SQL result returned by the dbexecute function
 
