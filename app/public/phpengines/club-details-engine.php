@@ -19,8 +19,12 @@ else
 if (count($clubfindresult) == 0)
     {
     $clubfindresult[0] = array("LongName"=>"","ShortName"=>"","WWW"=>"","WWWapp"=>0);
+    $clubfound = true;
     }
-elseif ($clubmetrics == true)
+else
+    $clubfound = false;
+
+if ($clubmetrics == true)
     {
     //Count the number of boats with this club in the SRRS database
     
