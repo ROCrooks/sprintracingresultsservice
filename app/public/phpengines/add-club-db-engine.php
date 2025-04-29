@@ -52,12 +52,11 @@ if (count($inputerrors) == 0)
     $addclubmessage = $addclubmessage . "</p>";
 
     //Upload club colours
-    /*if (isset($_FILES["ColoursFile"]["tmp_name"]) == true)
+    if (isset($_FILES["ColoursFile"]["tmp_name"]) == true)
         {
-        echo "File upload is true<br>";
-        $clubcoloursfile = $clubcoloursfileslocation . $clubaddfields['Code'];
+        $clubcoloursfile = $clubcoloursfileslocation . $clubaddfields['Code'] . ".png";
         move_uploaded_file($_FILES["ColoursFile"]["tmp_name"],$clubcoloursfile);
-        }*/
+        }
     
     //Make the club add array fields empty
     $clubaddfields['Code'] = "";
