@@ -10,7 +10,7 @@ if (isset($_POST['Submit']) == true)
     $clubaddfields['WWW'] = $_POST['WWW'];
 
     //Run the import engine
-    include $engineslocation . 'add-club-db-engine.php';
+    include $engineslocation . 'add-club-engine.php';
     }
 else
     {
