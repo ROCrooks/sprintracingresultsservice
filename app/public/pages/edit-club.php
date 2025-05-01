@@ -27,7 +27,7 @@ $labelwidth = 130;
 $formcellwidth = 630;
 
 //Make the form for changing the club details
-$pagehtml = $pagehtml . '<form id="ClubDetailsForm" method="post" action="EditClub?club=' . $clubfindresult['Code'] . '">';
+$pagehtml = $pagehtml . '<form enctype="multipart/form-data" id="ClubDetailsForm" method="post" action="EditClub?club=' . $clubfindresult['Code'] . '">';
 $pagehtml = $pagehtml . '<div style="display: table-cell; width: 70%;">';
 if (isset($clubchangeformerrormessage) == true)
     {
@@ -50,6 +50,10 @@ $pagehtml = $pagehtml . '</div>';
 $pagehtml = $pagehtml . '<div style="display: table;">';
 $pagehtml = $pagehtml . '<div style="display: table-cell; width: ' . $labelwidth . 'px;"><p>Website:</p></div>';
 $pagehtml = $pagehtml . '<div style="display: table-cell; width: ' . $formcellwidth . 'px;"><p><input type="text" name="WWW" value= "' . $clubfindresult['WWW'] . '" size="30"> Active: ' . $activecheckbox .'</div>';
+$pagehtml = $pagehtml . '</div>';
+$pagehtml = $pagehtml . '<div style="display: table;">';
+$pagehtml = $pagehtml . '<div style="display: table-cell; width: ' . $labelwidth . 'px;"><p>Colours:</p></div>';
+$pagehtml = $pagehtml . '<div style="display: table-cell; width: ' . $formcellwidth . 'px;"><input type="file" name="ColoursFile" id="ColoursFile" accept="image/png"></div>';
 $pagehtml = $pagehtml . '</div>';
 $pagehtml = $pagehtml . '<div style="display: table;">';
 $pagehtml = $pagehtml . '<div style="display: table-cell; width: ' . $labelwidth+$formcellwidth . 'px;"><p><input type="submit" name="Submit" value="Submit"></p></div>';

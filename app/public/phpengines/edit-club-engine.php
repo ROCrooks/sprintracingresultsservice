@@ -85,6 +85,17 @@ elseif (($clubcodebehaviour == "UpdateCode") OR ($clubcodebehaviour = "NoCodeCha
     $sqlconstraints = array_values($forminput);
     dbprepareandexecute($srrsdblink,$updateclubsql,$sqlconstraints);
     
+    //Update the club colours file
+    if (isset($_FILES["ColoursFile"]["tmp_name"]) == true)
+        {
+        //Create club colours filename
+        $clubcoloursfile = $clubcoloursfileslocation . $forminput['Code'] . ".png";
+
+        //Delete original club colours file and add new file
+        unlink($clubcoloursfile);
+        move_uploaded_file($_FILES["ColoursFile"]["tmp_name"],$clubcoloursfile);
+        }
+
     //Rename club colours file if needed
     if ($clubcoloursbehaviour == "RenameFile")
         {
