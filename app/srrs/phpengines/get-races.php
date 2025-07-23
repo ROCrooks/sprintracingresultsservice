@@ -1,5 +1,5 @@
 <?php
-include_once $engineslocation . 'srrs-required-functions.php';
+include_once $srrsenginesfolder . 'srrs-required-functions.php';
 
 //Get the details about the regatta
 $regattadetailssql = "SELECT `Date`, `Days`, `Name` FROM `regattas` WHERE `Key` = ?";

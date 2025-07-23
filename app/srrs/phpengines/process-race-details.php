@@ -1,5 +1,5 @@
 <?php
-include_once $engineslocation . 'srrs-required-functions.php';
+include_once $srrsenginesfolder . 'srrs-required-functions.php';
 
 if (is_array($racesqlresultline) == true)
   {
@@ -40,11 +40,11 @@ if (is_array($racesqlresultline) == true)
     $distance = $racesqlresultline['Dist']/1000 . "km";
 
   //Run the engine to get the classes of the race for the $raceid
-  include $engineslocation . 'get-race-classes.php';
+  include $srrsenginesfolder . 'get-race-classes.php';
 
   //$classdetails = dbprepareandexecute($srrsdblink,$getclassdetailssql,$raceid);
   $boatsize = $racesqlresultline['Boat'];
-  include $engineslocation . 'format-class.php';
+  include $srrsenginesfolder . 'format-class.php';
 
   //Format name of race
   $racename = "";

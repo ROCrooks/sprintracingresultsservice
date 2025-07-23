@@ -192,7 +192,7 @@ $classformhtml = $classformhtml . '<input type="hidden" name="InputClass" value=
 //Format what the input class will look like and display it
 if (count($classdetails) > 0)
   {
-  include $engineslocation . 'format-class.php';
+  include $srrsenginesfolder . 'format-class.php';
   $classformhtml = $classformhtml . '<p>Display Class: ' . $raceclass . '</p>';
   }
 

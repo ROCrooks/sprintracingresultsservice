@@ -1,5 +1,5 @@
 <?php
-include $engineslocation . 'race-reading-regexs.php';
+include $srrsenginesfolder . 'race-reading-regexs.php';
 
 //Turn the segment of text into an array of lines
 $racetext = explode("\n",$racetext);

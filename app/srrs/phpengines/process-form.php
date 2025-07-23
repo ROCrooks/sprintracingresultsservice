@@ -1,5 +1,5 @@
 <?php
-include_once $engineslocation . 'srrs-required-functions.php';
+include_once $srrsenginesfolder . 'srrs-required-functions.php';
 
 //Processing flag
 $processing = true;
@@ -29,7 +29,7 @@ if ((isset($_POST['submitregatta']) == true) AND (isset($_GET['Regatta']) == fal
   //Put results text into file
   $filename = $tempfileslocation . "regatta" . $regattaid . ".txt";
   file_put_contents($filename,$regattatext);
-  include $engineslocation . 'cleanup-results-file.php';
+  include $srrsenginesfolder . 'cleanup-results-file.php';
   }
 elseif ((isset($_POST['submittext']) == true) AND (isset($_GET['Regatta']) == true))
   {
@@ -45,7 +45,7 @@ elseif ((isset($_POST['submittext']) == true) AND (isset($_GET['Regatta']) == tr
   file_put_contents($filename,$regattatext);
 
   //Clean new results file to avoid introducing errors
-  include $engineslocation . 'cleanup-results-file.php';
+  include $srrsenginesfolder . 'cleanup-results-file.php';
   }
 elseif ((isset($_POST['submitfields']) == true) AND (isset($_GET['Regatta']) == true))
   {
@@ -54,19 +54,19 @@ elseif ((isset($_POST['submitfields']) == true) AND (isset($_GET['Regatta']) == 
   $filename = $tempfileslocation . "regatta" . $regattaid . ".txt";
 
   //Process race form and check for errors
-  include $engineslocation . 'race-form-processor.php';
+  include $srrsenginesfolder . 'race-form-processor.php';
   $raceerror = false;
-  include $engineslocation . 'check-race-import.php';
+  include $srrsenginesfolder . 'check-race-import.php';
 
   if ($raceerror == true)
     {
-    include $engineslocation . 'race-error-form.php';
+    include $srrsenginesfolder . 'race-error-form.php';
     $finished = false;
     }
   else
     {
     //Import directly into database from form
-    include $engineslocation . 'import-race-db.php';
+    include $srrsenginesfolder . 'import-race-db.php';
 
     //Get the file and retrieve as an array
     $regattatext = file_get_contents($filename);

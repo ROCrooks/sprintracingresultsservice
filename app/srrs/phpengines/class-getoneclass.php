@@ -1,5 +1,5 @@
 <?php
-include_once $engineslocation . 'srrs-required-functions.php';
+include_once $srrsenginesfolder . 'srrs-required-functions.php';
 
 //Prepare race count query
 if (isset($countracesstmt) == false)
@@ -26,7 +26,7 @@ $numberclassraces = $countraces[0]['COUNT(`Key`)'];
 $classdetails = dbexecute($autoclassgetstmt,$findclassname);
 if (count($classdetails) > 0)
   {
-  include $engineslocation . 'format-class.php';
+  include $srrsenginesfolder . 'format-class.php';
   $autoclassname = $raceclass;
   }
 else

@@ -1,9 +1,9 @@
 <?php
-include_once $engineslocation . 'srrs-required-functions.php';
+include_once $srrsenginesfolder . 'srrs-required-functions.php';
 
 //Get the regattas
 $regattafieldswanted = "g.`Date`";
-include $engineslocation . 'get-regattas.php';
+include $srrsenginesfolder . 'get-regattas.php';
 
 //Find unique years
 $uniqueyears = array();

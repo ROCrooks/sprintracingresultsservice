@@ -1,5 +1,5 @@
 <?php
-include 'race-reading-regexs.php';
+include $srrsenginesfolder . 'race-reading-regexs.php';
 
 //Define file to clean
 $text = file_get_contents($filename);

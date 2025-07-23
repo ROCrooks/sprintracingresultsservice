@@ -1,6 +1,6 @@
 <?php
 //Get required files
-include_once $engineslocation . 'srrs-required-functions.php';
+include_once $srrsenginesfolder . 'srrs-required-functions.php';
 
 //Set flags for found a manual class and finishing the search to false
 $manualaddclassflag = false;
@@ -10,7 +10,7 @@ $endofraces = false;
 while (($manualaddclassflag == false) AND ($endofraces == false))
     {
     //Get a single unassigned class
-    include $engineslocation . "class-getunassignedclass.php";
+    include $srrsenginesfolder . "class-getunassignedclass.php";
     
     //Set the end of races flag if no more races have been found
     if ($racenametoset == false)
@@ -21,7 +21,7 @@ while (($manualaddclassflag == false) AND ($endofraces == false))
         //Find any autoclasses asssociated with that full class name
         $findclassname = $racenametoset;
         
-        include $engineslocation . "find-autoclasses.php";
+        include $srrsenginesfolder . "find-autoclasses.php";
         //$foundautoclasses = array();
 
         //Set flag for manually adding a race to false
@@ -47,7 +47,7 @@ while (($manualaddclassflag == false) AND ($endofraces == false))
                 array_push($classesadd,$foundautoclass);
                 }
             
-            include $engineslocation . "class-assignclasses.php";
+            include $srrsenginesfolder . "class-assignclasses.php";
             }
         }
     }

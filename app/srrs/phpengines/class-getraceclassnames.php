@@ -1,5 +1,5 @@
 <?php
-include_once $engineslocation . 'srrs-required-functions.php';
+include_once $srrsenginesfolder . 'srrs-required-functions.php';
 
 //Retrieve all race keys with a particular race name
 $getracekeyssql = "SELECT `Key` FROM `races` WHERE `Class` = ?";
@@ -13,11 +13,11 @@ foreach ($racekeys as $raceid)
   {
   $classtoadd = array();
   //Get the race class
-  include $engineslocation . 'get-race-classes.php';
+  include $srrsenginesfolder . 'get-race-classes.php';
   $classtoadd['Details'] = $classdetails;
 
   //Get the race class
-  include $engineslocation . 'format-class.php';
+  include $srrsenginesfolder . 'format-class.php';
   $classtoadd['ClassName'] = $raceclass;
 
   //Only include class details and autoclass names that are new

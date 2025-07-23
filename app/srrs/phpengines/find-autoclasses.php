@@ -1,7 +1,7 @@
 <?php
-include_once $engineslocation . 'srrs-required-functions.php';
+include_once $srrsenginesfolder . 'srrs-required-functions.php';
 
-include $engineslocation . "atomize-racenames.php";
+include $srrsenginesfolder . "atomize-racenames.php";
 
 //Find matching race classes in the autoclasses list
 $foundautoclasses = array();

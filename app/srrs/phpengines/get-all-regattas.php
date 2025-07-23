@@ -1,5 +1,5 @@
 <?php
-include_once $engineslocation . 'srrs-required-functions.php';
+include_once $srrsenginesfolder . 'srrs-required-functions.php';
 
 //Default SQL to retrieve regattas
 $regattasdetailssql = "SELECT `Key`, `Date`, `Days`, `Name` FROM `regattas`";
@@ -7,7 +7,7 @@ $regattasdetailssql = "SELECT `Key`, `Date`, `Days`, `Name` FROM `regattas`";
 //Make constraints if there are club or paddler specified
 if (($club != "") OR ($paddler != ""))
   {
-  include 'filter-paddler-race-ids.php';
+  include $srrsenginesfolder . 'filter-paddler-race-ids.php';
 
   $racesfilter = makesqlrange($paddlerraceids,"Key");
 
