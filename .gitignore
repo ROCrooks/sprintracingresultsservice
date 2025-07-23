@@ -1,6 +1,5 @@
-admin/dbconnect-function.php
-app/public/index.php
-app/public/phplibs/dbconnect-function.php
-app/public/cms
-app/public/tempfiles
-app/public/clubcolours
+app/public
+app/cms
+app/general
+app/parsedown
+app/public
