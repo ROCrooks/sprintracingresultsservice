@@ -1,9 +1,9 @@
 <?php
-include $engineslocation . 'srrs-required-functions.php';
-include $engineslocation . 'srrs-user-input-processing.php';
+include $srrsenginesfolder . 'srrs-required-functions.php';
+include $srrsenginesfolder . 'srrs-user-input-processing.php';
 
 //Get races
-include $engineslocation . 'get-races.php';
+include $srrsenginesfolder . 'get-races.php';
 
 //print_r($regattaresults);
 

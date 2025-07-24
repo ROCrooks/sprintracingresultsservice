@@ -1,11 +1,11 @@
 <?php
-include_once $engineslocation . 'srrs-required-functions.php';
-include_once $engineslocation . 'srrs-user-input-processing.php';
+include_once $srrsenginesfolder . 'srrs-required-functions.php';
+include_once $srrsenginesfolder . 'srrs-user-input-processing.php';
 
 //Get the details of the club
 $clubmetrics = true;
 $clubcode = $club;
-include $engineslocation . 'club-details-engine.php';
+include $srrsenginesfolder . 'club-details-engine.php';
 
 $pagehtml = "";
 

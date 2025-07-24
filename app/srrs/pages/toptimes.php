@@ -1,6 +1,6 @@
 <?php
-include_once $engineslocation . 'srrs-required-functions.php';
-include_once $engineslocation . 'srrs-user-input-processing.php';
+include_once $srrsenginesfolder . 'srrs-required-functions.php';
+include_once $srrsenginesfolder . 'srrs-user-input-processing.php';
 
 //Get input parameters from user
 $dist = $_GET['dist'];
@@ -8,7 +8,7 @@ $boat = $_GET['boat'];
 $tofind = $_GET['find'];
 
 //Get the data
-include $engineslocation . 'find-top-n.php';
+include $srrsenginesfolder . 'find-top-n.php';
 
 //Lookup month names
 //There might be a function that does this already

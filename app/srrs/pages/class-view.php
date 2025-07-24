@@ -1,6 +1,6 @@
 <?php
 //Get classes list engine
-include $engineslocation . 'class-getallclasses.php';
+include $srrsenginesfolder . 'class-getallclasses.php';
 
 //Widths
 $racenamewidth = 200;

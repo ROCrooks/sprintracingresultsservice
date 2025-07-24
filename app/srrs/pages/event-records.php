@@ -1,6 +1,6 @@
 <?php
-include_once $engineslocation . 'srrs-required-functions.php';
-include_once $engineslocation . 'srrs-user-input-processing.php';
+include_once $srrsenginesfolder . 'srrs-required-functions.php';
+include_once $srrsenginesfolder . 'srrs-user-input-processing.php';
 
 //Create the records table for a MW/CK combination
 function boattyperecords($allrecords,$mwckcode,$club)
@@ -76,7 +76,7 @@ unset($spec);
 unset($ages);
 unset($regattaid);
 
-include $engineslocation . 'regatta-records.php';
+include $srrsenginesfolder . 'regatta-records.php';
 
 $pagehtml = '<section>';
 
@@ -137,7 +137,7 @@ if ($recordshtml != "")
   }
 
 $getallregattas = false;
-include $engineslocation . 'list-years.php';
+include $srrsenginesfolder . 'list-years.php';
 
 //Define the width of the cells where the links are held
 $cellwidth = 150;

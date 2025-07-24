@@ -8,8 +8,8 @@ $enginesdirectory = $currentdirectory . "/srrs/engines/";
 include $enginesdirectory . 'defaulturls.php';
 
 //Start and end years
-$startyear = 2006;
-$endyear = 2019;
+$startyear = 2004;
+$endyear = 2025;
 
 //Event to search for
 $mw = $_GET['mw'];

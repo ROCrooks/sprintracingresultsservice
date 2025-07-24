@@ -1,11 +1,11 @@
 <?php
-include_once $engineslocation . 'srrs-required-functions.php';
+include_once $srrsenginesfolder . 'srrs-required-functions.php';
 
 $raceerror = false;
-include $engineslocation . 'process-form.php';
+include $srrsenginesfolder . 'process-form.php';
 
 if (($processing == true) AND ($raceerror == false))
-  include $engineslocation . 'import-races-engine.php';
+  include $srrsenginesfolder . 'import-races-engine.php';
 
 $pagehtml = '<section>';
 

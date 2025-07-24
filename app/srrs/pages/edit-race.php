@@ -7,10 +7,10 @@ elseif (isset($_POST['race']) == true)
 
 //Process forms
 if ((isset($_POST['RaceEdit']) == true) OR (isset($_POST['ClassEdit']) == true) OR (isset($_POST['ClassDelete']) == true) OR (isset($_POST['ClassAdd']) == true) OR (isset($_POST['PaddlerEdit']) == true) OR (isset($_POST['PaddlerDelete']) == true) OR (isset($_POST['PaddlerAdd']) == true))
-  include $engineslocation . 'edit-race-engine.php';
+  include $srrsenginesfolder . 'edit-race-engine.php';
 
 $includeclassids = true;
-include $engineslocation . 'get-single-race.php';
+include $srrsenginesfolder . 'get-single-race.php';
 
 //Regatta ID for back linking
 $regatta = $racedetails['Regatta'];
@@ -110,7 +110,7 @@ $pagehtml = $pagehtml . '<p class="blockheading">Class Details</p>';
 //Echo the class form
 $classformactionurl = 'EditRace?race=' . $raceid;
 $multirowform = false;
-include $engineslocation . 'class-form-html.php';
+include $srrsenginesfolder . 'class-form-html.php';
 $pagehtml = $pagehtml . $classformhtml;
 
 //The paddler details

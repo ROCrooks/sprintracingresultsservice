@@ -1,6 +1,6 @@
 <?php
 //Create the event links page
-include $engineslocation . 'create-event-links.php';
+include $srrsenginesfolder . 'create-event-links.php';
 
 $pagehtml = '<section>
 <p class="blockheading">Find Best Paddlers</p>

@@ -1,11 +1,11 @@
 <?php
-include_once $engineslocation . 'srrs-required-functions.php';
+include_once $srrsenginesfolder . 'srrs-required-functions.php';
 
 //If delete a club is picked, delete it
 if (isset($_GET['deleteclub']) == true)
-    include $engineslocation . 'delete-club-engine.php';
+    include $srrsenginesfolder . 'delete-club-engine.php';
 
-include $engineslocation . 'club-list-engine.php';
+include $srrsenginesfolder . 'club-list-engine.php';
 
 //Widths of the columns
 $codewidth = 100;

@@ -23,8 +23,8 @@
 }
 </style>
 <?php
-include_once $engineslocation . 'srrs-required-functions.php';
-include_once $engineslocation . 'srrs-user-input-processing.php';
+include_once $srrsenginesfolder . 'srrs-required-functions.php';
+include_once $srrsenginesfolder . 'srrs-user-input-processing.php';
 
 //Names for generating the paddler descriptions
 $boattypenames = array();
@@ -40,7 +40,7 @@ $boattypenames['CK']['P'] = "SUP";
 $boattypenames['CK']['T'] = "Touring Canoe";
 
 //Get the details for the single race
-include $engineslocation . 'get-single-race.php';
+include $srrsenginesfolder . 'get-single-race.php';
 
 $pagehtml = '<section>';
 

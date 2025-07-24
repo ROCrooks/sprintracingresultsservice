@@ -1,5 +1,5 @@
 <?php
-include_once $engineslocation . 'srrs-required-functions.php';
+include_once $srrsenginesfolder . 'srrs-required-functions.php';
 
 //Get regatta ID
 if (isset($_GET['regatta']) == true)
@@ -10,7 +10,7 @@ else
 if (isset($_GET['deleterace']) == true)
   {
   $deleterace = $_GET['deleterace'];
-  include $engineslocation . 'delete-race.php';
+  include $srrsenginesfolder . 'delete-race.php';
   }
 
 //Get the regatta and race details
@@ -24,7 +24,7 @@ $spec = '';
 $ages = '';
 
 //Get races engine
-include $engineslocation . 'get-races.php';
+include $srrsenginesfolder . 'get-races.php';
 
 $pagehtml = '<section>';
 

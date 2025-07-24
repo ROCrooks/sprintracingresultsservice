@@ -15,25 +15,25 @@ else
 if (isset($_POST['UpdateClass']) == true)
   {
   //Read the input form to get the class to add
-  include $engineslocation . "class-formtoclass.php";
+  include $srrsenginesfolder . "class-formtoclass.php";
   $classdetails = $inputclassesarray;
 
   //Purge Old classes
-  include $engineslocation . "class-purgeclasses.php";
+  include $srrsenginesfolder . "class-purgeclasses.php";
 
   //Include the class to add
-  include $engineslocation . "class-assignclasses.php";
+  include $srrsenginesfolder . "class-assignclasses.php";
   }
 
 //Temporary class details are retrieved from the form when new line is clicked
 if (isset($_POST['NewLine']) == true)
   {
   //Read the input form and make it the only input class
-  include $engineslocation . "class-formtoclass.php";
+  include $srrsenginesfolder . "class-formtoclass.php";
   $classdetails = $inputclassesarray;
 
   //Format the race class for the class being added
-  include $engineslocation . 'format-class.php';
+  include $srrsenginesfolder . 'format-class.php';
 
   //Place class details and name into array
   $allraceclasses = array();
@@ -48,14 +48,14 @@ if (isset($_POST['NewLine']) == true)
 else
   {
   //Get details about how this race is named in the records
-  include $engineslocation . "class-getoneclass.php";
+  include $srrsenginesfolder . "class-getoneclass.php";
   $autoclassdetails = array();
   $autoclassdetails['Details'] = $classdetails;
   $autoclassdetails['ClassName'] = $autoclassname;
   //$autoclassdetails['Type'] = "Auto Class";
 
   //Get details about how this race is named in the records
-  include $engineslocation . "class-getraceclassnames.php";
+  include $srrsenginesfolder . "class-getraceclassnames.php";
 
   //Check if there is an autoclass
   if ($autoclassdetails['ClassName'] == "No Autoclass Specified")
@@ -95,7 +95,7 @@ foreach($allraceclasses as $individualclass)
 
   //Make the form with the class list
   $classdetails = $individualclass['Details'];
-  include $engineslocation . "class-form-html.php";
+  include $srrsenginesfolder . "class-form-html.php";
 
   //Add the name of this class
   $classformhtml = '<p>' . $individualclass['ClassName'] . '</p>' . $classformhtml;

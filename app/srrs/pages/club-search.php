@@ -1,6 +1,6 @@
 <?php
-include_once $engineslocation . 'srrs-required-functions.php';
-include_once $engineslocation . 'srrs-user-input-processing.php';
+include_once $srrsenginesfolder . 'srrs-required-functions.php';
+include_once $srrsenginesfolder . 'srrs-user-input-processing.php';
 
 $pagehtml = "";
 

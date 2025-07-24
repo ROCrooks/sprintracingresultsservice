@@ -1,5 +1,5 @@
 <?php
-include_once $engineslocation . 'srrs-required-functions.php';
+include_once $srrsenginesfolder . 'srrs-required-functions.php';
 
 if (isset($_POST['Submit']) == true)
     {
@@ -10,7 +10,7 @@ if (isset($_POST['Submit']) == true)
     $clubaddfields['WWW'] = $_POST['WWW'];
 
     //Run the import engine
-    include $engineslocation . 'add-club-engine.php';
+    include $srrsenginesfolder . 'add-club-engine.php';
     }
 else
     {

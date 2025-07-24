@@ -1,6 +1,6 @@
 <?php
-include_once $engineslocation . 'srrs-required-functions.php';
-include_once $engineslocation . 'srrs-user-input-processing.php';
+include_once $srrsenginesfolder . 'srrs-required-functions.php';
+include_once $srrsenginesfolder . 'srrs-user-input-processing.php';
 
 //Get minimum year
 /*$minyearsql = "SELECT DISTINCT `Date` FROM `regattas` ORDER BY `Date` ASC LIMIT 0, 1 ";
@@ -238,7 +238,7 @@ if (isset($_POST['submit']) == true)
 		}
 	else
 		{
-		include $engineslocation . 'analytics-engine.php';
+		include $srrsenginesfolder . 'analytics-engine.php';
 
 		$pagehtml = $pagehtml . '<p class="blockheading">Analytics Results</p>';
 
@@ -319,7 +319,7 @@ if (isset($_POST['submit']) == true)
 		$pagehtml = $pagehtml . '</textarea>';
 		}
 
-	include $engineslocation . 'analytics-chart.php';
+	include $srrsenginesfolder . 'analytics-chart.php';
 
 	$pagehtml = $pagehtml . '<p>Series chart</p>';
 

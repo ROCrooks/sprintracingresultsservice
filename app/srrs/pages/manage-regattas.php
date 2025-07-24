@@ -1,6 +1,6 @@
 <?php
-include_once $engineslocation . 'srrs-required-functions.php';
-include_once $engineslocation . 'srrs-user-input-processing.php';
+include_once $srrsenginesfolder . 'srrs-required-functions.php';
+include_once $srrsenginesfolder . 'srrs-user-input-processing.php';
 
 //Hide or delete a regatta
 if (isset($_GET['action']) == true)
@@ -11,13 +11,13 @@ if (isset($_GET['action']) == true)
   //Delete a specified regatta
   if ($action == "delete")
     {
-    include $engineslocation . 'delete-regatta.php';
+    include $srrsenginesfolder . 'delete-regatta.php';
     $actionmessage = "<p>Regatta Deleted!</p>";
     }
   //Delete a specified regatta
   if (($action == "hide") OR ($action == "release"))
     {
-    include $engineslocation . 'releasehide-regatta.php';
+    include $srrsenginesfolder . 'releasehide-regatta.php';
 
     if ($action == "hide")
       $actionmessage = "<p>Regatta Hidden!</p>";
@@ -31,7 +31,7 @@ $club = '';
 $paddler = '';
 $getallregattas = true;
 
-include $engineslocation . 'list-regattas.php';
+include $srrsenginesfolder . 'list-regattas.php';
 
 usort($allregattaslist,'sortregattas');
 

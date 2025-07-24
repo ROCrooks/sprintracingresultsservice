@@ -6,11 +6,11 @@ else
 
 //Run the update club engine if the submit button is pressed
 if (isset($_POST['Submit']) == true)
-    include $engineslocation . 'edit-club-engine.php';    
+    include $srrsenginesfolder . 'edit-club-engine.php';    
 
 //Get the details of the club
 $clubmetrics = false;
-include $engineslocation . 'club-details-engine.php';
+include $srrsenginesfolder . 'club-details-engine.php';
 
 $pagehtml = "<section>";
 $pagehtml = $pagehtml . '<div style="display: table; width: 100%; display: flex;">';

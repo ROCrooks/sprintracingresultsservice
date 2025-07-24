@@ -1,8 +1,8 @@
 <?php
-include_once $engineslocation . 'srrs-required-functions.php';
-include_once $engineslocation . 'srrs-user-input-processing.php';
+include_once $srrsenginesfolder . 'srrs-required-functions.php';
+include_once $srrsenginesfolder . 'srrs-user-input-processing.php';
 
-include $engineslocation . 'regatta-race-count.php';
+include $srrsenginesfolder . 'regatta-race-count.php';
 
 $pagehtml = '<section>';
 $pagehtml = $pagehtml . '<p style="font-size: 200%; text-align: center;">' . $regattaresults['Details']['Name'] . '</p>';
