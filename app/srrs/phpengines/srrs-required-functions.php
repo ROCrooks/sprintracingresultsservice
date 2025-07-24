@@ -3,7 +3,7 @@
 $generalfiles = array("userinput","db","array","drawgraph","document");
 
 //Include each required functions file
-foreach ($files as $file)
+foreach ($generalfiles as $file)
   {
   $url = $generalfunctionslocation . "/" . $file . "-functions.php";
   include_once $url;
