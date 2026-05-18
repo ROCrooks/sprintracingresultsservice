@@ -6,17 +6,43 @@ $racenamecomponents = str_replace($variablebreaks,"+",$findclassname);
 
 //Find out if it's a kayak class or a canoe class
 $racenamecomponents = explode(" ",$racenamecomponents);
-$boattype = array_pop($racenamecomponents);
-//Add the boat type back in if it is not a valid boat type
-if (($boattype != "K") AND ($boattype != "C") AND ($boattype != "V"))
-  array_push($racenamecomponents,$boattype);
+$overallboattype = end($racenamecomponents);
+
+//Make the overall boat type 
+if (($overallboattype != "K") AND ($overallboattype != "C") AND ($overallboattype != "V") AND ($overallboattype != "SUP"))
+  $overallboattype = "";
+
 $racenamecomponents = implode(" ",$racenamecomponents);
 
 //Explode racename by the + between each race class
 $racenamecomponents = explode("+",$racenamecomponents);
 
+foreach($racenamecomponents as $racecomponentkey=>$racecomponent)
+  {
+  //Remove trailing space from the end of the race class
+  while (substr($racecomponent,-1) == " ")
+    {
+    $racecomponent = substr($racecomponent,0,-1);
+    }
+  
+  //Remove trailing space from the beginning of the race class
+  while (substr($racecomponent,0,1) == " ")
+    {
+    $racecomponent = substr($racecomponent,1);
+    }
+  
+  //Add the overall boat type if it's not specified in the class
+  $racecomponent = explode(" ",$racecomponent);
+  if ((end($racecomponent) != "K") AND (end($racecomponent) != "C") AND (end($racecomponent) != "V") AND (end($racecomponent) != "SUP") AND ($overallboattype != ""))
+    array_push($racecomponent,$overallboattype);
+
+  $racecomponent = implode(" ",$racecomponent);
+
+  $racenamecomponents[$racecomponentkey] = $racecomponent;
+  }
+
 //If the boat type is only 1 letter, add it to each race class
-if(strlen($boattype) == 1)
+/*if(strlen($boattype) == 1)
   {
   foreach ($racenamecomponents as $racenamekey=>$racename)
     {
@@ -55,5 +81,5 @@ if(strlen($boattype) == 1)
     $doubleaddsreplace = array("A C","B C","C C","D C","A K","B K","C K","D K","A K","B K","C K","D K","A C","B C","C C","D C","K");
     $racenamecomponents[$racenamekey] = str_replace($doubleaddsfind,$doubleaddsreplace,$racenamecomponents[$racenamekey]);
     }
-  }
+  }*/
 ?>
