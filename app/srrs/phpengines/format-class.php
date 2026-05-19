@@ -64,6 +64,10 @@ foreach($classdetails as $classkey=>$class)
     $namewords['JSVMW'] = "Mens/Womens";
   elseif (($class['JSV'] == "V") AND ($class['MW'] == "MW"))
     $namewords['JSVMW'] = "Mens/Womens Masters";
+  elseif (($class['JSV'] == "JS") AND ($class['MW'] == "M"))
+    $namewords['JSVMW'] = "Boys/Mens";
+  elseif (($class['JSV'] == "JS") AND ($class['MW'] == "W"))
+    $namewords['JSVMW'] = "Girls/Womens";
   else
     $namewords['JSVMW'] = $jsvmw = "";
 
