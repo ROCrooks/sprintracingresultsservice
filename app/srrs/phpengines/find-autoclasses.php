@@ -9,7 +9,7 @@ foreach($racenamecomponents as $namecomponent)
   {
   //Find if the autoclass is in the autoclasses database
   $autoclassfind = $namecomponent;
-  include $srrsenginesfolder . "atomize-racenames.php";
+  include $srrsenginesfolder . "find-single-autoclass.php";
 
   if (count($autoclass) > 0)
     $foundautoclasses[$namecomponent] = array("ClassCodes"=>$autoclass,"AutoClass"=>"Is");
