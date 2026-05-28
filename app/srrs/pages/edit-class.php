@@ -5,28 +5,74 @@ $autoclassfind = $_GET['class'];
 //Find the codes associated with that autoclass
 include $srrsenginesfolder . "find-single-autoclass.php";
 
-$tablewidths = array();
-$tablewidths['JSV'] = 5;
-$tablewidths['MW'] = 5;
-$tablewidths['CK'] = 5;
-$tablewidths['Spec'] = 5;
-$tablewidths['Abil'] = 5;
-$tablewidths['Ages'] = 5;
-$tablewidths['Band'] = 5;
-$tablewidths['ShowBand'] = 5;
-$tablewidths['FreeText'] = 5;
+//Define field and cell sizes
+include $srrsenginesfolder . "class-field-size-info.php";
 
-$classformhtml = '<form action="EditClass" method="post">';
-$classformhtml = '<p>Edit the autoclass codes for: ' . $autoclassfind;
+$classformhtml = '<form action="EditClass?class=' . $autoclassfind . '" method="post">';
+$classformhtml = $classformhtml . '<p>Edit the autoclass codes for: ' . $autoclassfind . '</p>';
 
 //Make the autoclass into a form table
-/*if (count($autoclass) > 0)
+if (count($autoclass) > 0)
   {
+  //Form headings
+  $classformhtml = $classformhtml . '<div style="display: table-row;">';
+  $classformhtml = $classformhtml . '<div style="width: ' . $classwidths['JSV'] . 'px; display: table-cell;"><p>JSV</p></div>';
+  $classformhtml = $classformhtml . '<div style="width: ' . $classwidths['MW'] . 'px; display: table-cell;"><p>MW</p></div>';
+  $classformhtml = $classformhtml . '<div style="width: ' . $classwidths['CK'] . 'px; display: table-cell;"><p>CK</p></div>';
+  $classformhtml = $classformhtml . '<div style="width: ' . $classwidths['Abil'] . 'px; display: table-cell;"><p>Abil</p></div>';
+  $classformhtml = $classformhtml . '<div style="width: ' . $classwidths['Spec'] . 'px; display: table-cell;"><p>Spec</p></div>';
+  $classformhtml = $classformhtml . '<div style="width: ' . $classwidths['Ages'] . 'px; display: table-cell;"><p>Ages</p></div>';
+  $classformhtml = $classformhtml . '<div style="width: ' . $classwidths['Band'] . 'px; display: table-cell;"><p>Band</p></div>';
+  $classformhtml = $classformhtml . '<div style="width: ' . $classwidths['ShowBand'] . 'px; display: table-cell;"><p>Show Band</p></div>';
+  $classformhtml = $classformhtml . '<div style="width: ' . $classwidths['FreeText'] . 'px; display: table-cell;"><p>FreeText</p></div>';
+  $classformhtml = $classformhtml . '<div style="width: ' . $classwidths['Delete'] . 'px; display: table-cell;"><p>Delete</p></div>';
+  $classformhtml = $classformhtml . '</div>';
 
+  //Display each line in the autoclass in separate fields
+  $formrow = 1;
+  foreach ($autoclass as $autoclassline)
+    {
+    //Add form elements to line
+      $classformhtml = $classformhtml . '<div style="display: table-row;">';
+      $classformhtml = $classformhtml . '<div style="width: ' . $classwidths['JSV'] . 'px; display: table-cell;"><input type="text" size="' . $fieldsizes['JSV'] . '" value="' . $autoclassline['JSV'] . '" name="JSV' . $formrow . '"></div>';
+      $classformhtml = $classformhtml . '<div style="width: ' . $classwidths['MW'] . 'px; display: table-cell;"><input type="text" size="' . $fieldsizes['MW'] . '" value="' . $autoclassline['MW'] . '" name="MW' . $formrow . '"></div>';
+      $classformhtml = $classformhtml . '<div style="width: ' . $classwidths['CK'] . 'px; display: table-cell;"><input type="text" size="' . $fieldsizes['CK'] . '" value="' . $autoclassline['CK'] . '" name="CK' . $formrow . '"></div>';
+      $classformhtml = $classformhtml . '<div style="width: ' . $classwidths['Abil'] . 'px; display: table-cell;"><input type="text" size="' . $fieldsizes['Abil'] . '" value="' . $autoclassline['Abil'] . '" name="Abil' . $formrow . '"></div>';
+      $classformhtml = $classformhtml . '<div style="width: ' . $classwidths['Spec'] . 'px; display: table-cell;"><input type="text" size="' . $fieldsizes['Spec'] . '" value="' . $autoclassline['Spec'] . '" name="Spec' . $formrow . '"></div>';
+      $classformhtml = $classformhtml . '<div style="width: ' . $classwidths['Ages'] . 'px; display: table-cell;"><input type="text" size="' . $fieldsizes['Ages'] . '" value="' . $autoclassline['Ages'] . '" name="Ages' . $formrow . '"></div>';
+      $classformhtml = $classformhtml . '<div style="width: ' . $classwidths['Band'] . 'px; display: table-cell;"><input type="text" size="' . $fieldsizes['Band'] . '" value="' . $autoclassline['Band'] . '" name="Band' . $formrow . '"></div>';
+      if ($autoclassline['ShowBand'] == 1)
+        $bandlineshow = " checked";
+      else
+        $bandlineshow = "";
+      $classformhtml = $classformhtml . '<div style="width: ' . $classwidths['ShowBand'] . 'px; display: table-cell;"><input type="checkbox" value="1" id="ShowBand' . $formrow . '" name="ShowBand' . $formrow . '"' . $bandlineshow . '></div>';
+      $classformhtml = $classformhtml . '<div style="width: ' . $classwidths['FreeText'] . 'px; display: table-cell;"><input type="text" size="' . $fieldsizes['FreeText'] . '" value="' . $autoclassline['FreeText'] . '" name="FreeText' . $formrow . '"></div>';
+      $classformhtml = $classformhtml . '<div style="width: ' . $classwidths['ShowBand'] . 'px; display: table-cell;"><input type="checkbox" value="1" id="Delete' . $formrow . '" name="Delete' . $formrow . '"></div>';
+      $classformhtml = $classformhtml . '</div>';
+
+      //Increment form row count
+      $formrow++;
+    }
+  
+  //Add an empty cell to the line
+  $classformhtml = $classformhtml . '<div style="display: table-row;">';
+  $classformhtml = $classformhtml . '<div style="width: ' . $classwidths['JSV'] . 'px; display: table-cell;"><input type="text" size="' . $fieldsizes['JSV'] . '" value="" name="JSV' . $formrow . '"></div>';
+  $classformhtml = $classformhtml . '<div style="width: ' . $classwidths['MW'] . 'px; display: table-cell;"><input type="text" size="' . $fieldsizes['MW'] . '" value="" name="MW' . $formrow . '"></div>';
+  $classformhtml = $classformhtml . '<div style="width: ' . $classwidths['CK'] . 'px; display: table-cell;"><input type="text" size="' . $fieldsizes['CK'] . '" value="" name="CK' . $formrow . '"></div>';
+  $classformhtml = $classformhtml . '<div style="width: ' . $classwidths['Abil'] . 'px; display: table-cell;"><input type="text" size="' . $fieldsizes['Abil'] . '" value="" name="Abil' . $formrow . '"></div>';
+  $classformhtml = $classformhtml . '<div style="width: ' . $classwidths['Spec'] . 'px; display: table-cell;"><input type="text" size="' . $fieldsizes['Spec'] . '" value="" name="Spec' . $formrow . '"></div>';
+  $classformhtml = $classformhtml . '<div style="width: ' . $classwidths['Ages'] . 'px; display: table-cell;"><input type="text" size="' . $fieldsizes['Ages'] . '" value="" name="Ages' . $formrow . '"></div>';
+  $classformhtml = $classformhtml . '<div style="width: ' . $classwidths['Band'] . 'px; display: table-cell;"><input type="text" size="' . $fieldsizes['Band'] . '" value="" name="Band' . $formrow . '"></div>';
+  $classformhtml = $classformhtml . '<div style="width: ' . $classwidths['ShowBand'] . 'px; display: table-cell;"><input type="checkbox" value="1" id="ShowBand' . $formrow . '" name="ShowBand' . $formrow . '"></div>';
+  $classformhtml = $classformhtml . '<div style="width: ' . $classwidths['FreeText'] . 'px; display: table-cell;"><input type="text" size="' . $fieldsizes['FreeText'] . '" value="" name="FreeText' . $formrow . '"></div>';
+  $classformhtml = $classformhtml . '<div style="width: ' . $classwidths['ShowBand'] . 'px; display: table-cell;"></div>';
+  $classformhtml = $classformhtml . '</div>';
   }
 
-print_r($autoclass);*/
+//Make the submit button for the form
+$classformhtml = $classformhtml . '<p><input type="submit" name="submit" value="Submit"></p>';
 
+//Close the form
 $classformhtml = $classformhtml . '</form>';
 
 $pagehtml = "<section>" . $classformhtml . "</section>";
