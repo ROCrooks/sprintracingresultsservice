@@ -7,15 +7,10 @@ include $srrsenginesfolder . "atomize-racenames.php";
 $foundautoclasses = array();
 foreach($racenamecomponents as $namecomponent)
   {
-  //Find the AutoClasses
-  if (isset($findclassstmt) == false)
-    {
-    $findclasssql = "SELECT `JSV`, `MW`, `CK`, `Spec`, `Abil`, `Ages`, `Band`, `ShowBand`, `FreeText` FROM `autoclasses` WHERE `RaceName` = ?";
-    $findclassstmt = dbprepare($srrsdblink,$findclasssql);
-    }
+  //Find if the autoclass is in the autoclasses database
+  $autoclassfind = $namecomponent;
+  include $srrsenginesfolder . "atomize-racenames.php";
 
-  //Add the autoclass if it's found
-  $autoclass = dbexecute($findclassstmt,$namecomponent);
   if (count($autoclass) > 0)
     $foundautoclasses[$namecomponent] = array("ClassCodes"=>$autoclass,"AutoClass"=>"Is");
   else
