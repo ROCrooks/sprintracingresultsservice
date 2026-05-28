@@ -37,7 +37,7 @@ $classformhtml = $classformhtml . '<div style="width: ' . $classwidths['Abil'] .
 $classformhtml = $classformhtml . '<div style="width: ' . $classwidths['Spec'] . 'px; display: table-cell;"><p>Spec</p></div>';
 $classformhtml = $classformhtml . '<div style="width: ' . $classwidths['Ages'] . 'px; display: table-cell;"><p>Ages</p></div>';
 $classformhtml = $classformhtml . '<div style="width: ' . $classwidths['Band'] . 'px; display: table-cell;"><p>Band</p></div>';
-$classformhtml = $classformhtml . '<div style="width: ' . $classwidths['ShowBand'] . 'px; display: table-cell;"><p>Show<br>Band</p></div>';
+$classformhtml = $classformhtml . '<div style="width: ' . $classwidths['ShowBand'] . 'px; display: table-cell;"><p>Show Band</p></div>';
 $classformhtml = $classformhtml . '<div style="width: ' . $classwidths['FreeText'] . 'px; display: table-cell;"><p>FreeText</p></div>';
 $classformhtml = $classformhtml . '</div>';
 

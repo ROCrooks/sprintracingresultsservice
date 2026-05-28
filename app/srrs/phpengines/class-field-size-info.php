@@ -8,8 +8,9 @@ $classwidths['Abil'] = 70;
 $classwidths['Spec'] = $classwidths['Abil'];
 $classwidths['Ages'] = $classwidths['Abil'];
 $classwidths['Band'] = 70;
-$classwidths['ShowBand'] = 70;
-$classwidths['FreeText'] = 100;
+$classwidths['ShowBand'] = 120;
+$classwidths['FreeText'] = 350;
+$classwidths['Delete'] = 70;
 $classwidths['Button'] = 60;
 
 //Set field sizes
