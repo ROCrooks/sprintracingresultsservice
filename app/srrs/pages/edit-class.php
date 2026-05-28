@@ -1,7 +1,36 @@
 <?php
 //Get class name from URL
-$findclassname = $_GET['class'];
+$autoclassfind = $_GET['class'];
 
+//Find the codes associated with that autoclass
+include $srrsenginesfolder . "find-single-autoclass.php";
+
+$tablewidths = array();
+$tablewidths['JSV'] = 5;
+$tablewidths['MW'] = 5;
+$tablewidths['CK'] = 5;
+$tablewidths['Spec'] = 5;
+$tablewidths['Abil'] = 5;
+$tablewidths['Ages'] = 5;
+$tablewidths['Band'] = 5;
+$tablewidths['ShowBand'] = 5;
+$tablewidths['FreeText'] = 5;
+
+$classformhtml = '<form action="EditClass" method="post">';
+$classformhtml = '<p>Edit the autoclass codes for: ' . $autoclassfind;
+
+//Make the autoclass into a form table
+/*if (count($autoclass) > 0)
+  {
+
+  }
+
+print_r($autoclass);*/
+
+$classformhtml = $classformhtml . '</form>';
+
+$pagehtml = "<section>" . $classformhtml . "</section>";
+/*
 if (isset($_POST['AutoClass']) == true)
   {
   $autoclass = $_POST['AutoClass'];
@@ -143,4 +172,5 @@ $pagehtml = $pagehtml . $displaywarnings;
 $pagehtml = $pagehtml . $classesformhtml;
 
 $pagehtml = $pagehtml . '</section>';
+*/
 ?>
