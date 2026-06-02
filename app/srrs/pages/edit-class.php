@@ -5,10 +5,16 @@ $autoclassfind = $_GET['class'];
 //Find the codes associated with that autoclass
 include $srrsenginesfolder . "find-single-autoclass.php";
 
+if (isset($_POST['submit']) == true)
+  {
+  echo "Submit button pressed<br>";
+  }
+
 //Define field and cell sizes
 include $srrsenginesfolder . "class-field-size-info.php";
 
 $classformhtml = '<form action="EditClass?class=' . $autoclassfind . '" method="post">';
+$classformhtml = $classformhtml . '<input type="hidden" name="" value="' . $autoclassfind . '"</p>';
 $classformhtml = $classformhtml . '<p>Edit the autoclass codes for: ' . $autoclassfind . '</p>';
 
 //Make the autoclass into a form table
