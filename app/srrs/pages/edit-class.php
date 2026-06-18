@@ -7,6 +7,39 @@ include $srrsenginesfolder . "find-single-autoclass.php";
 
 if (isset($_POST['submit']) == true)
   {
+  //Function that checks if the fields 
+  function checkpostfunction($line,$fields)
+    {
+    //The default output is that the line input is false
+    $lineinput = false;
+
+    //Check every field to see if it has any content
+    foreach($fields as $field)
+        {
+        $checkpost = $field . $line;
+        if (isset($_POST[$checkpost]) == true)
+          {
+          if ($_POST[$checkpost] != "")
+            $lineinput = true;
+          }
+          
+        }
+    
+    //Return line input
+    return $lineinput;
+    }
+  
+  //The fields that are found in both the database entry and the form
+  $dualfields = array("JSV","MW","CK","Abil","Spec","Ages","Band","ShowBand","FreeText","Delete");
+
+  //Read each line
+  $formline = 1;
+  while (checkpostfunction($formline,$dualfields) == true)
+    {
+    echo $formline . "<br>";
+    $formline++;
+    }
+
   echo "Submit button pressed<br>";
   }
 
