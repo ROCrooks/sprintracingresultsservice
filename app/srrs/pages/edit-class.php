@@ -104,24 +104,34 @@ if (isset($_POST['submit']) == true)
 
     if ($deleteflag == 1)
       {
-      echo "Delete this row";
+      //Set the delete class statement if it hasn't already been set
+      if (isset($deleteclassstmt) == false)
+        {
+        //Set the SQL query constraints if they haven't already been set
+        if (isset($sqlconstraints) == false)
+          $sqlconstraints = "WHERE `RaceName` = ?, `" . implode("` = ?, `",array_keys($autoclass[$inputlinekey])) . "` = ?";
+        
+        $deleteclasssql = "DELETE FROM `autoclasses` " . $sqlconstraints;
+        //$deleteclassstmt = dbprepare($srrsdblink,$deleteclasssql);
+        }
+
+      echo $deleteclasssql . "<br>";
       }
-    if (isset($autoclass[$inputlinekey]) == false)
+    elseif (isset($autoclass[$inputlinekey]) == false)
       {
-      echo "Add a new row";
+      echo "Add a new row<br>";
       }
     elseif ($formfields[$inputlinekey] != $autoclass[$inputlinekey])
       {
-      echo "Edit this row";
+      echo "Edit this row<br>";
       }
     elseif ($formfields[$inputlinekey] == $autoclass[$inputlinekey])
       {
-      echo "Retain this row";
+      echo "Retain this row<br>";
       }
     $inputlinekey++;
     }
-  echo "<br>";
-
+  
   print_r($formfields);
   echo "<br>";
   print_r($autoclass);
