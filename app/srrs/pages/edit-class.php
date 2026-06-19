@@ -41,7 +41,7 @@ include $srrsenginesfolder . "find-single-autoclass.php";
 
 if (isset($_POST['submit']) == true)
   {
-  //Function that checks if the fields 
+  //Function that checks if the fields have been set in the input form
   function checkpostfunction($line,$fields)
     {
     //The default output is that the line input is false
@@ -64,15 +64,39 @@ if (isset($_POST['submit']) == true)
     }
   
   //The fields that are found in both the database entry and the form
-  $dualfields = array("JSV","MW","CK","Abil","Spec","Ages","Band","ShowBand","FreeText","Delete");
+  $dualfields = array("JSV","MW","CK","Abil","Spec","Ages","Band","ShowBand","FreeText");
 
-  //Read each line
+  //Read each line of the form and add it to the array
+  $formfields = array();
   $formline = 1;
   while (checkpostfunction($formline,$dualfields) == true)
     {
-    echo $formline . "<br>";
+    //Add each field from the input form to the line in the input fields array
+    $formfieldsarrayline = array();
+    foreach ($dualfields as $inputfield)
+      {
+      $formitemname = $inputfield . $formline;
+      if (isset($_POST[$formitemname]) == true)
+        $formfieldsarrayline[$inputfield] = $_POST[$formitemname];
+      else
+        $formfieldsarrayline[$inputfield] = 0;
+      } 
+    
+    //Retrieve the delete flag
+    $formitemname = "Delete" . $formline;
+    if (isset($_POST[$formitemname]) == true)
+      $formfieldsarrayline['Delete'] = $_POST[$formitemname];
+    else
+      $formfieldsarrayline['Delete'] = 0;
+
+    array_push($formfields,$formfieldsarrayline);
     $formline++;
     }
+
+  print_r($formfields);
+  echo "<br>";
+  print_r($autoclass);
+  echo "<br>";
 
   echo "Submit button pressed<br>";
   }
