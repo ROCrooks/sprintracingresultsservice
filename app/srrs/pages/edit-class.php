@@ -1,4 +1,38 @@
 <?php
+//Function to sort classes
+function srrsclassessort($a, $b)
+	{
+	if ($a['JSV'] == $b['JSV'])
+		{
+		if ($a['MW'] == $b['MW'])
+			{
+      if ($a['CK'] == $b['CK'])
+        {
+        if ($a['Abil'] == $b['Abil'])
+          {
+          if ($a['Spec'] == $b['Spec'])
+            {
+            if ($a['Ages'] == $b['Ages'])
+              {
+              if ($a['Band'] == $b['Band'])
+                {
+                if ($a['ShowBand'] == $b['ShowBand'])
+                  {
+                  if ($a['FreeText'] == $b['FreeText'])
+                    {
+                    return 0;
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+			}
+		}
+	return ($a < $b) ? -1 : 1;
+	}
+
 //Get class name from URL
 $autoclassfind = $_GET['class'];
 
