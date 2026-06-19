@@ -89,6 +89,7 @@ if (isset($_POST['submit']) == true)
     else
       $formfieldsarrayline['Delete'] = 0;
 
+    //Add this line to the array from the form input
     array_push($formfields,$formfieldsarrayline);
     $formline++;
     }
