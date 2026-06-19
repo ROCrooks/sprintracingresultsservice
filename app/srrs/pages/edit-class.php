@@ -109,7 +109,7 @@ if (isset($_POST['submit']) == true)
         {
         //Set the SQL query constraints if they haven't already been set
         if (isset($sqlconstraints) == false)
-          $sqlconstraints = "WHERE `RaceName` = ?, `" . implode("` = ?, `",array_keys($autoclass[$inputlinekey])) . "` = ?";
+          $sqlconstraints = "WHERE (`RaceName` = ? AND `" . implode("` = ? AND `",array_keys($autoclass[$inputlinekey])) . "` = ?)";
         
         $deleteclasssql = "DELETE FROM `autoclasses` " . $sqlconstraints;
         //$deleteclassstmt = dbprepare($srrsdblink,$deleteclasssql);
@@ -123,7 +123,21 @@ if (isset($_POST['submit']) == true)
       }
     elseif ($formfields[$inputlinekey] != $autoclass[$inputlinekey])
       {
-      echo "Edit this row<br>";
+      //Set the edit class statement if it hasn't already been set
+      if (isset($editclassstmt) == false)
+        {
+        //Set the SQL query constraints if they haven't already been set
+        if (isset($sqlconstraints) == false)
+          $sqlconstraints = "WHERE (`RaceName` = ? AND `" . implode("` = ? AND `",array_keys($autoclass[$inputlinekey])) . "` = ?)";
+        
+        //SQL syntax to make the updates
+        $sqlupdate = "`" . implode("` = ?, `",array_keys($formfields[$inputlinekey])) . "` = ? ";
+
+        $editclasssql = "UPDATE `autoclasses` SET " . $sqlupdate . $sqlconstraints;
+        //$deleteclassstmt = dbprepare($srrsdblink,$deleteclasssql);
+        }
+
+      echo $editclasssql . "<br>";
       }
     elseif ($formfields[$inputlinekey] == $autoclass[$inputlinekey])
       {
