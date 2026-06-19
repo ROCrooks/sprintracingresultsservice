@@ -94,6 +94,34 @@ if (isset($_POST['submit']) == true)
     $formline++;
     }
 
+  //Check the form fields and compare them to the rows
+  $inputlinekey = 0;
+  while ($inputlinekey < count($formfields))
+    {
+    //Retrieve delete flag and remove it from the input fields array
+    $deleteflag = $formfields[$inputlinekey]['Delete'];
+    unset($formfields[$inputlinekey]['Delete']);
+
+    if ($deleteflag == 1)
+      {
+      echo "Delete this row";
+      }
+    if (isset($autoclass[$inputlinekey]) == false)
+      {
+      echo "Add a new row";
+      }
+    elseif ($formfields[$inputlinekey] != $autoclass[$inputlinekey])
+      {
+      echo "Edit this row";
+      }
+    elseif ($formfields[$inputlinekey] == $autoclass[$inputlinekey])
+      {
+      echo "Retain this row";
+      }
+    $inputlinekey++;
+    }
+  echo "<br>";
+
   print_r($formfields);
   echo "<br>";
   print_r($autoclass);
