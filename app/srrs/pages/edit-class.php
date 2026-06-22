@@ -109,7 +109,7 @@ if (isset($_POST['submit']) == true)
         {
         //Set the SQL query constraints if they haven't already been set
         if (isset($sqlconstraints) == false)
-          $sqlconstraints = "WHERE (`RaceName` = ? AND `" . implode("` = ? AND `",array_keys($autoclass[$inputlinekey])) . "` = ?)";
+          $sqlconstraints = "WHERE `RaceName` = ? AND `" . implode("` = ? AND `",array_keys($autoclass[$inputlinekey])) . "` = ?";
         
         $deleteclasssql = "DELETE FROM `autoclasses` " . $sqlconstraints;
         //$deleteclassstmt = dbprepare($srrsdblink,$deleteclasssql);
@@ -119,7 +119,19 @@ if (isset($_POST['submit']) == true)
       }
     elseif (isset($autoclass[$inputlinekey]) == false)
       {
-      echo "Add a new row<br>";
+      //Set the add class statement if it hasn't already been set
+      if (isset($addclassstmt) == false)
+        {
+        //Make the values section of the SQL query
+        $valuesarraysize = count($dualfields);
+        $valuesarray = array_fill(0,$valuesarraysize,"?");
+        $valuessql = " VALUES (?, " . implode(", ",$valuesarray) . ")";
+
+        $addclasssql = "INSERT INTO `autoclasses` (`RaceName`, `" . implode("`, `",array_keys($autoclass[$inputlinekey-1])) . "`)" . $valuessql;
+        //$addclassstmt = dbprepare($srrsdblink,$deleteclasssql);
+        }
+
+      echo $addclasssql . "<br>";
       }
     elseif ($formfields[$inputlinekey] != $autoclass[$inputlinekey])
       {
@@ -134,7 +146,7 @@ if (isset($_POST['submit']) == true)
         $sqlupdate = "`" . implode("` = ?, `",array_keys($formfields[$inputlinekey])) . "` = ? ";
 
         $editclasssql = "UPDATE `autoclasses` SET " . $sqlupdate . $sqlconstraints;
-        //$deleteclassstmt = dbprepare($srrsdblink,$deleteclasssql);
+        //$editclassstmt = dbprepare($srrsdblink,$deleteclasssql);
         }
 
       echo $editclasssql . "<br>";
