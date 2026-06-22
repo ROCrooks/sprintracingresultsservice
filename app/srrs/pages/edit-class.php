@@ -77,7 +77,12 @@ if (isset($_POST['submit']) == true)
       {
       $formitemname = $inputfield . $formline;
       if (isset($_POST[$formitemname]) == true)
-        $formfieldsarrayline[$inputfield] = $_POST[$formitemname];
+        {
+        if (($inputfield != "FreeText") AND ($inputfield != "Band") AND ($inputfield != "ShowBand"))
+          $formfieldsarrayline[$inputfield] = strtoupper($_POST[$formitemname]);
+        else
+          $formfieldsarrayline[$inputfield] = $_POST[$formitemname];
+        }
       else
         $formfieldsarrayline[$inputfield] = 0;
       } 
