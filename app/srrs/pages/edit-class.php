@@ -39,6 +39,7 @@ $autoclassfind = $_GET['class'];
 //Find the codes associated with that autoclass
 include $srrsenginesfolder . "find-single-autoclass.php";
 
+//The script to run to update the autoclass
 if (isset($_POST['submit']) == true)
   {
   //Function that checks if the fields have been set in the input form
@@ -55,8 +56,7 @@ if (isset($_POST['submit']) == true)
           {
           if ($_POST[$checkpost] != "")
             $lineinput = true;
-          }
-          
+          } 
         }
     
     //Return line input
@@ -117,7 +117,7 @@ if (isset($_POST['submit']) == true)
           $sqlconstraints = "WHERE `RaceName` = ? AND `" . implode("` = ? AND `",array_keys($autoclass[$inputlinekey])) . "` = ?";
         
         $deleteclasssql = "DELETE FROM `autoclasses` " . $sqlconstraints;
-        //$deleteclassstmt = dbprepare($srrsdblink,$deleteclasssql);
+        $deleteclassstmt = dbprepare($srrsdblink,$deleteclasssql);
         }
 
       echo $deleteclasssql . "<br>";
@@ -133,7 +133,7 @@ if (isset($_POST['submit']) == true)
         $valuessql = " VALUES (?, " . implode(", ",$valuesarray) . ")";
 
         $addclasssql = "INSERT INTO `autoclasses` (`RaceName`, `" . implode("`, `",array_keys($autoclass[$inputlinekey-1])) . "`)" . $valuessql;
-        //$addclassstmt = dbprepare($srrsdblink,$deleteclasssql);
+        $addclassstmt = dbprepare($srrsdblink,$addclasssql);
         }
 
       echo $addclasssql . "<br>";
@@ -151,7 +151,7 @@ if (isset($_POST['submit']) == true)
         $sqlupdate = "`" . implode("` = ?, `",array_keys($formfields[$inputlinekey])) . "` = ? ";
 
         $editclasssql = "UPDATE `autoclasses` SET " . $sqlupdate . $sqlconstraints;
-        //$editclassstmt = dbprepare($srrsdblink,$deleteclasssql);
+        $editclassstmt = dbprepare($srrsdblink,$editclasssql);
         }
 
       echo $editclasssql . "<br>";
