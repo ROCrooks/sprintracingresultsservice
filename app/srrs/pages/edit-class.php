@@ -143,10 +143,10 @@ if (isset($_POST['submit']) == true)
       echo "<br>";
 
       //Run the edit class statement
-      /*if (isset($deleteclassstmt) == true)
+      if (isset($deleteclassstmt) == true)
         {
         dbexecute($deleteclassstmt,$deleteclassvalues);
-        }*/
+        }
 
       echo $deleteclasssql . "<br>";
       }
@@ -164,6 +164,13 @@ if (isset($_POST['submit']) == true)
         $addclassstmt = dbprepare($srrsdblink,$addclasssql);
         }
       
+      //Default the band to the 0 if it's not specified
+      if ($formfields[$inputlinekey]['Band'] == '')
+        {
+        $formfields[$inputlinekey]['Band'] = 0;
+        $formfields[$inputlinekey]['ShowBand'] = 0;
+        }
+      
       //Make the values for adding a new class
       $addclassvalues = constraintvaluesarray($_GET['class'],$formfields[$inputlinekey]);
       echo "Add Classes:<br>";
@@ -171,10 +178,10 @@ if (isset($_POST['submit']) == true)
       echo "<br>";
       
       //Run the add class statement
-      /*if (isset($addclassstmt) == true)
+      if (isset($addclassstmt) == true)
         {
         dbexecute($addclassstmt,$addclassvalues);
-        }*/
+        }
 
       echo $addclasssql . "<br>";
       }
@@ -204,10 +211,10 @@ if (isset($_POST['submit']) == true)
       echo "<br>";
       
       //Run the edit class statement
-      /*if (isset($editclassstmt) == true)
+      if (isset($editclassstmt) == true)
         {
         dbexecute($editclassstmt,$editclassvalues);
-        }*/
+        }
 
       echo $editclasssql . "<br>";
       }
