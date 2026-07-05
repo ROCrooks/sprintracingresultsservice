@@ -63,6 +63,22 @@ if (isset($_POST['submit']) == true)
     return $lineinput;
     }
   
+  //Function that creates the constraint variables
+  function constraintvaluesarray($racename,$values)
+    {
+    //Start the array with the racename
+    $outputarray = array($racename);
+
+    //Add each of the class values to the array
+    foreach($values as $value)
+      {
+      array_push($outputarray,$value);
+      }
+    
+    //Return the filled array
+    return $outputarray;
+    }
+
   //The fields that are found in both the database entry and the form
   $dualfields = array("JSV","MW","CK","Abil","Spec","Ages","Band","ShowBand","FreeText");
 
@@ -119,6 +135,18 @@ if (isset($_POST['submit']) == true)
         $deleteclasssql = "DELETE FROM `autoclasses` " . $sqlconstraints;
         $deleteclassstmt = dbprepare($srrsdblink,$deleteclasssql);
         }
+      
+      //Make the values for deleting the class
+      $deleteclassvalues = constraintvaluesarray($_GET['class'],$formfields[$inputlinekey]);
+      echo "Delete Class:<br>";
+      print_r($deleteclassvalues);
+      echo "<br>";
+
+      //Run the edit class statement
+      /*if (isset($deleteclassstmt) == true)
+        {
+        dbexecute($deleteclassstmt,$deleteclassvalues);
+        }*/
 
       echo $deleteclasssql . "<br>";
       }
@@ -135,6 +163,18 @@ if (isset($_POST['submit']) == true)
         $addclasssql = "INSERT INTO `autoclasses` (`RaceName`, `" . implode("`, `",array_keys($autoclass[$inputlinekey-1])) . "`)" . $valuessql;
         $addclassstmt = dbprepare($srrsdblink,$addclasssql);
         }
+      
+      //Make the values for adding a new class
+      $addclassvalues = constraintvaluesarray($_GET['class'],$formfields[$inputlinekey]);
+      echo "Add Classes:<br>";
+      print_r($addclassvalues);
+      echo "<br>";
+      
+      //Run the add class statement
+      /*if (isset($addclassstmt) == true)
+        {
+        dbexecute($addclassstmt,$addclassvalues);
+        }*/
 
       echo $addclasssql . "<br>";
       }
@@ -153,6 +193,21 @@ if (isset($_POST['submit']) == true)
         $editclasssql = "UPDATE `autoclasses` SET " . $sqlupdate . $sqlconstraints;
         $editclassstmt = dbprepare($srrsdblink,$editclasssql);
         }
+      
+      //Make the arrays of values for the original and new classes
+      $newclassvalues = array_values($formfields[$inputlinekey]);
+      $oldclassvalues = constraintvaluesarray($_GET['class'],$autoclass[$inputlinekey]);
+      //Merge original and new classes to make constraints for query
+      $editclassvalues = array_merge($newclassvalues,$oldclassvalues);
+      echo "Edit Classes:<br>";
+      print_r($editclassvalues);
+      echo "<br>";
+      
+      //Run the edit class statement
+      /*if (isset($editclassstmt) == true)
+        {
+        dbexecute($editclassstmt,$editclassvalues);
+        }*/
 
       echo $editclasssql . "<br>";
       }
