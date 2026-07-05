@@ -42,6 +42,9 @@ include $srrsenginesfolder . "find-single-autoclass.php";
 //The script to run to update the autoclass
 if (isset($_POST['submit']) == true)
   {
+  //Array of output messages
+  $updatemessages = array();
+
   //Function that checks if the fields have been set in the input form
   function checkpostfunction($line,$fields)
     {
@@ -138,9 +141,9 @@ if (isset($_POST['submit']) == true)
       
       //Make the values for deleting the class
       $deleteclassvalues = constraintvaluesarray($_GET['class'],$formfields[$inputlinekey]);
-      echo "Delete Class:<br>";
-      print_r($deleteclassvalues);
-      echo "<br>";
+
+      //Update message
+      array_push($updatemessages,"Class deleted from autoclass!");
 
       //Run the edit class statement
       if (isset($deleteclassstmt) == true)
@@ -150,8 +153,6 @@ if (isset($_POST['submit']) == true)
 
       //Delete the row from the form input lines
       unset($formfields[$inputlinekey]);
-
-      echo $deleteclasssql . "<br>";
       }
     elseif (isset($autoclass[$inputlinekey]) == false)
       {
@@ -176,17 +177,15 @@ if (isset($_POST['submit']) == true)
       
       //Make the values for adding a new class
       $addclassvalues = constraintvaluesarray($_GET['class'],$formfields[$inputlinekey]);
-      echo "Add Classes:<br>";
-      print_r($addclassvalues);
-      echo "<br>";
       
+      //Update message
+      array_push($updatemessages,"Class added to autoclass!");
+
       //Run the add class statement
       if (isset($addclassstmt) == true)
         {
         dbexecute($addclassstmt,$addclassvalues);
         }
-
-      echo $addclasssql . "<br>";
       }
     elseif ($formfields[$inputlinekey] != $autoclass[$inputlinekey])
       {
@@ -209,34 +208,21 @@ if (isset($_POST['submit']) == true)
       $oldclassvalues = constraintvaluesarray($_GET['class'],$autoclass[$inputlinekey]);
       //Merge original and new classes to make constraints for query
       $editclassvalues = array_merge($newclassvalues,$oldclassvalues);
-      echo "Edit Classes:<br>";
-      print_r($editclassvalues);
-      echo "<br>";
+      
+      //Update message
+      array_push($updatemessages,"Class edited in the autoclass!");
       
       //Run the edit class statement
       if (isset($editclassstmt) == true)
         {
         dbexecute($editclassstmt,$editclassvalues);
         }
-
-      echo $editclasssql . "<br>";
-      }
-    elseif ($formfields[$inputlinekey] == $autoclass[$inputlinekey])
-      {
-      echo "Retain this row<br>";
       }
     $inputlinekey++;
     }
-  
-  print_r($formfields);
-  echo "<br>";
-  print_r($autoclass);
-  echo "<br>";
 
   //Make the class that's displayed in the form the same as that submitted in the form
   $displayclass = $formfields;
-
-  echo "Submit button pressed<br>";
   }
 else
   {
@@ -315,7 +301,16 @@ $classformhtml = $classformhtml . '<p><input type="submit" name="submit" value="
 //Close the form
 $classformhtml = $classformhtml . '</form>';
 
+//Make the page HTML
 $pagehtml = "<section>" . $classformhtml . "</section>";
+
+//Add the edit message
+if (isset($updatemessages) == true)
+  {
+  $updatemessages = implode("<br>",$updatemessages);
+  $pagehtml = "<section><p>" . $updatemessages . "</p></section>" . $pagehtml;
+  }
+
 /*
 if (isset($_POST['AutoClass']) == true)
   {
